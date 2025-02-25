@@ -104,7 +104,7 @@ export default async function CompanyPage({ params }: { params: NextParams }) {
           <LinkUrlButton
             url={company.careersUrl}
             icon={<Briefcase size={14} />}
-            label="Carrers"
+            label="Careers"
           />
           <LinkUrlButton
             url={company.githubUrl}
