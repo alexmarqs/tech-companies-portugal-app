@@ -4,5 +4,6 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": "always",
     "source.fixAll.biome": "explicit",
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
