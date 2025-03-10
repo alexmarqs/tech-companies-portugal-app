@@ -1,6 +1,7 @@
 import { getParsedCompaniesData } from "@/lib/parser/companies";
 import Image from "next/image";
 import logo from "../../public/assets/images/logo.png";
+import { HotFeaturedBadge } from "./HotFeaturedBadge";
 
 export default async function Footer() {
   const { availableLocations, availableCategories } =
@@ -51,7 +52,7 @@ export default async function Footer() {
                   href={`/location/${encodeURIComponent(location)}`}
                   className="text-xs hover:underline"
                 >
-                  {location}
+                  {getCompanyLocationLabel(location)}
                 </a>
               ))}
             </div>
@@ -83,3 +84,15 @@ export default async function Footer() {
     </footer>
   );
 }
+
+const getCompanyLocationLabel = (location: string) => {
+  if (location.toLowerCase() === "remote") {
+    return (
+      <div className="inline-flex gap-2">
+        <span>{location}</span>
+        <HotFeaturedBadge className="text-[9px]" />
+      </div>
+    );
+  }
+  return location;
+};
