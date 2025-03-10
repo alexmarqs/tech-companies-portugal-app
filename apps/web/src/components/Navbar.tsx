@@ -46,7 +46,7 @@ export default function Navbar() {
           role="navigation"
           aria-label="Main navigation"
         >
-          <Suspense>
+          <Suspense fallback={""}>
             <FiltersPanelButton
               companiesCategoriesAndLocationsPromise={getParsedCompaniesCategoriesAndLocations()}
             />

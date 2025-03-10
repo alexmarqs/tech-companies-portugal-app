@@ -18,7 +18,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next/types";
 
 // force generation on demand for paths not known at build time
-export const dynamicParams = true;
+// export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const companies = await getParsedCompaniesData();
@@ -29,7 +29,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: NextParams;
+  params: NextParams<{ slug: string }>;
 }): Promise<Metadata | void> {
   const { slug } = await params;
 
@@ -69,7 +69,11 @@ export async function generateMetadata({
   return metadata;
 }
 
-export default async function CompanyPage({ params }: { params: NextParams }) {
+export default async function CompanyPage({
+  params,
+}: {
+  params: NextParams<{ slug: string }>;
+}) {
   const { slug } = await params;
 
   const company = await getParsedCompanyBySlug(slug);

@@ -13,16 +13,20 @@ import { useSearchQueryParams } from "./hooks/useSearchQueryParams";
 
 const PAGE_SIZE = 15;
 
+type CompaniesListProps = {
+  allCompanies: Company[];
+  updatedAtISODate: string;
+  allowSearchParams?: boolean;
+};
+
 export default function CompaniesList({
   allCompanies,
   updatedAtISODate,
-}: {
-  allCompanies: Company[];
-  updatedAtISODate: string;
-}) {
+  allowSearchParams = true,
+}: CompaniesListProps) {
   const {
     searchParams: { query, category, location, page },
-  } = useSearchQueryParams();
+  } = useSearchQueryParams(allowSearchParams);
 
   const start = (page - 1) * PAGE_SIZE;
   const end = start + PAGE_SIZE;
@@ -42,16 +46,13 @@ export default function CompaniesList({
     <>
       {!paginatedCompanies.length ? (
         <motion.div
-          className="flex-1 font-mono"
+          className="flex-1 font-mono flex items-center justify-center"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
           aria-label="No companies found"
         >
-          <EmptyState
-            title="No companies found"
-            description="We couldn't find any companies matching your search."
-          />
+          <EmptyState title="No companies found" />
         </motion.div>
       ) : (
         <div className="flex-1 font-mono" aria-label="Companies list">
@@ -75,7 +76,7 @@ export default function CompaniesList({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
                   duration: 0.3,
-                  delay: index * 0.05,
+                  // delay: index * 0.05,
                   ease: "easeOut",
                 }}
                 aria-label={`Company ${company.name}`}

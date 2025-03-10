@@ -70,6 +70,7 @@ export default function FiltersPanelButton({
                 onReset={() => {
                   setIsFilterOpen(false);
                 }}
+                showCountBadge={false}
                 extendedUI={() => (
                   <>
                     <Button
