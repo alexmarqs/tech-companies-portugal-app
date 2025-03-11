@@ -30,7 +30,7 @@ export async function generateStaticParams() {
 export default async function CategoryPage({
   params,
 }: {
-  params: { category: string };
+  params: NextParams<{ category: string }>;
 }) {
   const { category: categoryParam } = await params;
 
