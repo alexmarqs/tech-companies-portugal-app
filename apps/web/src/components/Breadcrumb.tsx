@@ -5,6 +5,7 @@ import Link from "next/link";
 export type BreadcrumbItem = {
   label: string;
   href?: string;
+  className?: string;
 };
 
 type BreadcrumbProps = {
@@ -19,7 +20,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
         <li>
           <Link
             href="/"
-            className="flex items-center hover:text-foreground transition-colors"
+            className="flex items-center hover:text-foreground transition-colors font-medium text-foreground"
             aria-label="Home"
           >
             <Home className="h-4 w-4" />
@@ -31,12 +32,19 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
             {item.href ? (
               <Link
                 href={item.href}
-                className="hover:text-foreground transition-colors"
+                className={cn(
+                  "hover:text-foreground transition-colors",
+                  item.className,
+                )}
               >
                 {item.label}
               </Link>
             ) : (
-              <span className="font-medium text-foreground">{item.label}</span>
+              <span
+                className={cn("font-medium text-foreground", item.className)}
+              >
+                {item.label}
+              </span>
             )}
           </li>
         ))}

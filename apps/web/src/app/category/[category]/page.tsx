@@ -1,8 +1,15 @@
 import { Breadcrumb } from "@/components/Breadcrumb";
 import CompaniesList from "@/components/CompaniesList";
+import {
+  APP_URL,
+  defaultMetadata,
+  defaultOpenGraphMetadata,
+  defaultTwitterMetadata,
+} from "@/lib/metadata";
 import { getParsedCompaniesData } from "@/lib/parser/companies";
 import { NextParams } from "@/lib/types";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 export async function generateMetadata({
   params,
@@ -13,10 +20,34 @@ export async function generateMetadata({
 
   const category = decodeURIComponent(categoryParam);
 
-  return {
-    title: `${category} Companies | Tech Companies Portugal`,
-    description: `Discover tech companies in the ${category} category. Find job opportunities and connect with ${category} tech companies in Portugal.`,
-  };
+  const title = `${category} Companies | Tech Companies Portugal`;
+  const description = `Discover tech companies in the ${category} sector. Find job opportunities and connect with ${category} tech companies in Portugal.`;
+  const keywords = `${category} tech companies, ${category} software companies, IT employers ${category}, technology sector ${category}`;
+
+  const metadata = {
+    ...defaultMetadata,
+    title,
+    description,
+    keywords,
+    alternates: {
+      canonical: `${APP_URL}/category/${category}`,
+    },
+    openGraph: {
+      ...defaultOpenGraphMetadata,
+      title,
+      description,
+      url: `${APP_URL}/category/${category}`,
+      images: [`api/og?title=${title}&description=${description}`],
+    },
+    twitter: {
+      ...defaultTwitterMetadata,
+      title,
+      description,
+      images: [`api/og?title=${title}&description=${description}`],
+    },
+  } satisfies Metadata;
+
+  return metadata;
 }
 
 export async function generateStaticParams() {
@@ -44,15 +75,21 @@ export default async function CategoryPage({
 
   return (
     <section className="mx-auto flex w-full max-w-5xl p-3 relative flex-1">
-      <div className="flex flex-col gap-4 w-full">
+      <div className="flex flex-col gap-5 w-full">
         <Breadcrumb
-          items={[{ label: "Category", href: "/" }, { label: category }]}
+          items={[
+            { label: "Category", className: "text-muted-foreground" },
+            { label: category },
+          ]}
         />
         <h1 className="text-2xl font-bold">{category} Companies</h1>
-        <CompaniesList
-          allCompanies={filteredCompanies}
-          updatedAtISODate={updatedAtISODate}
-        />
+        <Suspense>
+          <CompaniesList
+            allCompanies={filteredCompanies}
+            updatedAtISODate={updatedAtISODate}
+            allowSearchParams={false}
+          />
+        </Suspense>
       </div>
     </section>
   );

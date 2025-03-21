@@ -21,7 +21,7 @@ export default function ExploreButton() {
     >
       <Link href="/">
         <ArrowLeft className="mr-2 shrink-0" aria-hidden="true" size={16} />
-        Back to Companies
+        Back to all companies
       </Link>
     </Button>
   );
