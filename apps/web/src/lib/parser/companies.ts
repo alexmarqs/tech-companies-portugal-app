@@ -1,6 +1,7 @@
+import { cache } from "react";
 import { parseCompaniesData } from "../parser";
 
-export const getParsedCompaniesData = async () => {
+export const getParsedCompaniesData = cache(async () => {
   const data = await parseCompaniesData();
   const updatedAtISODate = new Date().toISOString();
 
@@ -17,7 +18,7 @@ export const getParsedCompaniesData = async () => {
     availableCategories: data.availableCategories,
     updatedAtISODate,
   };
-};
+});
 
 export const getParsedCompaniesCategoriesAndLocations = async () => {
   const data = await parseCompaniesData();
