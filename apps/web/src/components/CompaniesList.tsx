@@ -56,18 +56,20 @@ export default function CompaniesList({
         </motion.div>
       ) : (
         <div className="flex-1 font-mono" aria-label="Companies list">
-          <motion.div
-            className="mb-2 text-xs w-full flex flex-wrap items-center justify-between gap-2 text-muted-foreground"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <CompaniesListHeader
-              updatedAtISODate={updatedAtISODate}
-              totalPages={totalPages}
-              filteredCompanies={filteredCompanies}
-            />
-          </motion.div>
+          {allowSearchParams && (
+            <motion.div
+              className="mb-2 text-xs w-full flex flex-wrap items-center justify-between gap-2 text-muted-foreground"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <CompaniesListHeader
+                updatedAtISODate={updatedAtISODate}
+                totalPages={totalPages}
+                filteredCompanies={filteredCompanies}
+              />
+            </motion.div>
+          )}
           <div className="flex-1 space-y-4" data-testid="companies-list">
             {paginatedCompanies.map((company, index) => (
               <motion.div
