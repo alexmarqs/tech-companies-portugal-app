@@ -6,10 +6,5 @@
     "clean": "git clean -xdf .turbo",
     "lint": "biome check . --write"
   },
-  "files": [
-    "base.json",
-    "react-lib.json",
-    "nextjs.json",
-    "tsup.config.json"
-  ]
+  "files": ["base.json", "react-lib.json", "nextjs.json", "tsup.config.json"]
 }
