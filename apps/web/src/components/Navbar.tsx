@@ -2,6 +2,7 @@ import { getParsedCompaniesCategoriesAndLocations } from "@/lib/parser/companies
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import logo from "../../public/assets/images/logo.png";
 import ExploreButton from "./ExploreButton";
 import FiltersPanelButton from "./FiltersPanelButton";
 import { Button } from "./ui/button";
@@ -20,7 +21,7 @@ export default function Navbar() {
           aria-label="Tech Companies Portugal - Home"
         >
           <Image
-            src="/assets/images/logo.png"
+            src={logo}
             priority
             alt="Tech companies in Portugal Logo"
             width="40"
@@ -45,7 +46,7 @@ export default function Navbar() {
           role="navigation"
           aria-label="Main navigation"
         >
-          <Suspense>
+          <Suspense fallback={""}>
             <FiltersPanelButton
               companiesCategoriesAndLocationsPromise={getParsedCompaniesCategoriesAndLocations()}
             />

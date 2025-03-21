@@ -15,12 +15,14 @@ import {
 } from "./ui/select";
 
 import { useSearchQueryParams } from "./hooks/useSearchQueryParams";
+import { Badge } from "./ui/badge";
 
 type SearchSideBarProps = {
   locationOptions: string[];
   categoryOptions: string[];
   extendedUI?: () => React.ReactNode;
   onReset?: () => void;
+  showCountBadge?: boolean;
 };
 
 export function SearchSideBar({
@@ -28,6 +30,7 @@ export function SearchSideBar({
   categoryOptions,
   extendedUI,
   onReset,
+  showCountBadge = true,
 }: SearchSideBarProps) {
   const { setSearchParams, searchParams, appliedFilters } =
     useSearchQueryParams();
@@ -39,8 +42,18 @@ export function SearchSideBar({
     >
       <RetroContainer
         variant="static"
-        className="shrink-0 md:w-[290px] md:mx-auto"
+        className="shrink-0 md:w-[290px] md:mx-auto relative"
       >
+        {showCountBadge && (
+          <div className="absolute top-0 right-0 text-xs p-1">
+            {appliedFilters.length > 0 && (
+              <Badge className="text-xs px-2 m-0">
+                {appliedFilters.length}
+              </Badge>
+            )}
+          </div>
+        )}
+
         <form
           className="px-4 py-3 w-full"
           aria-label="Search form"
@@ -114,9 +127,9 @@ export function SearchSideBar({
 
               <Button
                 type="button"
-                variant="outline"
+                variant="secondary"
                 disabled={appliedFilters.length === 0}
-                className="h-9 w-full px-2 border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive"
+                className="h-9 w-full px-2"
                 onClick={() => {
                   setSearchParams(null);
                   onReset?.();

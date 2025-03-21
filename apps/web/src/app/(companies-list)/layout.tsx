@@ -1,16 +1,20 @@
 import CompaniesHeader from "@/components/CompaniesHeader";
+import Footer from "@/components/Footer";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LayoutProps } from "@/lib/types";
 import { Suspense } from "react";
 
 export default function AppLayout({ children }: LayoutProps) {
   return (
-    <main className="flex-1 flex-col w-full">
-      <CompaniesHeader />
-      <Suspense fallback={<AppLoading />}>
-        <div className="mx-auto flex w-full max-w-5xl p-3">{children}</div>
-      </Suspense>
-    </main>
+    <>
+      <main className="flex-1 flex-col w-full">
+        <CompaniesHeader />
+        <Suspense fallback={<AppLoading />}>
+          <div className="mx-auto flex w-full max-w-5xl p-3">{children}</div>
+        </Suspense>
+      </main>
+      <Footer />
+    </>
   );
 }
 

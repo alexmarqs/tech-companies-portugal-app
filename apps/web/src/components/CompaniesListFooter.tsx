@@ -29,7 +29,7 @@ export default function CompaniesListFooter({
       className="flex items-center justify-between gap-2"
       data-testid="companies-list-footer"
     >
-      <div className="flex basis-1/2 justify-end text-sm text-muted-foreground h-9">
+      <div className="flex basis-1/2 justify-end text-sm text-muted-foreground h-8">
         <Badge variant="outline" className="rounded-none bg-white px-1 gap-1">
           Page {currentPage} of {totalPages}
         </Badge>
@@ -38,7 +38,7 @@ export default function CompaniesListFooter({
         <Button
           className={cn(
             isPreviousDisabled && "pointer-events-none text-muted-foreground",
-            "!px-2",
+            "!px-2 h-8",
           )}
           variant="outline"
           size="sm"
@@ -49,7 +49,7 @@ export default function CompaniesListFooter({
         <Button
           className={cn(
             isPreviousDisabled && "pointer-events-none text-muted-foreground",
-            "!px-2",
+            "!px-2 h-8",
           )}
           variant="outline"
           size="sm"
@@ -62,7 +62,7 @@ export default function CompaniesListFooter({
           size="sm"
           className={cn(
             isNextDisabled && "pointer-events-none text-muted-foreground",
-            "!px-2",
+            "!px-2 h-8",
           )}
           onClick={() => setSearchParams({ page: currentPage + 1 })}
         >
@@ -73,7 +73,7 @@ export default function CompaniesListFooter({
           size="sm"
           className={cn(
             isNextDisabled && "pointer-events-none text-muted-foreground",
-            "!px-2",
+            "!px-2 h-8",
           )}
           onClick={() => setSearchParams({ page: totalPages })}
         >

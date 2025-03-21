@@ -25,4 +25,4 @@ export type PageViewsData = {
   views: Record<string, number>;
 }[];
 
-export type NextParams = Promise<{ slug: string }>;
+export type NextParams<T> = Promise<T>;

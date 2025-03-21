@@ -34,14 +34,14 @@ export const CompaniesListHeader = ({
     <>
       <Badge
         variant="outline"
-        className="rounded-none bg-white px-1 gap-1 h-6 whitespace-nowrap"
+        className="rounded-none bg-white px-1 gap-1 h-8 whitespace-nowrap"
       >
         <Clock size={14} />
-        {formatDistanceToNow(new Date(updatedAtISODate))} ago
+        Synced {formatDistanceToNow(new Date(updatedAtISODate))} ago
       </Badge>
       <Badge
         variant="outline"
-        className="rounded-none bg-white px-1 flex items-center justify-center h-6 whitespace-nowrap"
+        className="rounded-none bg-white px-1 flex items-center justify-center h-8 whitespace-nowrap"
       >
         Page {currentPage} of {totalPages}
         <span className="hidden md:inline-block">

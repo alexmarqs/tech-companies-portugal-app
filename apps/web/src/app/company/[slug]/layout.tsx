@@ -1,9 +1,15 @@
+import SimpleFooter from "@/components/SimpleFooter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LayoutProps } from "@/lib/types";
 import { Suspense } from "react";
 
 export default function CompanyPageLayout({ children }: LayoutProps) {
-  return <Suspense fallback={<CompanyLoading />}>{children}</Suspense>;
+  return (
+    <>
+      <Suspense fallback={<CompanyLoading />}>{children}</Suspense>
+      <SimpleFooter />
+    </>
+  );
 }
 
 const CompanyLoading = () => {
