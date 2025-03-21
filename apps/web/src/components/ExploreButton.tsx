@@ -7,7 +7,8 @@ import { Button } from "./ui/button";
 
 export default function ExploreButton() {
   const segment = useSelectedLayoutSegment();
-  const isCompanyPage = segment === "company";
+  const isCompanyPage =
+    segment === "company" || segment === "location" || segment === "category";
 
   if (!isCompanyPage) {
     return null;
