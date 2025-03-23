@@ -6,7 +6,7 @@ import { Company } from "./types";
 export const parseCompaniesData = async () => {
   try {
     // fetching the html from the github api
-    const htmlData = await fetchGithubReadmeHtmlFrom(
+    const { html: htmlData, date } = await fetchGithubReadmeHtmlFrom(
       "marmelo",
       "tech-companies-in-portugal",
     );
@@ -14,7 +14,10 @@ export const parseCompaniesData = async () => {
     // extracting the data from the html to a list of companies json
     const data = extractCompaniesDataFromHtml(htmlData);
 
-    return data;
+    return {
+      data,
+      timestamp: date ? new Date(date).toISOString() : new Date().toISOString(),
+    };
   } catch (error) {
     console.error("Error parsing companies data", error);
     throw error;
@@ -43,7 +46,10 @@ const fetchGithubReadmeHtmlFrom = async (owner: string, repo: string) => {
 
   const html = await response.text();
 
-  return html;
+  return {
+    html,
+    date: response.headers.get("date"),
+  };
 };
 
 const extractCompaniesDataFromHtml = (html: string) => {
