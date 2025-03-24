@@ -9,7 +9,6 @@ import {
 } from "@/lib/metadata";
 import { LayoutProps } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { AnalyticsProvider } from "@tech-companies-portugal/analytics/client";
 import { Metadata, Viewport } from "next/types";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
@@ -43,19 +42,15 @@ export default function RootLayout({ children }: LayoutProps) {
           GeistMono.variable,
         )}
       >
-        <AnalyticsProvider
-          clientId={process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID!}
-        >
-          <NuqsAdapter>
-            <Navbar />
-            {children}
-            <DotPattern
-              className={cn(
-                "[mask-image:radial-gradient(620px_circle_at_center,white,transparent)] fixed inset-0 -z-10",
-              )}
-            />
-          </NuqsAdapter>
-        </AnalyticsProvider>
+        <NuqsAdapter>
+          <Navbar />
+          {children}
+          <DotPattern
+            className={cn(
+              "[mask-image:radial-gradient(620px_circle_at_center,white,transparent)] fixed inset-0 -z-10",
+            )}
+          />
+        </NuqsAdapter>
       </body>
     </html>
   );

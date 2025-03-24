@@ -19,7 +19,6 @@
     "@radix-ui/react-label": "2.1.1",
     "@radix-ui/react-select": "2.1.4",
     "@radix-ui/react-slot": "1.1.1",
-    "@tech-companies-portugal/analytics": "*",
     "cheerio": "1.0.0-rc.12",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.0",
