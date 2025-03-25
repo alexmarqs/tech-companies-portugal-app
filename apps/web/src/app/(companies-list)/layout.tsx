@@ -1,4 +1,5 @@
 import CompaniesHeader from "@/components/CompaniesHeader";
+import { CompaniesListSkeleton } from "@/components/CompaniesListSkeleton";
 import Footer from "@/components/Footer";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LayoutProps } from "@/lib/types";
@@ -24,11 +25,7 @@ const AppLoading = () => {
       <div className="flex h-fit shrink-0 flex-col gap-4 md:flex-col-reverse">
         <Skeleton className="h-52 w-full rounded-md md:w-60" />
       </div>
-      <div className="flex-1 space-y-4">
-        <Skeleton className="h-36 w-full rounded-md" />
-        <Skeleton className="h-36 w-full rounded-md" />
-        <Skeleton className="h-36 w-full rounded-md" />
-      </div>
+      <CompaniesListSkeleton />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { Breadcrumb } from "@/components/Breadcrumb";
 import CompaniesList from "@/components/CompaniesList";
+import { CompaniesListSkeleton } from "@/components/CompaniesListSkeleton";
 import {
   APP_URL,
   defaultMetadata,
@@ -83,7 +84,7 @@ export default async function CategoryPage({
           ]}
         />
         <h1 className="text-2xl font-bold">{category} Companies</h1>
-        <Suspense>
+        <Suspense fallback={<CompaniesListSkeleton />}>
           <CompaniesList
             allCompanies={filteredCompanies}
             updatedAtISODate={updatedAtISODate}
