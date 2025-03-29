@@ -1,6 +1,6 @@
 import Image from "next/image";
 import bgHeader from "../../public/assets/images/bg-header.webp";
-import { AnimatedCompaniesFeatures } from "./ui/AnimatedCompaniesFeatures";
+import { AnimatedCompaniesFeatures } from "./AnimatedCompaniesFeatures";
 
 export default function CompaniesHeader() {
   return (
