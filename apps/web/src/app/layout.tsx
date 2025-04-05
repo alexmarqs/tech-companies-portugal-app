@@ -7,11 +7,13 @@ import {
   defaultTwitterMetadata,
   verificationMetadata,
 } from "@/lib/metadata";
-import { LayoutProps } from "@/lib/types";
+import type { LayoutProps } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { Metadata, Viewport } from "next/types";
+import type { Metadata, Viewport } from "next/types";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
+import { AnalyticsProvider } from "@tech-companies-portugal/analytics/client";
+
 export const metadata: Metadata = {
   ...defaultMetadata,
   twitter: {
@@ -42,15 +44,17 @@ export default function RootLayout({ children }: LayoutProps) {
           GeistMono.variable,
         )}
       >
-        <NuqsAdapter>
-          <Navbar />
-          {children}
-          <DotPattern
-            className={cn(
-              "[mask-image:radial-gradient(620px_circle_at_center,white,transparent)] fixed inset-0 -z-10",
-            )}
-          />
-        </NuqsAdapter>
+        <AnalyticsProvider>
+          <NuqsAdapter>
+            <Navbar />
+            {children}
+            <DotPattern
+              className={cn(
+                "[mask-image:radial-gradient(620px_circle_at_center,white,transparent)] fixed inset-0 -z-10",
+              )}
+            />
+          </NuqsAdapter>
+        </AnalyticsProvider>
       </body>
     </html>
   );

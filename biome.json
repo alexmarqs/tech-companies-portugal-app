@@ -39,7 +39,11 @@
       "recommended": false,
       "suspicious": {},
       "style": {
-        "useBlockStatements": "off"
+        "useBlockStatements": "off",
+        "useImportType": "error"
+      },
+      "correctness": {
+        "useExhaustiveDependencies": "error"
       }
     }
   },

@@ -2,7 +2,7 @@ import CompaniesHeader from "@/components/CompaniesHeader";
 import { CompaniesListSkeleton } from "@/components/CompaniesListSkeleton";
 import Footer from "@/components/Footer";
 import { Skeleton } from "@/components/ui/skeleton";
-import { LayoutProps } from "@/lib/types";
+import type { LayoutProps } from "@/lib/types";
 import { Suspense } from "react";
 
 export default function AppLayout({ children }: LayoutProps) {

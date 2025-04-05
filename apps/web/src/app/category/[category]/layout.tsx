@@ -1,5 +1,5 @@
 import Footer from "@/components/Footer";
-import { LayoutProps } from "@/lib/types";
+import type { LayoutProps } from "@/lib/types";
 import { Suspense } from "react";
 
 export default function CategoryPageLayout({ children }: LayoutProps) {

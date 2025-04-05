@@ -12,10 +12,10 @@ import {
   getParsedCompaniesData,
   getParsedCompanyBySlug,
 } from "@/lib/parser/companies";
-import { NextParams } from "@/lib/types";
+import type { NextParams } from "@/lib/types";
 import { Briefcase, Globe } from "lucide-react";
 import { notFound } from "next/navigation";
-import { Metadata } from "next/types";
+import type { Metadata } from "next/types";
 
 // force generation on demand for paths not known at build time
 // export const dynamicParams = true;
