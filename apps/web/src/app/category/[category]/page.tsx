@@ -8,8 +8,8 @@ import {
   defaultTwitterMetadata,
 } from "@/lib/metadata";
 import { getParsedCompaniesData } from "@/lib/parser/companies";
-import { NextParams } from "@/lib/types";
-import { Metadata } from "next";
+import type { NextParams } from "@/lib/types";
+import type { Metadata } from "next";
 import { Suspense } from "react";
 
 export async function generateMetadata({

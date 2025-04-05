@@ -1,7 +1,7 @@
 import { load as cheerioLoad } from "cheerio";
 import slugify from "slugify";
 import { featuredSlugCompanies } from "./featured";
-import { Company } from "./types";
+import type { Company } from "./types";
 
 export const parseCompaniesData = async () => {
   try {

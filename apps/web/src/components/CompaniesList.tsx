@@ -1,6 +1,6 @@
 "use client";
 
-import { Company } from "@/lib/types";
+import type { Company } from "@/lib/types";
 import { matchCompanies } from "@/lib/utils";
 import { motion } from "motion/react";
 import { useMemo } from "react";

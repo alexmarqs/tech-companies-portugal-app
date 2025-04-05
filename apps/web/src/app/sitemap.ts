@@ -1,5 +1,5 @@
 import { APP_URL } from "@/lib/metadata";
-import { MetadataRoute } from "next/types";
+import type { MetadataRoute } from "next/types";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   let routes = [""].map((route) => ({

@@ -1,4 +1,4 @@
-import { Company } from "@/lib/types";
+import type { Company } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { ChevronRight, MapPin } from "lucide-react";
 import Link from "next/link";

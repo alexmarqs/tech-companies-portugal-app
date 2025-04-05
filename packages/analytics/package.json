@@ -9,13 +9,27 @@
     "check-types": "tsc --noEmit"
   },
   "exports": {
-    "./client": "./src/client.tsx"
+    "./client": "./src/client/index.tsx"
   },
   "dependencies": {
-    "@openpanel/nextjs": "1.0.7"
+    "posthog-js": "1.234.9"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@tech-companies-portugal/typescript": "*",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "typescript": "^5"
   }
 }
