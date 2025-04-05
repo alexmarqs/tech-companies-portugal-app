@@ -1,8 +1,6 @@
-// app/providers.tsx
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { usePostHog } from "posthog-js/react";
 import { Suspense, useEffect } from "react";
 
 import posthog from "posthog-js";
