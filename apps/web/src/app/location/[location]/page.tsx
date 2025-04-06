@@ -1,4 +1,3 @@
-import { Breadcrumb } from "@/components/Breadcrumb";
 import CompaniesList from "@/components/CompaniesList";
 import { CompaniesListSkeleton } from "@/components/CompaniesListSkeleton";
 import {
@@ -77,13 +76,7 @@ export default async function LocationPage({
   return (
     <section className="mx-auto flex w-full max-w-5xl p-3 relative">
       <div className="flex flex-col gap-5 w-full">
-        <Breadcrumb
-          items={[
-            { label: "Location", className: "text-muted-foreground" },
-            { label: location },
-          ]}
-        />
-        <h1 className="text-2xl font-bold">Companies in {location}</h1>
+        <h1 className="text-2xl font-bold">Tech Companies in {location}</h1>
 
         <Suspense fallback={<CompaniesListSkeleton />}>
           <CompaniesList
