@@ -11,7 +11,7 @@ export async function GET(request: Request) {
 
     const title =
       (searchParams.has("title") && searchParams.get("title")) ||
-      "Tech Companies in Portugal | Leading Startups & Innovators";
+      "Tech Companies in Portugal";
 
     const description =
       (searchParams.has("description") && searchParams.get("description")) ||
@@ -86,7 +86,6 @@ export async function GET(request: Request) {
           style={{
             display: "flex",
             fontSize: 50,
-            fontFamily: "Geist Mono SemiBold",
           }}
         >
           {title}

@@ -1,30 +1,31 @@
-import Image from "next/image";
-import bgHeader from "../../public/assets/images/bg-header.webp";
-import { AnimatedCompaniesFeatures } from "./AnimatedCompaniesFeatures";
+import { PlayCircle } from "lucide-react";
+import { AnimateNumber } from "./AnimateNumber";
 
 export default function CompaniesHeader() {
   return (
     <section
-      className="relative w-full overflow-hidden py-12 text-center"
+      className="font-mono relative w-full overflow-hidden py-8 text-center"
       data-testid="companies-header"
     >
-      <div className="absolute inset-0 z-0 bg-background">
-        <Image
-          src={bgHeader}
-          fill
-          quality={50}
-          className="object-cover object-center opacity-50"
-          priority
-          placeholder="blur"
-          alt="Background Tech Companies in Portugal"
-        />
-      </div>
+      <div className="relative z-[5] px-4 max-w-3xl mx-auto flex flex-col items-center gap-8">
+        <div className="flex items-center gap-2 text-red-500 font-semibold">
+          <PlayCircle className="h-5 w-5" />
 
-      <div className="relative z-[5] px-1 max-w-5xl mx-auto flex flex-col items-center gap-6">
-        <h1 className="font-mono font-bold text-3xl md:text-4xl">
-          Discover Leading Tech Companies in Portugal 🇵🇹
-        </h1>
-        <AnimatedCompaniesFeatures />
+          <span>
+            <AnimateNumber end={300} duration={1.5} />+ Tech Companies
+          </span>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <h1 className="text-4xl font-bold tracking-tight">
+            <span className="text-red-500">The largest</span> directory of tech
+            companies in Portugal
+          </h1>
+          <p className="text-md text-gray-600 max-w-2xl mx-auto font-semibold">
+            Discover the best tech companies hiring in Portugal, from startups
+            to established enterprises, all in one place.
+          </p>
+        </div>
       </div>
     </section>
   );

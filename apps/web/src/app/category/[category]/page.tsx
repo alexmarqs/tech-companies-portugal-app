@@ -1,4 +1,3 @@
-import { Breadcrumb } from "@/components/Breadcrumb";
 import CompaniesList from "@/components/CompaniesList";
 import { CompaniesListSkeleton } from "@/components/CompaniesListSkeleton";
 import {
@@ -77,13 +76,7 @@ export default async function CategoryPage({
   return (
     <section className="mx-auto flex w-full max-w-5xl p-3 relative flex-1">
       <div className="flex flex-col gap-5 w-full">
-        <Breadcrumb
-          items={[
-            { label: "Category", className: "text-muted-foreground" },
-            { label: category },
-          ]}
-        />
-        <h1 className="text-2xl font-bold">{category} Companies</h1>
+        <h1 className="text-2xl font-bold">Tech Companies | {category} </h1>
         <Suspense fallback={<CompaniesListSkeleton />}>
           <CompaniesList
             allCompanies={filteredCompanies}
