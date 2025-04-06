@@ -1,17 +1,17 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
+import { usePostHog } from "posthog-js/react";
 import { Suspense, useEffect } from "react";
 
 import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
-import { useTrackAnalytics } from ".";
 import { isProd } from "./utils";
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!isProd) {
-      console.log("Mock analytics init");
+      console.log("Analytics disabled in non-production environment");
       return;
     }
 
@@ -34,19 +34,18 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
 function PostHogPageView() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { track } = useTrackAnalytics();
+  const posthog = usePostHog();
 
-  // Track pageviews
   useEffect(() => {
-    if (pathname) {
+    if (pathname && posthog) {
       let url = window.origin + pathname;
       if (searchParams.toString()) {
         url = url + "?" + searchParams.toString();
       }
 
-      track({ event: "$pageview", $current_url: url });
+      posthog.capture("$pageview", { $current_url: url });
     }
-  }, [pathname, searchParams, track]);
+  }, [pathname, searchParams, posthog]);
 
   return null;
 }
