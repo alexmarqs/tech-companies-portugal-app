@@ -18,8 +18,8 @@ export default function CompaniesHeader() {
 
         <div className="flex flex-col gap-4">
           <h1 className="text-4xl font-bold tracking-tight">
-            <span className="text-red-500">The largest</span> directory of tech
-            companies in Portugal
+            <span className="text-red-500">Find top tech companies</span> in
+            Portugal
           </h1>
           <p className="text-md text-gray-600 max-w-2xl mx-auto font-semibold">
             Discover the best tech companies hiring in Portugal, from startups
