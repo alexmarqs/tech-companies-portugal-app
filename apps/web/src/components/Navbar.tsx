@@ -6,8 +6,11 @@ import logo from "../../public/assets/images/logo.png";
 import ExploreButton from "./ExploreButton";
 import FiltersPanelButton from "./FiltersPanelButton";
 import { Button } from "./ui/button";
+import { useAuth } from "./hooks/useAuth";
 
 export default function Navbar() {
+  const { user, signOut, loading } = useAuth();
+
   return (
     <header
       className="bg-background shadow-sm sticky top-0 z-10 py-2 font-mono font-semibold"
@@ -52,11 +55,30 @@ export default function Navbar() {
             />
           </Suspense>
           <ExploreButton />
-          <Button asChild variant="secondary">
-            <Link href="/auth" aria-label="Sign in or Sign up">
-              Sign In
-            </Link>
-          </Button>
+          {!loading && (
+            <>
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">
+                    {user.email}
+                  </span>
+                  <Button 
+                    variant="secondary" 
+                    onClick={() => signOut()}
+                    className="text-xs"
+                  >
+                    Sign Out
+                  </Button>
+                </div>
+              ) : (
+                <Button asChild variant="secondary">
+                  <Link href="/auth" aria-label="Sign in or Sign up">
+                    Sign In
+                  </Link>
+                </Button>
+              )}
+            </>
+          )}
           <Button asChild>
             <a
               href="https://github.com/alexmarqs/frontend-tech-companies-portugal"

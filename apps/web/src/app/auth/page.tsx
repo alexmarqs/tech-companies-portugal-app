@@ -7,11 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RetroContainer } from "@/components/ui/retro-container";
+import { useAuth } from "@/components/hooks/useAuth";
 
 export default function AuthPage() {
+  const { signIn, signUp, resetPassword } = useAuth();
   const [isSignIn, setIsSignIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [successMessage, setSuccessMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -58,19 +61,26 @@ export default function AuthPage() {
     }
 
     setIsLoading(true);
+    setErrors({});
+    setSuccessMessage("");
     
     try {
-      // TODO: Implement authentication logic
-      console.log("Form submitted:", { isSignIn, formData });
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // TODO: Handle successful authentication
-      console.log("Authentication successful");
+      if (isSignIn) {
+        const { error } = await signIn(formData.email, formData.password);
+        if (error) {
+          setErrors({ general: error.message });
+        }
+      } else {
+        const { error } = await signUp(formData.email, formData.password, formData.name);
+        if (error) {
+          setErrors({ general: error.message });
+        } else {
+          setSuccessMessage("Check your email for a confirmation link!");
+        }
+      }
     } catch (error) {
       console.error("Authentication failed:", error);
-      // TODO: Handle authentication errors
+      setErrors({ general: "An unexpected error occurred. Please try again." });
     } finally {
       setIsLoading(false);
     }
@@ -83,6 +93,12 @@ export default function AuthPage() {
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: "" }));
+    }
+    if (errors.general) {
+      setErrors(prev => ({ ...prev, general: "" }));
+    }
+    if (successMessage) {
+      setSuccessMessage("");
     }
   };
 
@@ -110,6 +126,16 @@ export default function AuthPage() {
           </CardHeader>
           
           <CardContent>
+            {errors.general && (
+              <div className="mb-4 p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
+                {errors.general}
+              </div>
+            )}
+            {successMessage && (
+              <div className="mb-4 p-3 text-sm text-green-700 bg-green-100 border border-green-200 rounded-md">
+                {successMessage}
+              </div>
+            )}
             <form onSubmit={handleSubmit} className="space-y-4">
               {!isSignIn && (
                 <div className="space-y-2">
@@ -216,6 +242,7 @@ export default function AuthPage() {
                     setIsSignIn(!isSignIn);
                     setFormData({ email: "", password: "", confirmPassword: "", name: "" });
                     setErrors({});
+                    setSuccessMessage("");
                   }}
                   className="font-medium text-primary hover:underline"
                 >
@@ -228,7 +255,22 @@ export default function AuthPage() {
               <div className="mt-4 text-center">
                 <button
                   type="button"
-                  className="text-sm text-muted-foreground hover:text-primary hover:underline"
+                  onClick={async () => {
+                    if (!formData.email) {
+                      setErrors({ general: "Please enter your email address first" });
+                      return;
+                    }
+                    setIsLoading(true);
+                    const { error } = await resetPassword(formData.email);
+                    if (error) {
+                      setErrors({ general: error.message });
+                    } else {
+                      setSuccessMessage("Password reset email sent! Check your inbox.");
+                    }
+                    setIsLoading(false);
+                  }}
+                  disabled={isLoading}
+                  className="text-sm text-muted-foreground hover:text-primary hover:underline disabled:opacity-50"
                 >
                   Forgot your password?
                 </button>
