@@ -52,6 +52,11 @@ export default function Navbar() {
             />
           </Suspense>
           <ExploreButton />
+          <Button asChild variant="secondary">
+            <Link href="/auth" aria-label="Sign in or Sign up">
+              Sign In
+            </Link>
+          </Button>
           <Button asChild>
             <a
               href="https://github.com/alexmarqs/frontend-tech-companies-portugal"
