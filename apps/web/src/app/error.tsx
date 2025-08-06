@@ -2,7 +2,7 @@
 
 import { EmptyState } from "@/components/EmptyState";
 
-export default function Error() {
+export default function ErrorPage() {
   return (
     <EmptyState
       title="Something went wrong"

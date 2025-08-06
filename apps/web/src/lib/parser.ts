@@ -83,7 +83,9 @@ const extractCompaniesDataFromHtml = (html: string) => {
           })
           .get();
 
-        locations.forEach((location) => availableLocations.add(location));
+        for (const location of locations) {
+          availableLocations.add(location);
+        }
 
         const slug = slugify(name, { lower: true, strict: true });
 

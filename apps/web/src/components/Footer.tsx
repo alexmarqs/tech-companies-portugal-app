@@ -16,7 +16,7 @@ export default async function Footer() {
             <a
               href="https://alexandremarques.io"
               target="_blank"
-              rel="noopener"
+              rel="noreferrer noopener"
               className="underline underline-offset-[2px]"
             >
               Alexandre Marques
@@ -40,6 +40,7 @@ export default async function Footer() {
                   aria-label={`Companies in ${location}`}
                   href={`/location/${encodeURIComponent(location)}`}
                   className="text-xs hover:underline"
+                  rel="noreferrer"
                 >
                   {getCompanyLocationLabel(location)}
                 </a>
@@ -62,6 +63,7 @@ export default async function Footer() {
                   aria-label={`${category} companies`}
                   href={`/category/${encodeURIComponent(category)}`}
                   className="text-xs hover:underline"
+                  rel="noreferrer"
                 >
                   {category}
                 </a>

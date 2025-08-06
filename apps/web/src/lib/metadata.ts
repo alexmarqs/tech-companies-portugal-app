@@ -37,7 +37,7 @@ export const defaultTwitterMetadata: Metadata["twitter"] = {
   title: TITLE,
   description: DESCRIPTION,
   card: "summary_large_image",
-  images: [`api/og`],
+  images: ["api/og"],
 };
 
 export const defaultOpenGraphMetadata: Metadata["openGraph"] = {
@@ -46,7 +46,7 @@ export const defaultOpenGraphMetadata: Metadata["openGraph"] = {
   url: APP_URL,
   type: "website",
   siteName: TITLE,
-  images: [`api/og`],
+  images: ["api/og"],
 };
 
 export const verificationMetadata: Metadata["verification"] = {

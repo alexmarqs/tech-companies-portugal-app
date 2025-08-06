@@ -54,10 +54,20 @@ export const CompaniesListHeader = ({
               "hover:text-foreground flex items-center justify-center hover:cursor-pointer",
               isPreviousDisabled && "pointer-events-none text-muted-foreground",
             )}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setSearchParams({ page: 1 });
+              }
+            }}
           >
             <ChevronsLeft className="inline" size={18} />
           </div>
           <div
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setSearchParams({ page: currentPage - 1 });
+              }
+            }}
             onClick={() => setSearchParams({ page: currentPage - 1 })}
             className={cn(
               "hover:text-foreground flex items-center justify-center hover:cursor-pointer",
@@ -67,6 +77,11 @@ export const CompaniesListHeader = ({
             <ChevronLeft className="inline" size={18} />
           </div>
           <div
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setSearchParams({ page: currentPage + 1 });
+              }
+            }}
             onClick={() => setSearchParams({ page: currentPage + 1 })}
             className={cn(
               "hover:text-foreground flex items-center justify-center hover:cursor-pointer",
@@ -76,6 +91,11 @@ export const CompaniesListHeader = ({
             <ChevronRight className="inline" size={18} />
           </div>
           <div
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setSearchParams({ page: totalPages });
+              }
+            }}
             onClick={() => setSearchParams({ page: totalPages })}
             className={cn(
               "hover:text-foreground flex items-center justify-center hover:cursor-pointer",

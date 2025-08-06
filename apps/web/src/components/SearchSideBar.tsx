@@ -36,10 +36,7 @@ export function SearchSideBar({
     useSearchQueryParams();
 
   return (
-    <div
-      className="w-full flex flex-col h-full gap-4 justify-between"
-      role="search"
-    >
+    <div className="w-full flex flex-col h-full gap-4 justify-between">
       <RetroContainer
         variant="static"
         className="shrink-0 md:w-[290px] md:mx-auto relative"
@@ -139,7 +136,7 @@ export function SearchSideBar({
                 <X className="mr-[2px] h-4 w-4" aria-hidden="true" />
                 Reset filters
               </Button>
-              {extendedUI && extendedUI()}
+              {extendedUI?.()}
             </div>
           </fieldset>
         </form>

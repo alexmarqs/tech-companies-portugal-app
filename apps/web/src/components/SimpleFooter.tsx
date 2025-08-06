@@ -11,7 +11,7 @@ export default function SimpleFooter() {
             <a
               href="https://alexandremarques.io"
               target="_blank"
-              rel="noopener"
+              rel="noreferrer noopener"
               className="underline underline-offset-[2px]"
             >
               Alexandre Marques

@@ -26,3 +26,10 @@ export type PageViewsData = {
 }[];
 
 export type NextParams<T> = Promise<T>;
+
+export type SettingsTab = {
+  id: string;
+  title: string;
+  disabled?: boolean;
+  badge?: React.ReactNode;
+};

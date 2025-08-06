@@ -12,6 +12,8 @@ import { cn } from "@/lib/utils";
 import type { Metadata, Viewport } from "next/types";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
+
+import CustomQueryClientProvider from "@/components/CustomQueryClientProvider";
 import { AnalyticsProvider } from "@tech-companies-portugal/analytics/client";
 
 export const metadata: Metadata = {
@@ -44,17 +46,19 @@ export default function RootLayout({ children }: LayoutProps) {
           GeistMono.variable,
         )}
       >
-        <AnalyticsProvider>
-          <NuqsAdapter>
-            <Navbar />
-            {children}
-            <DotPattern
-              className={cn(
-                "[mask-image:radial-gradient(620px_circle_at_center,white,transparent)] fixed inset-0 -z-10",
-              )}
-            />
-          </NuqsAdapter>
-        </AnalyticsProvider>
+        <CustomQueryClientProvider>
+          <AnalyticsProvider>
+            <NuqsAdapter>
+              <Navbar />
+              {children}
+              <DotPattern
+                className={cn(
+                  "[mask-image:radial-gradient(620px_circle_at_center,white,transparent)] fixed inset-0 -z-10",
+                )}
+              />
+            </NuqsAdapter>
+          </AnalyticsProvider>
+        </CustomQueryClientProvider>
       </body>
     </html>
   );

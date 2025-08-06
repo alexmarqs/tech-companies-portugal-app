@@ -17,7 +17,7 @@ export const useSearchQueryParams = (enabled = true) => {
     () =>
       enabled
         ? Object.entries(searchParams).filter(
-            ([key, value]) => key != "page" && !!value,
+            ([key, value]) => key !== "page" && !!value,
           )
         : [],
     [searchParams, enabled],
