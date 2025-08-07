@@ -1,14 +1,11 @@
 import { createClient } from "@/lib/supabase/client";
-import type { Tables } from "../supabase/database.types";
+import type { Tables, TablesUpdate } from "../supabase/database.types";
 
 export const getUserProfile = async (): Promise<Tables<"users">> => {
   try {
     const supabase = createClient();
 
     const { data, error } = await supabase.from("users").select("*").single();
-    // not needed as we are using RLS to protect the users table and only the user can see their own profile
-    //.eq("id", userId)
-    //.single();
 
     if (error) {
       throw error;
@@ -17,6 +14,36 @@ export const getUserProfile = async (): Promise<Tables<"users">> => {
     return data;
   } catch (error) {
     console.error("Error fetching user profile", error);
+    throw error;
+  }
+};
+
+export const updateUserProfile = async ({
+  data,
+}: {
+  data: TablesUpdate<"users">;
+}): Promise<void> => {
+  try {
+    const supabase = createClient();
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session?.user.id) {
+      throw new Error("Cannot get user session");
+    }
+
+    const { error } = await supabase
+      .from("users")
+      .update(data)
+      .eq("id", session.user.id);
+
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.error("Error updating user profile", error);
     throw error;
   }
 };

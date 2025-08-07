@@ -1,14 +1,26 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { RetroContainer } from "@/components/ui/retro-container";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useGetUserProfile } from "@/hooks/users";
+import {
+  UsersServerKeys,
+  useGetUserProfile,
+  useMutateUserProfile,
+} from "@/hooks/users";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Save } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { Loader2, Save } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -21,11 +33,12 @@ const formSchema = z.object({
 });
 
 export const AccountName = () => {
-  const { data: userProfile, isLoading } = useGetUserProfile();
+  const { data: userProfile } = useGetUserProfile();
 
-  if (isLoading) {
-    return <Skeleton className="h-40 w-full" />;
-  }
+  const { mutate: mutateUserProfile, isPending: isMutatingUserProfile } =
+    useMutateUserProfile();
+
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,36 +47,67 @@ export const AccountName = () => {
     },
   });
 
+  const onSubmit = form.handleSubmit((data) => {
+    mutateUserProfile(
+      {
+        data: {
+          full_name: data.full_name,
+        },
+      },
+      {
+        onSuccess: () => {
+          toast.success("User profile updated");
+        },
+        onError: () => {
+          toast.error("Failed to update user profile");
+        },
+        onSettled: () => {
+          queryClient.invalidateQueries({
+            queryKey: [UsersServerKeys.GET_USER_PROFILE],
+          });
+        },
+      },
+    );
+  });
+
   return (
     <RetroContainer className="p-6">
-      <form onSubmit={() => {}} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="full_name">Full Name</Label>
-          <Input
-            id="full_name"
-            type="text"
-            placeholder="Enter your full name"
-            value={userProfile?.full_name || ""}
-            onChange={(e) => {}}
+      <Form {...form}>
+        <form onSubmit={onSubmit} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="full_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Full Name</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isMutatingUserProfile}
+                    placeholder="Enter your full name"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
 
-        <div className="flex justify-start items-center gap-4 flex-wrap">
-          <Button
-            type="submit"
-            disabled={isLoading}
-            className="flex items-center gap-2"
-          >
-            <Save className="h-4 w-4" />
-            {isLoading ? "Saving..." : "Save"}
-          </Button>
-          {form.formState.errors.full_name && (
-            <p className="text-xs text-red-500">
-              {form.formState.errors.full_name?.message}
-            </p>
-          )}
-        </div>
-      </form>
+          <div className="flex justify-start items-center gap-4 flex-wrap">
+            <Button
+              type="submit"
+              disabled={isMutatingUserProfile}
+              className="flex items-center gap-2"
+            >
+              {isMutatingUserProfile ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Save className="h-4 w-4" />
+              )}
+              Save
+            </Button>
+          </div>
+        </form>
+      </Form>
     </RetroContainer>
   );
 };

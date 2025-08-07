@@ -14,6 +14,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
 
 import CustomQueryClientProvider from "@/components/CustomQueryClientProvider";
+import { Toaster } from "@/components/ui/sonner";
 import { AnalyticsProvider } from "@tech-companies-portugal/analytics/client";
 
 export const metadata: Metadata = {
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: LayoutProps) {
             </NuqsAdapter>
           </AnalyticsProvider>
         </CustomQueryClientProvider>
+        <Toaster />
       </body>
     </html>
   );
