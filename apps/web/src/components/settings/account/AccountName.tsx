@@ -26,6 +26,7 @@ import { z } from "zod";
 const formSchema = z.object({
   full_name: z
     .string()
+    .trim()
     .min(1, {
       message: "Required",
     })
@@ -42,21 +43,24 @@ export const AccountName = () => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    mode: "onSubmit",
+    reValidateMode: "onChange",
     defaultValues: {
-      full_name: userProfile?.full_name || "",
+      full_name: userProfile?.full_name ?? "",
     },
   });
 
-  const onSubmit = form.handleSubmit((data) => {
+  const onSubmit = form.handleSubmit((submittedData) => {
     mutateUserProfile(
       {
         data: {
-          full_name: data.full_name,
+          full_name: submittedData.full_name,
         },
       },
       {
         onSuccess: () => {
           toast.success("User profile updated");
+          form.reset({ full_name: submittedData.full_name });
         },
         onError: () => {
           toast.error("Failed to update user profile");
@@ -95,7 +99,11 @@ export const AccountName = () => {
           <div className="flex justify-start items-center gap-4 flex-wrap">
             <Button
               type="submit"
-              disabled={isMutatingUserProfile}
+              disabled={
+                isMutatingUserProfile ||
+                !form.formState.isDirty ||
+                !form.formState.isValid
+              }
               className="flex items-center gap-2"
             >
               {isMutatingUserProfile ? (
