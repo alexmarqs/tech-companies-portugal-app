@@ -43,8 +43,6 @@ export const AccountName = () => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    mode: "onSubmit",
-    reValidateMode: "onChange",
     defaultValues: {
       full_name: userProfile?.full_name ?? "",
     },
@@ -99,11 +97,7 @@ export const AccountName = () => {
           <div className="flex justify-start items-center gap-4 flex-wrap">
             <Button
               type="submit"
-              disabled={
-                isMutatingUserProfile ||
-                !form.formState.isDirty ||
-                !form.formState.isValid
-              }
+              disabled={isMutatingUserProfile || !form.formState.isDirty}
               className="flex items-center gap-2"
             >
               {isMutatingUserProfile ? (

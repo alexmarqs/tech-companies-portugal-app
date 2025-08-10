@@ -5,9 +5,7 @@ import { RetroContainer } from "@/components/ui/retro-container";
 
 export const DeleteAccount = () => {
   return (
-    <RetroContainer className="p-6">
-      <h2 className="text-xl font-bold font-mono mb-4">Account</h2>
-
+    <RetroContainer className="p-6" variant="destructive">
       <div className="space-y-4">
         <div className="border border-destructive/20 rounded-md p-4">
           <h3 className="font-medium text-destructive mb-2">Danger Zone</h3>
