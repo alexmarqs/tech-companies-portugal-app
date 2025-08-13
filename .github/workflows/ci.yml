@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Check: https://github.com/vercel/next.js/issues/53959
+      # https://github.com/vercel/next.js/issues/53959
       # - name: Check types
       #   run: npm run check-types
 
