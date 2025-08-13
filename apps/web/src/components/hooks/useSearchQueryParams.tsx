@@ -1,11 +1,8 @@
-import {
-  defaultSearchParams,
-  searchParamsQueryStateKeys,
-} from "@/lib/search-params";
+import { searchParamsQueryStateKeys } from "@/lib/search-params";
 import { useQueryStates } from "nuqs";
 import { useMemo } from "react";
 
-export const useSearchQueryParams = (enabled = true) => {
+export const useSearchQueryParams = () => {
   const [searchParams, setSearchParams] = useQueryStates(
     searchParamsQueryStateKeys,
     {
@@ -15,17 +12,15 @@ export const useSearchQueryParams = (enabled = true) => {
 
   const appliedFilters = useMemo(
     () =>
-      enabled
-        ? Object.entries(searchParams).filter(
-            ([key, value]) => key != "page" && !!value,
-          )
-        : [],
-    [searchParams, enabled],
+      Object.entries(searchParams).filter(
+        ([key, value]) => key != "page" && !!value,
+      ),
+    [searchParams],
   );
 
   return {
-    searchParams: enabled ? searchParams : defaultSearchParams,
-    setSearchParams: enabled ? setSearchParams : () => {},
+    searchParams,
+    setSearchParams,
     appliedFilters,
   };
 };
