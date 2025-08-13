@@ -75,14 +75,15 @@ export default async function LocationPage({
 
   return (
     <section className="mx-auto flex w-full max-w-5xl p-3 relative">
-      <div className="flex flex-col gap-5 w-full">
+      <div className="flex flex-col w-full">
         <h1 className="text-2xl font-bold">Tech Companies in {location}</h1>
 
         <Suspense fallback={<CompaniesListSkeleton />}>
           <CompaniesList
             allCompanies={filteredCompanies}
             updatedAtISODate={updatedAtISODate}
-            allowSearchParams={false}
+            showHeader={true}
+            hideUpdatedAt={true}
           />
         </Suspense>
       </div>

@@ -15,12 +15,14 @@ type CompaniesListHeaderProps = {
   updatedAtISODate: string;
   totalPages: number;
   filteredCompanies: Company[];
+  hideUpdatedAt?: boolean;
 };
 
 export const CompaniesListHeader = ({
   updatedAtISODate,
   totalPages,
   filteredCompanies,
+  hideUpdatedAt,
 }: CompaniesListHeaderProps) => {
   const {
     setSearchParams,
@@ -32,13 +34,17 @@ export const CompaniesListHeader = ({
 
   return (
     <>
-      <Badge
-        variant="outline"
-        className="rounded-none bg-white px-1 gap-1 h-8 whitespace-nowrap"
-      >
-        <Clock size={14} />
-        {formatDistanceToNow(new Date(updatedAtISODate))} ago
-      </Badge>
+      {!hideUpdatedAt ? (
+        <Badge
+          variant="outline"
+          className="rounded-none bg-white px-1 gap-1 h-8 whitespace-nowrap"
+        >
+          <Clock size={14} />
+          {formatDistanceToNow(new Date(updatedAtISODate))} ago
+        </Badge>
+      ) : (
+        <div className="h-8" />
+      )}
       <Badge
         variant="outline"
         className="rounded-none bg-white px-1 flex items-center justify-center h-8 whitespace-nowrap"
