@@ -5,19 +5,18 @@ import { RetroContainer } from "@/components/ui/retro-container";
 
 export const DeleteAccount = () => {
   return (
-    <RetroContainer className="p-6" variant="destructive">
-      <div className="space-y-4">
-        <div className="border border-destructive/20 rounded-md p-4">
-          <h3 className="font-medium text-destructive mb-2">Danger Zone</h3>
-          <p className="text-sm text-muted-foreground mb-4">
-            Once you delete your account, there is no going back. Please be
-            certain.
-          </p>
-          <Button variant="destructive" onClick={() => {}} size="sm">
-            Delete Account
-          </Button>
-        </div>
+    <RetroContainer className="p-6 space-y-4" variant="destructive">
+      <div className="space-y-2">
+        <h3 className="text-md font-mono">Delete Account</h3>
+        <p className="text-sm text-muted-foreground">
+          Once you delete your account, there is no going back. Please be
+          certain.
+        </p>
       </div>
+
+      <Button variant="destructive" onClick={() => {}} size="sm">
+        Delete Account
+      </Button>
     </RetroContainer>
   );
 };
