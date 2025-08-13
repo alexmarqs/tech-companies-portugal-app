@@ -72,6 +72,7 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/node_modules/playwright/package.json') }}
 
       - name: Install Playwright browsers
+        working-directory: apps/web
         run: npx playwright install chromium --with-deps
 
       - name: Run Playwright tests
