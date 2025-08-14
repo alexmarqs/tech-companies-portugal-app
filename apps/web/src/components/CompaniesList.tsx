@@ -16,14 +16,14 @@ const PAGE_SIZE = 15;
 type CompaniesListProps = {
   allCompanies: Company[];
   updatedAtISODate: string;
-  showHeader?: boolean;
+  isDedicatedPage?: boolean;
   hideUpdatedAt?: boolean;
 };
 
 export default function CompaniesList({
   allCompanies,
   updatedAtISODate,
-  showHeader = false,
+  isDedicatedPage = false,
   hideUpdatedAt,
 }: CompaniesListProps) {
   const {
@@ -35,10 +35,12 @@ export default function CompaniesList({
 
   const filteredCompanies = useMemo(
     () =>
-      allCompanies.filter((company) =>
-        matchCompanies(company, query, category, location),
-      ),
-    [allCompanies, query, category, location],
+      isDedicatedPage
+        ? allCompanies
+        : allCompanies.filter((company) =>
+            matchCompanies(company, query, category, location),
+          ),
+    [allCompanies, query, category, location, isDedicatedPage],
   );
 
   const paginatedCompanies = filteredCompanies.slice(start, end);
@@ -58,7 +60,7 @@ export default function CompaniesList({
         </motion.div>
       ) : (
         <div className="flex-1 font-mono" aria-label="Companies list">
-          {showHeader && (
+          {isDedicatedPage && (
             <motion.div
               className="mb-2 text-xs w-full flex flex-wrap items-center justify-between gap-2 text-muted-foreground"
               initial={{ opacity: 0, y: -10 }}

@@ -29,9 +29,9 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      # Check: https://github.com/vercel/next.js/issues/53959
+      # https://github.com/vercel/next.js/issues/53959
       # - name: Check types
       #   run: npm run check-types
 
@@ -61,8 +61,8 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
-      - name: Install dependencies for web
-        run: npm install --filter=@tech-companies-portugal/web
+      - name: Install dependencies
+        run: npm ci
   
       - name: Cache Playwright browsers
         id: playwright-cache
@@ -72,7 +72,7 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        working-directory: apps/web
         run: npx playwright install chromium --with-deps
 
       - name: Run Playwright tests
