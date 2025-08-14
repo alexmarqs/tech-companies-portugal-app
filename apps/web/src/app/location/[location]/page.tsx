@@ -82,8 +82,8 @@ export default async function LocationPage({
           <CompaniesList
             allCompanies={filteredCompanies}
             updatedAtISODate={updatedAtISODate}
-            showHeader={true}
-            hideUpdatedAt={true}
+            isDedicatedPage
+            hideUpdatedAt
           />
         </Suspense>
       </div>

@@ -81,8 +81,8 @@ export default async function CategoryPage({
           <CompaniesList
             allCompanies={filteredCompanies}
             updatedAtISODate={updatedAtISODate}
-            showHeader={true}
-            hideUpdatedAt={true}
+            isDedicatedPage
+            hideUpdatedAt
           />
         </Suspense>
       </div>
