@@ -16,27 +16,31 @@ const PAGE_SIZE = 15;
 type CompaniesListProps = {
   allCompanies: Company[];
   updatedAtISODate: string;
-  allowSearchParams?: boolean;
+  isDedicatedPage?: boolean;
+  hideUpdatedAt?: boolean;
 };
 
 export default function CompaniesList({
   allCompanies,
   updatedAtISODate,
-  allowSearchParams = true,
+  isDedicatedPage = false,
+  hideUpdatedAt,
 }: CompaniesListProps) {
   const {
     searchParams: { query, category, location, page },
-  } = useSearchQueryParams(allowSearchParams);
+  } = useSearchQueryParams();
 
   const start = (page - 1) * PAGE_SIZE;
   const end = start + PAGE_SIZE;
 
   const filteredCompanies = useMemo(
     () =>
-      allCompanies.filter((company) =>
-        matchCompanies(company, query, category, location),
-      ),
-    [allCompanies, query, category, location],
+      isDedicatedPage
+        ? allCompanies
+        : allCompanies.filter((company) =>
+            matchCompanies(company, query, category, location),
+          ),
+    [allCompanies, query, category, location, isDedicatedPage],
   );
 
   const paginatedCompanies = filteredCompanies.slice(start, end);
@@ -56,7 +60,7 @@ export default function CompaniesList({
         </motion.div>
       ) : (
         <div className="flex-1 font-mono" aria-label="Companies list">
-          {allowSearchParams && (
+          {isDedicatedPage && (
             <motion.div
               className="mb-2 text-xs w-full flex flex-wrap items-center justify-between gap-2 text-muted-foreground"
               initial={{ opacity: 0, y: -10 }}
@@ -67,11 +71,12 @@ export default function CompaniesList({
                 updatedAtISODate={updatedAtISODate}
                 totalPages={totalPages}
                 filteredCompanies={filteredCompanies}
+                hideUpdatedAt={hideUpdatedAt}
               />
             </motion.div>
           )}
           <div className="flex-1 space-y-4" data-testid="companies-list">
-            {paginatedCompanies.map((company, index) => (
+            {paginatedCompanies.map((company, _index) => (
               <motion.div
                 key={company.slug}
                 initial={{ opacity: 0, y: 20 }}
