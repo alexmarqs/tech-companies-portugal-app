@@ -1,4 +1,4 @@
-import { getUserProfile, updateUserProfile } from "@/lib/db/users";
+import { deleteUser, getUserProfile, updateUserProfile } from "@/lib/db/users";
 import type { Tables, TablesUpdate } from "@/lib/supabase/database.types";
 import {
   type UseMutationOptions,
@@ -33,6 +33,17 @@ export const useMutateUserProfile = (
 ) => {
   const resQuery = useMutation({
     mutationFn: updateUserProfile,
+    ...options,
+  });
+
+  return resQuery;
+};
+
+export const useMutateDeleteUser = (
+  options?: UseMutationOptions<void, Error, void, unknown>,
+) => {
+  const resQuery = useMutation({
+    mutationFn: deleteUser,
     ...options,
   });
 

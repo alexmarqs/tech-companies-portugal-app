@@ -7,8 +7,6 @@ const retroContainerVariants = cva(
   {
     variants: {
       variant: {
-        destructive:
-          "border-destructive/20 hover:shadow-none hover:translate-x-1 hover:translate-y-0.5 shadow-[3px_3px_0_0_hsl(var(--destructive))]",
         default:
           "border-accent shadow-[3px_3px_0_0_hsl(var(--accent))] hover:shadow-none hover:translate-x-1 hover:translate-y-0.5",
         featured:

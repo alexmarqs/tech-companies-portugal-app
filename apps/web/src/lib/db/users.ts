@@ -47,3 +47,29 @@ export const updateUserProfile = async ({
     throw error;
   }
 };
+
+export const deleteUser = async (): Promise<void> => {
+  try {
+    const supabase = createClient();
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session?.user.id) {
+      throw new Error("Cannot get user session");
+    }
+
+    const { error } = await supabase
+      .from("users")
+      .delete()
+      .eq("id", session.user.id);
+
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.error("Error deleting user", error);
+    throw error;
+  }
+};

@@ -24,7 +24,7 @@ export function UserMenu() {
   const handleLogout = async () => {
     try {
       await signOut();
-      router.push("/login?from=logout");
+      router.replace("/login?from=logout");
     } catch (error) {
       console.error("Unexpected error during logout:", error);
     }
@@ -91,6 +91,7 @@ export function UserMenu() {
         <DropdownMenuItem asChild>
           <Link
             href="/settings"
+            prefetch
             className="flex items-center hover:cursor-pointer"
           >
             <Settings className="mr-2 h-4 w-4" />
