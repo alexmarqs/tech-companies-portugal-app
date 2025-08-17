@@ -14,22 +14,22 @@ import {
   SelectValue,
 } from "./ui/select";
 
-import { useSearchQueryParams } from "./hooks/useSearchQueryParams";
+import { useSearchQueryParams } from "../hooks/useSearchQueryParams";
 import { Badge } from "./ui/badge";
 
 type SearchSideBarProps = {
   locationOptions: string[];
   categoryOptions: string[];
-  extendedUI?: () => React.ReactNode;
-  onReset?: () => void;
+  extendedUIAction?: () => React.ReactNode;
+  onResetAction?: () => void;
   showCountBadge?: boolean;
 };
 
 export function SearchSideBar({
   locationOptions,
   categoryOptions,
-  extendedUI,
-  onReset,
+  extendedUIAction,
+  onResetAction,
   showCountBadge = true,
 }: SearchSideBarProps) {
   const { setSearchParams, searchParams, appliedFilters } =
@@ -129,14 +129,14 @@ export function SearchSideBar({
                 className="h-9 w-full px-2"
                 onClick={() => {
                   setSearchParams(null);
-                  onReset?.();
+                  onResetAction?.();
                 }}
                 aria-label="Reset filters"
               >
                 <X className="mr-[2px] h-4 w-4" aria-hidden="true" />
                 Reset filters
               </Button>
-              {extendedUI?.()}
+              {extendedUIAction?.()}
             </div>
           </fieldset>
         </form>

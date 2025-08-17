@@ -5,7 +5,19 @@ export const getUserProfile = async (): Promise<Tables<"users">> => {
   try {
     const supabase = createClient();
 
-    const { data, error } = await supabase.from("users").select("*").single();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session?.user.id) {
+      throw new Error("Cannot get user session");
+    }
+
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", session.user.id)
+      .single();
 
     if (error) {
       throw error;

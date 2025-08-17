@@ -7,7 +7,9 @@ import {
   defaultOpenGraphMetadata,
   defaultTwitterMetadata,
 } from "@/lib/metadata";
+import Image from "next/image";
 import type { Metadata } from "next/types";
+import logo from "../../../public/assets/images/logo.png";
 
 const title = "Login | Tech Companies Portugal";
 const description =
@@ -45,6 +47,14 @@ export default function LoginPage() {
         <GoHomeLoginButton />
         <RetroContainer className="p-6">
           <div className="space-y-4">
+            <div className="flex items-center justify-center">
+              <Image
+                src={logo}
+                alt="Tech Companies Portugal Logo"
+                width={50}
+                height={50}
+              />
+            </div>
             <div className="text-center">
               <p className="text-muted-foreground">
                 Join the community and be up to date with the latest tech

@@ -8,7 +8,7 @@ import {
   ChevronsRight,
   Clock,
 } from "lucide-react";
-import { useSearchQueryParams } from "./hooks/useSearchQueryParams";
+import { useSearchQueryParams } from "../hooks/useSearchQueryParams";
 import { Badge } from "./ui/badge";
 
 type CompaniesListHeaderProps = {

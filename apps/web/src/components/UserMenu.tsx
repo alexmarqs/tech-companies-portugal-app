@@ -10,27 +10,37 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useGetUserProfile } from "@/hooks/users";
+import { createClient } from "@/lib/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
 import { Loader2, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { SocialIcons } from "./SocialIcons";
-import { useSession } from "./hooks/useSession";
 import { Skeleton } from "./ui/skeleton";
 
 export function UserMenu() {
-  const { session, isLoading, isSigningOut, signOut } = useSession();
   const router = useRouter();
+  const supabase = createClient();
+  const { data: userProfile, isPending } = useGetUserProfile();
+  const [isSigningOut, setIsSigningOut] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleLogout = async () => {
     try {
-      await signOut();
+      setIsSigningOut(true);
+      await supabase.auth.signOut();
       router.replace("/login?from=logout");
+      queryClient.clear();
     } catch (error) {
       console.error("Unexpected error during logout:", error);
+    } finally {
+      setIsSigningOut(false);
     }
   };
 
-  if (!isLoading && !session) {
+  if (!isPending && !userProfile) {
     return (
       <>
         <Button asChild>
@@ -51,7 +61,7 @@ export function UserMenu() {
     );
   }
 
-  return isLoading ? (
+  return isPending ? (
     <Skeleton className="h-8 w-8 rounded-full" />
   ) : (
     <DropdownMenu>
@@ -62,14 +72,14 @@ export function UserMenu() {
           aria-label="User menu"
         >
           <Avatar className="h-8 w-8">
-            {session?.user?.user_metadata?.avatar_url ? (
+            {userProfile?.avatar_url ? (
               <AvatarImage
-                src={session?.user.user_metadata.avatar_url}
-                alt={session?.user.user_metadata.full_name ?? ""}
+                src={userProfile.avatar_url}
+                alt={userProfile.full_name ?? ""}
               />
             ) : (
               <AvatarFallback className="bg-muted text-muted-foreground font-medium text-xs">
-                {session?.user?.user_metadata?.full_name?.charAt(0)}
+                {userProfile?.full_name?.charAt(0)}
               </AvatarFallback>
             )}
           </Avatar>
@@ -79,10 +89,10 @@ export function UserMenu() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none truncate">
-              {session?.user?.user_metadata?.full_name}
+              {userProfile?.full_name}
             </p>
             <p className="text-xs leading-none text-muted-foreground truncate">
-              {session?.user?.email}
+              {userProfile?.email}
             </p>
           </div>
         </DropdownMenuLabel>
@@ -115,7 +125,7 @@ export function UserMenu() {
         <DropdownMenuItem
           className="text-red-600 focus:text-red-600 focus:bg-red-50 hover:cursor-pointer"
           onClick={handleLogout}
-          disabled={isLoading || isSigningOut}
+          disabled={isPending || isSigningOut}
         >
           {isSigningOut ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />

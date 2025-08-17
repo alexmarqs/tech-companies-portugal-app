@@ -4,12 +4,12 @@ import type { Company } from "@/lib/types";
 import { matchCompanies } from "@/lib/utils";
 import { motion } from "motion/react";
 import { useMemo } from "react";
+import { useSearchQueryParams } from "../hooks/useSearchQueryParams";
 import CompaniesListFooter from "./CompaniesListFooter";
 import { CompaniesListHeader } from "./CompaniesListHeader";
 import CompanyItem from "./CompanyItem";
 import { EmptyState } from "./EmptyState";
 import FeaturedSideSection from "./FeaturedSideSection";
-import { useSearchQueryParams } from "./hooks/useSearchQueryParams";
 
 const PAGE_SIZE = 15;
 

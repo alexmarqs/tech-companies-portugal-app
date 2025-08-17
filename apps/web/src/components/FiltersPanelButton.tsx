@@ -67,11 +67,11 @@ export default function FiltersPanelButton({
               <SearchSideBar
                 locationOptions={availableLocations}
                 categoryOptions={availableCategories}
-                onReset={() => {
+                onResetAction={() => {
                   setIsFilterOpen(false);
                 }}
                 showCountBadge={false}
-                extendedUI={() => (
+                extendedUIAction={() => (
                   <>
                     <Button
                       type="submit"
