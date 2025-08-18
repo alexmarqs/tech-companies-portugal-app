@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useSession } from "@/hooks/useSession";
 import { useGetUserProfile } from "@/hooks/users";
 import { createClient } from "@/lib/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
@@ -23,7 +24,10 @@ import { Skeleton } from "./ui/skeleton";
 export function UserMenu() {
   const router = useRouter();
   const supabase = createClient();
-  const { data: userProfile, isPending } = useGetUserProfile();
+  const { isAuthenticated, isLoading: sessionLoading } = useSession();
+  const { data: userProfile, isPending } = useGetUserProfile({
+    enabled: isAuthenticated,
+  });
   const [isSigningOut, setIsSigningOut] = useState(false);
   const queryClient = useQueryClient();
 
@@ -40,7 +44,13 @@ export function UserMenu() {
     }
   };
 
-  if (!isPending && !userProfile) {
+  // Show skeleton while session is loading OR profile is loading for authenticated users
+  if (sessionLoading || (isAuthenticated && isPending)) {
+    return <Skeleton className="h-8 w-8 rounded-full" />;
+  }
+
+  // Show login if not authenticated
+  if (!isAuthenticated) {
     return (
       <>
         <Button asChild>
@@ -61,9 +71,8 @@ export function UserMenu() {
     );
   }
 
-  return isPending ? (
-    <Skeleton className="h-8 w-8 rounded-full" />
-  ) : (
+  // Show user menu (authenticated and profile loaded)
+  return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button

@@ -12,7 +12,7 @@ export enum UsersServerKeys {
 }
 
 export const useGetUserProfile = (
-  options?: UseQueryOptions<Tables<"users">>,
+  options?: Omit<UseQueryOptions<Tables<"users">>, "queryKey" | "queryFn">,
 ) => {
   const resQuery = useQuery({
     queryKey: [UsersServerKeys.GET_USER_PROFILE],
