@@ -62,7 +62,7 @@ export function SearchSideBar({
             <legend className="sr-only">Search Filters</legend>
             <div className="space-y-4">
               <div className="flex flex-col gap-2">
-                <Label htmlFor="query">Search term</Label>
+                <Label htmlFor="query">Search Company</Label>
                 <Input
                   id="query"
                   name="query"
