@@ -6,9 +6,9 @@ import { AccountName } from "./AccountName";
 import { DeleteAccount } from "./DeleteAccount";
 
 export const AccountSettings = () => {
-  const { isLoading: isLoadingUserProfile } = useGetUserProfile();
+  const { isPending } = useGetUserProfile();
 
-  if (isLoadingUserProfile) {
+  if (isPending) {
     return <Skeleton className="h-40 w-full" />;
   }
 

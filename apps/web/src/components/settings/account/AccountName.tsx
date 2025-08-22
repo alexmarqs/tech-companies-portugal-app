@@ -35,11 +35,15 @@ const formSchema = z.object({
 
 export const AccountName = () => {
   const { data: userProfile } = useGetUserProfile();
-
-  const { mutate: mutateUserProfile, isPending: isMutatingUserProfile } =
-    useMutateUserProfile();
-
   const queryClient = useQueryClient();
+  const { mutate: mutateUserProfile, isPending: isMutatingUserProfile } =
+    useMutateUserProfile({
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [UsersServerKeys.GET_USER_PROFILE],
+        });
+      },
+    });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,16 +61,12 @@ export const AccountName = () => {
       },
       {
         onSuccess: () => {
-          toast.success("User profile updated");
           form.reset({ full_name: submittedData.full_name });
+          toast.success("User profile updated");
         },
         onError: () => {
+          form.reset({ full_name: userProfile?.full_name ?? "" });
           toast.error("Failed to update user profile");
-        },
-        onSettled: () => {
-          queryClient.invalidateQueries({
-            queryKey: [UsersServerKeys.GET_USER_PROFILE],
-          });
         },
       },
     );

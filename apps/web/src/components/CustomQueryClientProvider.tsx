@@ -3,13 +3,35 @@
 
 // Since QueryClientProvider relies on useContext under the hood, we have to put 'use client' on top
 import {
+  QueryCache,
   QueryClient,
   QueryClientProvider,
   isServer,
 } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 function makeQueryClient() {
   return new QueryClient({
+    ...(!isServer && {
+      queryCache: new QueryCache({
+        onError: (_error, query) => {
+          if (
+            query.meta?.errorMessage &&
+            typeof query.meta?.errorMessage === "string"
+          ) {
+            toast.error(query.meta?.errorMessage);
+          }
+        },
+        onSuccess: (_data, query) => {
+          if (
+            query.meta?.successMessage &&
+            typeof query.meta?.successMessage === "string"
+          ) {
+            toast.success(query.meta?.successMessage);
+          }
+        },
+      }),
+    }),
     defaultOptions: {
       queries: {
         // With SSR, we usually want to set some default staleTime

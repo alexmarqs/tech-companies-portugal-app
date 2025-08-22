@@ -18,6 +18,9 @@ export const useGetUserProfile = (
     queryKey: [UsersServerKeys.GET_USER_PROFILE],
     queryFn: getUserProfile,
     ...options,
+    meta: {
+      errorMessage: "Failed to get user profile",
+    },
   });
 
   return resQuery;
