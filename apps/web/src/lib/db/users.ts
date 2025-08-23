@@ -85,3 +85,50 @@ export const deleteUser = async (): Promise<void> => {
     throw error;
   }
 };
+
+export const uploadUserAvatar = async ({
+  file,
+}: {
+  file: File;
+}): Promise<{ publicUrl: string }> => {
+  try {
+    const supabase = createClient();
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session?.user.id) {
+      throw new Error("Cannot get user session");
+    }
+
+    const userId = session.user.id;
+
+    const fileExt = file.name.split(".").pop();
+    const fileName = `avatar.${fileExt}`;
+    const filePath = `${userId}/${fileName}`;
+
+    // Upload new file
+    const { error: uploadError } = await supabase.storage
+      .from("avatars")
+      .upload(filePath, file, { upsert: true });
+
+    if (uploadError) throw uploadError;
+
+    // Get public URL
+    const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
+
+    // Update user profile table
+    const { error: dbError } = await supabase
+      .from("users")
+      .update({ avatar_url: data.publicUrl })
+      .eq("id", userId);
+
+    if (dbError) throw dbError;
+
+    return { publicUrl: data.publicUrl };
+  } catch (error) {
+    console.error("Error uploading avatar", error);
+    throw error;
+  }
+};

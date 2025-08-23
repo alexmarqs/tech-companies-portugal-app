@@ -124,7 +124,6 @@ export default async function CompanyPage({
     </div>
   );
 }
-
 const LinkUrlButton = ({
   url,
   icon,

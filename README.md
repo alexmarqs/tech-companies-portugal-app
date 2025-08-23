@@ -36,11 +36,8 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 
 ## Roadmap 🛣️
 
-- [ ] Declarative database schema with [Supabase](https://supabase.com/docs/guides/local-development/declarative-database-schemas)
 - [ ] Notification jobs
 - [ ] Move some logic to dedicated packages (e.g. emails, parsing, etc)
-- [ ] Drizzle as ORM
-- [ ] Error tracking with Sentry
 
 ## How to contribute 🤝
 

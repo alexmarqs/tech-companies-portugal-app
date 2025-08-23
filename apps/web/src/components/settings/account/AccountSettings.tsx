@@ -2,6 +2,7 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetUserProfile } from "@/hooks/users";
+import { AccountAvatar } from "./AccountAvatar";
 import { AccountName } from "./AccountName";
 import { DeleteAccount } from "./DeleteAccount";
 
@@ -14,6 +15,7 @@ export const AccountSettings = () => {
 
   return (
     <div className="space-y-6">
+      <AccountAvatar />
       <AccountName />
       <DeleteAccount />
     </div>
