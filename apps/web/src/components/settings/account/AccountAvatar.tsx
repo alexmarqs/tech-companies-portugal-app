@@ -1,5 +1,5 @@
 "use client";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RetroContainer } from "@/components/ui/retro-container";
@@ -27,7 +27,6 @@ export const AccountAvatar = () => {
         await queryClient.invalidateQueries({
           queryKey: [UsersServerKeys.GET_USER_PROFILE],
         });
-        // Clear preview only after the profile has been refetched
         setPreviewUrl(null);
       },
     });
@@ -43,7 +42,6 @@ export const AccountAvatar = () => {
     e.target.value = "";
 
     if (!file) {
-      toast.error("Please select a file.");
       return;
     }
 
@@ -59,8 +57,6 @@ export const AccountAvatar = () => {
       return;
     }
 
-    revokeBlobUrl(previewUrl);
-
     const newPreviewUrl = URL.createObjectURL(file);
     setPreviewUrl(newPreviewUrl);
 
@@ -70,9 +66,6 @@ export const AccountAvatar = () => {
         onError: () => {
           toast.error("Failed to upload avatar. Please try again.");
           setPreviewUrl(null);
-        },
-        onSuccess: () => {
-          // Preview will be cleared after the profile query invalidation completes
         },
       },
     );
@@ -102,7 +95,16 @@ export const AccountAvatar = () => {
                   ? `${userProfile.full_name}'s avatar`
                   : "Avatar"
             }
+            onError={() => {
+              if (previewUrl) {
+                revokeBlobUrl(previewUrl);
+                setPreviewUrl(null);
+              }
+            }}
           />
+          <AvatarFallback aria-label="Avatar fallback">
+            {userProfile?.full_name?.charAt(0)?.toUpperCase()}
+          </AvatarFallback>
         </Avatar>
         <div
           className="absolute bottom-0 right-0 h-6 w-6 rounded-full border-none flex items-center justify-center shadow-md p-1 bg-white"

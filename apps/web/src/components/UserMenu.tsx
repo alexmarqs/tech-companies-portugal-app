@@ -88,7 +88,7 @@ export function UserMenu() {
               />
             ) : (
               <AvatarFallback className="bg-muted text-muted-foreground font-medium text-xs">
-                {userProfile?.full_name?.charAt(0)}
+                {userProfile?.full_name?.charAt(0)?.toUpperCase()}
               </AvatarFallback>
             )}
           </Avatar>

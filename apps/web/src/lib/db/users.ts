@@ -72,13 +72,15 @@ export const deleteUser = async (): Promise<void> => {
       throw new Error("Cannot get user session");
     }
 
-    const { error } = await supabase
-      .from("users")
-      .delete()
-      .eq("id", session.user.id);
+    const response = await fetch("/api/delete-user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    if (error) {
-      throw error;
+    if (!response.ok) {
+      throw new Error("Failed to delete user");
     }
   } catch (error) {
     console.error("Error deleting user", error);
