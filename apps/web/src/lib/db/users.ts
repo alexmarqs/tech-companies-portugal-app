@@ -111,7 +111,8 @@ export const uploadUserAvatar = async ({
     // Upload new file
     const { error: uploadError } = await supabase.storage
       .from("avatars")
-      .upload(filePath, file, { upsert: true });
+      // not adding cache control because we want to update the avatar immediately
+      .upload(filePath, file, { upsert: true, contentType: file.type });
 
     if (uploadError) throw uploadError;
 

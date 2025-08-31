@@ -49,10 +49,10 @@ export const Settings = () => {
             </TabsTrigger>
           ))}
         </TabsList>
-        <TabsContent value="account">
+        <TabsContent value="account" className="p-0.5">
           <AccountSettings />
         </TabsContent>
-        <TabsContent value="notifications">
+        <TabsContent value="notifications" className="p-0.5">
           {/* <NotificationsSettings /> */}
         </TabsContent>
       </Tabs>

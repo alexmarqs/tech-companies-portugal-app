@@ -1,22 +1,82 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { RetroContainer } from "@/components/ui/retro-container";
-import { useGetUserProfile } from "@/hooks/users";
+import {
+  UsersServerKeys,
+  useGetUserProfile,
+  useUploadUserAvatar,
+} from "@/hooks/users";
 import { useQueryClient } from "@tanstack/react-query";
-import { CameraIcon } from "lucide-react";
+import { CameraIcon, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
+const MAX_AVATAR_SIZE = 1024 * 1024 * 1; // 1MB
+const ALLOWED_TYPES = new Set(["image/png", "image/jpeg", "image/webp"]);
 
 export const AccountAvatar = () => {
   const { data: userProfile } = useGetUserProfile();
   const queryClient = useQueryClient();
-  //const [newAvatarPreview, setNewAvatarPreview] = useState<string | null>(null);
-  // const { mutate: mutateUserProfile, isPending: isMutatingUserProfile } =
-  //   useMutateUserProfile({
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries({
-  //         queryKey: [UsersServerKeys.GET_USER_PROFILE],
-  //       });
-  //     },
-  //   });
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  const { mutate: mutateUserProfile, isPending: isMutatingUserProfile } =
+    useUploadUserAvatar({
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: [UsersServerKeys.GET_USER_PROFILE],
+        });
+        // Clear preview only after the profile has been refetched
+        setPreviewUrl(null);
+      },
+    });
+
+  useEffect(() => {
+    return () => {
+      revokeBlobUrl(previewUrl);
+    };
+  }, [previewUrl]);
+
+  const handleUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+
+    if (!file) {
+      toast.error("Please select a file.");
+      return;
+    }
+
+    if (!ALLOWED_TYPES.has(file.type)) {
+      toast.error("Please select a PNG, JPEG, or WEBP image.");
+      return;
+    }
+
+    if (file.size > MAX_AVATAR_SIZE) {
+      toast.error(
+        `File size must be less than ${MAX_AVATAR_SIZE / 1024 / 1024}MB`,
+      );
+      return;
+    }
+
+    revokeBlobUrl(previewUrl);
+
+    const newPreviewUrl = URL.createObjectURL(file);
+    setPreviewUrl(newPreviewUrl);
+
+    mutateUserProfile(
+      { file },
+      {
+        onError: () => {
+          toast.error("Failed to upload avatar. Please try again.");
+          setPreviewUrl(null);
+        },
+        onSuccess: () => {
+          // Preview will be cleared after the profile query invalidation completes
+        },
+      },
+    );
+  };
 
   return (
     <RetroContainer className="p-6 flex justify-between w-full items-center gap-1">
@@ -26,36 +86,50 @@ export const AccountAvatar = () => {
           Change your avatar. Click on the image to select and upload a new one.
         </p>
       </div>
-      <div className="relative flex-shrink-0 cursor-pointer">
+
+      <Label
+        htmlFor="avatar-input"
+        className="relative flex-shrink-0 cursor-pointer inline-block outline-none rounded-full focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background"
+      >
         <Avatar className="h-20 w-20">
           <AvatarImage
-            src={userProfile?.avatar_url ?? undefined}
-            alt={userProfile?.full_name ?? undefined}
-          />
-          <AvatarFallback className="bg-primary text-primary-foreground text-lg">
-            {userProfile?.full_name
-              ?.split(" ")
-              .map((name: string) => name[0])
-              .join("")
-              .toUpperCase()
-              .slice(0, 2)}
-          </AvatarFallback>
-          <input
-            //ref={inputRef}
-            type="file"
-            accept="image/*"
-            style={{ display: "none" }}
-            multiple={false}
-            onChange={() => {}}
+            className="object-cover"
+            src={previewUrl ?? userProfile?.avatar_url ?? undefined}
+            alt={
+              previewUrl
+                ? "Avatar Preview"
+                : userProfile?.full_name
+                  ? `${userProfile.full_name}'s avatar`
+                  : "Avatar"
+            }
           />
         </Avatar>
         <div
           className="absolute bottom-0 right-0 h-6 w-6 rounded-full border-none flex items-center justify-center shadow-md p-1 bg-white"
-          title="Upload avatar"
+          aria-hidden
         >
           <CameraIcon className="h-3 w-3" />
         </div>
-      </div>
+        {isMutatingUserProfile && (
+          <div className="absolute inset-0 bg-gray-400 flex opacity-50 items-center justify-center rounded-full">
+            <Loader2 className="h-3 w-3 animate-spin" />
+          </div>
+        )}
+        <Input
+          id="avatar-input"
+          type="file"
+          accept="image/png,image/jpeg,image/webp"
+          className="sr-only"
+          onChange={handleUploadAvatar}
+          disabled={isMutatingUserProfile}
+        />
+      </Label>
     </RetroContainer>
   );
+};
+
+const revokeBlobUrl = (url?: string | null) => {
+  if (url?.startsWith("blob:")) {
+    URL.revokeObjectURL(url);
+  }
 };
