@@ -13,7 +13,7 @@
     "test": "echo 'No tests to run'",
     "test:e2e": "start-server-and-test start http://localhost:3000 'playwright test'",
     "test:e2e:ui": "start-server-and-test start http://localhost:3000 'playwright test --ui'",
-    "db:types": "dotenv -e .env.local npx supabase gen types typescript --project-id '$PROJECT_REF' --schema public > ./src/lib/supabase/database.types.ts"
+    "db:types": "dotenv -e .env.local -- npx supabase gen types typescript --project-id $PROJECT_REF --schema public > ./src/lib/supabase/database.types.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "5.2.1",
