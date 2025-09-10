@@ -81,16 +81,17 @@ export function UserMenu() {
           aria-label="User menu"
         >
           <Avatar className="h-8 w-8">
-            {userProfile?.avatar_url ? (
-              <AvatarImage
-                src={userProfile.avatar_url}
-                alt={userProfile.full_name ?? ""}
-              />
-            ) : (
-              <AvatarFallback className="bg-muted text-muted-foreground font-medium text-xs">
-                {userProfile?.full_name?.charAt(0)?.toUpperCase()}
-              </AvatarFallback>
-            )}
+            <AvatarImage
+              src={userProfile?.avatar_url ?? undefined}
+              alt={
+                userProfile?.full_name
+                  ? `${userProfile.full_name}'s avatar`
+                  : "Avatar"
+              }
+            />
+            <AvatarFallback className="bg-muted text-muted-foreground font-medium">
+              {userProfile?.full_name?.charAt(0)?.toUpperCase()}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>

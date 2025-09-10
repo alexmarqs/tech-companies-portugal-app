@@ -13,7 +13,7 @@ import { CameraIcon, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const MAX_AVATAR_SIZE = 1024 * 1024 * 1; // 1MB
+const MAX_AVATAR_SIZE = 1024 * 1024 * 2; // 2MB
 const ALLOWED_TYPES = new Set(["image/png", "image/jpeg", "image/webp"]);
 
 export const AccountAvatar = () => {
@@ -23,19 +23,21 @@ export const AccountAvatar = () => {
 
   const { mutate: mutateUserProfile, isPending: isMutatingUserProfile } =
     useUploadUserAvatar({
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({
+      onSuccess: () => {
+        return queryClient.invalidateQueries({
           queryKey: [UsersServerKeys.GET_USER_PROFILE],
         });
-        setPreviewUrl(null);
       },
     });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     return () => {
-      revokeBlobUrl(previewUrl);
+      if (previewUrl) {
+        revokeBlobUrl(previewUrl);
+      }
     };
-  }, [previewUrl]);
+  }, []);
 
   const handleUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -57,6 +59,7 @@ export const AccountAvatar = () => {
       return;
     }
 
+    revokeBlobUrl(previewUrl);
     const newPreviewUrl = URL.createObjectURL(file);
     setPreviewUrl(newPreviewUrl);
 
@@ -65,7 +68,6 @@ export const AccountAvatar = () => {
       {
         onError: () => {
           toast.error("Failed to upload avatar. Please try again.");
-          setPreviewUrl(null);
         },
       },
     );
@@ -102,7 +104,7 @@ export const AccountAvatar = () => {
               }
             }}
           />
-          <AvatarFallback aria-label="Avatar fallback">
+          <AvatarFallback className="bg-muted text-muted-foreground font-medium">
             {userProfile?.full_name?.charAt(0)?.toUpperCase()}
           </AvatarFallback>
         </Avatar>
