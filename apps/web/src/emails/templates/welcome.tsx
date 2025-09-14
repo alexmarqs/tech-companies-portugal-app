@@ -5,13 +5,13 @@ import {
   Font,
   Head,
   Heading,
-  Hr,
   Html,
   Preview,
   Section,
   Tailwind,
   Text,
 } from "@react-email/components";
+import { Footer } from "../components/footer";
 import { Logo } from "../components/logo";
 
 interface WelcomeEmailProps {
@@ -153,19 +153,9 @@ export const WelcomeEmail = ({ userFirstname }: WelcomeEmailProps) => (
                 tech-companies-in-portugal
               </a>
             </Text>
-
-            <Hr className="border-none border-t border-gray-200 my-6" />
-
-            <Text className="text-sm text-gray-600 leading-relaxed mb-5">
-              Have questions or suggestions? Feel free to reach out.
-            </Text>
-
-            <Text className="text-sm text-gray-700 leading-relaxed m-0">
-              Best regards,
-              <br />
-              <strong>The Tech Companies Portugal Team</strong>
-            </Text>
           </Section>
+
+          <Footer />
         </Container>
       </Body>
     </Tailwind>
