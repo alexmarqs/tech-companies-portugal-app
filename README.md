@@ -33,6 +33,7 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - [Vercel](https://vercel.com/) - Hosting and CI/CD
 - [PostHog](https://posthog.com/) - Analytics (replaces [OpenPanel](https://openpanel.dev/) due to removal of free tier)
 - [Supabase](https://supabase.com/) - Auth, DB, MCP
+- [React Email](https://react.email/) - Email components
 
 ## Roadmap 🛣️
 

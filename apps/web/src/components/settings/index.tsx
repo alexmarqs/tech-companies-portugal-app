@@ -34,7 +34,7 @@ export const Settings = () => {
       </div>
 
       <Tabs defaultValue="account" className="bold">
-        <TabsList className="bg-transparent flex justify-start gap-4 w-full mb-4">
+        <TabsList className="bg-transparent flex justify-start gap-4 w-full mb-4 overflow-x-auto scrollbar-hide">
           {TABS.map((tab) => (
             <TabsTrigger
               key={tab.id}

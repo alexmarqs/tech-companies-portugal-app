@@ -74,7 +74,7 @@ export const AccountAvatar = () => {
   };
 
   return (
-    <RetroContainer className="p-6 flex justify-between w-full items-center gap-1">
+    <RetroContainer className="p-6 flex justify-between w-full items-center gap-1 flex-wrap">
       <div className="space-y-2 flex-1">
         <h3 className="text-md font-mono">Upload Avatar</h3>
         <p className="text-xs text-muted-foreground">
@@ -84,9 +84,9 @@ export const AccountAvatar = () => {
 
       <Label
         htmlFor="avatar-input"
-        className="relative flex-shrink-0 cursor-pointer inline-block outline-none rounded-full focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background"
+        className="relative cursor-pointer inline-block outline-none rounded-full focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background"
       >
-        <Avatar className="h-20 w-20">
+        <Avatar className="h-20 w-20 flex-shrink-0">
           <AvatarImage
             className="object-cover"
             src={previewUrl ?? userProfile?.avatar_url ?? undefined}
