@@ -1,5 +1,6 @@
 import { GithubLogin } from "@/components/GithubLogin";
 import { GoHomeLoginButton } from "@/components/GoHomeLoginButton";
+import { GoogleLogin } from "@/components/GoogleLogin";
 import { RetroContainer } from "@/components/ui/retro-container";
 import {
   APP_URL,
@@ -67,7 +68,7 @@ export default function LoginPage() {
 
             <div className="space-y-3">
               <GithubLogin />
-              {/* <GoogleLogin /> */}
+              <GoogleLogin />
             </div>
           </div>
         </RetroContainer>
