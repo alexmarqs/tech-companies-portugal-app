@@ -4,7 +4,6 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const DEFAULT_EMAIL_FROM =
   process.env.PLUNK_FROM_EMAIL ??
   "Tech Companies Portugal <hello@techcompaniesportugal.fyi>";
-const DEFAULT_EMAIL_TYPE: EmailServiceParams["type"] = "html";
 
 const normalizeRecipients = (to: EmailServiceParams["to"]): string[] => {
   const recipients = Array.isArray(to) ? to : [to];
@@ -30,4 +29,4 @@ const normalizeRecipients = (to: EmailServiceParams["to"]): string[] => {
   });
 };
 
-export { normalizeRecipients, DEFAULT_EMAIL_FROM, DEFAULT_EMAIL_TYPE };
+export { normalizeRecipients, DEFAULT_EMAIL_FROM };
