@@ -67,7 +67,7 @@ export default async function CategoryPage({
 
   const category = decodeURIComponent(categoryParam);
 
-  const { companies, updatedAtISODate } = await getParsedCompaniesData();
+  const { companies } = await getParsedCompaniesData();
 
   const filteredCompanies = companies.filter((company) =>
     company.categories.includes(category),
@@ -78,12 +78,7 @@ export default async function CategoryPage({
       <div className="flex flex-col w-full">
         <h1 className="text-2xl font-bold">Tech Companies | {category} </h1>
         <Suspense fallback={<CompaniesListSkeleton />}>
-          <CompaniesList
-            allCompanies={filteredCompanies}
-            updatedAtISODate={updatedAtISODate}
-            isDedicatedPage
-            hideUpdatedAt
-          />
+          <CompaniesList allCompanies={filteredCompanies} isDedicatedPage />
         </Suspense>
       </div>
     </section>

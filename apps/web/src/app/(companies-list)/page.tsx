@@ -17,10 +17,7 @@ export default async function CompaniesPage() {
         locationOptions={availableLocations}
       />
 
-      <CompaniesList
-        allCompanies={companies}
-        updatedAtISODate={updatedAtISODate}
-      />
+      <CompaniesList allCompanies={companies} />
     </section>
   );
 }

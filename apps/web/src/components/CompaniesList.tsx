@@ -15,16 +15,12 @@ const PAGE_SIZE = 15;
 
 type CompaniesListProps = {
   allCompanies: Company[];
-  updatedAtISODate: string;
   isDedicatedPage?: boolean;
-  hideUpdatedAt?: boolean;
 };
 
 export default function CompaniesList({
   allCompanies,
-  updatedAtISODate,
   isDedicatedPage = false,
-  hideUpdatedAt,
 }: CompaniesListProps) {
   const {
     searchParams: { query, category, location, page },
@@ -68,10 +64,8 @@ export default function CompaniesList({
               transition={{ duration: 0.3 }}
             >
               <CompaniesListHeader
-                updatedAtISODate={updatedAtISODate}
                 totalPages={totalPages}
                 filteredCompanies={filteredCompanies}
-                hideUpdatedAt={hideUpdatedAt}
               />
             </motion.div>
           )}

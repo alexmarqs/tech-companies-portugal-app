@@ -63,9 +63,8 @@ const sendWelcomeEmail = async (email: string, name: string) => {
     }),
   );
 
-  emailService.sendEmail({
+  await emailService.sendEmail({
     to: email,
-    // Default is: Tech Companies Portugal <hello@techcompaniesportugal.fyi>
     subject: "Welcome to Tech Companies Portugal",
     body: emailHtml,
   });

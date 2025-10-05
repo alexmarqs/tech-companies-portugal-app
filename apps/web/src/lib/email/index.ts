@@ -1,18 +1,16 @@
 import { getPlunkClient } from "./client";
 import type { EmailService } from "./types";
-import { DEFAULT_EMAIL_FROM, normalizeRecipients } from "./utils";
+import { DEFAULT_EMAIL_FROM, DEFAULT_EMAIL_NAME } from "./utils";
 
 const sendEmail: EmailService["sendEmail"] = async (payload) => {
   const {
     body,
     from = DEFAULT_EMAIL_FROM,
-    name,
+    name = DEFAULT_EMAIL_NAME,
     subscribed,
     subject,
     to,
   } = payload;
-
-  const recipients = normalizeRecipients(to);
 
   try {
     await getPlunkClient().emails.send({
@@ -20,11 +18,18 @@ const sendEmail: EmailService["sendEmail"] = async (payload) => {
       from,
       name,
       subscribed,
+      type: "html",
       subject,
-      to: recipients,
+      to,
     });
   } catch (error) {
-    console.error("Failed to send email", error);
+    console.error("Failed to send email", {
+      from,
+      name,
+      subscribed,
+      subject,
+      to,
+    });
     throw error instanceof Error ? error : new Error("Unknown email error");
   }
 };

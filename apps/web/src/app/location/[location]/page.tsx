@@ -67,7 +67,7 @@ export default async function LocationPage({
 
   const location = decodeURIComponent(locationParam);
 
-  const { companies, updatedAtISODate } = await getParsedCompaniesData();
+  const { companies } = await getParsedCompaniesData();
 
   const filteredCompanies = companies.filter((company) =>
     company.locations.includes(location),
@@ -79,12 +79,7 @@ export default async function LocationPage({
         <h1 className="text-2xl font-bold">Tech Companies in {location}</h1>
 
         <Suspense fallback={<CompaniesListSkeleton />}>
-          <CompaniesList
-            allCompanies={filteredCompanies}
-            updatedAtISODate={updatedAtISODate}
-            isDedicatedPage
-            hideUpdatedAt
-          />
+          <CompaniesList allCompanies={filteredCompanies} isDedicatedPage />
         </Suspense>
       </div>
     </section>
