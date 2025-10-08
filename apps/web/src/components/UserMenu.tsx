@@ -61,7 +61,7 @@ export function UserMenu() {
             href="https://github.com/alexmarqs/frontend-tech-companies-portugal"
             target="_blank"
             rel="noreferrer noopener"
-            className="!px-2"
+            className="!px-[10px]"
             aria-label="View project on GitHub"
           >
             <SocialIcons icon="github" />
