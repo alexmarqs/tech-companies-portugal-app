@@ -25,7 +25,7 @@ export const GoogleLogin = () => {
     } finally {
       setTimeout(() => {
         setIsLoading(false);
-      }, 3500);
+      }, 4000);
     }
   };
 

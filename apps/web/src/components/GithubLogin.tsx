@@ -25,7 +25,7 @@ export const GithubLogin = () => {
     } finally {
       setTimeout(() => {
         setIsLoading(false);
-      }, 3500);
+      }, 4000);
     }
   };
 
