@@ -3,6 +3,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { SettingsTab } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@tech-companies-portugal/analytics/client";
 import { BackButton } from "../BackButton";
 import { Title } from "../Title";
 import { Badge } from "../ui/badge";
@@ -52,7 +53,11 @@ export const Settings = () => {
         <TabsContent value="account" className="p-0.5">
           <AccountSettings />
         </TabsContent>
-        <TabsContent value="notifications" className="p-0.5">
+        <TabsContent
+          value="notifications"
+          className="p-0.5"
+          onClick={() => trackEvent("notifications_tab_clicked")}
+        >
           {/* <NotificationsSettings /> */}
         </TabsContent>
       </Tabs>

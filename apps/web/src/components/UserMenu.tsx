@@ -14,6 +14,7 @@ import { useSession } from "@/hooks/useSession";
 import { useGetUserProfile } from "@/hooks/users";
 import { createClient } from "@/lib/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
+import { trackEvent } from "@tech-companies-portugal/analytics/client";
 import { Loader2, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -54,7 +55,12 @@ export function UserMenu() {
     return (
       <>
         <Button asChild>
-          <Link href="/login">Login</Link>
+          <Link
+            onClick={() => trackEvent("login_button_clicked")}
+            href="/login"
+          >
+            Login
+          </Link>
         </Button>
         <Button asChild>
           <a
@@ -63,6 +69,7 @@ export function UserMenu() {
             rel="noreferrer noopener"
             className="!px-[10px]"
             aria-label="View project on GitHub"
+            onClick={() => trackEvent("github_button_clicked")}
           >
             <SocialIcons icon="github" />
           </a>

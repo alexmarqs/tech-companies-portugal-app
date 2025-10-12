@@ -1,3 +1,4 @@
+import { trackEvent } from "@tech-companies-portugal/analytics/client";
 import { HotFeaturedBadge } from "./HotFeaturedBadge";
 import { Button } from "./ui/button";
 import { RetroContainer } from "./ui/retro-container";
@@ -25,7 +26,12 @@ export default function FeaturedSideSection() {
         </p>
       </div>
       <Button variant="secondary" asChild className="mt-4 w-full">
-        <a href={GITHUB_REQUEST_URL} target="_blank" rel="noreferrer">
+        <a
+          href={GITHUB_REQUEST_URL}
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => trackEvent("request_featured_button_clicked")}
+        >
           Request now
         </a>
       </Button>
