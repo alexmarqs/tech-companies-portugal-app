@@ -120,6 +120,7 @@ export function UserMenu() {
             href="/settings"
             prefetch
             className="flex items-center hover:cursor-pointer"
+            onClick={() => trackEvent("settings_button_clicked")}
           >
             <Settings className="mr-2 h-4 w-4" />
             Settings
@@ -133,6 +134,7 @@ export function UserMenu() {
             rel="noreferrer noopener"
             className="flex items-center hover:cursor-pointer"
             aria-label="View project on GitHub"
+            onClick={() => trackEvent("logged_in_github_button_clicked")}
           >
             <SocialIcons icon="github" className="mr-2" />
             GitHub
