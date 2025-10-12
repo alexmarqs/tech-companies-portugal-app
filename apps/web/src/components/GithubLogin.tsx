@@ -22,10 +22,11 @@ export const GithubLogin = () => {
           scopes: "read:user user:email",
         },
       });
-    } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 4000);
+      // On success, user will be redirected, so no need to reset loading state
+    } catch (error) {
+      // Reset loading state immediately on error for better UX
+      setIsLoading(false);
+      console.error("GitHub OAuth error:", error);
     }
   };
 

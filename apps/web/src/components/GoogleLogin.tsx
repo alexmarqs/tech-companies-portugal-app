@@ -22,10 +22,11 @@ export const GoogleLogin = () => {
           scopes: "openid email profile",
         },
       });
-    } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 4000);
+      // On success, user will be redirected, so no need to reset loading state
+    } catch (error) {
+      // Reset loading state immediately on error for better UX
+      setIsLoading(false);
+      console.error("Google OAuth error:", error);
     }
   };
 
