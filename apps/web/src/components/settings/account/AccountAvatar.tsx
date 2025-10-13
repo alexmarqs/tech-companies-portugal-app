@@ -30,14 +30,14 @@ export const AccountAvatar = () => {
       },
     });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
+    // on unmount, revoke the blob url
     return () => {
       if (previewUrl) {
         revokeBlobUrl(previewUrl);
       }
     };
-  }, []);
+  }, [previewUrl]);
 
   const handleUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
