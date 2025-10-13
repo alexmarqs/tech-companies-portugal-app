@@ -88,6 +88,7 @@ export const AccountAvatar = () => {
       >
         <Avatar className="h-20 w-20 flex-shrink-0">
           <AvatarImage
+            referrerPolicy="no-referrer"
             className="object-cover"
             src={previewUrl ?? userProfile?.avatar_url ?? undefined}
             alt={
