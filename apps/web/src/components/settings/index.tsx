@@ -30,7 +30,11 @@ export const Settings = () => {
   return (
     <div className="container mx-auto max-w-2xl p-6">
       <div className="mb-6">
-        <BackButton className="mb-4" />
+        <BackButton
+          className="mb-4"
+          label="Back to Home"
+          useBrowserHistory={true}
+        />
         <Title title="Settings" description="Manage your account settings." />
       </div>
 
