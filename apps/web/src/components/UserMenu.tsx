@@ -36,8 +36,9 @@ export function UserMenu() {
     try {
       setIsSigningOut(true);
       await supabase.auth.signOut();
-      router.replace("/login?from=logout");
       queryClient.clear();
+      router.replace("/login?from=logout");
+      // or clear the query client + router.refresh() or just window.location.reload();
     } catch (error) {
       console.error("Unexpected error during logout:", error);
     } finally {
