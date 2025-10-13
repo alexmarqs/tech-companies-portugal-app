@@ -90,7 +90,7 @@ export default function WelcomeEmail({
               </Text>
 
               <Text className="text-sm text-gray-600 leading-relaxed pl-5">
-                • Reveive notifications when new companies are added (coming
+                • Receive notifications when new companies are added (coming
                 soon)
               </Text>
 
