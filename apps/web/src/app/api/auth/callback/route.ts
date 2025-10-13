@@ -50,13 +50,13 @@ export async function GET(request: Request) {
 
       return NextResponse.redirect(`${origin}${next}`);
     }
-
-    // if there is an error, redirect to the auth code error page with possible instructions
-    return NextResponse.redirect(`${origin}/auth/auth-code-error`);
   }
+
+  // if there is an error or no code, redirect to the auth code error page with possible instructions
+  return NextResponse.redirect(`${origin}/auth/auth-code-error`);
 }
 
-const sendWelcomeEmail = async (email: string, name: string) => {
+const sendWelcomeEmail = async (email: string, name = "there") => {
   const emailHtml = await render(
     WelcomeEmail({
       userFirstname: name,

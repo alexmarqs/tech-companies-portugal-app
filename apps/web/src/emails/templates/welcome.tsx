@@ -136,7 +136,7 @@ export default function WelcomeEmail({
                 🌐 <strong>Open Source Platform:</strong> Our web application is
                 completely open source and transparent:{" "}
                 <a
-                  href="https://github.com/alexmarqs/frontend-tech-companies-portugal"
+                  href="https://github.com/alexmarqs/tech-companies-portugal-app"
                   target="_blank"
                   rel="noreferrer"
                 >

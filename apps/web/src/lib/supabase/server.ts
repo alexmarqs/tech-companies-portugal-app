@@ -32,7 +32,7 @@ export async function createClient() {
   );
 }
 
-export async function createAdminClient(accessToken?: string) {
+export async function createAdminClient() {
   return createSupabaseClient<Database>(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,

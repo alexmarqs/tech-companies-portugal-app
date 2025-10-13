@@ -64,7 +64,7 @@ export function UserMenu() {
         </Button>
         <Button asChild>
           <a
-            href="https://github.com/alexmarqs/frontend-tech-companies-portugal"
+            href="https://github.com/alexmarqs/tech-companies-portugal-app"
             target="_blank"
             rel="noreferrer noopener"
             className="!px-[10px]"
@@ -129,7 +129,7 @@ export function UserMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <a
-            href="https://github.com/alexmarqs/frontend-tech-companies-portugal"
+            href="https://github.com/alexmarqs/tech-companies-portugal-app"
             target="_blank"
             rel="noreferrer noopener"
             className="flex items-center hover:cursor-pointer"

@@ -55,7 +55,7 @@ ${locationsData.map((url) => `- [${url.name}](${url.url}): ${url.description}`).
 ${categoriesData.map((url) => `- [${url.name}](${url.url}): ${url.description}`).join("\n")}
 
 ## Resources
-- [Web App GitHub Repository](https://github.com/alexmarqs/frontend-tech-companies-portugal): The github repository for the web app.
+- [Web App GitHub Repository](https://github.com/alexmarqs/tech-companies-portugal-app): The github repository for the web app.
 - [Data GitHub Repository](https://github.com/marmelo/tech-companies-in-portugal): The github repository where the source data comes from.
 
 ## About Author

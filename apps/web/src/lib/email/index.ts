@@ -23,13 +23,7 @@ const sendEmail: EmailService["sendEmail"] = async (payload) => {
       to,
     });
   } catch (error) {
-    console.error("Failed to send email", {
-      from,
-      name,
-      subscribed,
-      subject,
-      to,
-    });
+    console.error("Failed to send email", error);
     throw error instanceof Error ? error : new Error("Unknown email error");
   }
 };

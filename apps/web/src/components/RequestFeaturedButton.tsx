@@ -9,7 +9,7 @@ const requestTitle = encodeURIComponent(
 const requestBody = encodeURIComponent(
   "Hello, I am from <Your Company Name Here> and I would like to get featured on Tech Companies Portugal. Here is a little bit about us: <Additional Information Here>",
 );
-const GITHUB_REQUEST_URL = `https://github.com/alexmarqs/frontend-tech-companies-portugal/issues/new?title=${requestTitle}&body=${requestBody}`;
+const GITHUB_REQUEST_URL = `https://github.com/alexmarqs/tech-companies-portugal-app/issues/new?title=${requestTitle}&body=${requestBody}`;
 
 export const RequestFeaturedButton = () => {
   return (
