@@ -17,15 +17,14 @@ export const PWAInstallBanner = () => {
   const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
-    // Uncomment this to only show on mobile
-    // const isMobile =
-    //   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    //     navigator.userAgent,
-    //   ) || window.innerWidth <= 768;
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      ) || window.innerWidth <= 768;
 
-    // if (!isMobile) {
-    //   return;
-    // }
+    if (!isMobile) {
+      return;
+    }
 
     // Check if already dismissed
     const dismissed = localStorage.getItem("pwa-prompt-dismissed");
@@ -134,7 +133,7 @@ export const PWAInstallBanner = () => {
           <h3 className="text-sm font-semibold">Install App</h3>
           <p className="mt-1 text-xs text-muted-foreground">
             {isIOS
-              ? "Tap the Share button and select 'Add to Home Screen"
+              ? "Tap the Share button and select 'Add to Home Screen'"
               : "Install Tech Companies Portugal for quick access"}
           </p>
         </div>

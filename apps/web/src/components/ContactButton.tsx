@@ -57,7 +57,8 @@ export const ContactButton = () => {
           <DialogHeader>
             <DialogTitle>Talk to us</DialogTitle>
             <DialogDescription>
-              Any questions, feedback, or just saying hi?
+              Do you have any questions? We are looking for sponsors and
+              advertisers. Feel free to reach out to us.
             </DialogDescription>
           </DialogHeader>
           <ContactForm />
@@ -77,9 +78,10 @@ export const ContactButton = () => {
       <DrawerContent>
         <div className="mx-auto w-full">
           <DrawerHeader>
-            <DrawerTitle>Contact Us</DrawerTitle>
+            <DrawerTitle>Talk to us</DrawerTitle>
             <DrawerDescription>
-              Any questions, feedback, or just saying hi?
+              Do you have any questions? We are looking for sponsors and
+              advertisers. Feel free to reach out to us.
             </DrawerDescription>
           </DrawerHeader>
           <div className="p-4">

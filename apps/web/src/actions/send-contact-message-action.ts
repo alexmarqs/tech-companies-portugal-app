@@ -18,13 +18,26 @@ export const sendContactMessageAction = async (formData: FormData) => {
     throw new Error("User not authenticated");
   }
 
-  const message = formData.get("message")?.toString().trim() as string;
+  const message = formData.get("message")?.toString().trim();
+
+  if (!message || message.length === 0) {
+    throw new Error("Message is required");
+  }
+
+  const fromEmail = process.env.CONTACT_FROM_EMAIL;
+  const toEmail = process.env.CONTACT_TO_EMAIL;
+
+  if (!fromEmail || !toEmail) {
+    throw new Error("Email configuration is missing");
+  }
 
   await emailService.sendEmail({
-    body: message,
-    from: process.env.CONTACT_FROM_EMAIL!,
+    body: `<p>Message from ${user.email}:</p><p>${message}</p>`,
+    from: fromEmail,
     name: "Tech Companies Portugal",
-    subject: `Contact Form - ${user.email}`,
-    to: process.env.CONTACT_TO_EMAIL!,
+    subject: `Talk to us message from ${user.email}`,
+    to: toEmail,
   });
+
+  return { success: true };
 };
