@@ -7,11 +7,11 @@ export default function SimpleFooter() {
         <div className="w-full flex flex-col md:flex-row md:justify-between items-center flex-wrap gap-4">
           <LogoFooter />
           <p className="text-xs text-center">
-            Crafted by{" "}
+            Built by{" "}
             <a
               href="https://alexandremarques.io"
               target="_blank"
-              rel="noreferrer noopener"
+              rel="noreferrer noopener author"
               className="underline underline-offset-[2px]"
             >
               Alexandre Marques
