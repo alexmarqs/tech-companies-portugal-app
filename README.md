@@ -32,7 +32,7 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - [Plunk](https://useplunk.com/) - Email service
 - [Turbo](https://turbo.build/) - Monorepo build system
 - [Vercel](https://vercel.com/) - Hosting and CI/CD
-- [PostHog](https://posthog.com/) - Analytics (replaces [OpenPanel](https://openpanel.dev/) due to removal of free tier)
+- [PostHog](https://posthog.com/) - Analytics. Coming next, usage of MCP for automatic analytics dashboard
 - [Supabase](https://supabase.com/) - Auth, DB, MCP
 - [React Email](https://react.email/) - Email components
 - [PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps) - Basic support for now. Future: use next-pwa to add more features.

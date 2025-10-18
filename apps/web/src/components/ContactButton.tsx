@@ -4,9 +4,10 @@ import { sendContactMessageAction } from "@/actions/send-contact-message-action"
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useGetUserProfile } from "@/hooks/users";
 import { useSession } from "@/lib/contexts/SessionContext";
-import { Loader2, Mail, Send } from "lucide-react";
+import { Loader2, MessageCircle, Send } from "lucide-react";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -48,13 +49,13 @@ export const ContactButton = () => {
             className="flex items-center gap-2"
             variant="default"
           >
-            <span>Contact</span>
-            <Mail size={16} />
+            <span>Talk to us</span>
+            <MessageCircle size={16} />
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Contact Us</DialogTitle>
+            <DialogTitle>Talk to us</DialogTitle>
             <DialogDescription>
               Any questions, feedback, or just saying hi?
             </DialogDescription>
@@ -69,8 +70,8 @@ export const ContactButton = () => {
     <Drawer>
       <DrawerTrigger asChild>
         <Button size="sm" className="flex items-center gap-2" variant="default">
-          <span>Contact</span>
-          <Mail size={16} />
+          <span>Talk to us</span>
+          <MessageCircle size={16} />
         </Button>
       </DrawerTrigger>
       <DrawerContent>
@@ -125,6 +126,7 @@ const ContactForm = () => {
             setSubmitted(true);
           } catch (error) {
             console.error(error);
+            toast.error("Failed to send message. Try again later.");
           } finally {
             setTimeout(() => setSubmitted(false), 3000);
           }
