@@ -10,8 +10,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useSession } from "@/hooks/useSession";
 import { useGetUserProfile } from "@/hooks/users";
+import { useSession } from "@/lib/contexts/SessionContext";
 import { createClient } from "@/lib/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { trackEvent } from "@tech-companies-portugal/analytics/client";
@@ -48,7 +48,7 @@ export function UserMenu() {
 
   // Show skeleton while session is loading OR profile is loading for authenticated users
   if (sessionLoading || (isAuthenticated && isPending)) {
-    return <Skeleton className="h-8 w-8 rounded-full" />;
+    return <Skeleton className="h-9 w-9 rounded-full" />;
   }
 
   // Show login if not authenticated
@@ -85,10 +85,10 @@ export function UserMenu() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="relative h-8 w-8 rounded-full"
+          className="relative h-9 w-9 rounded-full"
           aria-label="User menu"
         >
-          <Avatar className="h-8 w-8">
+          <Avatar className="h-9 w-9">
             <AvatarImage
               referrerPolicy="no-referrer"
               src={userProfile?.avatar_url ?? undefined}

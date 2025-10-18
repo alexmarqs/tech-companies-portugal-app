@@ -7,6 +7,8 @@ import { differenceInSeconds } from "date-fns";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
+  // TODO: Add here arcjet rate limiting rule protection, e.g. 10 requests per minute
+
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
   // if "next" is in params, use it as the redirect URL

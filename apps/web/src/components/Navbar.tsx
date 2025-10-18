@@ -6,6 +6,7 @@ import logo from "../../public/assets/images/logo.png";
 import ExploreButton from "./ExploreButton";
 import FiltersPanelButton from "./FiltersPanelButton";
 
+import { ContactButton } from "./ContactButton";
 import { UserMenu } from "./UserMenu";
 
 export default function Navbar() {
@@ -48,6 +49,7 @@ export default function Navbar() {
             />
           </Suspense>
           <ExploreButton />
+          <ContactButton />
           <UserMenu />
         </nav>
       </div>

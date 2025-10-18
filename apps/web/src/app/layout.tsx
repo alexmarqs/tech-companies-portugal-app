@@ -15,6 +15,7 @@ import "./globals.css";
 
 import CustomQueryClientProvider from "@/components/CustomQueryClientProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { SessionProvider } from "@/lib/contexts/SessionContext";
 import { AnalyticsProvider } from "@tech-companies-portugal/analytics/client";
 
 export const metadata: Metadata = {
@@ -48,17 +49,19 @@ export default function RootLayout({ children }: LayoutProps) {
         )}
       >
         <CustomQueryClientProvider>
-          <AnalyticsProvider>
-            <NuqsAdapter>
-              <Navbar />
-              {children}
-              <DotPattern
-                className={cn(
-                  "[mask-image:radial-gradient(620px_circle_at_center,white,transparent)] fixed inset-0 -z-10",
-                )}
-              />
-            </NuqsAdapter>
-          </AnalyticsProvider>
+          <SessionProvider>
+            <AnalyticsProvider>
+              <NuqsAdapter>
+                <Navbar />
+                {children}
+                <DotPattern
+                  className={cn(
+                    "[mask-image:radial-gradient(620px_circle_at_center,white,transparent)] fixed inset-0 -z-10",
+                  )}
+                />
+              </NuqsAdapter>
+            </AnalyticsProvider>
+          </SessionProvider>
         </CustomQueryClientProvider>
         <Toaster />
       </body>

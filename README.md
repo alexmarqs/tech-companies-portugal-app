@@ -29,16 +29,14 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - [Biome](https://biomejs.dev/) - Formatting and linting
 - [Motion](https://motion.dev/) - Animation library
 - [Nuqs](https://nuqs.47ng.com) - URL query state management (client and server support + some other cool features out of the box)
+- [Plunk](https://useplunk.com/) - Email service
 - [Turbo](https://turbo.build/) - Monorepo build system
 - [Vercel](https://vercel.com/) - Hosting and CI/CD
 - [PostHog](https://posthog.com/) - Analytics (replaces [OpenPanel](https://openpanel.dev/) due to removal of free tier)
 - [Supabase](https://supabase.com/) - Auth, DB, MCP
 - [React Email](https://react.email/) - Email components
+- [Arcjet](https://arcjet.com/) - Rate limiting + other security features to prevent abuse.
 
-## Roadmap 🛣️
-
-- [ ] Notification jobs
-- [ ] Move some logic to dedicated packages (e.g. emails, parsing, etc)
 
 ## How to contribute 🤝
 
