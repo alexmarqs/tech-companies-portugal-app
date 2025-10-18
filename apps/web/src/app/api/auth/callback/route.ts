@@ -7,7 +7,7 @@ import { differenceInSeconds } from "date-fns";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  // TODO: Add here arcjet rate limiting rule protection, e.g. 10 requests per minute
+  // TODO: Rate limit
 
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");

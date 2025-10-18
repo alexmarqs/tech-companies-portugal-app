@@ -4,7 +4,7 @@ import { emailService } from "@/lib/email";
 import { createClient } from "@/lib/supabase/server";
 
 export const sendContactMessageAction = async (formData: FormData) => {
-  // TODO: Add here arcjet rate limiting rule protection, e.g. 10 requests per minute
+  // TODO: Rate limit
 
   const supabase = await createClient();
 
