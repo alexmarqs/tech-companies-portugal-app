@@ -3,6 +3,7 @@
 import { sendContactMessageAction } from "@/actions/send-contact-message-action";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useGetUserProfile } from "@/hooks/users";
+import { useSession } from "@/lib/contexts/SessionContext";
 import { Loader2, Mail, Send } from "lucide-react";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -28,12 +29,13 @@ import {
 import { Textarea } from "./ui/textarea";
 
 export const ContactButton = () => {
+  const { isAuthenticated } = useSession();
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const pathLayout = useSelectedLayoutSegment();
   const isAllowedPage =
     pathLayout === "(companies-list)" || pathLayout === "settings";
 
-  if (!isAllowedPage) {
+  if (!isAllowedPage || !isAuthenticated) {
     return null;
   }
 
