@@ -16,7 +16,6 @@ export const FiltersButton = ({ setIsFilterOpen }: FiltersButtonProps) => {
         onClick={() => setIsFilterOpen(true)}
         className="px-3 inline-flex hover:cursor-pointer space-x-1"
         aria-label="Open filters"
-        size="sm"
       >
         <SlidersHorizontal className="shrink-0" size={16} aria-hidden="true" />
         {appliedFilters.length > 0 && (
