@@ -35,7 +35,7 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - [PostHog](https://posthog.com/) - Analytics (replaces [OpenPanel](https://openpanel.dev/) due to removal of free tier)
 - [Supabase](https://supabase.com/) - Auth, DB, MCP
 - [React Email](https://react.email/) - Email components
-- [Arcjet](https://arcjet.com/) - Rate limiting + other security features to prevent abuse.
+- [PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps) - Basic support for now. Future: use next-pwa to add more features.
 
 
 ## How to contribute 🤝

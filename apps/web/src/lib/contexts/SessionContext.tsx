@@ -27,6 +27,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // we could just get session here we want to listen for auth changes for automatically updating the session.
+
     // Listen for auth changes - this will fire INITIAL_SESSION immediately
     const {
       data: { subscription },
