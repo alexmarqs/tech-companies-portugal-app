@@ -34,14 +34,14 @@ export const BackButton = ({
 
   return (
     <Button
-      aria-label={label || "Back to Home"}
+      aria-label={label || "Back"}
       size="sm"
       onClick={handleClick}
       {...props}
       className={cn("flex items-center gap-2", props.className)}
     >
       <ArrowLeft aria-hidden="true" className="h-4 w-4 shrink-0" />
-      {label || "Back to Home"}
+      {label || "Back"}
     </Button>
   );
 };

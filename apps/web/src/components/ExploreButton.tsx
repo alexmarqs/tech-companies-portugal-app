@@ -15,5 +15,5 @@ export default function ExploreButton() {
     return null;
   }
 
-  return <BackButton label="Back to Companies" useBrowserHistory={true} />;
+  return <BackButton useBrowserHistory={true} />;
 }
