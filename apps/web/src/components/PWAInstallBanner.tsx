@@ -26,18 +26,8 @@ export const PWAInstallBanner = () => {
       return;
     }
 
-    // Check if already dismissed
-    // If dismissed in the last 7 days, don't show the prompt again
-    const dismissed = localStorage.getItem("pwa-prompt-dismissed");
-    try {
-      if (
-        dismissed &&
-        Date.now() - Number.parseInt(dismissed) < 1000 * 60 * 60 * 24 * 7
-      ) {
-        return;
-      }
-    } catch (error) {
-      console.error("Error parsing dismissed timestamp:", error);
+    if (isLocalStorageDismissedInLastDays(7)) {
+      return;
     }
 
     // Detect installed state (works across browsers including older iOS)
@@ -64,7 +54,7 @@ export const PWAInstallBanner = () => {
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
     // For iOS, show prompt after a short delay
-    let timerIOS: NodeJS.Timeout | undefined;
+    let timerIOS: ReturnType<typeof setTimeout> | undefined;
     if (isIOSDevice) {
       timerIOS = setTimeout(() => {
         setShowPrompt(true);
@@ -126,7 +116,7 @@ export const PWAInstallBanner = () => {
     });
 
     setShowPrompt(false);
-    localStorage.setItem("pwa-prompt-dismissed", Date.now().toString());
+    setLocalStorageDismissed();
   };
 
   if (!showPrompt) {
@@ -168,4 +158,30 @@ export const PWAInstallBanner = () => {
       </div>
     </div>
   );
+};
+
+const isLocalStorageDismissedInLastDays = (
+  days: number,
+  key = "pwa-prompt-dismissed",
+): boolean => {
+  const dismissed = localStorage.getItem(key);
+  try {
+    if (dismissed) {
+      const parsedTimestamp = Number.parseInt(dismissed, 10);
+      if (
+        !Number.isNaN(parsedTimestamp) &&
+        Date.now() - parsedTimestamp < 1000 * 60 * 60 * 24 * days
+      ) {
+        return true;
+      }
+    }
+  } catch (error) {
+    console.error("Error parsing dismissed timestamp:", error);
+  }
+
+  return false;
+};
+
+const setLocalStorageDismissed = (key = "pwa-prompt-dismissed") => {
+  localStorage.setItem(key, Date.now().toString());
 };
