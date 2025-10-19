@@ -31,7 +31,7 @@ export const CompaniesListHeader = ({
       <div className="h-8" />
       <Badge
         variant="outline"
-        className="rounded-none bg-white px-1 flex items-center justify-center h-8 whitespace-nowrap"
+        className="border-none rounded-none bg-white px-1 flex items-center justify-center h-8 whitespace-nowrap"
       >
         Page {currentPage} of {totalPages}
         <span className="hidden md:inline-block">

@@ -56,6 +56,7 @@ export default function FiltersPanelButton({
             <div className="flex justify-between items-center mb-6 w-full">
               <h2 className="font-mono text-2xl font-bold">Filters</h2>
               <Button
+                variant="secondary"
                 size="icon"
                 onClick={() => setIsFilterOpen(false)}
                 aria-label="Close filters"

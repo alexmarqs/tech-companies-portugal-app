@@ -55,7 +55,7 @@ export function UserMenu() {
   if (!isAuthenticated) {
     return (
       <>
-        <Button asChild>
+        <Button variant="secondary" size="sm" asChild>
           <Link
             onClick={() => trackEvent("login_button_clicked")}
             href="/login"
@@ -63,7 +63,7 @@ export function UserMenu() {
             Login
           </Link>
         </Button>
-        <Button asChild>
+        <Button size="sm" asChild>
           <a
             href="https://github.com/alexmarqs/tech-companies-portugal-app"
             target="_blank"

@@ -31,11 +31,29 @@ export const sendContactMessageAction = async (formData: FormData) => {
     throw new Error("Email configuration is missing");
   }
 
+  const firstPartEmail = user.email.split("@")[0];
+  const fullName = user.user_metadata?.full_name;
+
   await emailService.sendEmail({
-    body: `<p>Message from ${user.email}:</p><p>${message}</p>`,
     from: fromEmail,
     name: "Tech Companies Portugal",
-    subject: `Talk to us message from ${user.email}`,
+    subject: "New message received — Tech Companies Portugal",
+    body: `
+  <p>Hello 👋</p>
+  <p>You have received a new message through the <strong>Tech Companies Portugal</strong> website.</p>
+  
+  <p><strong>From:</strong> ${firstPartEmail}${fullName ? ` (${fullName})` : ""}</p>
+  
+  <p><strong>Message:</strong></p>
+  <blockquote style="border-left:3px solid #ccc;padding-left:8px;margin:10px 0;">
+    <p>${message}</p>
+  </blockquote>
+  
+  <hr>
+  <p style="font-size:12px;color:#666;">
+  Automated message from Tech Companies Portugal — ${new Date().toLocaleDateString()}.
+  </p>
+  `,
     to: toEmail,
   });
 

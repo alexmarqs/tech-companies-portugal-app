@@ -44,11 +44,7 @@ export const ContactButton = () => {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button
-            size="sm"
-            className="flex items-center gap-2"
-            variant="default"
-          >
+          <Button className="flex items-center gap-2" variant="default">
             <span>Talk to us</span>
             <MessageCircle size={16} />
           </Button>
