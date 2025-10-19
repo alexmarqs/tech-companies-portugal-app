@@ -25,8 +25,20 @@ export const BackButton = ({
   const router = useRouter();
 
   const handleClick = () => {
-    if (useBrowserHistory && window.history.length > 1) {
-      router.back();
+    if (useBrowserHistory) {
+      // Check if there's a referrer from the same origin
+      const hasInternalReferrer =
+        document.referrer &&
+        new URL(document.referrer).origin === window.location.origin;
+
+      // Check if we have meaningful history (more than just the current page)
+      const hasHistory = window.history.length > 1;
+
+      if (hasInternalReferrer && hasHistory) {
+        router.back();
+      } else {
+        router.push(href || "/");
+      }
     } else {
       router.push(href || "/");
     }
