@@ -2,10 +2,23 @@
 
 import { emailService } from "@/lib/email";
 import { createClient } from "@/lib/supabase/server";
+import arcjet, { request, slidingWindow } from "@arcjet/next";
+
+// Per user rate limiter: 3 requests per day per user.
+// This is to prevent abuse of the contact form.
+const rateLimiter = arcjet({
+  key: process.env.ARCJET_KEY!,
+  rules: [
+    slidingWindow({
+      mode: "LIVE", // will block requests. Use "DRY_RUN" to log only
+      characteristics: ["userId"],
+      interval: "24h", // 24 hour sliding window
+      max: 3, // allow a maximum of 3 requests per day per IP address
+    }),
+  ],
+});
 
 export const sendContactMessageAction = async (formData: FormData) => {
-  // TODO: Rate limit
-
   const supabase = await createClient();
 
   // Get the authenticated user's email from the server session
@@ -17,6 +30,12 @@ export const sendContactMessageAction = async (formData: FormData) => {
   if (error || !user?.email) {
     throw new Error("User not authenticated");
   }
+
+  const req = await request();
+  const decision = await rateLimiter.protect(req, { userId: user.id });
+
+  if (decision.isDenied())
+    throw new Error("Rate limit exceeded. Please try again later.");
 
   const message = formData.get("message")?.toString().trim();
 

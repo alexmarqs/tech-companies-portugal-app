@@ -29,12 +29,15 @@ export const PWAInstallBanner = () => {
     // Check if already dismissed
     // If dismissed in the last 7 days, don't show the prompt again
     const dismissed = localStorage.getItem("pwa-prompt-dismissed");
-    if (
-      dismissed &&
-      Number.isInteger(dismissed) &&
-      Date.now() - Number.parseInt(dismissed) < 1000 * 60 * 60 * 24 * 7
-    ) {
-      return;
+    try {
+      if (
+        dismissed &&
+        Date.now() - Number.parseInt(dismissed) < 1000 * 60 * 60 * 24 * 7
+      ) {
+        return;
+      }
+    } catch (error) {
+      console.error("Error parsing dismissed timestamp:", error);
     }
 
     // Detect installed state (works across browsers including older iOS)

@@ -17,6 +17,7 @@
     "email:dev": "email dev --port 3002 --dir src/emails/templates"
   },
   "dependencies": {
+    "@arcjet/next": "1.0.0-beta.13",
     "@hookform/resolvers": "5.2.1",
     "@plunk/node": "3.0.3",
     "@radix-ui/react-alert-dialog": "1.1.15",

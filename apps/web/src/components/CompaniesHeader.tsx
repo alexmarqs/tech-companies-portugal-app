@@ -2,6 +2,7 @@ export default function CompaniesHeader() {
   return (
     <section
       className="font-mono relative w-full overflow-hidden py-8 text-center"
+      data-testid="companies-header"
       aria-labelledby="companies-heading"
     >
       <div className="relative z-[5] px-4 max-w-3xl mx-auto flex flex-col items-center gap-8">
