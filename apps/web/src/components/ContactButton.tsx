@@ -80,7 +80,7 @@ export const ContactButton = () => {
               advertisers. Feel free to reach out to us.
             </DrawerDescription>
           </DrawerHeader>
-          <div className="p-4">
+          <div className="px-4">
             <ContactForm />
           </div>
         </div>
