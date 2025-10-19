@@ -43,6 +43,7 @@ export const sendContactMessageAction = async (formData: FormData) => {
     throw new Error("Message is required");
   }
 
+  const escapedMessage = escapeString(message);
   const fromEmail = process.env.CONTACT_FROM_EMAIL;
   const toEmail = process.env.CONTACT_TO_EMAIL;
 
@@ -51,7 +52,6 @@ export const sendContactMessageAction = async (formData: FormData) => {
   }
 
   const firstPartEmail = user.email.split("@")[0];
-  const fullName = user.user_metadata?.full_name;
 
   await emailService.sendEmail({
     from: fromEmail,
@@ -61,11 +61,11 @@ export const sendContactMessageAction = async (formData: FormData) => {
   <p>Hello 👋</p>
   <p>You have received a new message through the <strong>Tech Companies Portugal</strong> website.</p>
   
-  <p><strong>From:</strong> ${firstPartEmail}${fullName ? ` (${fullName})` : ""}</p>
+  <p><strong>From:</strong> ${firstPartEmail}</p>
   
   <p><strong>Message:</strong></p>
   <blockquote style="border-left:3px solid #ccc;padding-left:8px;margin:10px 0;">
-    <p>${message}</p>
+    <p>${escapedMessage}</p>
   </blockquote>
   
   <hr>
@@ -77,4 +77,14 @@ export const sendContactMessageAction = async (formData: FormData) => {
   });
 
   return { success: true };
+};
+
+// Escape a string to prevent XSS attacks
+const escapeString = (str: string) => {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 };

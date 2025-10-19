@@ -164,8 +164,8 @@ const isLocalStorageDismissedInLastDays = (
   days: number,
   key = "pwa-prompt-dismissed",
 ): boolean => {
-  const dismissed = localStorage.getItem(key);
   try {
+    const dismissed = localStorage.getItem(key);
     if (dismissed) {
       const parsedTimestamp = Number.parseInt(dismissed, 10);
       if (
@@ -183,5 +183,9 @@ const isLocalStorageDismissedInLastDays = (
 };
 
 const setLocalStorageDismissed = (key = "pwa-prompt-dismissed") => {
-  localStorage.setItem(key, Date.now().toString());
+  try {
+    localStorage.setItem(key, Date.now().toString());
+  } catch (error) {
+    console.error("Error setting dismissed timestamp:", error);
+  }
 };
