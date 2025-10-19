@@ -27,8 +27,13 @@ export const PWAInstallBanner = () => {
     }
 
     // Check if already dismissed
+    // If dismissed in the last 7 days, don't show the prompt again
     const dismissed = localStorage.getItem("pwa-prompt-dismissed");
-    if (dismissed === "true") {
+    if (
+      dismissed &&
+      Number.isInteger(dismissed) &&
+      Date.now() - Number.parseInt(dismissed) < 1000 * 60 * 60 * 24 * 7
+    ) {
       return;
     }
 
@@ -110,7 +115,7 @@ export const PWAInstallBanner = () => {
     });
 
     setShowPrompt(false);
-    localStorage.setItem("pwa-prompt-dismissed", "true");
+    localStorage.setItem("pwa-prompt-dismissed", Date.now().toString());
   };
 
   if (!showPrompt) {
