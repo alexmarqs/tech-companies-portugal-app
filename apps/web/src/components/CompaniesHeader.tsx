@@ -5,7 +5,7 @@ export default function CompaniesHeader() {
       data-testid="companies-header"
       aria-labelledby="companies-heading"
     >
-      <div className="relative z-[5] px-4 max-w-3xl mx-auto flex flex-col items-center gap-8">
+      <div className="relative z-[5] px-4 max-w-3xl mx-auto flex flex-col items-center gap-6">
         <div className="flex flex-col gap-4">
           <h1
             id="companies-heading"
@@ -16,12 +16,11 @@ export default function CompaniesHeader() {
               in Portugal
             </span>
           </h1>
-
-          <p className="text-md text-gray-600 max-w-2xl mx-auto font-semibold">
-            Discover the best tech companies hiring in Portugal — from startups
-            to established enterprises — all in one place.
-          </p>
         </div>
+        <p className="bg-white/50 p-2 rounded-md text-md text-gray-600 max-w-2xl mx-auto font-semibold leading-relaxed">
+          Discover the best tech companies hiring in Portugal — from startups to
+          established enterprises — all in one place
+        </p>
       </div>
     </section>
   );
