@@ -28,6 +28,7 @@ dist
 # vercel
 .vercel
 .env.vercel
+.env
 
 # typescript
 *.tsbuildinfo
@@ -42,5 +43,7 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-.cursor/mcp.json
-
+# ai coding agents
+.cursor
+CLAUDE.md
+AGENTS.md

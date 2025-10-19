@@ -6,10 +6,19 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 
 ## Monorepo structure 📦
 
-- `apps/web`: The main web app
-- `packages/analytics`: Analytics utils
-- `tooling/typescript`: TypeScript configuration
-- `tooling/tailwind`: Tailwind configuration
+```
+tech-companies-portugal-app/
+├── apps/
+│   ├── web/
+│   └── ...
+├── packages/
+│   ├── analytics/
+│   └── ...
+├── tooling/
+│   ├── typescript/
+│   └── tailwind/
+│   └── ...
+```
 
 ## Features 🚀
 
@@ -29,9 +38,16 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - [Biome](https://biomejs.dev/) - Formatting and linting
 - [Motion](https://motion.dev/) - Animation library
 - [Nuqs](https://nuqs.47ng.com) - URL query state management (client and server support + some other cool features out of the box)
+- [Plunk](https://useplunk.com/) - Email service
 - [Turbo](https://turbo.build/) - Monorepo build system
 - [Vercel](https://vercel.com/) - Hosting and CI/CD
-- [PostHog](https://posthog.com/) - Analytics (replaces [OpenPanel](https://openpanel.dev/) due to removal of free tier)
+- [PostHog](https://posthog.com/) - Analytics. Coming next, usage of MCP for automatic analytics dashboard
+- [Supabase](https://supabase.com/) - Auth, DB, MCP
+- [React Email](https://react.email/) - Email components
+- [PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps) - Basic support for PWA. Coming next, usage of [next-pwa](https://github.com/shadowwalker/next-pwa) to add more features
+- [LLMs.txt](https://llmstxt.org/) - Support for the proposed standard that acts as a guide for large language models (LLMs)
+- [Arcjet](https://arcjet.com/) - Rate limiting
+
 
 ## How to contribute 🤝
 

@@ -1,28 +1,22 @@
 import type { Company } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { formatDistanceToNow } from "date-fns";
 import {
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  Clock,
 } from "lucide-react";
-import { useSearchQueryParams } from "./hooks/useSearchQueryParams";
+import { useSearchQueryParams } from "../hooks/useSearchQueryParams";
 import { Badge } from "./ui/badge";
 
 type CompaniesListHeaderProps = {
-  updatedAtISODate: string;
   totalPages: number;
   filteredCompanies: Company[];
-  hideUpdatedAt?: boolean;
 };
 
 export const CompaniesListHeader = ({
-  updatedAtISODate,
   totalPages,
   filteredCompanies,
-  hideUpdatedAt,
 }: CompaniesListHeaderProps) => {
   const {
     setSearchParams,
@@ -34,20 +28,10 @@ export const CompaniesListHeader = ({
 
   return (
     <>
-      {!hideUpdatedAt ? (
-        <Badge
-          variant="outline"
-          className="rounded-none bg-white px-1 gap-1 h-8 whitespace-nowrap"
-        >
-          <Clock size={14} />
-          {formatDistanceToNow(new Date(updatedAtISODate))} ago
-        </Badge>
-      ) : (
-        <div className="h-8" />
-      )}
+      <div className="h-8" />
       <Badge
         variant="outline"
-        className="rounded-none bg-white px-1 flex items-center justify-center h-8 whitespace-nowrap"
+        className="border-none rounded-none bg-white px-1 flex items-center justify-center h-8 whitespace-nowrap"
       >
         Page {currentPage} of {totalPages}
         <span className="hidden md:inline-block">
@@ -60,10 +44,20 @@ export const CompaniesListHeader = ({
               "hover:text-foreground flex items-center justify-center hover:cursor-pointer",
               isPreviousDisabled && "pointer-events-none text-muted-foreground",
             )}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setSearchParams({ page: 1 });
+              }
+            }}
           >
             <ChevronsLeft className="inline" size={18} />
           </div>
           <div
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setSearchParams({ page: currentPage - 1 });
+              }
+            }}
             onClick={() => setSearchParams({ page: currentPage - 1 })}
             className={cn(
               "hover:text-foreground flex items-center justify-center hover:cursor-pointer",
@@ -73,6 +67,11 @@ export const CompaniesListHeader = ({
             <ChevronLeft className="inline" size={18} />
           </div>
           <div
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setSearchParams({ page: currentPage + 1 });
+              }
+            }}
             onClick={() => setSearchParams({ page: currentPage + 1 })}
             className={cn(
               "hover:text-foreground flex items-center justify-center hover:cursor-pointer",
@@ -82,6 +81,11 @@ export const CompaniesListHeader = ({
             <ChevronRight className="inline" size={18} />
           </div>
           <div
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setSearchParams({ page: totalPages });
+              }
+            }}
             onClick={() => setSearchParams({ page: totalPages })}
             className={cn(
               "hover:text-foreground flex items-center justify-center hover:cursor-pointer",

@@ -5,7 +5,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-import { useSearchQueryParams } from "./hooks/useSearchQueryParams";
+import { useSearchQueryParams } from "../hooks/useSearchQueryParams";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 
@@ -30,7 +30,10 @@ export default function CompaniesListFooter({
       data-testid="companies-list-footer"
     >
       <div className="flex basis-1/2 justify-end text-sm text-muted-foreground h-8">
-        <Badge variant="outline" className="rounded-none bg-white px-1 gap-1">
+        <Badge
+          variant="outline"
+          className="rounded-none bg-white px-1 gap-1 border-none"
+        >
           Page {currentPage} of {totalPages}
         </Badge>
       </div>
@@ -38,7 +41,7 @@ export default function CompaniesListFooter({
         <Button
           className={cn(
             isPreviousDisabled && "pointer-events-none text-muted-foreground",
-            "!px-2 h-8",
+            "!px-2 h-8 border-none",
           )}
           variant="outline"
           size="sm"
@@ -49,7 +52,7 @@ export default function CompaniesListFooter({
         <Button
           className={cn(
             isPreviousDisabled && "pointer-events-none text-muted-foreground",
-            "!px-2 h-8",
+            "!px-2 h-8 border-none",
           )}
           variant="outline"
           size="sm"
@@ -62,7 +65,7 @@ export default function CompaniesListFooter({
           size="sm"
           className={cn(
             isNextDisabled && "pointer-events-none text-muted-foreground",
-            "!px-2 h-8",
+            "!px-2 h-8 border-none",
           )}
           onClick={() => setSearchParams({ page: currentPage + 1 })}
         >
@@ -73,7 +76,7 @@ export default function CompaniesListFooter({
           size="sm"
           className={cn(
             isNextDisabled && "pointer-events-none text-muted-foreground",
-            "!px-2 h-8",
+            "!px-2 h-8 border-none",
           )}
           onClick={() => setSearchParams({ page: totalPages })}
         >

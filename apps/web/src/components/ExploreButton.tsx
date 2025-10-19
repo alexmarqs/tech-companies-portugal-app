@@ -1,29 +1,19 @@
 "use client";
-
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
-import { Button } from "./ui/button";
+import { BackButton } from "./BackButton";
 
+/**
+ * Shows a back button on company detail pages, category pages, and location pages.
+ * Uses browser history to navigate back to the previous page.
+ */
 export default function ExploreButton() {
   const segment = useSelectedLayoutSegment();
-  const isCompanyPage =
+  const isDetailPage =
     segment === "company" || segment === "location" || segment === "category";
 
-  if (!isCompanyPage) {
+  if (!isDetailPage) {
     return null;
   }
 
-  return (
-    <Button
-      asChild
-      className="px-3"
-      aria-label="Navigate back to companies list"
-    >
-      <Link href="/">
-        <ArrowLeft className="mr-2 shrink-0" aria-hidden="true" size={16} />
-        Back to all companies
-      </Link>
-    </Button>
-  );
+  return <BackButton label="Back to Companies" useBrowserHistory={true} />;
 }

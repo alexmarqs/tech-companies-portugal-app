@@ -12,7 +12,7 @@ export async function loadGoogleFont(font: string, text: string) {
 
   if (resource?.[1]) {
     const response = await fetch(resource[1]);
-    if (response.status == 200) {
+    if (response.status === 200) {
       return await response.arrayBuffer();
     }
   }

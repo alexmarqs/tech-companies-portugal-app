@@ -14,32 +14,29 @@ import {
   SelectValue,
 } from "./ui/select";
 
-import { useSearchQueryParams } from "./hooks/useSearchQueryParams";
+import { useSearchQueryParams } from "../hooks/useSearchQueryParams";
 import { Badge } from "./ui/badge";
 
 type SearchSideBarProps = {
   locationOptions: string[];
   categoryOptions: string[];
-  extendedUI?: () => React.ReactNode;
-  onReset?: () => void;
+  extendedUIAction?: () => React.ReactNode;
+  onResetAction?: () => void;
   showCountBadge?: boolean;
 };
 
 export function SearchSideBar({
   locationOptions,
   categoryOptions,
-  extendedUI,
-  onReset,
+  extendedUIAction,
+  onResetAction,
   showCountBadge = true,
 }: SearchSideBarProps) {
   const { setSearchParams, searchParams, appliedFilters } =
     useSearchQueryParams();
 
   return (
-    <div
-      className="w-full flex flex-col h-full gap-4 justify-between"
-      role="search"
-    >
+    <div className="w-full flex flex-col h-full gap-4 justify-between">
       <RetroContainer
         variant="static"
         className="shrink-0 md:w-[290px] md:mx-auto relative"
@@ -65,7 +62,7 @@ export function SearchSideBar({
             <legend className="sr-only">Search Filters</legend>
             <div className="space-y-4">
               <div className="flex flex-col gap-2">
-                <Label htmlFor="query">Search term</Label>
+                <Label htmlFor="query">Search Company</Label>
                 <Input
                   id="query"
                   name="query"
@@ -132,14 +129,14 @@ export function SearchSideBar({
                 className="h-9 w-full px-2"
                 onClick={() => {
                   setSearchParams(null);
-                  onReset?.();
+                  onResetAction?.();
                 }}
                 aria-label="Reset filters"
               >
                 <X className="mr-[2px] h-4 w-4" aria-hidden="true" />
                 Reset filters
               </Button>
-              {extendedUI && extendedUI()}
+              {extendedUIAction?.()}
             </div>
           </fieldset>
         </form>

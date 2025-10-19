@@ -57,7 +57,7 @@ export const Locations = ({ locations }: { locations: string[] }) => {
       <MapPin className="shrink-0" size={16} />
       {locations.map((location, index) => {
         return (
-          <React.Fragment key={index}>
+          <React.Fragment key={location}>
             <p className="text-nowrap">{location}</p>
             {index !== locations.length - 1 && (
               <span className="text-muted-foreground">•</span>
@@ -78,9 +78,9 @@ export const Categories = ({
 
   return (
     <div className="flex flex-wrap items-center justify-center gap-1">
-      {categoriesArray.map((category, index) => (
+      {categoriesArray.map((category) => (
         <Badge
-          key={index}
+          key={category}
           variant="secondary"
           className="rounded-none text-xs font-semibold tracking-wider"
         >

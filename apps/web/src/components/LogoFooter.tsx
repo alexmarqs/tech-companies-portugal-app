@@ -14,7 +14,11 @@ export const LogoFooter = () => {
         />
         <span className="text-xs font-semibold">techcompaniesportugal.fyi</span>
       </div>
-      <a href="https://techcompaniesportugal.openstatus.dev" target="_blank">
+      <a
+        href="https://techcompaniesportugal.openstatus.dev"
+        target="_blank"
+        rel="noreferrer"
+      >
         <img
           className="h-5"
           src="https://openstatus.dev/status-page/techcompaniesportugal/badge?size=sm&theme=light"

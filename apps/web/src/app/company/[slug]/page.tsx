@@ -30,7 +30,7 @@ export async function generateMetadata({
   params,
 }: {
   params: NextParams<{ slug: string }>;
-}): Promise<Metadata | void> {
+}): Promise<Metadata | undefined> {
   const { slug } = await params;
 
   const company = await getParsedCompanyBySlug(slug);
@@ -124,7 +124,6 @@ export default async function CompanyPage({
     </div>
   );
 }
-
 const LinkUrlButton = ({
   url,
   icon,
@@ -144,7 +143,7 @@ const LinkUrlButton = ({
       className="h-8 px-2 text-xs text-foreground"
       asChild
     >
-      <a href={url} target="_blank" rel="noopener">
+      <a href={url} target="_blank" rel="noreferrer noopener">
         <div className="flex items-center gap-1">
           {icon}
           {label}

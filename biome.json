@@ -36,14 +36,17 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": false,
+      "recommended": true,
       "suspicious": {},
       "style": {
         "useBlockStatements": "off",
-        "useImportType": "error"
+        "useImportType": "error",
+        "noNonNullAssertion": "off"
       },
       "correctness": {
-        "useExhaustiveDependencies": "error"
+        "noUnusedImports": "warn",
+        "useExhaustiveDependencies": "error",
+        "useHookAtTopLevel": "error"
       }
     }
   },

@@ -12,6 +12,11 @@ import { cn } from "@/lib/utils";
 import type { Metadata, Viewport } from "next/types";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
+
+import CustomQueryClientProvider from "@/components/CustomQueryClientProvider";
+import { PWAInstallBanner } from "@/components/PWAInstallBanner";
+import { Toaster } from "@/components/ui/sonner";
+import { SessionProvider } from "@/lib/contexts/SessionContext";
 import { AnalyticsProvider } from "@tech-companies-portugal/analytics/client";
 
 export const metadata: Metadata = {
@@ -25,6 +30,14 @@ export const metadata: Metadata = {
   verification: {
     ...verificationMetadata,
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Tech Companies PT",
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+  },
 };
 
 export const viewport: Viewport = {
@@ -32,6 +45,7 @@ export const viewport: Viewport = {
   userScalable: false,
   initialScale: 1,
   maximumScale: 1,
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({ children }: LayoutProps) {
@@ -44,17 +58,23 @@ export default function RootLayout({ children }: LayoutProps) {
           GeistMono.variable,
         )}
       >
-        <AnalyticsProvider>
-          <NuqsAdapter>
-            <Navbar />
-            {children}
-            <DotPattern
-              className={cn(
-                "[mask-image:radial-gradient(620px_circle_at_center,white,transparent)] fixed inset-0 -z-10",
-              )}
-            />
-          </NuqsAdapter>
-        </AnalyticsProvider>
+        <CustomQueryClientProvider>
+          <SessionProvider>
+            <AnalyticsProvider>
+              <NuqsAdapter>
+                <Navbar />
+                {children}
+                <DotPattern
+                  className={cn(
+                    "[mask-image:radial-gradient(620px_circle_at_center,white,transparent)] fixed inset-0 -z-10",
+                  )}
+                />
+                <PWAInstallBanner />
+              </NuqsAdapter>
+            </AnalyticsProvider>
+          </SessionProvider>
+        </CustomQueryClientProvider>
+        <Toaster />
       </body>
     </html>
   );

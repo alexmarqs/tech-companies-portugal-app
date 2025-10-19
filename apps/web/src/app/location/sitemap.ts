@@ -6,7 +6,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { availableLocations, updatedAtISODate } =
     await getParsedCompaniesData();
 
-  let locationsRoutes = availableLocations.map((location) => ({
+  const locationsRoutes = availableLocations.map((location) => ({
     url: `${APP_URL}/location/${location}`,
     lastModified: updatedAtISODate,
   }));
