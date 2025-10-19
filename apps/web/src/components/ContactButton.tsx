@@ -130,7 +130,7 @@ const ContactForm = () => {
             console.error(error);
             toast.error("Failed to send message. Try again later.");
           } finally {
-            setTimeout(() => setSubmitted(false), 3000);
+            setTimeout(() => setSubmitted(false), 2500);
           }
         });
       }}

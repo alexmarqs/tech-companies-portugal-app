@@ -1,5 +1,8 @@
 import type { MetadataRoute } from "next";
 
+// special Next.js route that will generate and cached (by the default)
+// this will link to the /manifest.json file, header is automatically set
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Tech Companies Portugal",
@@ -9,7 +12,7 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     scope: "/",
     display: "standalone",
-    orientation: "portrait-primary",
+    orientation: "portrait-primary", // evaluate change to "any"?
     background_color: "#ffffff",
     theme_color: "#ffffff",
     categories: ["business", "technology"],
@@ -30,7 +33,7 @@ export default function manifest(): MetadataRoute.Manifest {
         src: "/assets/images/logo.png",
         sizes: "512x512",
         type: "image/png",
-        purpose: "maskable",
+        purpose: "any",
       },
     ],
   };

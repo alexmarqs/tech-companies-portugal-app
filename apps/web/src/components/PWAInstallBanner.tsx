@@ -37,15 +37,17 @@ export const PWAInstallBanner = () => {
       return;
     }
 
-    // Check if already installed
-    if (window.matchMedia("(display-mode: standalone)").matches) {
+    // Detect installed state (works across browsers including older iOS)
+    const nav = navigator as Navigator & { standalone?: boolean };
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (typeof nav.standalone !== "undefined" && nav.standalone === true);
+    if (isStandalone) {
       return;
     }
 
-    // Check if running on iOS
-    const isIOSDevice =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) &&
-      !("standalone" in navigator);
+    // Detect iOS device (Safari/Chrome on iOS both match UA)
+    const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
     setIsIOS(isIOSDevice);
 
@@ -59,14 +61,14 @@ export const PWAInstallBanner = () => {
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
     // For iOS, show prompt after a short delay
+    let timerIOS: NodeJS.Timeout | undefined;
     if (isIOSDevice) {
-      const timer = setTimeout(() => {
+      timerIOS = setTimeout(() => {
         setShowPrompt(true);
       }, 2000);
-      return () => clearTimeout(timer);
     }
 
-    // Hide prompt after app is installed
+    // Hide prompt after app is installed (non-iOS only)
     const handleAppInstalled = () => {
       trackEvent("pwa_installed", {
         method: "native_prompt",
@@ -75,9 +77,15 @@ export const PWAInstallBanner = () => {
       setDeferredPrompt(null);
     };
 
-    window.addEventListener("appinstalled", handleAppInstalled);
+    if (!isIOSDevice) {
+      window.addEventListener("appinstalled", handleAppInstalled);
+    }
 
+    // Unified cleanup - always removes listeners and conditionally clears timer
     return () => {
+      if (timerIOS) {
+        clearTimeout(timerIOS);
+      }
       window.removeEventListener(
         "beforeinstallprompt",
         handleBeforeInstallPrompt,
@@ -123,7 +131,7 @@ export const PWAInstallBanner = () => {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 min-w-[400px] md:bottom-2 md:right-2 md:left-auto">
+    <div className="fixed bottom-0 left-0 right-0 z-50 md:bottom-2 md:right-2 md:left-auto">
       <div className="relative flex flex-col gap-3 rounded-lg border bg-card p-4 shadow-lg">
         <button
           type="button"
