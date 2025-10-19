@@ -6,10 +6,20 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 
 ## Monorepo structure 📦
 
-- `apps/web`: The main web app
-- `packages/analytics`: Analytics utils
-- `tooling/typescript`: TypeScript configuration
-- `tooling/tailwind`: Tailwind configuration
+Here is the monorepo structure:
+```
+tech-companies-portugal-app/
+├── apps/
+│   ├── web/
+│   └── ...
+├── packages/
+│   ├── analytics/
+│   └── ...
+├── tooling/
+│   ├── typescript/
+│   └── tailwind/
+│   └── ...
+```
 
 ## Features 🚀
 
