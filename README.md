@@ -6,7 +6,6 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 
 ## Monorepo structure 📦
 
-Here is the monorepo structure:
 ```
 tech-companies-portugal-app/
 ├── apps/
