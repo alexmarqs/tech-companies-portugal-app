@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import logo from "../../public/assets/images/logo.png";
-import ExploreButton from "./ExploreButton";
 import FiltersPanelButton from "./FiltersPanelButton";
 
 import { ContactButton } from "./ContactButton";
@@ -48,7 +47,6 @@ export default function Navbar() {
               companiesCategoriesAndLocationsPromise={getParsedCompaniesCategoriesAndLocations()}
             />
           </Suspense>
-          <ExploreButton />
           <ContactButton />
           <UserMenu />
         </nav>

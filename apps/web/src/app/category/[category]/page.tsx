@@ -75,11 +75,13 @@ export default async function CategoryPage({
 
   return (
     <section className="mx-auto flex w-full max-w-5xl p-3 relative flex-1">
-      <div className="flex flex-col w-full gap-4">
+      <div className="flex flex-col w-full">
         <h1 className="text-2xl font-bold">Tech Companies | {category} </h1>
-        <Suspense fallback={<CompaniesListSkeleton />}>
-          <CompaniesList allCompanies={filteredCompanies} isDedicatedPage />
-        </Suspense>
+        <div className="flex flex-col w-full gap-4">
+          <Suspense fallback={<CompaniesListSkeleton />}>
+            <CompaniesList allCompanies={filteredCompanies} isDedicatedPage />
+          </Suspense>
+        </div>
       </div>
     </section>
   );

@@ -4,7 +4,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { SettingsTab } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { trackEvent } from "@tech-companies-portugal/analytics/client";
-import { BackButton } from "../BackButton";
 import { Title } from "../Title";
 import { Badge } from "../ui/badge";
 import { AccountSettings } from "./account/AccountSettings";
@@ -30,11 +29,6 @@ export const Settings = () => {
   return (
     <div className="container mx-auto max-w-2xl p-6">
       <div className="mb-6">
-        <BackButton
-          className="mb-4"
-          label="Back to Home"
-          useBrowserHistory={true}
-        />
         <Title title="Settings" description="Manage your account settings." />
       </div>
 

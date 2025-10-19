@@ -1,5 +1,4 @@
 import { GithubLogin } from "@/components/GithubLogin";
-import { GoHomeLoginButton } from "@/components/GoHomeLoginButton";
 import { GoogleLogin } from "@/components/GoogleLogin";
 import { RetroContainer } from "@/components/ui/retro-container";
 import {
@@ -10,7 +9,6 @@ import {
 } from "@/lib/metadata";
 import Image from "next/image";
 import type { Metadata } from "next/types";
-import { Suspense } from "react";
 import logo from "../../../public/assets/images/logo.png";
 
 const title = "Login | Tech Companies Portugal";
@@ -46,9 +44,6 @@ export default function LoginPage() {
   return (
     <div className="bg-transparent flex-1 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-6">
-        <Suspense fallback={null}>
-          <GoHomeLoginButton />
-        </Suspense>
         <RetroContainer className="p-6">
           <div className="space-y-4">
             <div className="flex items-center justify-center">
