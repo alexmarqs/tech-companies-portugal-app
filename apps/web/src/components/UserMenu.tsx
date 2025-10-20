@@ -35,7 +35,9 @@ export function UserMenu() {
   const handleLogout = async () => {
     try {
       setIsSigningOut(true);
-      await supabase.auth.signOut();
+      await supabase.auth.signOut({
+        scope: "local",
+      });
       queryClient.clear();
       router.replace("/login?from=logout");
       // or clear the query client + router.refresh() or just window.location.reload();

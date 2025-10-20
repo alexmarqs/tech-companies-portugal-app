@@ -21,18 +21,17 @@ const rateLimiter = arcjet({
 export const sendContactMessageAction = async (formData: FormData) => {
   const supabase = await createClient();
 
-  // Get the authenticated user's email from the server session
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
+  // Get the authenticated user's claims from the JWT token
+  // not using getUser to keep the session alive until the session is valid, not going to server
+  const { data } = await supabase.auth.getClaims();
+  const user = data?.claims;
 
-  if (error || !user?.email) {
+  if (!user || !user.email) {
     throw new Error("User not authenticated");
   }
 
   const req = await request();
-  const decision = await rateLimiter.protect(req, { userId: user.id });
+  const decision = await rateLimiter.protect(req, { userId: user.sub });
 
   if (decision.isDenied())
     throw new Error("Rate limit exceeded. Please try again later.");
