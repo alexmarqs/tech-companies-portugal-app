@@ -8,7 +8,19 @@
     },
     "build": {
       "dependsOn": ["^build"],
-      "env": [],
+      "env": [
+        "NEXT_PUBLIC_SUPABASE_URL",
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+        "SUPABASE_URL",
+        "SUPABASE_ACCESS_TOKEN",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "NEXT_PUBLIC_POSTHOG_KEY",
+        "NEXT_PUBLIC_POSTHOG_HOST",
+        "PLUNK_API_KEY",
+        "CONTACT_FROM_EMAIL",
+        "CONTACT_TO_EMAIL",
+        "ARCJET_KEY"
+      ],
       "inputs": ["$TURBO_DEFAULT$", ".env*", "!tests/**"],
       "outputs": [
         ".next/**",
