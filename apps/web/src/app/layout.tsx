@@ -34,6 +34,7 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: "default",
     title: "Tech Companies PT",
+    startupImage: "/assets/images/logo.png",
   },
   other: {
     "mobile-web-app-capable": "yes",
