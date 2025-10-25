@@ -34,7 +34,32 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: "default",
     title: "Tech Companies PT",
-    startupImage: "/assets/images/logo.png",
+    startupImage: [
+      // Modern iPhone (13, 14, 15 standard models) - Portrait
+      {
+        url: "/assets/images/splash/apple-splash-1170-2532.jpg",
+        media:
+          "(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)",
+      },
+      // Modern iPhone - Landscape
+      {
+        url: "/assets/images/splash/apple-splash-2532-1170.jpg",
+        media:
+          "(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)",
+      },
+      // iPad - Portrait
+      {
+        url: "/assets/images/splash/apple-splash-1668-2388.jpg",
+        media:
+          "(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)",
+      },
+      // iPad - Landscape
+      {
+        url: "/assets/images/splash/apple-splash-2388-1668.jpg",
+        media:
+          "(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)",
+      },
+    ],
   },
   other: {
     "mobile-web-app-capable": "yes",
