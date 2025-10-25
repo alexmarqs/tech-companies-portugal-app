@@ -125,7 +125,7 @@ export const PWAInstallBanner = () => {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 md:bottom-2 md:right-2 md:left-auto">
-      <div className="relative flex flex-col gap-3 rounded-lg border bg-card p-4 shadow-lg">
+      <div className="relative flex flex-col gap-3 rounded-lg bg-orange-100 p-4 shadow-lg border-orange-200 border-2">
         <button
           type="button"
           onClick={handleDismiss}
@@ -136,11 +136,18 @@ export const PWAInstallBanner = () => {
         </button>
 
         <div className="pr-8 sm:pr-0">
-          <h3 className="text-sm font-semibold">Install App</h3>
+          <h3 className="text-sm font-semibold">
+            {!isIOS ? "Install App" : "How to install the app?"}
+          </h3>
           <p className="mt-1 text-xs text-muted-foreground">
-            {isIOS
-              ? "Tap the Share button and select 'Add to Home Screen'"
-              : "Install Tech Companies Portugal for quick access"}
+            {isIOS ? (
+              <>
+                Tap the <strong>Share</strong> button and select{" "}
+                <strong>Add to Home Screen</strong>
+              </>
+            ) : (
+              "Install Tech Companies Portugal for quick access"
+            )}
           </p>
         </div>
 
@@ -150,6 +157,7 @@ export const PWAInstallBanner = () => {
             size="sm"
             className="shrink-0 w-full"
             aria-label="Install app"
+            variant="secondary"
           >
             <Download className="mr-2 h-4 w-4" />
             Install
