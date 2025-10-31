@@ -43,7 +43,7 @@ export const metadata: Metadata = {
 export default function LoginPage() {
   return (
     <div className="bg-transparent flex-1 flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
+      <div className="w-full max-w-md space-y-4">
         <RetroContainer className="p-6">
           <div className="space-y-4">
             <div className="flex items-center justify-center">
@@ -67,6 +67,10 @@ export default function LoginPage() {
             </div>
           </div>
         </RetroContainer>
+        <p className="text-[11px] text-muted-foreground text-center px-4 bg-white">
+          By signing up, you agree to receive news and updates from Tech
+          Companies Portugal. You can unsubscribe at any time.
+        </p>
       </div>
     </div>
   );

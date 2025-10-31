@@ -62,7 +62,7 @@ export function UserMenu() {
             onClick={() => trackEvent("login_button_clicked")}
             href="/login"
           >
-            Login
+            Sign in
           </Link>
         </Button>
         <Button size="sm" asChild>

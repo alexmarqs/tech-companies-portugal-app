@@ -1,13 +1,58 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[];
+
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)";
   };
   public: {
     Tables: {
+      notification_settings: {
+        Row: {
+          channel: string;
+          created_at: string;
+          enabled: boolean;
+          id: string;
+          type: string;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          channel: string;
+          created_at?: string;
+          enabled?: boolean;
+          id?: string;
+          type: string;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          channel?: string;
+          created_at?: string;
+          enabled?: boolean;
+          id?: string;
+          type?: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "notification_settings_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       users: {
-        // the data expected from .select()
         Row: {
           avatar_url: string | null;
           created_at: string;
@@ -16,7 +61,6 @@ export type Database = {
           id: string;
           updated_at: string;
         };
-        // the data expected from .insert()
         Insert: {
           avatar_url?: string | null;
           created_at?: string;
@@ -25,7 +69,6 @@ export type Database = {
           id: string;
           updated_at?: string;
         };
-        // the data expected from .update()
         Update: {
           avatar_url?: string | null;
           created_at?: string;
