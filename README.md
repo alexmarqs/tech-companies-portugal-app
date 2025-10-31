@@ -29,7 +29,7 @@ tech-companies-portugal-app/
 
 ## Tech stack 🧑‍💻
 
-- [Next.js 15](https://nextjs.org/) - React framework
+- [Next.js 16](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - [TypeScript](https://www.typescriptlang.org/)
 - [Shadcn UI](https://ui.shadcn.com) - UI components
