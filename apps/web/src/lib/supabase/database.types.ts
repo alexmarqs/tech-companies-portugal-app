@@ -16,29 +16,29 @@ export type Database = {
     Tables: {
       notification_settings: {
         Row: {
-          channel: string;
+          channel: Database["public"]["Enums"]["notification_channel"];
           created_at: string;
           enabled: boolean;
           id: string;
-          type: string;
+          type: Database["public"]["Enums"]["notification_type"];
           updated_at: string;
           user_id: string;
         };
         Insert: {
-          channel: string;
+          channel: Database["public"]["Enums"]["notification_channel"];
           created_at?: string;
           enabled?: boolean;
           id?: string;
-          type: string;
+          type: Database["public"]["Enums"]["notification_type"];
           updated_at?: string;
           user_id: string;
         };
         Update: {
-          channel?: string;
+          channel?: Database["public"]["Enums"]["notification_channel"];
           created_at?: string;
           enabled?: boolean;
           id?: string;
-          type?: string;
+          type?: Database["public"]["Enums"]["notification_type"];
           updated_at?: string;
           user_id?: string;
         };
@@ -87,7 +87,8 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
-      [_ in never]: never;
+      notification_channel: "email" | "push";
+      notification_type: "new_companies";
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -217,6 +218,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      notification_channel: ["email", "push"],
+      notification_type: ["new_companies"],
+    },
   },
 } as const;

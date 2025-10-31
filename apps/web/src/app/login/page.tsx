@@ -68,7 +68,7 @@ export default function LoginPage() {
           </div>
         </RetroContainer>
         <p className="text-[11px] text-muted-foreground text-center px-4 bg-white">
-          By signing up, you agree to receive news and updates from Tech
+          By signing in, you agree to receive news and updates from Tech
           Companies Portugal. You can unsubscribe at any time.
         </p>
       </div>
