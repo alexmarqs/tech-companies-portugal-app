@@ -5,10 +5,10 @@ import type { SettingsTab } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { trackEvent } from "@tech-companies-portugal/analytics/client";
 import { Title } from "../Title";
-import { Badge } from "../ui/badge";
 import { AccountSettings } from "./account/AccountSettings";
+import { NotificationSettings } from "./notification/NotificationSettings";
 
-const TABS = [
+const TABS: SettingsTab[] = [
   {
     id: "account",
     title: "Account",
@@ -16,14 +16,8 @@ const TABS = [
   {
     id: "notifications",
     title: "Notifications",
-    disabled: true,
-    badge: (
-      <Badge className="rounded-none" variant="default">
-        Coming soon
-      </Badge>
-    ),
   },
-] satisfies SettingsTab[];
+];
 
 export const Settings = () => {
   return (
@@ -56,7 +50,7 @@ export const Settings = () => {
           className="p-0.5"
           onClick={() => trackEvent("notifications_tab_clicked")}
         >
-          {/* <NotificationsSettings /> */}
+          <NotificationSettings />
         </TabsContent>
       </Tabs>
     </div>
