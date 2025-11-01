@@ -41,8 +41,7 @@ export const upsertUserNotificationSetting = async ({
 
     const { error } = await supabase
       .from("notification_settings")
-      .upsert(setting)
-      .eq("user_id", setting.user_id);
+      .upsert(setting);
 
     if (error) {
       throw error;
