@@ -13,11 +13,18 @@ export const matchCompanies = (
   location: string,
 ) => {
   const searchTerm = `${company.name} ${company.description}`.toLowerCase();
-  return (
-    (!query || searchTerm.includes(query.toLowerCase())) &&
-    (!category || Array.isArray(company?.categories)
+
+  const match =
+    ((!query || searchTerm.includes(query.toLowerCase())) && !category) ||
+    category === "all" ||
+    ((Array.isArray(company?.categories)
       ? company.categories.includes(category)
       : company.categories === category) &&
-    (!location || company?.locations?.includes(location))
-  );
+      !location) ||
+    location === "all" ||
+    (Array.isArray(company?.locations)
+      ? company.locations.includes(location)
+      : company.locations === location);
+
+  return match;
 };

@@ -13,7 +13,7 @@ export const useSearchQueryParams = () => {
   const appliedFilters = useMemo(
     () =>
       Object.entries(searchParams).filter(
-        ([key, value]) => key !== "page" && !!value,
+        ([key, value]) => key !== "page" && !!value && value !== "all",
       ),
     [searchParams],
   );
