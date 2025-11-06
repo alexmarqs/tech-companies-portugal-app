@@ -14,6 +14,24 @@ export type Database = {
   };
   public: {
     Tables: {
+      companies_snapshot: {
+        Row: {
+          id: string;
+          slugs: string[];
+          snapshot_date: string;
+        };
+        Insert: {
+          id?: string;
+          slugs: string[];
+          snapshot_date?: string;
+        };
+        Update: {
+          id?: string;
+          slugs?: string[];
+          snapshot_date?: string;
+        };
+        Relationships: [];
+      };
       notification_settings: {
         Row: {
           channel: Database["public"]["Enums"]["notification_channel"];

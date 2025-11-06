@@ -4,26 +4,11 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 
 ![ci workflow](https://github.com/alexmarqs/tech-companies-portugal-app/actions/workflows/ci.yml/badge.svg)
 
-## Monorepo structure 📦
-
-```
-tech-companies-portugal-app/
-├── apps/
-│   ├── web/
-│   └── ...
-├── packages/
-│   ├── analytics/
-│   └── ...
-├── tooling/
-│   ├── typescript/
-│   └── tailwind/
-│   └── ...
-```
-
 ## Features 🚀
 
 - List of tech companies in Portugal synced with the opensource [tech-companies-in-portugal](https://github.com/marmelo/tech-companies-in-portugal) repository
 - Fast search capabilities
+- Notifications
 - SEO friendly
 - Responsive design
 
@@ -47,6 +32,7 @@ tech-companies-portugal-app/
 - [PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps) - Basic support for PWA. Coming next, usage of [next-pwa](https://github.com/shadowwalker/next-pwa) to add more features
 - [LLMs.txt](https://llmstxt.org/) - Support for the proposed standard that acts as a guide for large language models (LLMs)
 - [Arcjet](https://arcjet.com/) - Rate limiting
+- [Inngest](https://inngest.com/) - Event-driven architecture for serverless functions | Used for notifications
 
 
 ## How to contribute 🤝
