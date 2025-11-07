@@ -20,7 +20,7 @@ export const weeklyNewCompaniesLoadCron = inngest.createFunction(
       async () => {
         const { data, error } = await supabase
           .from("companies_snapshot")
-          .select("slugs")
+          .select("id, slugs")
           .order("snapshot_date", { ascending: false }) // most recent snapshot
           .limit(1); // only one snapshot
 
@@ -28,7 +28,10 @@ export const weeklyNewCompaniesLoadCron = inngest.createFunction(
           throw error;
         }
 
-        return data?.[0]?.slugs ?? [];
+        return {
+          id: data?.[0]?.id ?? null,
+          slugs: data?.[0]?.slugs ?? [],
+        };
       },
     );
 
@@ -41,18 +44,20 @@ export const weeklyNewCompaniesLoadCron = inngest.createFunction(
     );
 
     // Run the steps in parallel
-    const [snapshotCompaniesSlugs, currentCompaniesData] = await Promise.all([
+    const [snapshotData, currentCompaniesData] = await Promise.all([
       snapshotCompaniesSlugsPromise,
       currentCompaniesDataPromise,
     ]);
 
+    const currentCompaniesSlugs = currentCompaniesData.companies.map(
+      (company: Company) => company.slug,
+    );
+
     // if snapshot does not exist, create a new snapshot
-    if (snapshotCompaniesSlugs.length === 0) {
+    if (!snapshotData.id || snapshotData.slugs.length === 0) {
       await step.run("create-new-companies-snapshot", async () => {
         const { error } = await supabase.from("companies_snapshot").insert({
-          slugs: currentCompaniesData.companies.map(
-            (company: Company) => company.slug,
-          ),
+          slugs: currentCompaniesSlugs,
           snapshot_date: new Date().toISOString(),
         });
 
@@ -67,7 +72,7 @@ export const weeklyNewCompaniesLoadCron = inngest.createFunction(
     }
 
     // get diff of current companies and snapshot companies using slugs:
-    const previousCompaniesSlugs = new Set(snapshotCompaniesSlugs);
+    const previousCompaniesSlugs = new Set(snapshotData.slugs);
 
     const newCompanies = currentCompaniesData.companies
       .map((company: Company) => {
@@ -110,6 +115,26 @@ export const weeklyNewCompaniesLoadCron = inngest.createFunction(
     );
 
     if (subscribedUsersNewCompaniesEmails.length === 0) {
+      // Update snapshot even when no users are subscribed
+      // to reflect that we checked this week
+      await step.run("update-companies-snapshot-no-users", async () => {
+        if (!snapshotData.id) {
+          throw new Error("Snapshot ID not found");
+        }
+
+        const { error } = await supabase
+          .from("companies_snapshot")
+          .update({
+            slugs: currentCompaniesSlugs,
+            snapshot_date: new Date().toISOString(),
+          })
+          .eq("id", snapshotData.id);
+
+        if (error) {
+          throw error;
+        }
+      });
+
       return {
         message: "No subscribed users found.",
       };
@@ -136,6 +161,24 @@ export const weeklyNewCompaniesLoadCron = inngest.createFunction(
     }
 
     await step.sendEvent("fan-out-weekly-new-companies-send-email", events);
+
+    await step.run("update-companies-snapshot", async () => {
+      if (!snapshotData.id) {
+        throw new Error("Snapshot ID not found");
+      }
+
+      const { error } = await supabase
+        .from("companies_snapshot")
+        .update({
+          slugs: currentCompaniesSlugs,
+          snapshot_date: new Date().toISOString(),
+        })
+        .eq("id", snapshotData.id);
+
+      if (error) {
+        throw error;
+      }
+    });
 
     return {
       message: `Weekly new companies cron completed. ${events.length} events sent to reach ${subscribedUsersNewCompaniesEmails.length} subscribed users.`,
