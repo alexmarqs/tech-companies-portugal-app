@@ -14,17 +14,21 @@ export const matchCompanies = (
 ) => {
   const searchTerm = `${company.name} ${company.description}`.toLowerCase();
 
-  const match =
-    ((!query || searchTerm.includes(query.toLowerCase())) && !category) ||
+  const matchesQuery = !query || searchTerm.includes(query.toLowerCase());
+
+  const matchesCategory =
+    !category ||
     category === "all" ||
-    ((Array.isArray(company?.categories)
+    (Array.isArray(company?.categories)
       ? company.categories.includes(category)
-      : company.categories === category) &&
-      !location) ||
+      : company.categories === category);
+
+  const matchesLocation =
+    !location ||
     location === "all" ||
     (Array.isArray(company?.locations)
       ? company.locations.includes(location)
       : company.locations === location);
 
-  return match;
+  return matchesQuery && matchesCategory && matchesLocation;
 };
