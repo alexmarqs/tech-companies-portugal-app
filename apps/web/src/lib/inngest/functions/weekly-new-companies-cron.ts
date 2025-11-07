@@ -1,6 +1,7 @@
 import { getParsedCompaniesData } from "@/lib/parser/companies";
 import { createAdminClient } from "@/lib/supabase/server";
 import type { Company } from "@/lib/types";
+import type { EventPayload } from "../events";
 import { inngest } from "../inngest-client";
 
 const BATCH_SIZE = 50;
@@ -114,9 +115,8 @@ export const weeklyNewCompaniesLoadCron = inngest.createFunction(
       };
     }
 
-    // Batch emails into groups and send one event per batch
-    // Each event will send emails to multiple recipients in a single API call
-    const events = [];
+    const events: EventPayload<"weekly-new-companies-send-email-worker">[] = [];
+
     for (
       let i = 0;
       i < subscribedUsersNewCompaniesEmails.length;
@@ -135,15 +135,7 @@ export const weeklyNewCompaniesLoadCron = inngest.createFunction(
       });
     }
 
-    // Send events to fan-out, if batch size is greater than BATCH_SIZE, send in batches of BATCH_SIZE
-    if (events?.length && events.length > BATCH_SIZE) {
-      for (let i = 0; i < events.length; i += BATCH_SIZE) {
-        const batch = events.slice(i, i + BATCH_SIZE);
-        await step.sendEvent("fan-out-weekly-new-companies-send-email", batch);
-      }
-    } else {
-      await step.sendEvent("fan-out-weekly-new-companies-send-email", events);
-    }
+    await step.sendEvent("fan-out-weekly-new-companies-send-email", events);
 
     return {
       message: `Weekly new companies cron completed. ${events.length} events sent to reach ${subscribedUsersNewCompaniesEmails.length} subscribed users.`,

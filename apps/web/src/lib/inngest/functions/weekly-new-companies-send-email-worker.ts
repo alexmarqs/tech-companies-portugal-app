@@ -32,7 +32,7 @@ export const weeklyNewCompaniesSendEmailWorker = inngest.createFunction(
 
     // Generate email content
     const companiesList = newCompanies
-      .map((company: { slug: string; name: string }) => `• ${company.name}`)
+      .map((company) => `• ${company.name}`)
       .join("\n");
 
     const emailBody = `

@@ -8,7 +8,7 @@ import {
 } from "@/hooks/notifications";
 import type { Tables } from "@/lib/supabase/database.types";
 import { useQueryClient } from "@tanstack/react-query";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { useThrottledCallback } from "use-debounce";
 
 const NOTIFICATION_LABEL_MAP = {
@@ -49,12 +49,12 @@ const NotificationSettingItem = memo(
     setting: Tables<"notification_settings">;
   }) => {
     const label = NOTIFICATION_LABEL_MAP[setting.type];
+    const { id, type, channel, user_id, created_at, updated_at } = setting;
 
     const queryClient = useQueryClient();
 
     const { mutate: mutateUpsertUserNotificationSetting } =
       useUpsertUserNotificationSetting({
-        // When mutate is called:
         onMutate: async (newData) => {
           await queryClient.cancelQueries({
             queryKey: [NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS],
@@ -92,23 +92,49 @@ const NotificationSettingItem = memo(
         },
       });
 
-    const handleCheckedChange = useThrottledCallback((checked: boolean) => {
-      mutateUpsertUserNotificationSetting({
-        setting: {
-          ...setting,
-          enabled: checked,
-        },
-      });
-    }, 250);
+    const handleCheckedChangeNoThrottled = useCallback(
+      (checked: boolean) => {
+        mutateUpsertUserNotificationSetting({
+          setting: {
+            id,
+            type,
+            channel,
+            user_id,
+            enabled: checked,
+            created_at,
+            updated_at,
+          },
+        });
+      },
+      [
+        id,
+        type,
+        channel,
+        user_id,
+        created_at,
+        updated_at,
+        mutateUpsertUserNotificationSetting,
+      ],
+    );
+
+    const handleCheckedChange = useThrottledCallback(
+      handleCheckedChangeNoThrottled,
+      250,
+    );
 
     if (!label) {
       return null;
     }
 
+    const labelId = `notification-setting-${id}`;
+
     return (
       <div className="flex items-center justify-between gap-4">
-        <p className="text-sm font-mono">{label}</p>
+        <p id={labelId} className="text-sm font-mono">
+          {label}
+        </p>
         <Switch
+          aria-labelledby={labelId}
           checked={setting.enabled}
           onCheckedChange={handleCheckedChange}
         />
