@@ -1,14 +1,16 @@
 // ref: https://www.inngest.com/docs/typescript
 
+export type WeeklyNewCompaniesSendEmailWorkerData = {
+  emails: string[];
+  newCompanies: {
+    slug: string;
+    name: string;
+  }[];
+};
+
 export type Events = {
   "weekly-new-companies-send-email-worker": {
-    data: {
-      emails: string[];
-      newCompanies: {
-        slug: string;
-        name: string;
-      }[];
-    };
+    data: WeeklyNewCompaniesSendEmailWorkerData;
   };
 };
 
