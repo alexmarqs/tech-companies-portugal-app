@@ -64,14 +64,17 @@ const NotificationSettingItem = memo(
             Tables<"notification_settings">[]
           >([NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS]);
 
-          queryClient.setQueryData<Tables<"notification_settings">[]>(
-            [NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS],
-            previousData?.map((item) =>
-              item.id === newData.setting.id
-                ? { ...item, ...newData.setting }
-                : item,
-            ),
-          );
+          // Only perform optimistic update if previousData exists
+          if (previousData) {
+            queryClient.setQueryData<Tables<"notification_settings">[]>(
+              [NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS],
+              previousData.map((item) =>
+                item.id === newData.setting.id
+                  ? { ...item, ...newData.setting }
+                  : item,
+              ),
+            );
+          }
 
           return { previousData };
         },
