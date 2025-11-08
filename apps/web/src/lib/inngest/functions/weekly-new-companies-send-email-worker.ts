@@ -8,7 +8,7 @@ export const weeklyNewCompaniesSendEmailWorker = inngest.createFunction(
       limit: 2,
       period: "1s",
     },
-    concurrency: 2,
+    concurrency: 3,
     retries: 1,
   },
   { event: "weekly-new-companies-send-email-worker" },
