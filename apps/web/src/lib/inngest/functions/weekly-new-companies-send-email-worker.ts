@@ -11,7 +11,7 @@ export const weeklyNewCompaniesSendEmailWorker = inngest.createFunction(
     concurrency: 3,
     retries: 1,
   },
-  { event: "weekly-new-companies-send-email-worker" },
+  { event: "app/weekly.new.companies.send.email.worker" },
   async ({ event, step }) => {
     const { emails, newCompanies } = event.data;
 

@@ -140,7 +140,8 @@ export const weeklyNewCompaniesLoadCron = inngest.createFunction(
       };
     }
 
-    const events: EventPayload<"weekly-new-companies-send-email-worker">[] = [];
+    const events: EventPayload<"app/weekly.new.companies.send.email.worker">[] =
+      [];
 
     for (
       let i = 0;
@@ -152,7 +153,7 @@ export const weeklyNewCompaniesLoadCron = inngest.createFunction(
         i + BATCH_SIZE,
       );
       events.push({
-        name: "weekly-new-companies-send-email-worker",
+        name: "app/weekly.new.companies.send.email.worker",
         data: {
           emails: emailBatch,
           newCompanies,

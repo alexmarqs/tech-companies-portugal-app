@@ -9,7 +9,7 @@ export type WeeklyNewCompaniesSendEmailWorkerData = {
 };
 
 export type Events = {
-  "weekly-new-companies-send-email-worker": {
+  "app/weekly.new.companies.send.email.worker": {
     data: WeeklyNewCompaniesSendEmailWorkerData;
   };
 };
