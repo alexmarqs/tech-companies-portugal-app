@@ -13,6 +13,7 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
+import tailwindConfig from "../../../tailwind.config";
 import { Footer } from "../components/footer";
 import { Logo } from "../components/logo";
 
@@ -50,9 +51,9 @@ export default function WeeklyNewCompaniesEmail({
         Weekly Report | {companyCount.toString()} New{" "}
         {companyCount === 1 ? "Company" : "Companies"} Added This Week
       </Preview>
-      <Tailwind>
+      <Tailwind config={tailwindConfig}>
         <Body className="bg-slate-50">
-          <Container className="flex flex-col max-w-[600px] mx-auto p-4 justify-center items-center">
+          <Container className="mx-auto py-4 max-w-96">
             {/* Header Section */}
             <Section
               className="bg-white border-2 border-slate-200 rounded-none p-4 mb-5"
@@ -80,7 +81,7 @@ export default function WeeklyNewCompaniesEmail({
             {/* Main Content */}
             {companyCount > 0 && (
               <Section
-                className="bg-orange-100 border-2 border-orange-200 rounded-none p-4 mb-5 flex flex-col items-center justify-center gap-2"
+                className="bg-orange-100 border-2 border-orange-200 rounded-none p-4 mb-5"
                 style={{
                   border: "2px solid #fed7aa",
                   backgroundColor: "#ffedd5",
@@ -88,8 +89,6 @@ export default function WeeklyNewCompaniesEmail({
                   borderRight: "5px solid #fed7aa",
                   padding: "16px",
                   marginBottom: "20px",
-                  gap: "8px",
-                  width: "100%",
                 }}
               >
                 <Text className="text-base text-gray-700 leading-relaxed font-semibold">
@@ -119,16 +118,10 @@ export default function WeeklyNewCompaniesEmail({
                   </Text>
                 )}
 
-                <Text
-                  className="text-center"
-                  style={{
-                    textAlign: "center",
-                    width: "100%",
-                  }}
-                >
+                <Section className="text-center py-4">
                   <Button
                     href={APP_URL}
-                    className="bg-white text-slate-900 text-base inline-block font-semibold no-underline py-3.5 px-7 rounded-none border-2 border-slate-900"
+                    className="bg-white text-slate-900 text-base font-semibold no-underline py-3.5 px-7 rounded-none border-2 border-slate-900 inline-block"
                     style={{
                       backgroundColor: "#ffffff",
                       color: "#0f172a",
@@ -144,7 +137,7 @@ export default function WeeklyNewCompaniesEmail({
                   >
                     Explore All →
                   </Button>
-                </Text>
+                </Section>
               </Section>
             )}
 
