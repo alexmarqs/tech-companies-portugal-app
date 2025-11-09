@@ -1,7 +1,11 @@
 import { APP_URL } from "@/lib/metadata";
 import { Column, Img, Link, Row, Section, Text } from "@react-email/components";
 
-export function Footer() {
+type FooterProps = {
+  children?: React.ReactNode;
+};
+
+export function Footer({ children }: FooterProps) {
   return (
     <Section
       className="bg-slate-100 border-2 border-slate-200 rounded-none p-3"
@@ -54,15 +58,16 @@ export function Footer() {
         © {new Date().getFullYear()} Tech Companies Portugal. All rights
         reserved.
         <br />
-        <span className="text-[10px]">
-          You received this email because you signed up at{" "}
-          <Link
-            href="https://techcompaniesportugal.fyi"
-            className="text-gray-600 underline"
-          >
-            techcompaniesportugal.fyi
-          </Link>
-        </span>
+        {children ? (
+          children
+        ) : (
+          <span className="text-[10px]">
+            You received this email because you signed up at{" "}
+            <Link href={APP_URL} className="text-gray-600 underline">
+              techcompaniesportugal.fyi
+            </Link>
+          </span>
+        )}
       </Text>
     </Section>
   );
