@@ -1,4 +1,7 @@
+import WeeklyNewCompaniesEmail from "@/emails/templates/weekly-new-companies";
 import { emailService } from "@/lib/email";
+import { DEFAULT_EMAIL_FROM_NOTIFICATIONS } from "@/lib/email/utils";
+import { render } from "@react-email/render";
 import { inngest } from "../inngest-client";
 
 export const weeklyNewCompaniesSendEmailWorker = inngest.createFunction(
@@ -35,31 +38,18 @@ export const weeklyNewCompaniesSendEmailWorker = inngest.createFunction(
       .map((company) => `• ${company.name}`)
       .join("\n");
 
-    const emailBody = `
-      <p>Hello 👋</p>
-      <p>We have <strong>${newCompanies.length} new ${newCompanies.length === 1 ? "company" : "companies"}</strong> added to Tech Companies Portugal this week!</p>
-      
-      <h2>New Companies:</h2>
-      <pre style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; font-family: monospace;">${companiesList}</pre>
-      
-      <p>
-        <a href="https://techcompaniesportugal.fyi" style="display: inline-block; background-color: #0f172a; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 5px; margin-top: 20px;">
-          Explore Companies →
-        </a>
-      </p>
-      
-      <hr style="margin: 30px 0; border: none; border-top: 1px solid #e2e8f0;">
-      <p style="font-size: 12px; color: #666;">
-        You're receiving this because you subscribed to new company notifications. 
-        <a href="https://techcompaniesportugal.fyi/settings">Manage your preferences</a>.
-      </p>
-    `;
-
     await step.run("send-email", async () => {
+      const emailHtml = await render(
+        WeeklyNewCompaniesEmail({
+          newCompanies,
+        }),
+      );
+
       await emailService.sendEmail({
         to: emails,
-        subject: `🚀 ${newCompanies.length} New ${newCompanies.length === 1 ? "Company" : "Companies"} Added This Week`,
-        body: emailBody,
+        from: DEFAULT_EMAIL_FROM_NOTIFICATIONS,
+        subject: `Weekly Report | ${newCompanies.length} New ${newCompanies.length === 1 ? "Company" : "Companies"} Added This Week`,
+        body: emailHtml,
       });
     });
 

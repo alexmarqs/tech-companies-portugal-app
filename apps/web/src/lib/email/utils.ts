@@ -4,4 +4,12 @@ const DEFAULT_EMAIL_FROM =
 const DEFAULT_EMAIL_NAME =
   process.env.PLUNK_FROM_NAME || "Tech Companies Portugal";
 
-export { DEFAULT_EMAIL_FROM, DEFAULT_EMAIL_NAME };
+const DEFAULT_EMAIL_FROM_NOTIFICATIONS =
+  process.env.PLUNK_FROM_EMAIL_NOTIFICATIONS ||
+  "reports@techcompaniesportugal.fyi";
+
+export {
+  DEFAULT_EMAIL_FROM,
+  DEFAULT_EMAIL_NAME,
+  DEFAULT_EMAIL_FROM_NOTIFICATIONS,
+};
