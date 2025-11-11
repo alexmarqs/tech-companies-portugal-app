@@ -32,3 +32,5 @@ export const matchCompanies = (
 
   return matchesQuery && matchesCategory && matchesLocation;
 };
+
+export const isProd = process.env.NODE_ENV === "production";

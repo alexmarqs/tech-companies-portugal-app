@@ -1,6 +1,6 @@
+import { isProd } from "@/lib/utils";
 import Script from "next/script";
 
-const isProd = process.env.NODE_ENV === "production";
 const TINY_ADZ_SITE_ID = process.env.NEXT_PUBLIC_TINY_ADZ_SITE_ID;
 const TINY_ADZ_SCRIPT_URL = "https://cdn.apitiny.net/scripts/v2.0/main.js";
 
