@@ -11,7 +11,7 @@ export default function SponsorSideSection() {
           Be a Sponsor <span className="text-orange-500">💛</span>
         </h2>
         <p className="text-sm tracking-wide text-gray-500">
-          Reach out to us to become a sponsor or advertiser.
+          Contact us to become a sponsor or advertiser.
         </p>
       </div>
     </RetroContainer>

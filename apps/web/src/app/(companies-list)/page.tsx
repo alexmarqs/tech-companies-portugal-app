@@ -7,7 +7,7 @@ export default async function CompaniesPage() {
     await getParsedCompaniesData();
 
   return (
-    <section className="relative flex flex-1 flex-col gap-6 md:flex-row">
+    <section className="relative flex flex-1 flex-col gap-6 lg:flex-row">
       <SideBar
         categoryOptions={availableCategories}
         locationOptions={availableLocations}
