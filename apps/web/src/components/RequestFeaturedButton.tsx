@@ -20,7 +20,7 @@ export const RequestFeaturedButton = () => {
         rel="noreferrer"
         onClick={() => trackEvent("request_featured_button_clicked")}
       >
-        Request now
+        Report an issue
       </a>
     </Button>
   );
