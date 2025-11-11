@@ -39,9 +39,17 @@ export const upsertUserNotificationSetting = async ({
   try {
     const supabase = createClient();
 
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session?.user.id) {
+      throw new Error("Cannot get user session");
+    }
+
     const { error } = await supabase
       .from("notification_settings")
-      .upsert(setting);
+      .upsert({ ...setting, user_id: session.user.id });
 
     if (error) {
       throw error;
