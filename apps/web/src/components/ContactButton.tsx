@@ -53,8 +53,8 @@ export const ContactButton = () => {
           <DialogHeader>
             <DialogTitle>Talk to us</DialogTitle>
             <DialogDescription>
-              Do you have any questions? We are looking for sponsors and
-              advertisers. Feel free to reach out to us.
+              Do you have any questions? Do you wanna be a sponsor or
+              advertiser? Feel free to reach out to us.
             </DialogDescription>
           </DialogHeader>
           <ContactForm />
@@ -76,8 +76,8 @@ export const ContactButton = () => {
           <DrawerHeader>
             <DrawerTitle>Talk to us</DrawerTitle>
             <DrawerDescription>
-              Do you have any questions? We are looking for sponsors and
-              advertisers. Feel free to reach out to us.
+              Do you have any questions? Do you wanna be a sponsor or
+              advertiser? Feel free to reach out to us.
             </DrawerDescription>
           </DrawerHeader>
           <div className="px-4">

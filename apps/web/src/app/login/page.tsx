@@ -9,6 +9,7 @@ import {
 } from "@/lib/metadata";
 import Image from "next/image";
 import type { Metadata } from "next/types";
+import { Suspense } from "react";
 import logo from "../../../public/assets/images/logo.png";
 
 const title = "Login | Tech Companies Portugal";
@@ -62,8 +63,10 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-3">
-              <GithubLogin />
-              <GoogleLogin />
+              <Suspense fallback={null}>
+                <GithubLogin />
+                <GoogleLogin />
+              </Suspense>
             </div>
           </div>
         </RetroContainer>

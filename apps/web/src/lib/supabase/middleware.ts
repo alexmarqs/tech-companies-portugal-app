@@ -57,9 +57,11 @@ export async function updateSession(request: NextRequest) {
 
   // Redirect unauthenticated users attempting to access protected routes to the login page
   if (!user && isProtectedRoute) {
-    // no user, potentially respond by redirecting the user to the login page
+    // Redirect to login page, preserving the original URL as a query parameter
     const url = request.nextUrl.clone();
+    const originalPath = url.pathname + url.search;
     url.pathname = "/login";
+    url.searchParams.set("next", originalPath);
     return NextResponse.redirect(url);
   }
 

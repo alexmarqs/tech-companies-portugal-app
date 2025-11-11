@@ -11,9 +11,9 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
+import tailwindConfig from "../../../tailwind.config";
 import { Footer } from "../components/footer";
 import { Logo } from "../components/logo";
-
 interface WelcomeEmailProps {
   userFirstname?: string;
 }
@@ -39,7 +39,7 @@ export default function WelcomeEmail({
         Welcome to Tech Companies Portugal - Discover your next career
         opportunity!
       </Preview>
-      <Tailwind>
+      <Tailwind config={tailwindConfig}>
         <Body className="bg-slate-50">
           <Container className="flex flex-col max-w-[600px] mx-auto p-4">
             {/* Header Section */}
