@@ -23,20 +23,17 @@ export const weeklyNewCompaniesSendEmailWorker = inngest.createFunction(
       !Array.isArray(emails) ||
       emails.length === 0 ||
       !newCompanies ||
+      !Array.isArray(newCompanies) ||
       newCompanies.length === 0
     ) {
       return {
         message: "Skipped: missing emails or no new companies",
         emailsCount: Array.isArray(emails) ? emails.length : 0,
+        companiesCount: Array.isArray(newCompanies) ? newCompanies.length : 0,
       };
     }
 
     console.log(`Processing batch of ${emails.length} emails`);
-
-    // Generate email content
-    const companiesList = newCompanies
-      .map((company) => `• ${company.name}`)
-      .join("\n");
 
     await step.run("send-email", async () => {
       const emailHtml = await render(

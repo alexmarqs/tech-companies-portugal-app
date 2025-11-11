@@ -8,10 +8,18 @@ export default function SponsorSideSection() {
     >
       <div className="space-y-3 text-center">
         <h2 className="text-lg font-semibold flex items-center justify-center gap-2">
-          Be a Sponsor <span className="text-orange-500">💛</span>
+          Be a Sponsor 💛
         </h2>
         <p className="text-sm tracking-wide text-gray-500">
-          Contact us to become a sponsor or advertiser.
+          <a
+            href="https://x.com/alexlmarques"
+            target="_blank"
+            rel="noreferrer"
+            className="text-primary underline-offset-2 underline"
+          >
+            Contact us
+          </a>{" "}
+          to become a sponsor or advertiser.
         </p>
       </div>
     </RetroContainer>

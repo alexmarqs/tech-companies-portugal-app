@@ -30,7 +30,10 @@ export default function WeeklyNewCompaniesEmail({
   newCompanies,
 }: WeeklyNewCompaniesEmailProps) {
   const companyCount = newCompanies.length;
-  const first10NewCompanies = newCompanies.slice(0, MAX_NEW_COMPANIES_TO_SHOW);
+  const firstMaxNewCompaniesNewCompanies = newCompanies.slice(
+    0,
+    MAX_NEW_COMPANIES_TO_SHOW,
+  );
   const remainingCount = companyCount - MAX_NEW_COMPANIES_TO_SHOW;
 
   return (
@@ -95,7 +98,7 @@ export default function WeeklyNewCompaniesEmail({
                   🚀 <strong>New Companies This Week:</strong>
                 </Text>
 
-                {first10NewCompanies.map((newCompany, index) => (
+                {firstMaxNewCompaniesNewCompanies.map((newCompany, _index) => (
                   <Link
                     key={newCompany.slug}
                     href={`${APP_URL}/company/${newCompany.slug}`}
