@@ -71,22 +71,18 @@ export default function CompaniesList({
           )}
           <div className="flex-1 space-y-4" data-testid="companies-list">
             {paginatedCompanies.map((company, index) => (
-              <div key={company.slug} className="space-y-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.3,
-                    ease: "easeOut",
-                  }}
-                  aria-label={`Company ${company.name}`}
-                >
-                  <CompanyItem company={company} />
-                </motion.div>
-                {index === Math.floor(paginatedCompanies.length / 2) - 1 ? (
-                  <div ta-ad-container="" />
-                ) : null}
-              </div>
+              <motion.div
+                key={company.slug}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.3,
+                  ease: "easeOut",
+                }}
+                aria-label={`Company ${company.name}`}
+              >
+                <CompanyItem company={company} />
+              </motion.div>
             ))}
             <CompaniesListFooter totalPages={totalPages} />
           </div>

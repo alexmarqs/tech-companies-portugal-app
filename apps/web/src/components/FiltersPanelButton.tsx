@@ -50,7 +50,7 @@ export default function FiltersPanelButton({
         <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50">
           <RetroContainer
             variant="static"
-            className="fixed inset-y-0 left-0 w-full sm:w-[400px] bg-background border-r-2 border-accent p-6 overflow-y-auto flex flex-col justify-start items-center"
+            className="fixed inset-y-0 left-0 w-full lg:w-[400px] bg-background border-r-2 border-accent p-6 overflow-y-auto flex flex-col justify-start items-center"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-6 w-full">

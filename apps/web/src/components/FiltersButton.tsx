@@ -11,7 +11,7 @@ export const FiltersButton = ({ setIsFilterOpen }: FiltersButtonProps) => {
   const { appliedFilters } = useSearchQueryParams();
 
   return (
-    <div className="inline-flex items-center gap-2 md:hidden">
+    <div className="inline-flex items-center gap-2 lg:hidden">
       <Button
         onClick={() => setIsFilterOpen(true)}
         className="px-3 inline-flex hover:cursor-pointer space-x-1"

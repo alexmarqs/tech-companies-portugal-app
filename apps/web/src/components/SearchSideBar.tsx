@@ -39,7 +39,7 @@ export function SearchSideBar({
     <div className="w-full flex flex-col h-full gap-4 justify-between">
       <RetroContainer
         variant="static"
-        className="shrink-0 md:w-[290px] md:mx-auto relative"
+        className="shrink-0 lg:w-[290px] lg:mx-auto relative"
       >
         {showCountBadge && (
           <div className="absolute top-0 right-0 text-xs p-1">
