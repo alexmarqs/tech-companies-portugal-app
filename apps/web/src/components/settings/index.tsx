@@ -1,32 +1,41 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { SettingsTab } from "@/lib/types";
+import { SettingsTab, settingsQueryStateKeys } from "@/lib/search-params";
+import type { SettingsTabs } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { trackEvent } from "@tech-companies-portugal/analytics/client";
+import { useQueryStates } from "nuqs";
 import { Title } from "../Title";
 import { AccountSettings } from "./account/AccountSettings";
 import { NotificationSettings } from "./notification/NotificationSettings";
 
-const TABS: SettingsTab[] = [
+const TABS: SettingsTabs[] = [
   {
-    id: "account",
+    id: SettingsTab.ACCOUNT,
     title: "Account",
   },
   {
-    id: "notifications",
+    id: SettingsTab.NOTIFICATIONS,
     title: "Notifications",
   },
 ];
 
 export const Settings = () => {
+  const [settingsTab, setSettingsTab] = useQueryStates(settingsQueryStateKeys, {
+    scroll: true,
+  });
+
   return (
     <div className="container mx-auto max-w-2xl p-6">
       <div className="mb-6">
         <Title title="Settings" description="Manage your account settings." />
       </div>
 
-      <Tabs defaultValue="account" className="bold">
+      <Tabs
+        value={settingsTab.tab}
+        onValueChange={(value) => setSettingsTab({ tab: value as SettingsTab })}
+        className="bold"
+      >
         <TabsList className="bg-transparent flex justify-start gap-4 w-full mb-4 overflow-x-auto scrollbar-hide">
           {TABS.map((tab) => (
             <TabsTrigger
@@ -38,18 +47,13 @@ export const Settings = () => {
               )}
             >
               {tab.title}
-              {tab.badge && tab.badge}
             </TabsTrigger>
           ))}
         </TabsList>
-        <TabsContent value="account" className="p-0.5">
+        <TabsContent value={SettingsTab.ACCOUNT} className="p-0.5">
           <AccountSettings />
         </TabsContent>
-        <TabsContent
-          value="notifications"
-          className="p-0.5"
-          onClick={() => trackEvent("notifications_tab_clicked")}
-        >
+        <TabsContent value={SettingsTab.NOTIFICATIONS} className="p-0.5">
           <NotificationSettings />
         </TabsContent>
       </Tabs>
