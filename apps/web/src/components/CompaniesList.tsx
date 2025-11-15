@@ -10,7 +10,6 @@ import { CompaniesListHeader } from "./CompaniesListHeader";
 import CompanyItem from "./CompanyItem";
 import { EmptyState } from "./EmptyState";
 import { NotificationsSideSection } from "./NotificationsSideSection";
-import SponsorSideSection from "./SponsorSideSection";
 
 const PAGE_SIZE = 15;
 
@@ -91,7 +90,6 @@ export default function CompaniesList({
       )}
       <div className="block lg:hidden space-y-4">
         <NotificationsSideSection />
-        <SponsorSideSection />
       </div>
     </>
   );
