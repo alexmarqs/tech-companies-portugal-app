@@ -1,3 +1,5 @@
+import type { SettingsTab } from "./search-params";
+
 export type Company = {
   slug: string;
   name: string;
@@ -27,8 +29,8 @@ export type PageViewsData = {
 
 export type NextParams<T> = Promise<T>;
 
-export type SettingsTab = {
-  id: string;
+export type SettingsTabs = {
+  id: SettingsTab;
   title: string;
   disabled?: boolean;
   badge?: React.ReactNode;

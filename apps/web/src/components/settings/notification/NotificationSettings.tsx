@@ -12,7 +12,7 @@ import { memo, useCallback } from "react";
 import { useThrottledCallback } from "use-debounce";
 
 const NOTIFICATION_LABEL_MAP = {
-  new_companies: "Receive weekly email updates for new companies added",
+  new_companies: "Receive email updates for new companies added",
 } as const;
 
 export const NotificationSettings = () => {

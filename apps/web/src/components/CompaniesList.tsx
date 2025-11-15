@@ -9,7 +9,7 @@ import CompaniesListFooter from "./CompaniesListFooter";
 import { CompaniesListHeader } from "./CompaniesListHeader";
 import CompanyItem from "./CompanyItem";
 import { EmptyState } from "./EmptyState";
-import SponsorSideSection from "./SponsorSideSection";
+import { NotificationsSideSection } from "./NotificationsSideSection";
 
 const PAGE_SIZE = 15;
 
@@ -89,7 +89,7 @@ export default function CompaniesList({
         </div>
       )}
       <div className="block lg:hidden space-y-4">
-        <SponsorSideSection />
+        <NotificationsSideSection />
       </div>
     </>
   );
