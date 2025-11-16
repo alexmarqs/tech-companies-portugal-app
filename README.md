@@ -21,7 +21,6 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - [Vercel](https://vercel.com/) - Hosting and CI/CD
 - [Playwright](https://playwright.dev/) - E2E testing
 - [Biome](https://biomejs.dev/) - Formatting and linting
-- [Motion](https://motion.dev/) - Animation library
 - [Nuqs](https://nuqs.47ng.com) - URL query state management (client and server support + some other cool features out of the box)
 - [Plunk](https://useplunk.com/) - Email service
 - [Turbo](https://turbo.build/) - Monorepo build system

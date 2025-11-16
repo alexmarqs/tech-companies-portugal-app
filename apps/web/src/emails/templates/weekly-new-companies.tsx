@@ -1,4 +1,5 @@
 import { APP_URL } from "@/lib/metadata";
+import { SettingsTab } from "@/lib/search-params";
 import {
   Body,
   Button,
@@ -148,7 +149,7 @@ export default function WeeklyNewCompaniesEmail({
               <span className="text-[10px]">
                 Manage your notifications at{" "}
                 <Link
-                  href={`${APP_URL}/settings`}
+                  href={`${APP_URL}/settings?tab=${SettingsTab.NOTIFICATIONS}`}
                   className="text-gray-600 underline"
                 >
                   settings

@@ -2,7 +2,6 @@
 
 import type { Company } from "@/lib/types";
 import { matchCompanies } from "@/lib/utils";
-import { motion } from "motion/react";
 import { useMemo } from "react";
 import { useSearchQueryParams } from "../hooks/useSearchQueryParams";
 import CompaniesListFooter from "./CompaniesListFooter";
@@ -45,44 +44,22 @@ export default function CompaniesList({
   return (
     <>
       {!paginatedCompanies.length ? (
-        <motion.div
-          className="flex-1 font-mono flex items-center justify-center"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-          aria-label="No companies found"
-        >
+        <div className="flex-1 font-mono flex items-center justify-center">
           <EmptyState title="No companies found" />
-        </motion.div>
+        </div>
       ) : (
-        <div className="flex-1 font-mono" aria-label="Companies list">
+        <div className="flex-1 font-mono">
           {isDedicatedPage && (
-            <motion.div
-              className="mb-2 text-xs w-full flex flex-wrap items-center justify-between gap-2 text-muted-foreground"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
+            <div className="mb-2 text-xs w-full flex flex-wrap items-center justify-between gap-2 text-muted-foreground">
               <CompaniesListHeader
                 totalPages={totalPages}
                 filteredCompanies={filteredCompanies}
               />
-            </motion.div>
+            </div>
           )}
           <div className="flex-1 space-y-4" data-testid="companies-list">
-            {paginatedCompanies.map((company, index) => (
-              <motion.div
-                key={company.slug}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.3,
-                  ease: "easeOut",
-                }}
-                aria-label={`Company ${company.name}`}
-              >
-                <CompanyItem company={company} />
-              </motion.div>
+            {paginatedCompanies.map((company) => (
+              <CompanyItem key={company.slug} company={company} />
             ))}
             <CompaniesListFooter totalPages={totalPages} />
           </div>
