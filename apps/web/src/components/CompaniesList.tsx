@@ -44,14 +44,11 @@ export default function CompaniesList({
   return (
     <>
       {!paginatedCompanies.length ? (
-        <div
-          className="flex-1 font-mono flex items-center justify-center"
-          aria-label="No companies found"
-        >
+        <div className="flex-1 font-mono flex items-center justify-center">
           <EmptyState title="No companies found" />
         </div>
       ) : (
-        <div className="flex-1 font-mono" aria-label="Companies list">
+        <div className="flex-1 font-mono">
           {isDedicatedPage && (
             <div className="mb-2 text-xs w-full flex flex-wrap items-center justify-between gap-2 text-muted-foreground">
               <CompaniesListHeader
@@ -61,10 +58,8 @@ export default function CompaniesList({
             </div>
           )}
           <div className="flex-1 space-y-4" data-testid="companies-list">
-            {paginatedCompanies.map((company, index) => (
-              <div key={company.slug} aria-label={`Company ${company.name}`}>
-                <CompanyItem company={company} />
-              </div>
+            {paginatedCompanies.map((company) => (
+              <CompanyItem key={company.slug} company={company} />
             ))}
             <CompaniesListFooter totalPages={totalPages} />
           </div>
