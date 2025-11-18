@@ -19,7 +19,9 @@
         "PLUNK_API_KEY",
         "CONTACT_FROM_EMAIL",
         "CONTACT_TO_EMAIL",
-        "ARCJET_KEY"
+        "ARCJET_KEY",
+        "INNGEST_SIGNING_KEY",
+        "INNGEST_EVENT_KEY"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*", "!tests/**"],
       "outputs": [
