@@ -33,7 +33,6 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - [Arcjet](https://arcjet.com/) - Rate limiting
 - [Inngest](https://inngest.com/) - Event-driven architecture for serverless functions | Used for notifications
 
-
 ## How to contribute 🤝
 
 No requirements, just open a pull request with your changes.
