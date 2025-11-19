@@ -35,7 +35,7 @@ const fetchGithubReadmeHtmlFrom = async (owner: string, repo: string) => {
     },
     cache: "force-cache",
     next: {
-      revalidate: 21600, // 6 hours
+      revalidate: 86400, // 24 hours
       tags: ["companies-data"],
     },
   });
