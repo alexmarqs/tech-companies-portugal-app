@@ -1,6 +1,7 @@
+import { cache } from "react";
 import { parseCompaniesData } from "../parser";
 
-export const getParsedCompaniesData = async () => {
+export const getParsedCompaniesData = cache(async () => {
   const { data, timestamp } = await parseCompaniesData();
 
   // sort data.companies by isFeatured first
@@ -16,7 +17,7 @@ export const getParsedCompaniesData = async () => {
     availableCategories: data.availableCategories,
     updatedAtISODate: timestamp,
   };
-};
+});
 
 export const getParsedCompaniesCategoriesAndLocations = async () => {
   const { data } = await parseCompaniesData();
