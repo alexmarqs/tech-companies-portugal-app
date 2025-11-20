@@ -14,7 +14,6 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
 
 import CustomQueryClientProvider from "@/components/CustomQueryClientProvider";
-import { TinyAdzScript } from "@/components/TinyAdzScript";
 import { Toaster } from "@/components/ui/sonner";
 import { SessionProvider } from "@/lib/contexts/SessionContext";
 import { AnalyticsProvider } from "@tech-companies-portugal/analytics/client";
@@ -101,7 +100,6 @@ export default function RootLayout({ children }: LayoutProps) {
           </SessionProvider>
         </CustomQueryClientProvider>
         <Toaster />
-        <TinyAdzScript />
       </body>
     </html>
   );
