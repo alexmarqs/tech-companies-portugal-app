@@ -39,7 +39,7 @@ export function UserMenu() {
         scope: "local",
       });
       queryClient.clear();
-      router.replace("/login?from=logout");
+      router.replace("/login");
       // or clear the query client + router.refresh() or just window.location.reload();
     } catch (error) {
       console.error("Unexpected error during logout:", error);
