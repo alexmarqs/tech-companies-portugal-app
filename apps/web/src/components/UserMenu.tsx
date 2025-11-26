@@ -41,7 +41,7 @@ export function UserMenu() {
       queryClient.clear();
       router.push("/");
       router.refresh();
-      // or clear the query client + router.refresh() or just window.location.reload();
+      // window.location.reload();
     } catch (error) {
       console.error("Unexpected error during logout:", error);
     } finally {
