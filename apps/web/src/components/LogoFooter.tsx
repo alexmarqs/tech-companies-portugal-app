@@ -21,7 +21,7 @@ export const LogoFooter = () => {
       >
         <img
           className="h-5"
-          src="https://openstatus.dev/status-page/techcompaniesportugal/badge?size=sm&theme=light"
+          src="https://techcompaniesportugal.openstatus.dev/badge"
           alt="OpenStatus Badge"
         />
       </a>
