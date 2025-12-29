@@ -23,6 +23,7 @@ export const LogoFooter = () => {
           className="h-5"
           src="https://techcompaniesportugal.openstatus.dev/badge"
           alt="OpenStatus Badge"
+          loading="lazy"
         />
       </a>
     </div>
