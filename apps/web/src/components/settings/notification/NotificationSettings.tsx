@@ -6,14 +6,17 @@ import {
   useGetUserNotificationSettings,
   useUpsertUserNotificationSetting,
 } from "@/hooks/notifications";
-import type { Tables } from "@/lib/supabase/database.types";
+import type { Enums, Tables } from "@/lib/supabase/database.types";
 import { useQueryClient } from "@tanstack/react-query";
 import { memo, useCallback } from "react";
 import { useThrottledCallback } from "use-debounce";
 
-const NOTIFICATION_LABEL_MAP = {
+const NOTIFICATION_LABEL_MAP: Record<NotificationType, string> = {
   new_companies: "Receive email updates for new companies added",
-} as const;
+};
+
+type NotificationType = Enums<"notification_type">;
+type NotificationChannel = Enums<"notification_channel">;
 
 export const NotificationSettings = () => {
   const { isPending, data: notificationSettings } =
@@ -33,9 +36,11 @@ export const NotificationSettings = () => {
           </p>
         </div>
         <div className="space-y-4">
-          {notificationSettings?.map((setting) => (
-            <NotificationSettingItem key={setting.id} setting={setting} />
-          ))}
+          <NotificationSettingItem
+            settings={notificationSettings ?? []}
+            type="new_companies"
+            channel="email"
+          />
         </div>
       </div>
     </RetroContainer>
@@ -44,37 +49,69 @@ export const NotificationSettings = () => {
 
 const NotificationSettingItem = memo(
   ({
-    setting,
+    settings,
+    type,
+    channel,
   }: {
-    setting: Tables<"notification_settings">;
+    settings: Tables<"notification_settings">[];
+    type: NotificationType;
+    channel: NotificationChannel;
   }) => {
-    const label = NOTIFICATION_LABEL_MAP[setting.type];
-    const { id, type, channel, user_id, created_at, updated_at } = setting;
+    const setting = settings.find(
+      (setting) => setting.type === type && setting.channel === channel,
+    );
+
+    const id =
+      setting?.id && !setting.id.startsWith("temp-") ? setting.id : undefined;
+
+    const user_id = setting?.user_id ?? ""; // fallback to empty string if user id is not set, the user id is already overridden in the onMutate function.
 
     const queryClient = useQueryClient();
 
     const { mutate: mutateUpsertUserNotificationSetting } =
       useUpsertUserNotificationSetting({
         onMutate: async (newData) => {
-          await queryClient.cancelQueries({
-            queryKey: [NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS],
-          });
+          const queryKey = [
+            NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS,
+          ];
 
-          const previousData = queryClient.getQueryData<
-            Tables<"notification_settings">[]
-          >([NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS]);
+          // Cancel any in-flight queries with the same query key
+          await queryClient.cancelQueries({ queryKey });
 
-          // Only perform optimistic update if previousData exists
-          if (previousData) {
-            queryClient.setQueryData<Tables<"notification_settings">[]>(
-              [NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS],
-              previousData.map((item) =>
-                item.id === newData.setting.id
+          // Snapshot previous data (or empty array if none)
+          const previousData =
+            queryClient.getQueryData<Tables<"notification_settings">[]>(
+              queryKey,
+            ) ?? [];
+
+          const existingItem = previousData.find(
+            (item) =>
+              item.user_id === newData.setting.user_id &&
+              item.type === newData.setting.type &&
+              item.channel === newData.setting.channel,
+          );
+
+          const nextData = existingItem
+            ? previousData.map((item) =>
+                item.id === existingItem.id
                   ? { ...item, ...newData.setting }
                   : item,
-              ),
-            );
-          }
+              )
+            : [
+                ...previousData,
+                {
+                  ...newData.setting,
+                  id: `temp-${crypto.randomUUID()}`,
+                  created_at: new Date().toISOString(),
+                  updated_at: new Date().toISOString(),
+                  enabled: newData.setting.enabled ?? false,
+                },
+              ];
+
+          queryClient.setQueryData<Tables<"notification_settings">[]>(
+            queryKey,
+            nextData,
+          );
 
           return { previousData };
         },
@@ -104,20 +141,10 @@ const NotificationSettingItem = memo(
             channel,
             user_id,
             enabled: checked,
-            created_at,
-            updated_at,
           },
         });
       },
-      [
-        id,
-        type,
-        channel,
-        user_id,
-        created_at,
-        updated_at,
-        mutateUpsertUserNotificationSetting,
-      ],
+      [id, type, channel, user_id, mutateUpsertUserNotificationSetting],
     );
 
     const handleCheckedChange = useThrottledCallback(
@@ -125,20 +152,16 @@ const NotificationSettingItem = memo(
       250,
     );
 
-    if (!label) {
-      return null;
-    }
-
-    const labelId = `notification-setting-${id}`;
+    const labelId = `notification-setting-${type}-${channel}`;
 
     return (
       <div className="flex items-center justify-between gap-4">
         <p id={labelId} className="text-sm font-mono">
-          {label}
+          {NOTIFICATION_LABEL_MAP[type]}
         </p>
         <Switch
           aria-labelledby={labelId}
-          checked={setting.enabled}
+          checked={setting?.enabled ?? false}
           onCheckedChange={handleCheckedChange}
         />
       </div>
