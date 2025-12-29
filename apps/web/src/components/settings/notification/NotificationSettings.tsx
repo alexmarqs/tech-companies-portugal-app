@@ -127,7 +127,7 @@ const NotificationSettingItem = memo(
       250,
     );
 
-    const labelId = `notification-setting-${type}`;
+    const labelId = `notification-setting-${type}-${channel}`;
 
     return (
       <div className="flex items-center justify-between gap-4">
