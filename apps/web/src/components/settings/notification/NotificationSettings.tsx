@@ -61,6 +61,7 @@ const NotificationSettingItem = memo(
       (setting) => setting.type === type && setting.channel === channel,
     );
 
+    // if user id will be set in the onMutate from the session, so if it does not exist this fallback is used
     const { id, user_id = "" } = setting ?? {};
 
     const queryClient = useQueryClient();
@@ -68,25 +69,47 @@ const NotificationSettingItem = memo(
     const { mutate: mutateUpsertUserNotificationSetting } =
       useUpsertUserNotificationSetting({
         onMutate: async (newData) => {
-          await queryClient.cancelQueries({
-            queryKey: [NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS],
-          });
+          const queryKey = [
+            NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS,
+          ];
 
-          const previousData = queryClient.getQueryData<
-            Tables<"notification_settings">[]
-          >([NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS]);
+          // Cancel any in-flight queries with the same query key
+          await queryClient.cancelQueries({ queryKey });
 
-          // Only perform optimistic update if previousData exists
-          if (previousData) {
-            queryClient.setQueryData<Tables<"notification_settings">[]>(
-              [NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS],
-              previousData.map((item) =>
-                item.id === newData.setting.id
+          // Snapshot previous data (or empty array if none)
+          const previousData =
+            queryClient.getQueryData<Tables<"notification_settings">[]>(
+              queryKey,
+            ) ?? [];
+
+          const existingItem = previousData.find(
+            (item) =>
+              item.user_id === newData.setting.user_id &&
+              item.type === newData.setting.type &&
+              item.channel === newData.setting.channel,
+          );
+
+          const nextData = existingItem
+            ? previousData.map((item) =>
+                item.id === existingItem.id
                   ? { ...item, ...newData.setting }
                   : item,
-              ),
-            );
-          }
+              )
+            : [
+                ...previousData,
+                {
+                  ...newData.setting,
+                  id: `temp-${crypto.randomUUID()}`,
+                  created_at: new Date().toISOString(),
+                  updated_at: new Date().toISOString(),
+                  enabled: newData.setting.enabled ?? false,
+                },
+              ];
+
+          queryClient.setQueryData<Tables<"notification_settings">[]>(
+            queryKey,
+            nextData,
+          );
 
           return { previousData };
         },
