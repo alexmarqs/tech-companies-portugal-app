@@ -61,8 +61,10 @@ const NotificationSettingItem = memo(
       (setting) => setting.type === type && setting.channel === channel,
     );
 
-    // if user id will be set in the onMutate from the session, so if it does not exist this fallback is used
-    const { id, user_id = "" } = setting ?? {};
+    const id =
+      setting?.id && !setting.id.startsWith("temp-") ? setting.id : undefined;
+
+    const user_id = setting?.user_id ?? ""; // fallback to empty string if user id is not set, the user id is already overridden in the onMutate function.
 
     const queryClient = useQueryClient();
 
