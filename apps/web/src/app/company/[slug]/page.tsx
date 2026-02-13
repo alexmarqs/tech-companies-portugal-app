@@ -1,7 +1,7 @@
 import { Categories, Locations } from "@/components/CompanyItem";
 import { CopyUrlButton } from "@/components/CopyUrlButton";
 import { Button } from "@/components/ui/button";
-import { RetroContainer } from "@/components/ui/retro-container";
+import { Container } from "@/components/ui/container";
 import {
   APP_URL,
   defaultMetadata,
@@ -83,11 +83,18 @@ export default async function CompanyPage({
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-1 items-center justify-center p-3">
-      <RetroContainer variant="static" className="flex-1 space-y-8 px-6 py-6">
-        <div className="space-y-2">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <h1 className="text-2xl">{company.name}</h1>
+    <div className="container mx-auto flex w-full max-w-3xl flex-1 items-center justify-center px-4 py-8">
+      <Container variant="static" className="flex-1 space-y-6 px-8 py-8">
+        <div className="space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 text-primary font-bold text-lg shrink-0">
+                {company.name.charAt(0)}
+              </div>
+              <h1 className="text-2xl font-bold tracking-tight">
+                {company.name}
+              </h1>
+            </div>
             <CopyUrlButton />
           </div>
           <div className="flex flex-wrap items-center justify-start gap-4">
@@ -95,7 +102,7 @@ export default async function CompanyPage({
             <Categories categories={company.categories} />
           </div>
         </div>
-        <p className="tracking-wide text-muted-foreground">
+        <p className="text-muted-foreground leading-relaxed">
           {company.description}
         </p>
         <div className="flex flex-wrap items-center justify-start gap-3">
@@ -120,7 +127,7 @@ export default async function CompanyPage({
             label="GitHub"
           />
         </div>
-      </RetroContainer>
+      </Container>
     </div>
   );
 }

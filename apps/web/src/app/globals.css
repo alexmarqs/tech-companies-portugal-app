@@ -23,7 +23,7 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
-    --radius: 0rem;
+    --radius: 0.75rem;
     --orange: 32 95% 83%;
   }
 
@@ -69,4 +69,22 @@
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Logo hand-drawn gradient stroke */
+.logo-stroke {
+  position: relative;
+}
+
+.logo-stroke::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: -2px;
+  right: -2px;
+  height: 2.5px;
+  background: linear-gradient(90deg, #10b981, #ef4444);
+  border-radius: 9999px;
+  transform: rotate(-0.6deg);
+  opacity: 0.8;
 }

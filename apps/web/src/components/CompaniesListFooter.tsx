@@ -6,7 +6,6 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import { useSearchQueryParams } from "../hooks/useSearchQueryParams";
-import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 
 type CompaniesListFooterProps = {
@@ -26,24 +25,17 @@ export default function CompaniesListFooter({
 
   return (
     <div
-      className="flex items-center justify-between gap-2"
+      className="flex items-center justify-center gap-3 py-2"
       data-testid="companies-list-footer"
     >
-      <div className="flex basis-1/2 justify-end text-sm text-muted-foreground h-8">
-        <Badge
-          variant="outline"
-          className="rounded-none bg-white px-1 gap-1 border-none"
-        >
-          Page {currentPage} of {totalPages}
-        </Badge>
-      </div>
-      <div className="inline-flex flex-row items-center gap-2">
+      <div className="inline-flex items-center gap-1 rounded-lg border border-border/60 bg-card p-1 shadow-sm">
         <Button
           className={cn(
-            isPreviousDisabled && "pointer-events-none text-muted-foreground",
-            "!px-2 h-8 border-none",
+            isPreviousDisabled &&
+              "pointer-events-none text-muted-foreground/40",
+            "!px-2 h-8",
           )}
-          variant="outline"
+          variant="ghost"
           size="sm"
           onClick={() => setSearchParams({ page: 1 })}
         >
@@ -51,32 +43,38 @@ export default function CompaniesListFooter({
         </Button>
         <Button
           className={cn(
-            isPreviousDisabled && "pointer-events-none text-muted-foreground",
-            "!px-2 h-8 border-none",
+            isPreviousDisabled &&
+              "pointer-events-none text-muted-foreground/40",
+            "!px-2 h-8",
           )}
-          variant="outline"
+          variant="ghost"
           size="sm"
           onClick={() => setSearchParams({ page: currentPage - 1 })}
         >
           <ChevronLeft className="shrink-0" size={16} />
         </Button>
+
+        <span className="px-3 text-sm font-medium text-muted-foreground tabular-nums">
+          {currentPage} / {totalPages}
+        </span>
+
         <Button
-          variant="outline"
+          variant="ghost"
           size="sm"
           className={cn(
-            isNextDisabled && "pointer-events-none text-muted-foreground",
-            "!px-2 h-8 border-none",
+            isNextDisabled && "pointer-events-none text-muted-foreground/40",
+            "!px-2 h-8",
           )}
           onClick={() => setSearchParams({ page: currentPage + 1 })}
         >
           <ChevronRight className="shrink-0" size={16} />
         </Button>
         <Button
-          variant="outline"
+          variant="ghost"
           size="sm"
           className={cn(
-            isNextDisabled && "pointer-events-none text-muted-foreground",
-            "!px-2 h-8 border-none",
+            isNextDisabled && "pointer-events-none text-muted-foreground/40",
+            "!px-2 h-8",
           )}
           onClick={() => setSearchParams({ page: totalPages })}
         >

@@ -1,6 +1,6 @@
 import { GithubLogin } from "@/components/GithubLogin";
 import { GoogleLogin } from "@/components/GoogleLogin";
-import { RetroContainer } from "@/components/ui/retro-container";
+import { Container } from "@/components/ui/container";
 import {
   APP_URL,
   defaultMetadata,
@@ -45,7 +45,7 @@ export default function LoginPage() {
   return (
     <div className="bg-transparent flex-1 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-4">
-        <RetroContainer className="p-6">
+        <Container className="p-6">
           <div className="space-y-4">
             <div className="flex items-center justify-center">
               <Image
@@ -69,7 +69,7 @@ export default function LoginPage() {
               </Suspense>
             </div>
           </div>
-        </RetroContainer>
+        </Container>
         <p className="text-[11px] text-muted-foreground text-center px-4 bg-white">
           By signing in, you agree to receive news and updates from Tech
           Companies Portugal. You can unsubscribe at any time.

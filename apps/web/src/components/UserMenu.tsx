@@ -15,7 +15,7 @@ import { useSession } from "@/lib/contexts/SessionContext";
 import { createClient } from "@/lib/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { trackEvent } from "@tech-companies-portugal/analytics/client";
-import { Loader2, LogOut, Settings } from "lucide-react";
+import { Loader2, LogIn, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -63,20 +63,9 @@ export function UserMenu() {
             onClick={() => trackEvent("login_button_clicked")}
             href="/login"
           >
+            <LogIn className="mr-2 h-4 w-4" />
             Sign in
           </Link>
-        </Button>
-        <Button size="sm" asChild>
-          <a
-            href="https://github.com/alexmarqs/tech-companies-portugal-app"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="!px-[10px]"
-            aria-label="View project on GitHub"
-            onClick={() => trackEvent("github_button_clicked")}
-          >
-            <SocialIcons icon="github" />
-          </a>
         </Button>
       </>
     );

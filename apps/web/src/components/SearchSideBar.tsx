@@ -1,11 +1,10 @@
 "use client";
 
-import { X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
 import { Button } from "./ui/button";
-import { RetroContainer } from "./ui/retro-container";
 import {
   Select,
   SelectContent,
@@ -20,7 +19,6 @@ import { Badge } from "./ui/badge";
 type SearchSideBarProps = {
   locationOptions: string[];
   categoryOptions: string[];
-  extendedUIAction?: () => React.ReactNode;
   onResetAction?: () => void;
   showCountBadge?: boolean;
 };
@@ -28,7 +26,7 @@ type SearchSideBarProps = {
 export function SearchSideBar({
   locationOptions,
   categoryOptions,
-  extendedUIAction,
+
   onResetAction,
   showCountBadge = true,
 }: SearchSideBarProps) {
@@ -37,48 +35,60 @@ export function SearchSideBar({
 
   return (
     <div className="w-full flex flex-col h-full gap-4 justify-between">
-      <RetroContainer
-        variant="static"
-        className="shrink-0 lg:w-[290px] lg:mx-auto relative"
-      >
-        {showCountBadge && (
-          <div className="absolute top-0 right-0 text-xs p-1">
-            {appliedFilters.length > 0 && (
-              <Badge className="text-xs px-2 m-0">
-                {appliedFilters.length}
-              </Badge>
-            )}
+      <div className="shrink-0 w-full lg:w-[300px] lg:mx-auto relative bg-card rounded-xl border border-border/60 shadow-sm p-5">
+        {showCountBadge && appliedFilters.length > 0 && (
+          <div className="absolute -top-2 -right-2">
+            <Badge className="text-[10px] px-2 py-[3px] rounded-full shadow-sm text-white bg-primary">
+              {appliedFilters.length}
+            </Badge>
           </div>
         )}
 
         <form
-          className="px-4 py-3 w-full"
+          className="w-full"
           aria-label="Search form"
           onSubmit={(e) => {
             e.preventDefault();
           }}
         >
-          <fieldset className="mt-2">
+          <fieldset>
             <legend className="sr-only">Search Filters</legend>
             <div className="space-y-4">
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="query">Search Company</Label>
-                <Input
-                  id="query"
-                  name="query"
-                  onChange={(e) => {
-                    setSearchParams(
-                      { query: e.target.value, page: 1 },
-                      { throttleMs: 250 },
-                    );
-                  }}
-                  value={searchParams.query || ""}
-                  placeholder="Name or description term"
-                  aria-label="Search by name or description"
-                />
+              <div className="flex flex-col gap-1.5">
+                <Label
+                  htmlFor="query"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+                >
+                  Keywords
+                </Label>
+                <div className="relative">
+                  <Search
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                    size={14}
+                  />
+                  <Input
+                    id="query"
+                    name="query"
+                    onChange={(e) => {
+                      setSearchParams(
+                        { query: e.target.value, page: 1 },
+                        { throttleMs: 250 },
+                      );
+                    }}
+                    value={searchParams.query || ""}
+                    placeholder="Name or description"
+                    className="pl-9 h-10 rounded-lg bg-muted/30"
+                    aria-label="Search by name or description"
+                  />
+                </div>
               </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="category">Category</Label>
+              <div className="flex flex-col gap-1.5">
+                <Label
+                  htmlFor="category"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+                >
+                  Industry
+                </Label>
                 <Select
                   value={searchParams.category || "all"}
                   onValueChange={(value) =>
@@ -86,11 +96,14 @@ export function SearchSideBar({
                   }
                   aria-label="Select a category"
                 >
-                  <SelectTrigger id="category" className="w-full">
-                    <SelectValue placeholder="Select a category" />
+                  <SelectTrigger
+                    id="category"
+                    className="w-full h-10 rounded-lg bg-muted/30"
+                  >
+                    <SelectValue placeholder="All Categories" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All categories</SelectItem>
+                    <SelectItem value="all">All Categories</SelectItem>
                     {categoryOptions.map((category) => (
                       <SelectItem key={category} value={category}>
                         {category}
@@ -99,8 +112,13 @@ export function SearchSideBar({
                   </SelectContent>
                 </Select>
               </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="location">Location</Label>
+              <div className="flex flex-col gap-1.5">
+                <Label
+                  htmlFor="location"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+                >
+                  Location
+                </Label>
                 <Select
                   value={searchParams.location || "all"}
                   onValueChange={(value) =>
@@ -108,11 +126,14 @@ export function SearchSideBar({
                   }
                   aria-label="Select a location"
                 >
-                  <SelectTrigger id="location" className="w-full">
-                    <SelectValue placeholder="Select a location" />
+                  <SelectTrigger
+                    id="location"
+                    className="w-full h-10 rounded-lg bg-muted/30"
+                  >
+                    <SelectValue placeholder="All Locations" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All locations</SelectItem>
+                    <SelectItem value="all">All Locations</SelectItem>
                     {locationOptions.map((location) => (
                       <SelectItem key={location} value={location}>
                         {location}
@@ -122,25 +143,26 @@ export function SearchSideBar({
                 </Select>
               </div>
 
-              <Button
-                type="button"
-                variant="secondary"
-                disabled={appliedFilters.length === 0}
-                className="h-9 w-full px-2"
-                onClick={() => {
-                  setSearchParams(null);
-                  onResetAction?.();
-                }}
-                aria-label="Reset filters"
-              >
-                <X className="mr-[2px] h-4 w-4" aria-hidden="true" />
-                Reset filters
-              </Button>
-              {extendedUIAction?.()}
+              <div className="flex gap-2 pt-1">
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={appliedFilters.length === 0}
+                  className="h-10 flex-1"
+                  onClick={() => {
+                    setSearchParams(null);
+                    onResetAction?.();
+                  }}
+                  aria-label="Reset filters"
+                >
+                  <X className="mr-1 h-3.5 w-3.5" aria-hidden="true" />
+                  Reset
+                </Button>
+              </div>
             </div>
           </fieldset>
         </form>
-      </RetroContainer>
+      </div>
     </div>
   );
 }

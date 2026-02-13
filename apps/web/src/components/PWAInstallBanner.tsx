@@ -125,7 +125,7 @@ export const PWAInstallBanner = () => {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 md:bottom-2 md:right-2 md:left-auto">
-      <div className="relative flex flex-col gap-3 rounded-lg bg-orange-100 p-4 shadow-lg border-orange-200 border-2">
+      <div className="relative flex flex-col gap-3 rounded-lg bg-emerald-100 p-4 shadow-lg border-emerald-200 border-2">
         <button
           type="button"
           onClick={handleDismiss}

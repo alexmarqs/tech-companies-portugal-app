@@ -1,4 +1,5 @@
 import CompaniesList from "@/components/CompaniesList";
+import { SearchSideBar } from "@/components/SearchSideBar";
 import { SideBar } from "@/components/SideBar";
 import { getParsedCompaniesData } from "@/lib/parser/companies";
 
@@ -13,6 +14,12 @@ export default async function CompaniesPage() {
         locationOptions={availableLocations}
       />
 
+      <div className="block lg:hidden">
+        <SearchSideBar
+          locationOptions={availableLocations}
+          categoryOptions={availableCategories}
+        />
+      </div>
       <CompaniesList allCompanies={companies} />
     </section>
   );

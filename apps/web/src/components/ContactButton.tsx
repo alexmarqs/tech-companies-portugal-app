@@ -44,7 +44,7 @@ export const ContactButton = () => {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="flex items-center gap-2" variant="default">
+          <Button className="flex items-center gap-2" variant="outline">
             <span>Talk to us</span>
             <MessageCircle size={16} />
           </Button>
@@ -66,7 +66,7 @@ export const ContactButton = () => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button size="sm" className="flex items-center gap-2" variant="default">
+        <Button size="sm" className="flex items-center gap-2" variant="outline">
           <span>Talk to us</span>
           <MessageCircle size={16} />
         </Button>

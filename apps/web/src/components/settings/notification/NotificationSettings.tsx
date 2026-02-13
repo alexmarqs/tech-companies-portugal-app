@@ -1,4 +1,4 @@
-import { RetroContainer } from "@/components/ui/retro-container";
+import { Container } from "@/components/ui/container";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -27,10 +27,10 @@ export const NotificationSettings = () => {
   }
 
   return (
-    <RetroContainer className="p-6">
+    <Container className="p-6">
       <div className="space-y-8">
         <div className="space-y-2">
-          <h3 className="text-md font-mono">Notification Settings</h3>
+          <h3 className="text-md">Notification Settings</h3>
           <p className="text-xs text-muted-foreground">
             Manage how and when you receive notifications.
           </p>
@@ -43,7 +43,7 @@ export const NotificationSettings = () => {
           />
         </div>
       </div>
-    </RetroContainer>
+    </Container>
   );
 };
 
@@ -156,7 +156,7 @@ const NotificationSettingItem = memo(
 
     return (
       <div className="flex items-center justify-between gap-4">
-        <p id={labelId} className="text-sm font-mono">
+        <p id={labelId} className="text-sm">
           {NOTIFICATION_LABEL_MAP[type]}
         </p>
         <Switch

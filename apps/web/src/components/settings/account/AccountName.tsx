@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui/container";
 import {
   Form,
   FormControl,
@@ -10,7 +11,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { RetroContainer } from "@/components/ui/retro-container";
 import {
   UsersServerKeys,
   useGetUserProfile,
@@ -73,7 +73,7 @@ export const AccountName = () => {
   });
 
   return (
-    <RetroContainer className="p-6">
+    <Container className="p-6">
       <Form {...form}>
         <form onSubmit={onSubmit} className="space-y-4">
           <FormField
@@ -110,6 +110,6 @@ export const AccountName = () => {
           </div>
         </form>
       </Form>
-    </RetroContainer>
+    </Container>
   );
 };

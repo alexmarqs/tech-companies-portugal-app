@@ -1,26 +1,63 @@
+const BackgroundGradients = () => {
+  return (
+    <>
+      {/* Animated aurora mesh gradient */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-1/2 -left-1/4 w-[80%] h-[140%] bg-gradient-to-br from-emerald-400/40 via-emerald-300/20 to-transparent rounded-full blur-[80px] animate-[aurora-shift_8s_ease-in-out_infinite_alternate]" />
+        <div className="absolute -bottom-1/3 -right-1/4 w-[70%] h-[120%] bg-gradient-to-tl from-red-400/30 via-rose-300/15 to-transparent rounded-full blur-[90px] animate-[aurora-shift_10s_ease-in-out_infinite_alternate-reverse]" />
+        <div className="absolute top-0 left-1/3 w-[50%] h-[80%] bg-gradient-to-b from-amber-200/25 via-orange-200/15 to-transparent rounded-full blur-[70px] animate-[aurora-shift_12s_ease-in-out_infinite_alternate]" />
+        <div className="absolute -top-1/4 right-0 w-[40%] h-[100%] bg-gradient-to-bl from-emerald-200/20 via-teal-300/10 to-transparent rounded-full blur-[100px] animate-[aurora-shift_9s_ease-in-out_infinite_alternate-reverse]" />
+      </div>
+
+      {/* Edge fades to background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background/70" />
+      <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-b from-transparent to-background" />
+    </>
+  );
+};
+
 export default function CompaniesHeader() {
   return (
     <section
-      className="font-mono relative w-full overflow-hidden pt-6 pb-4 text-center"
+      className="relative w-full overflow-hidden pt-14 pb-12"
       data-testid="companies-header"
       aria-labelledby="companies-heading"
     >
-      <div className="relative z-[5] px-4 max-w-3xl mx-auto flex flex-col items-center gap-6">
-        <div className="flex flex-col">
+      <BackgroundGradients />
+
+      <div className="relative z-[5] container mx-auto px-4">
+        <div className="flex flex-col items-center text-center gap-6 max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-foreground/5 border border-border/60 backdrop-blur-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-widest">
+              350+ Tech Companies. Daily Updates.
+            </span>
+          </div>
+
           <h1
             id="companies-heading"
-            className="text-4xl font-bold tracking-tight"
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1]"
           >
-            <span className="bg-orange-100/50 -rotate-1 p-1 shadow-sm inline-block">
-              <span className="text-red-500/90">Find top tech companies</span>{" "}
-              in Portugal
+            Find top{" "}
+            <span className="bg-gradient-to-r from-emerald-600 to-emerald-400 bg-clip-text text-transparent">
+              tech companies
+            </span>
+            <br />
+            in{" "}
+            <span className="relative inline-block">
+              <span className="relative z-10">Portugal</span>
+              <span
+                className="absolute bottom-1 left-0 right-0 h-3 bg-gradient-to-r from-emerald-300/40 to-red-300/30 -rotate-[0.5deg] rounded-sm"
+                aria-hidden="true"
+              />
             </span>
           </h1>
+
+          <p className="text-base sm:text-lg text-muted-foreground max-w-lg leading-relaxed">
+            Discover the best tech companies hiring in Portugal — from startups
+            to established enterprises — all in one place.
+          </p>
         </div>
-        <p className="bg-white/50 p-2 rounded-md text-md text-gray-600 max-w-2xl mx-auto font-semibold leading-relaxed">
-          Discover the best tech companies hiring in Portugal — from startups to
-          established enterprises — all in one place
-        </p>
       </div>
     </section>
   );
