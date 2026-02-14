@@ -51,14 +51,16 @@ export default async function Footer() {
                 href="/"
                 className="text-sm text-foreground/80 hover:text-primary transition-colors"
               >
-                Directory
+                About
               </Link>
-              <Link
-                href="/settings"
+              <a
                 className="text-sm text-foreground/80 hover:text-primary transition-colors"
+                href="https://github.com/alexmarqs/tech-companies-portugal-app"
+                target="_blank"
+                rel="noreferrer"
               >
-                Newsletter
-              </Link>
+                Open Source
+              </a>
             </nav>
           </div>
 
@@ -68,22 +70,18 @@ export default async function Footer() {
               Resources
             </h3>
             <nav className="flex flex-col gap-2.5">
-              <a
-                href="https://github.com/alexmarqs/tech-companies-portugal-app"
-                target="_blank"
-                rel="noreferrer"
+              <Link
+                href="/privacy"
                 className="text-sm text-foreground/80 hover:text-primary transition-colors"
               >
-                GitHub
-              </a>
-              <a
-                href="https://alexandremarques.io"
-                target="_blank"
-                rel="noreferrer"
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms"
                 className="text-sm text-foreground/80 hover:text-primary transition-colors"
               >
-                About
-              </a>
+                Terms of Service
+              </Link>
             </nav>
           </div>
 
@@ -92,25 +90,30 @@ export default async function Footer() {
             <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
               Social
             </h3>
-            <nav className="flex flex-col gap-2.5">
+            <nav className="flex items-center gap-3">
               <a
                 href="https://github.com/alexmarqs"
                 target="_blank"
                 rel="noreferrer"
-                className="text-sm text-foreground/80 hover:text-primary transition-colors"
+                className="text-muted-foreground hover:text-foreground hover:scale-110 transition-all"
               >
-                <SocialIcons
-                  icon="github"
-                  className="w-8 h-8 hover:text-primary/80 transition-colors"
-                />
+                <SocialIcons icon="github" className="size-5" />
               </a>
               <a
-                href="https://twitter.com/alexmarqs"
+                href="https://x.com/alexlmarques"
                 target="_blank"
                 rel="noreferrer"
-                className="text-sm text-foreground/80 hover:text-primary transition-colors"
+                className="text-muted-foreground hover:text-foreground hover:scale-110 transition-all"
               >
-                <SocialIcons icon="x" />
+                <SocialIcons icon="x" className="size-5" />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/alexandre-marques-ba87a877"
+                target="_blank"
+                rel="noreferrer"
+                className="text-muted-foreground hover:text-foreground hover:scale-110 transition-all"
+              >
+                <SocialIcons icon="linkedin" className="size-5" />
               </a>
             </nav>
           </div>
