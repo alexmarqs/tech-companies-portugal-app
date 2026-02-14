@@ -14,8 +14,8 @@ export const NotificationsSideSection = () => {
           <h2 className="text-base font-bold">Stay updated</h2>
         </div>
         <p className="text-sm text-white/80 leading-relaxed">
-          Weekly updates when new companies are added, to stay ahead of the
-          curve.
+          Receive updates to stay ahead of the curve of new tech companies in
+          Portugal.
         </p>
         <Button
           variant="secondary"
