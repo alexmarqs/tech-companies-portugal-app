@@ -24,6 +24,7 @@ export default function CompaniesList({
 }: CompaniesListProps) {
   const {
     searchParams: { query, category, location, page },
+    appliedFilters,
   } = useSearchQueryParams();
 
   const start = (page - 1) * PAGE_SIZE;
@@ -64,7 +65,9 @@ export default function CompaniesList({
             )}
             <div className="flex items-center gap-3 text-sm text-muted-foreground">
               <span className="text-xs bg-muted px-2.5 py-1 rounded-full font-medium">
-                Showing {filteredCompanies.length} companies
+                Showing {filteredCompanies.length}{" "}
+                {appliedFilters.length > 0 ? "filtered companies" : "companies"}
+                {totalPages > 1 ? ` • Page ${page}/${totalPages}` : ""}
               </span>
             </div>
           </div>
