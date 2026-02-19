@@ -26,7 +26,7 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - [Turbo](https://turbo.build/) - Monorepo build system
 - [Vercel](https://vercel.com/) - Hosting and CI/CD
 - [PostHog](https://posthog.com/) - Analytics. Coming next, usage of MCP for automatic analytics dashboard
-- [Supabase](https://supabase.com/) - Auth, DB, MCP
+- [Supabase](https://supabase.com/) - Auth, DB, Storage
 - [React Email](https://react.email/) - Email components
 - [PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps) - Basic support for PWA. Coming next, usage of [next-pwa](https://github.com/shadowwalker/next-pwa) to add more features
 - [LLMs.txt](https://llmstxt.org/) - Support for the proposed standard that acts as a guide for large language models (LLMs)
