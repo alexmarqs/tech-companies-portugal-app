@@ -47,3 +47,4 @@ yarn-error.log*
 .cursor
 CLAUDE.md
 AGENTS.md
+.mcp.json
