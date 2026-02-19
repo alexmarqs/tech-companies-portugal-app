@@ -32,6 +32,7 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - [LLMs.txt](https://llmstxt.org/) - Support for the proposed standard that acts as a guide for large language models (LLMs)
 - [Arcjet](https://arcjet.com/) - Rate limiting
 - [Inngest](https://inngest.com/) - Event-driven architecture for serverless functions | Used for notifications
+- [Biome](https://biomejs.dev/) / [React Doctor](https://www.react-doctor.com/) - Formatting and linting
 
 ## How to contribute 🤝
 

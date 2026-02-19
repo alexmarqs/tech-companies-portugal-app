@@ -1,12 +1,13 @@
 "use client";
 
 import { Check, Share2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 
 export const CopyUrlButton = () => {
   const [isCopied, setIsCopied] = useState(false);
   const [canShare, setCanShare] = useState(false);
+  const isSharingRef = useRef(false);
 
   useEffect(() => {
     setCanShare(typeof navigator.share === "function");
@@ -24,6 +25,8 @@ export const CopyUrlButton = () => {
 
   const handleClick = async () => {
     if (canShare) {
+      if (isSharingRef.current) return;
+      isSharingRef.current = true;
       try {
         await navigator.share({
           title: document.title,
@@ -34,6 +37,8 @@ export const CopyUrlButton = () => {
           navigator.clipboard.writeText(window.location.href);
           setIsCopied(true);
         }
+      } finally {
+        isSharingRef.current = false;
       }
       return;
     }

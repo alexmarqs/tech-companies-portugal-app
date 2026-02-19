@@ -53,14 +53,6 @@ export default async function Footer() {
               >
                 About
               </Link>
-              <a
-                className="text-sm text-foreground/80 hover:text-primary transition-colors"
-                href="https://github.com/alexmarqs/tech-companies-portugal-app"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Open Source
-              </a>
             </nav>
           </div>
 
@@ -179,6 +171,7 @@ export default async function Footer() {
                 className="h-5"
                 src="https://techcompaniesportugal.openstatus.dev/badge"
                 alt="OpenStatus Badge"
+                loading="lazy"
               />
             </a>
           </div>

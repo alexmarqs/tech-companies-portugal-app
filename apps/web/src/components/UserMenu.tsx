@@ -58,7 +58,7 @@ export function UserMenu() {
   if (!isAuthenticated) {
     return (
       <>
-        <Button variant="secondary" size="sm" asChild>
+        <Button variant="emerald" size="sm" asChild>
           <Link
             onClick={() => trackEvent("login_button_clicked")}
             href="/login"
