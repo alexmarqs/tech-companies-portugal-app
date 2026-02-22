@@ -128,7 +128,7 @@ export default async function Footer() {
                   className={cn(
                     "text-xs px-3 py-1.5 rounded-full bg-muted/60 text-foreground/70 hover:bg-primary/10 hover:text-primary transition-colors",
                     location?.toLowerCase() === "remote" &&
-                      "bg-emerald-100 text-emerald-700 border border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800",
+                      " border text-emerald-500 border-emerald-400",
                   )}
                 >
                   {location}

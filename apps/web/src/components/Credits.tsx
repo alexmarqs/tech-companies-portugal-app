@@ -13,7 +13,7 @@ export const Credits = () => {
       </a>{" "}
       for the portuguese community
       <span className="mx-1.5 text-border">|</span>
-      <span>
+      <span className="inline-block">
         Source:{" "}
         <a
           href="https://github.com/marmelo/tech-companies-in-portugal"
@@ -22,6 +22,19 @@ export const Credits = () => {
           className="underline underline-offset-2 hover:text-primary transition-colors"
         >
           marmelo/tech-companies-in-portugal
+        </a>
+      </span>
+      <span className="mx-1.5 text-border">|</span>
+      <span className="inline-block">
+        Logos:{" "}
+        <a
+          href="https://logo.dev"
+          target="_blank"
+          rel="noreferrer noopener"
+          title="Logo API"
+          className="underline underline-offset-2 hover:text-primary transition-colors"
+        >
+          Logo.dev
         </a>
       </span>
     </p>

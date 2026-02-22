@@ -34,3 +34,5 @@ export const matchCompanies = (
 };
 
 export const isProd = process.env.NODE_ENV === "production";
+
+export const PUBLIC_CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL;

@@ -10,7 +10,15 @@ type CompanyItemProps = {
 };
 
 export default function CompanyItem({
-  company: { name, description, locations, categories, slug, isFeatured },
+  company: {
+    name,
+    description,
+    locations,
+    categories,
+    slug,
+    isFeatured,
+    logoUrl,
+  },
 }: CompanyItemProps) {
   return (
     <Link
@@ -34,7 +42,17 @@ export default function CompanyItem({
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 text-primary font-bold text-sm shrink-0">
-              {name.charAt(0)}
+              {logoUrl ? (
+                <img
+                  className="rounded-lg object-cover"
+                  src={logoUrl}
+                  alt={name}
+                  width={36}
+                  height={36}
+                />
+              ) : (
+                name.charAt(0)
+              )}
             </div>
             <div className="flex flex-col">
               <h3 className="line-clamp-1 text-base font-semibold group-hover:text-primary transition-colors">

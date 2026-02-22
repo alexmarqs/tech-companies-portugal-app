@@ -1,3 +1,6 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getCompaniesOverview } from "@/lib/parser/companies";
+
 const BackgroundGradients = () => {
   return (
     <>
@@ -16,21 +19,24 @@ const BackgroundGradients = () => {
   );
 };
 
-export default function CompaniesHeader() {
+export default async function CompaniesHeader() {
+  const { firstCompaniesLogos: logos, totalMoreCompanies } =
+    await getCompaniesOverview();
+
   return (
     <section
-      className="relative w-full overflow-hidden pt-14 pb-12"
+      className="relative w-full overflow-hidden pt-4 pb-6"
       data-testid="companies-header"
       aria-labelledby="companies-heading"
     >
       <BackgroundGradients />
 
       <div className="relative z-[5] container mx-auto px-4">
-        <div className="flex flex-col items-center text-center gap-6 max-w-3xl mx-auto">
+        <div className="flex flex-col items-center text-center gap-3 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-foreground/5 border border-border/60 backdrop-blur-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
             <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-widest">
-              350+ Tech Companies. Daily Updates.
+              Updated Daily
             </span>
           </div>
 
@@ -57,6 +63,26 @@ export default function CompaniesHeader() {
             Discover the best tech companies hiring in Portugal — from startups
             to established enterprises — all in one place.
           </p>
+
+          {logos.length > 0 && (
+            <div className="flex items-center gap-2 flex-wrap justify-center">
+              <div className="flex -space-x-3">
+                {logos.map((logo, i) => (
+                  <Avatar
+                    key={logo}
+                    className="h-9 w-9 border-2 border-background ring-1 ring-border/40"
+                    style={{ zIndex: logos.length - i }}
+                  >
+                    <AvatarImage src={logo} alt="" />
+                    <AvatarFallback className="text-xs bg-muted" />
+                  </Avatar>
+                ))}
+              </div>
+              <span className="text-sm text-muted-foreground">
+                and {totalMoreCompanies}+ more
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -89,7 +89,17 @@ export default async function CompanyPage({
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 text-primary font-bold text-lg shrink-0">
-                {company.name.charAt(0)}
+                {company.logoUrl ? (
+                  <img
+                    className="rounded-lg object-cover"
+                    src={company.logoUrl}
+                    alt={company.name}
+                    width={48}
+                    height={48}
+                  />
+                ) : (
+                  company.name.charAt(0)
+                )}
               </div>
               <h1 className="text-2xl font-bold tracking-tight">
                 {company.name}
