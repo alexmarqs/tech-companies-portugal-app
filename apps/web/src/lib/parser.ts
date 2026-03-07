@@ -36,9 +36,12 @@ const fetchGithubReadmeHtmlFrom = async (owner: string, repo: string) => {
       tags: ["companies-data"],
     },
     headers: {
-      UserAgent: "Tech Companies in Portugal",
+      "User-Agent": "Tech Companies in Portugal",
       Accept: "application/vnd.github.html+json",
       "X-GitHub-Api-Version": "2022-11-28",
+      ...(process.env.GITHUB_TOKEN && {
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      }),
     },
   });
 

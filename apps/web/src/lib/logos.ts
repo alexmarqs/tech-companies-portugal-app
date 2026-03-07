@@ -5,6 +5,7 @@ import { createAdminClient } from "./supabase/server";
 import type { Company } from "./types";
 
 const LOGOS_SECRET_KEY = process.env.LOGOS_SERVER_SECRET_KEY;
+const LOGOS_PUBLISHABLE_KEY = process.env.LOGOS_PUBLISHABLE_KEY;
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const BUCKET_NAME = "company-logos";
 const CONCURRENCY = 15;
@@ -35,14 +36,7 @@ function extractDomain(url: string): string | null {
   }
 }
 
-async function fetchLogoFromLogoDev(
-  companyWebsiteUrl: string,
-): Promise<Buffer | null> {
-  if (!LOGOS_SECRET_KEY) return null;
-
-  const domain = extractDomain(companyWebsiteUrl);
-  if (!domain) return null;
-
+async function fetchLogoViaSearch(domain: string): Promise<Buffer | null> {
   const response = await fetch(
     `https://api.logo.dev/search?q=${encodeURIComponent(domain)}`,
     {
@@ -63,6 +57,30 @@ async function fetchLogoFromLogoDev(
 
   const arrayBuffer = await imageResponse.arrayBuffer();
   return Buffer.from(arrayBuffer);
+}
+
+async function fetchLogoDirectly(domain: string): Promise<Buffer | null> {
+  const imageResponse = await fetch(
+    `https://img.logo.dev/${encodeURIComponent(domain)}?token=${LOGOS_PUBLISHABLE_KEY}&format=png`,
+  );
+
+  if (!imageResponse.ok) return null;
+
+  const arrayBuffer = await imageResponse.arrayBuffer();
+  return Buffer.from(arrayBuffer);
+}
+
+async function fetchLogoFromLogoDev(
+  companyWebsiteUrl: string,
+): Promise<Buffer | null> {
+  if (!LOGOS_SECRET_KEY) return null;
+
+  const domain = extractDomain(companyWebsiteUrl);
+  if (!domain) return null;
+
+  return (
+    (await fetchLogoViaSearch(domain)) ?? (await fetchLogoDirectly(domain))
+  );
 }
 
 async function uploadToStorage(

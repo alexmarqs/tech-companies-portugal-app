@@ -32,14 +32,7 @@ export default async function CompaniesHeader() {
       <BackgroundGradients />
 
       <div className="relative z-[5] container mx-auto px-4">
-        <div className="flex flex-col items-center text-center gap-3 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-foreground/5 border border-border/60 backdrop-blur-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-widest">
-              Updated Daily
-            </span>
-          </div>
-
+        <div className="flex flex-col items-center text-center gap-3 max-w-3xl mx-auto pt-2 pb-0 md:py-6">
           <h1
             id="companies-heading"
             className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1]"
