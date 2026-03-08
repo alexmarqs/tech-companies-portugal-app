@@ -89,7 +89,7 @@ export const AccountAvatar = () => {
         htmlFor="avatar-input"
         className="relative cursor-pointer inline-block outline-none rounded-full focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background"
       >
-        <Avatar className="h-20 w-20 flex-shrink-0">
+        <Avatar className="h-20 w-20 shrink-0">
           <AvatarImage
             referrerPolicy="no-referrer"
             className="object-cover"
