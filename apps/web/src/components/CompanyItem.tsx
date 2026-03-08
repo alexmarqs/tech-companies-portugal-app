@@ -23,8 +23,8 @@ export default function CompanyItem({
   return (
     <Link
       className={cn(
-        "group relative flex flex-col rounded-xl border bg-card p-5 transition-all duration-200 hover:shadow-lg",
-        isFeatured ? "border-emerald-500" : "border-border/60 shadow-sm",
+        "group relative flex flex-col rounded-xl border bg-card p-5 transition-all duration-200 hover:shadow-sm",
+        isFeatured ? "border-emerald-500" : "border-border/60",
       )}
       data-testid="company-item"
       aria-label={`View details for ${name}`}
@@ -41,7 +41,7 @@ export default function CompanyItem({
       <div className="flex flex-col gap-3 flex-1">
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 text-primary font-bold text-sm shrink-0">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-linear-to-br from-primary/10 to-primary/5 text-primary font-bold text-sm shrink-0">
               {logoUrl ? (
                 <img
                   className="rounded-lg object-cover"
@@ -82,12 +82,12 @@ export default function CompanyItem({
 
 export const Locations = ({ locations }: { locations: string[] }) => {
   return (
-    <div className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
+    <div className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground leading-none">
       <MapPin className="shrink-0 text-primary/60" size={13} />
       {locations.map((location, index) => {
         return (
           <React.Fragment key={location}>
-            <p className="text-nowrap">{location}</p>
+            <span className="text-nowrap">{location}</span>
             {index !== locations.length - 1 && (
               <span className="text-border">&#8226;</span>
             )}

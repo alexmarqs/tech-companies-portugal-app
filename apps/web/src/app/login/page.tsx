@@ -45,7 +45,7 @@ export default function LoginPage() {
   return (
     <div className="bg-transparent flex-1 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-4">
-        <Container className="p-6">
+        <Container variant="static" className="p-6">
           <div className="space-y-4">
             <div className="flex items-center justify-center">
               <Image

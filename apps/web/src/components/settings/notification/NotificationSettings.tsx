@@ -27,7 +27,7 @@ export const NotificationSettings = () => {
   }
 
   return (
-    <Container className="p-6">
+    <Container variant="static" className="p-6">
       <div className="space-y-8">
         <div className="space-y-2">
           <h3 className="text-md">Notification Settings</h3>

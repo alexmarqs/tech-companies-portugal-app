@@ -4,13 +4,14 @@ import type { Company } from "@/lib/types";
 import { matchCompanies } from "@/lib/utils";
 import { ArrowLeft, LayoutGrid, List } from "lucide-react";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useSearchQueryParams } from "../hooks/useSearchQueryParams";
 import CompaniesListFooter from "./CompaniesListFooter";
 import CompanyItem from "./CompanyItem";
 import { EmptyState } from "./EmptyState";
 import { NotificationsSideSection } from "./NotificationsSideSection";
-import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
+import { Button } from "./ui/button";
+import { ButtonGroup } from "./ui/button-group";
 
 const PAGE_SIZE = 12;
 
@@ -23,6 +24,7 @@ export default function CompaniesList({
   allCompanies,
   isDedicatedPage = false,
 }: CompaniesListProps) {
+  const [view, setView] = useState<"grid" | "list">("grid");
   const {
     searchParams: { query, category, location, page },
     appliedFilters,
@@ -47,8 +49,8 @@ export default function CompaniesList({
   return (
     <>
       {!paginatedCompanies.length ? (
-        <div className="flex-1 flex items-center text-muted-foreground justify-center min-h-[300px]">
-          <EmptyState title="Ups, no companies found. Try another search." />
+        <div className="flex-1 flex items-center text-muted-foreground justify-center min-h-[300px] border border-border/60 rounded-xl p-4 bg-muted/20">
+          <EmptyState title="Ups, no companies found! Try another search." />
         </div>
       ) : (
         <div className="flex-1">
@@ -69,19 +71,26 @@ export default function CompaniesList({
                 {totalPages > 1 ? ` • Page ${page}/${totalPages}` : ""}
               </span>
             </div>
-            <ToggleGroup
-              size="sm"
-              variant="outline"
-              type="single"
-              defaultValue="grid"
-            >
-              <ToggleGroupItem value="grid" aria-label="Toggle grid">
-                <LayoutGrid size={16} />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="list" aria-label="Toggle list">
-                <List size={16} />
-              </ToggleGroupItem>
-            </ToggleGroup>
+            <ButtonGroup>
+              <Button
+                size="sm"
+                variant="outline"
+                aria-label="Grid view"
+                className={view === "grid" ? "bg-accent" : ""}
+                onClick={() => setView("grid")}
+              >
+                <LayoutGrid data-icon="inline-start" />
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                aria-label="List view"
+                className={view === "list" ? "bg-accent" : ""}
+                onClick={() => setView("list")}
+              >
+                <List data-icon="inline-start" />
+              </Button>
+            </ButtonGroup>
           </div>
           <div
             className="grid grid-cols-1 md:grid-cols-2 gap-4"

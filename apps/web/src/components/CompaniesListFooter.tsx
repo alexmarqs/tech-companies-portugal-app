@@ -28,12 +28,12 @@ export default function CompaniesListFooter({
       className="flex items-center justify-center gap-3 py-2"
       data-testid="companies-list-footer"
     >
-      <div className="inline-flex items-center gap-1 rounded-lg border border-border/60 bg-card p-1 shadow-sm">
+      <div className="inline-flex items-center gap-1 rounded-lg border border-border/60 bg-card p-1">
         <Button
           className={cn(
             isPreviousDisabled &&
               "pointer-events-none text-muted-foreground/40",
-            "!px-2 h-8",
+            "px-2! h-8",
           )}
           variant="ghost"
           size="sm"
@@ -45,7 +45,7 @@ export default function CompaniesListFooter({
           className={cn(
             isPreviousDisabled &&
               "pointer-events-none text-muted-foreground/40",
-            "!px-2 h-8",
+            "px-2! h-8",
           )}
           variant="ghost"
           size="sm"
@@ -63,7 +63,7 @@ export default function CompaniesListFooter({
           size="sm"
           className={cn(
             isNextDisabled && "pointer-events-none text-muted-foreground/40",
-            "!px-2 h-8",
+            "px-2! h-8",
           )}
           onClick={() => setSearchParams({ page: currentPage + 1 })}
         >
@@ -74,7 +74,7 @@ export default function CompaniesListFooter({
           size="sm"
           className={cn(
             isNextDisabled && "pointer-events-none text-muted-foreground/40",
-            "!px-2 h-8",
+            "px-2! h-8",
           )}
           onClick={() => setSearchParams({ page: totalPages })}
         >

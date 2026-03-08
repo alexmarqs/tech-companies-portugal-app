@@ -74,7 +74,10 @@ export const AccountAvatar = () => {
   };
 
   return (
-    <Container className="p-6 flex justify-between w-full items-center gap-1 flex-wrap">
+    <Container
+      variant="static"
+      className="p-6 flex justify-between w-full items-center gap-1 flex-wrap"
+    >
       <div className="space-y-2 flex-1">
         <h3 className="text-md">Upload Avatar</h3>
         <p className="text-xs text-muted-foreground">

@@ -17,7 +17,11 @@ export const NotificationsSideSection = () => {
           Receive updates to stay ahead of the curve of new tech companies in
           Portugal.
         </p>
-        <Button variant="emerald" size="sm" className="w-full mt-1" asChild>
+        <Button
+          size="sm"
+          className="w-full mt-1 bg-emerald-500 text-white hover:bg-emerald-600"
+          asChild
+        >
           <Link href={`/settings?tab=${SettingsTab.NOTIFICATIONS}`} prefetch>
             <Bell size={14} className="mr-1.5" />
             Subscribe Now

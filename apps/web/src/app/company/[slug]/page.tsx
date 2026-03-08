@@ -84,11 +84,14 @@ export default async function CompanyPage({
 
   return (
     <div className="container mx-auto flex w-full max-w-3xl flex-1 items-center justify-center px-4 py-8">
-      <Container variant="static" className="flex-1 space-y-6 px-8 py-8">
+      <Container
+        variant="static"
+        className="flex-1 space-y-6 px-4 sm:px-8 py-8"
+      >
         <div className="space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 text-primary font-bold text-lg shrink-0">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-primary/10 to-primary/5 text-primary font-bold text-lg shrink-0">
                 {company.logoUrl ? (
                   <img
                     className="rounded-lg object-cover"
@@ -157,7 +160,7 @@ const LinkUrlButton = ({
   return (
     <Button
       variant="secondary"
-      className="h-8 px-2 text-xs text-foreground"
+      className="h-8 px-2 text-xs hover:bg-secondary/60"
       asChild
     >
       <a href={url} target="_blank" rel="noreferrer noopener">

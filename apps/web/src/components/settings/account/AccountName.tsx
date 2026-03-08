@@ -73,7 +73,7 @@ export const AccountName = () => {
   });
 
   return (
-    <Container className="p-6">
+    <Container variant="static" className="p-6">
       <Form {...form}>
         <form onSubmit={onSubmit} className="space-y-4">
           <FormField

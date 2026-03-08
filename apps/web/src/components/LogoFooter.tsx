@@ -16,9 +16,7 @@ export const LogoFooter = () => {
           <span className="text-xs font-bold tracking-tight">
             TechCompanies
           </span>
-          <span className="text-xs font-bold tracking-tight">
-            Portugal
-          </span>
+          <span className="text-xs font-bold tracking-tight">Portugal</span>
         </span>
       </div>
       <a

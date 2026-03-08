@@ -13,7 +13,7 @@ const CtaBannerBackground = () => {
 export default function CtaBanner() {
   return (
     <section className="container mx-auto flex w-full max-w-6xl px-4 py-5">
-      <div className="flex-1 relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 px-8 md:px-14 py-10">
+      <div className="flex-1 relative overflow-hidden rounded-2xl bg-linear-to-r from-gray-900 via-gray-800 to-gray-900 px-8 md:px-14 py-10">
         <CtaBannerBackground />
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="flex flex-col gap-3 max-w-lg">
@@ -32,7 +32,11 @@ export default function CtaBanner() {
               premium sponsor and get your logo on the website and get featured!
             </p>
           </div>
-          <Button variant="emerald" size="lg" className="shrink-0 px-3" asChild>
+          <Button
+            size="lg"
+            className="shrink-0 px-3 bg-emerald-500 text-white hover:bg-emerald-600"
+            asChild
+          >
             <a href={`mailto:${PUBLIC_CONTACT_EMAIL}`}>
               <Mail size={14} className="mr-1.5" />
               Contact us

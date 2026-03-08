@@ -8,13 +8,13 @@ import { UserMenu } from "./UserMenu";
 export default function Navbar() {
   return (
     <header
-      className="bg-card/80 backdrop-blur-xl border-b border-border/40 sticky top-0 z-10 py-2.5 shadow-sm"
+      className="bg-card/80 backdrop-blur-xl border-b border-border/40 sticky top-0 z-50 py-2.5"
       data-testid="navbar"
     >
       <div className="container mx-auto flex h-full items-center justify-between gap-4 px-4">
         <Link
           href="/"
-          className="flex items-center gap-2 flex-shrink-0"
+          className="flex items-center gap-2 shrink-0"
           aria-label="Tech Companies Portugal - Home"
         >
           <Image

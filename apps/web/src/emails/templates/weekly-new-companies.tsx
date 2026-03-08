@@ -14,7 +14,6 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
-import tailwindConfig from "../../../tailwind.config";
 import { Footer } from "../components/footer";
 import { Logo } from "../components/logo";
 
@@ -55,7 +54,7 @@ export default function WeeklyNewCompaniesEmail({
         Weekly Report | {companyCount.toString()} New{" "}
         {companyCount === 1 ? "Company" : "Companies"} Added This Week
       </Preview>
-      <Tailwind config={tailwindConfig}>
+      <Tailwind>
         <Body className="bg-slate-50">
           <Container className="mx-auto py-4 max-w-96">
             {/* Header Section */}
