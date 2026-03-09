@@ -1,6 +1,7 @@
 "use client";
 
 import { Search, X } from "lucide-react";
+import { useEffect, useRef } from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
@@ -21,17 +22,33 @@ type SearchSideBarProps = {
   categoryOptions: string[];
   onResetAction?: () => void;
   showCountBadge?: boolean;
+  enableKeyboardShortcut?: boolean;
 };
 
 export function SearchSideBar({
   locationOptions,
   categoryOptions,
-
   onResetAction,
   showCountBadge = true,
+  enableKeyboardShortcut = false,
 }: SearchSideBarProps) {
   const { setSearchParams, searchParams, appliedFilters } =
     useSearchQueryParams();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!enableKeyboardShortcut) return;
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [enableKeyboardShortcut]);
 
   return (
     <div className="w-full flex flex-col h-full gap-4 justify-between">
@@ -67,6 +84,7 @@ export function SearchSideBar({
                     size={14}
                   />
                   <Input
+                    ref={inputRef}
                     id="query"
                     name="query"
                     onChange={(e) => {
@@ -80,6 +98,11 @@ export function SearchSideBar({
                     className="pl-9 h-10 rounded-lg bg-muted/30"
                     aria-label="Search by name or description"
                   />
+                  {enableKeyboardShortcut && !searchParams.query && (
+                    <kbd className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-medium text-muted-foreground/60 border border-border/60 rounded px-1.5 py-0.5">
+                      ⌘K
+                    </kbd>
+                  )}
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">

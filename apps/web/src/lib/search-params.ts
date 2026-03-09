@@ -18,6 +18,12 @@ export enum SettingsTab {
   NOTIFICATIONS = "notifications",
 }
 
+export const LABELS_FILTER: Record<string, string> = {
+  query: "Search",
+  category: "Industry",
+  location: "Location",
+};
+
 export const defaultSettings = {
   tab: SettingsTab.ACCOUNT,
 };
