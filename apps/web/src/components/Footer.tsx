@@ -1,5 +1,4 @@
 import { getParsedCompaniesData } from "@/lib/parser/companies";
-import { cn } from "@/lib/utils";
 import { MapPin, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -125,11 +124,9 @@ export default async function Footer() {
                 <a
                   key={location}
                   href={`/location/${encodeURIComponent(location)}`}
-                  className={cn(
-                    "text-xs px-3 py-1.5 rounded-full bg-muted/60 text-foreground/70 hover:bg-primary/10 hover:text-primary transition-colors",
-                    location?.toLowerCase() === "remote" &&
-                      " border text-emerald-500 border-emerald-400",
-                  )}
+                  className={
+                    "text-xs px-3 py-1.5 rounded-full bg-muted/60 text-foreground/70 hover:bg-primary/10 hover:text-primary transition-colors"
+                  }
                 >
                   {location}
                 </a>
