@@ -50,7 +50,7 @@ export default function CompaniesList({
     <>
       {!paginatedCompanies.length ? (
         <div className="flex-1 flex items-center text-muted-foreground justify-center min-h-[300px] border border-border/60 rounded-xl p-4 bg-muted/20">
-          <EmptyState title="Ups, no companies found! Try another search." />
+          <EmptyState title="No companies match your filters. Try another search." />
         </div>
       ) : (
         <div className="flex-1">

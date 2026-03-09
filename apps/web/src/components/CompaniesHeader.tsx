@@ -31,30 +31,29 @@ export default async function CompaniesHeader() {
     >
       <BackgroundGradients />
 
-      <div className="relative z-[5] container mx-auto px-4">
+      <div className="relative z-5 container mx-auto px-4">
         <div className="flex flex-col items-center text-center gap-3 max-w-3xl mx-auto pt-2 pb-0 md:py-6">
           <h1
             id="companies-heading"
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1]"
+            className="text-4xl lg:text-5xl font-bold tracking-tight leading-[1.15]"
           >
-            Find top{" "}
-            <span className="bg-gradient-to-r from-emerald-600 to-emerald-400 bg-clip-text text-transparent">
-              tech companies
+            Find your next{" "}
+            <span className="bg-linear-to-r from-emerald-600 to-emerald-400 bg-clip-text text-transparent">
+              tech company
             </span>
-            <br />
-            in{" "}
+            <br className="hidden sm:block" /> in{" "}
             <span className="relative inline-block">
               <span className="relative z-10">Portugal</span>
               <span
-                className="absolute bottom-1 left-0 right-0 h-3 bg-gradient-to-r from-emerald-300/40 to-red-300/30 -rotate-[0.5deg] rounded-sm"
+                className="absolute bottom-1 left-0 right-0 h-3 bg-linear-to-r from-emerald-300/40 to-red-300/30 -rotate-[0.5deg] rounded-sm"
                 aria-hidden="true"
               />
             </span>
           </h1>
 
           <p className="text-base sm:text-lg text-muted-foreground max-w-lg leading-relaxed">
-            Discover the best tech companies hiring in Portugal — from startups
-            to established enterprises — all in one place.
+            The directory for tech companies, startups, and scale-ups in
+            Portugal.
           </p>
 
           {logos.length > 0 && (

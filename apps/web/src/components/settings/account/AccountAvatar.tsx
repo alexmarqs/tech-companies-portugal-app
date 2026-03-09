@@ -54,7 +54,7 @@ export const AccountAvatar = () => {
 
     if (file.size > MAX_AVATAR_SIZE) {
       toast.error(
-        `File size must be less than ${MAX_AVATAR_SIZE / 1024 / 1024}MB`,
+        `File is too large. Max size is ${MAX_AVATAR_SIZE / 1024 / 1024}MB.`,
       );
       return;
     }
@@ -79,9 +79,9 @@ export const AccountAvatar = () => {
       className="p-6 flex justify-between w-full items-center gap-1 flex-wrap"
     >
       <div className="space-y-2 flex-1">
-        <h3 className="text-md">Upload Avatar</h3>
+        <h3 className="text-md">Avatar</h3>
         <p className="text-xs text-muted-foreground">
-          Change your avatar. Click on the image to select and upload a new one.
+          PNG, JPEG, or WEBP. Max 2MB.
         </p>
       </div>
 

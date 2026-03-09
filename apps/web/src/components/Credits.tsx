@@ -11,7 +11,7 @@ export const Credits = () => {
       >
         Alexandre Marques
       </a>{" "}
-      for the portuguese community
+      for the Portuguese community
       <span className="mx-1.5 text-border">|</span>
       <span className="inline-block">
         Source:{" "}

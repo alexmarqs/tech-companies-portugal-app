@@ -36,8 +36,8 @@ export default async function Footer() {
               </span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Portugal&apos;s tech directory. Our mission is to simplify the gap
-              between talent and opportunity across Portugal.
+              Helping you discover the best tech companies, startups, and
+              scale-ups in Portugal.
             </p>
           </div>
 

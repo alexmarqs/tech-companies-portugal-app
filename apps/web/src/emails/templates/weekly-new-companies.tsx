@@ -72,7 +72,7 @@ export default function WeeklyNewCompaniesEmail({
               <Logo width={50} height={50} />
 
               <Heading className="text-3xl font-bold text-gray-800 text-center mt-4 mb-4 leading-tight">
-                Weekly Report 📢
+                This week in Portuguese tech 📢
               </Heading>
 
               <Text className="text-lg text-gray-600 text-center leading-relaxed">

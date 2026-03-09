@@ -49,8 +49,7 @@ export const DeleteAccount = () => {
       <div className="space-y-2">
         <h3 className="text-md">Delete Account</h3>
         <p className="text-sm text-muted-foreground">
-          Once you delete your account, there is no going back. Please be
-          certain.
+          Permanently deletes your account and all associated data.
         </p>
       </div>
 

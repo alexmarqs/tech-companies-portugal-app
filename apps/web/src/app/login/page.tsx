@@ -12,9 +12,9 @@ import type { Metadata } from "next/types";
 import { Suspense } from "react";
 import logo from "../../../public/assets/images/logo.png";
 
-const title = "Login | Tech Companies Portugal";
+const title = "Sign in | Tech Companies Portugal";
 const description =
-  "Sign in to your account and join the Portuguese tech community. Access company profiles, discover career opportunities, and stay updated with the latest tech companies in Portugal.";
+  "Sign in to get weekly updates on new tech companies in Portugal. Access company profiles, discover career opportunities, and manage your preferences.";
 const keywords =
   "login, sign in, Portuguese tech community, tech companies Portugal, careers, account access";
 
@@ -57,8 +57,7 @@ export default function LoginPage() {
             </div>
             <div className="text-center">
               <p className="text-muted-foreground">
-                Join the community and be up to date with the latest tech
-                companies in Portugal.
+                Get weekly updates on new companies and manage your preferences.
               </p>
             </div>
 

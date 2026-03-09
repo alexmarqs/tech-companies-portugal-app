@@ -20,16 +20,15 @@ export default function CtaBanner() {
             <div className="flex items-center gap-2">
               <Rocket size={14} className="text-emerald-400" />
               <span className="text-emerald-400 text-xs font-semibold uppercase tracking-wider">
-                Coming Soon
+                Sponsors
               </span>
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
-              Job listings and more on the way.
+              Want more visibility for your company?
             </h2>
             <p className="text-white/70 text-sm md:text-base leading-relaxed">
-              We're building new features to connect talent with Portugal's top
-              tech companies — job boards, event listings, and more. Be a
-              premium sponsor and get your logo on the website and get featured!
+              Get featured placement, your logo on the homepage, and priority
+              visibility to a growing audience of tech professionals.
             </p>
           </div>
           <Button
@@ -39,7 +38,7 @@ export default function CtaBanner() {
           >
             <a href={`mailto:${PUBLIC_CONTACT_EMAIL}`}>
               <Mail size={14} className="mr-1.5" />
-              Contact us
+              Become a Sponsor
             </a>
           </Button>
         </div>

@@ -1,9 +1,8 @@
 import type { Metadata } from "next/types";
 
-export const TITLE =
-  "Tech Companies in Portugal | Leading Startups & Innovators";
+export const TITLE = "Tech Companies in Portugal | 300+ Company Directory";
 export const DESCRIPTION =
-  "Explore a comprehensive directory of tech companies in Portugal, featuring innovative startups and established industry leaders. Access descriptions, visit their websites, explore career opportunities, and connect through their digital presence.";
+  "Browse 300+ tech companies, startups, and scale-ups in Portugal. Filter by location and industry. Find company profiles, career pages, and more.";
 
 export const APP_URL = process.env.VERCEL_URL
   ? "https://techcompaniesportugal.fyi"
