@@ -1,7 +1,11 @@
 import Image from "next/image";
 import logo from "../../public/assets/images/logo.png";
 
-export const LogoFooter = () => {
+type LogoFooterProps = {
+  onlyLogo?: boolean;
+};
+
+export const LogoFooter = ({ onlyLogo = false }: LogoFooterProps) => {
   return (
     <div className="flex items-center gap-3 flex-wrap justify-center">
       <div className="inline-flex items-center gap-2">
@@ -12,12 +16,14 @@ export const LogoFooter = () => {
           height={28}
           className="shrink-0 rounded-lg"
         />
-        <span className="inline-block logo-stroke">
-          <span className="text-xs font-bold tracking-tight">
-            TechCompanies
+        {!onlyLogo && (
+          <span className="inline-block logo-stroke">
+            <span className="text-xs font-bold tracking-tight">
+              TechCompanies
+            </span>
+            <span className="text-xs font-bold tracking-tight">Portugal</span>
           </span>
-          <span className="text-xs font-bold tracking-tight">Portugal</span>
-        </span>
+        )}
       </div>
       <a
         href="https://techcompaniesportugal.openstatus.dev"
