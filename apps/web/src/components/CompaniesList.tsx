@@ -2,7 +2,7 @@
 
 import type { Company } from "@/lib/types";
 import { matchCompanies } from "@/lib/utils";
-import { ArrowLeft, LayoutGrid, List } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useSearchQueryParams } from "../hooks/useSearchQueryParams";
@@ -10,8 +10,6 @@ import CompaniesListFooter from "./CompaniesListFooter";
 import CompanyItem from "./CompanyItem";
 import { EmptyState } from "./EmptyState";
 import { NotificationsSideSection } from "./NotificationsSideSection";
-import { Button } from "./ui/button";
-import { ButtonGroup } from "./ui/button-group";
 
 const PAGE_SIZE = 12;
 
@@ -71,7 +69,7 @@ export default function CompaniesList({
                 {totalPages > 1 ? ` • Page ${page}/${totalPages}` : ""}
               </span>
             </div>
-            <ButtonGroup>
+            {/* <ButtonGroup>
               <Button
                 size="sm"
                 variant="outline"
@@ -90,7 +88,7 @@ export default function CompaniesList({
               >
                 <List data-icon="inline-start" />
               </Button>
-            </ButtonGroup>
+            </ButtonGroup> */}
           </div>
           <div
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
