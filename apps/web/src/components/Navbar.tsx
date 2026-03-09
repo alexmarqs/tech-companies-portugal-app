@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../../public/assets/images/logo.png";
-
-import { ContactButton } from "./ContactButton";
 import { UserMenu } from "./UserMenu";
 
 export default function Navbar() {
@@ -37,7 +35,7 @@ export default function Navbar() {
         </Link>
 
         <nav className="flex items-center gap-3" aria-label="Main navigation">
-          <ContactButton />
+          {/* <ContactButton /> */}
           <UserMenu />
         </nav>
       </div>

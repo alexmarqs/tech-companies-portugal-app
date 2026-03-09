@@ -43,6 +43,13 @@ export async function generateMetadata({
   const description = company.description;
   const keywords = `${company.name}, Tech Company, Careers, Portugal`;
 
+  const ogParams = new URLSearchParams({
+    title: company.name,
+    ...(description && { description }),
+    ...(company.logoUrl && { logo: company.logoUrl }),
+  });
+  const ogImage = `api/og?${ogParams.toString()}`;
+
   const metadata: Metadata = {
     ...defaultMetadata,
     title,
@@ -56,13 +63,13 @@ export async function generateMetadata({
       title,
       description,
       url: `${APP_URL}/company/${slug}`,
-      images: [`api/og?title=${company.name}&description=${description}`],
+      images: [ogImage],
     },
     twitter: {
       ...defaultTwitterMetadata,
       title,
       description,
-      images: [`api/og?title=${company.name}&description=${description}`],
+      images: [ogImage],
     },
   };
 

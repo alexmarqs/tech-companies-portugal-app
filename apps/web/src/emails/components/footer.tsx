@@ -8,62 +8,109 @@ type FooterProps = {
 export function Footer({ children }: FooterProps) {
   return (
     <Section
-      className="bg-slate-100 border-2 border-slate-200 rounded-none p-3"
       style={{
-        border: "2px solid #e2e8f0",
-        backgroundColor: "#f1f5f9",
-        borderBottom: "5px solid #cbd5e1",
-        borderRight: "5px solid #cbd5e1",
+        backgroundColor: "#f9fafb",
+        border: "1px solid #e5e7eb",
+        borderRadius: "12px",
+        padding: "20px 16px",
       }}
     >
-      <Text className="text-sm text-gray-700 leading-relaxed text-center font-medium py-1 m-0">
-        🇵🇹 <strong>Tech Companies Portugal</strong>
+      <Text
+        style={{
+          fontSize: "14px",
+          fontWeight: 600,
+          color: "#111827",
+          textAlign: "center",
+          margin: "0 0 4px 0",
+          lineHeight: "1.5",
+        }}
+      >
+        Tech Companies Portugal
       </Text>
 
-      <Text className="text-xs text-gray-600 leading-relaxed text-center m-0 py-1">
+      <Text
+        style={{
+          fontSize: "12px",
+          color: "#6b7280",
+          textAlign: "center",
+          margin: "0 0 12px 0",
+          lineHeight: "1.6",
+        }}
+      >
         Discover amazing tech companies across Portugal, all in one place.
       </Text>
 
-      <Row className="text-center m-0 py-2" align="center" width="100%">
-        <Column className="align-middle text-center">
+      <Row
+        style={{ textAlign: "center", margin: "0", padding: "8px 0" }}
+        align="center"
+        width="100%"
+      >
+        <Column style={{ verticalAlign: "middle", textAlign: "center" }}>
           <Link
             href="https://x.com/alexlmarques"
-            className="text-black no-underline inline-block mr-3"
+            style={{
+              textDecoration: "none",
+              display: "inline-block",
+              marginRight: "10px",
+            }}
           >
             <Img
               src={`${APP_URL}/assets/images/email/x.png`}
               alt="Follow us on X"
               width={20}
               height={20}
-              className="border border-gray-300 rounded p-1 bg-white inline-block"
+              style={{
+                border: "1px solid #e5e7eb",
+                borderRadius: "6px",
+                padding: "4px",
+                backgroundColor: "#ffffff",
+                display: "inline-block",
+              }}
             />
           </Link>
 
           <Link
             href="https://github.com/alexmarqs/tech-companies-portugal-app"
-            className="text-black no-underline inline-block"
+            style={{ textDecoration: "none", display: "inline-block" }}
           >
             <Img
               src={`${APP_URL}/assets/images/email/github.png`}
               alt="View our GitHub"
               width={20}
               height={20}
-              className="border border-gray-300 rounded p-1 bg-white inline-block"
+              style={{
+                border: "1px solid #e5e7eb",
+                borderRadius: "6px",
+                padding: "4px",
+                backgroundColor: "#ffffff",
+                display: "inline-block",
+              }}
             />
           </Link>
         </Column>
       </Row>
 
-      <Text className="text-xs text-gray-500 leading-relaxed text-center m-0">
+      <Text
+        style={{
+          fontSize: "11px",
+          color: "#9ca3af",
+          textAlign: "center",
+          margin: "8px 0 0 0",
+          lineHeight: "1.6",
+        }}
+      >
         © {new Date().getFullYear()} Tech Companies Portugal. All rights
         reserved.
         <br />
         {children ? (
           children
         ) : (
-          <span className="text-[10px]">
+          <span style={{ fontSize: "10px" }}>
             You received this email because you signed up at{" "}
-            <Link href={APP_URL} className="text-gray-600 underline">
+            <Link
+              href={APP_URL}
+              style={{ color: "#059669", textDecoration: "underline" }}
+            >
               techcompaniesportugal.fyi
             </Link>
           </span>
