@@ -6,15 +6,15 @@ const BackgroundGradients = () => {
     <>
       {/* Animated aurora mesh gradient */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-1/2 -left-1/4 w-[80%] h-[140%] bg-gradient-to-br from-emerald-400/40 via-emerald-300/20 to-transparent rounded-full blur-[80px] animate-[aurora-shift_8s_ease-in-out_infinite_alternate]" />
-        <div className="absolute -bottom-1/3 -right-1/4 w-[70%] h-[120%] bg-gradient-to-tl from-red-400/30 via-rose-300/15 to-transparent rounded-full blur-[90px] animate-[aurora-shift_10s_ease-in-out_infinite_alternate-reverse]" />
-        <div className="absolute top-0 left-1/3 w-[50%] h-[80%] bg-gradient-to-b from-amber-200/25 via-orange-200/15 to-transparent rounded-full blur-[70px] animate-[aurora-shift_12s_ease-in-out_infinite_alternate]" />
-        <div className="absolute -top-1/4 right-0 w-[40%] h-[100%] bg-gradient-to-bl from-emerald-200/20 via-teal-300/10 to-transparent rounded-full blur-[100px] animate-[aurora-shift_9s_ease-in-out_infinite_alternate-reverse]" />
+        <div className="absolute -top-1/2 -left-1/4 w-[80%] h-[140%] bg-linear-to-br from-emerald-400/40 via-emerald-300/20 to-transparent rounded-full blur-[80px] animate-[aurora-shift_8s_ease-in-out_infinite_alternate]" />
+        <div className="absolute -bottom-1/3 -right-1/4 w-[70%] h-[120%] bg-linear-to-tl from-red-400/30 via-rose-300/15 to-transparent rounded-full blur-[90px] animate-[aurora-shift_10s_ease-in-out_infinite_alternate-reverse]" />
+        <div className="absolute top-0 left-1/3 w-[50%] h-[80%] bg-linear-to-b from-amber-200/25 via-orange-200/15 to-transparent rounded-full blur-[70px] animate-[aurora-shift_12s_ease-in-out_infinite_alternate]" />
+        <div className="absolute -top-1/4 right-0 w-[40%] h-full bg-linear-to-bl from-emerald-200/20 via-teal-300/10 to-transparent rounded-full blur-[100px] animate-[aurora-shift_9s_ease-in-out_infinite_alternate-reverse]" />
       </div>
 
       {/* Edge fades to background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background/70" />
-      <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-b from-transparent to-background" />
+      <div className="absolute inset-0 bg-linear-to-b from-background/30 via-transparent to-background/70" />
+      <div className="absolute bottom-0 left-0 right-0 h-12 bg-linear-to-b from-transparent to-background" />
     </>
   );
 };

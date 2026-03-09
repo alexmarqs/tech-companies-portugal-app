@@ -5,9 +5,9 @@ import { Button } from "./ui/button";
 
 export const NotificationsSideSection = () => {
   return (
-    <div className="group relative w-full lg:w-[300px] overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-emerald-500 to-teal-500 p-[1px]">
+    <div className="group relative w-full lg:w-[300px] overflow-hidden rounded-2xl bg-linear-to-br from-emerald-600 via-emerald-500 to-teal-500 p-px">
       {/* Inner card */}
-      <div className="relative overflow-hidden rounded-[15px] bg-gradient-to-br from-emerald-50 via-white to-teal-50/60 p-5">
+      <div className="relative overflow-hidden rounded-[15px] bg-linear-to-br from-emerald-50 via-white to-teal-50/60 p-5">
         {/* Decorative background elements */}
         <div className="pointer-events-none absolute -right-6 -top-6 size-24 rounded-full bg-emerald-200/30 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-4 -left-4 size-20 rounded-full bg-teal-200/25 blur-xl" />
@@ -16,7 +16,10 @@ export const NotificationsSideSection = () => {
           <div className="flex flex-col items-start gap-2 shrink-0">
             {/* Icon badge */}
             <div className="flex items-center gap-1.5 rounded-full bg-emerald-100/80 px-2.5 py-1 text-emerald-700 ring-1 ring-emerald-200/60">
-              <Sparkles size={12} className="fill-emerald-500 text-emerald-500" />
+              <Sparkles
+                size={12}
+                className="fill-emerald-500 text-emerald-500"
+              />
               <span className="text-[11px] font-semibold uppercase tracking-wide">
                 Weekly digest
               </span>
