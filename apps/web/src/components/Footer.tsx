@@ -14,7 +14,7 @@ export default async function Footer() {
     <footer className="bg-card border-t border-border/60">
       <div className="container mx-auto px-4">
         {/* Main footer content */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 py-6">
           {/* Brand column */}
           <div className="md:col-span-1 flex flex-col gap-4">
             <Link href="/" className="flex items-center gap-2">
@@ -111,7 +111,7 @@ export default async function Footer() {
         </div>
 
         {/* Directory links */}
-        <div className="border-t border-border/60 py-8 grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <div className="border-t border-border/60 py-6 grid grid-cols-1 sm:grid-cols-2 gap-8">
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
               <MapPin size={14} className="text-primary" />
@@ -156,9 +156,9 @@ export default async function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-border/60 py-6 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4 flex-wrap">
+        <div className="border-t border-border/60 py-4 flex flex-wrap items-center justify-between gap-4">
           <Credits />
-          <div className="flex items-center gap-4">
+          <div className="flex justify-center items-center gap-4">
             <a
               href="https://techcompaniesportugal.openstatus.dev"
               target="_blank"

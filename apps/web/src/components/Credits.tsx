@@ -1,6 +1,6 @@
 export const Credits = () => {
   return (
-    <p className="text-xs text-muted-foreground text-center">
+    <p className="text-xs text-muted-foreground text-center sm:text-left">
       &copy; {new Date().getFullYear()} TechCompaniesPortugal. Built with{" "}
       <span className="text-red-500">&#9829;</span> by{" "}
       <a
