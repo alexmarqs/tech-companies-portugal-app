@@ -38,7 +38,7 @@ export function MobileSearchDrawer({
         <SlidersHorizontal className="h-4 w-4" />
         Filters
         {appliedFilters.length > 0 && (
-          <Badge className="ml-1 text-[10px] px-1.5 py-0 rounded-full text-white bg-primary">
+          <Badge className="ml-1 text-[10px] px-2 py-[3px] rounded-full shadow-sm text-white bg-primary hover:bg-primary">
             {appliedFilters.length}
           </Badge>
         )}

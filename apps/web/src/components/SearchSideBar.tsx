@@ -55,7 +55,7 @@ export function SearchSideBar({
       <div className="shrink-0 w-full lg:w-[300px] lg:mx-auto relative bg-card rounded-xl border border-border/60 p-5">
         {showCountBadge && appliedFilters.length > 0 && (
           <div className="absolute -top-2 -right-2">
-            <Badge className="text-[10px] px-2 py-[3px] rounded-full shadow-sm text-white bg-primary">
+            <Badge className="text-[10px] px-2 py-[3px] rounded-full shadow-sm text-white bg-primary hover:bg-primary">
               {appliedFilters.length}
             </Badge>
           </div>

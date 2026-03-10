@@ -77,7 +77,7 @@ export default function CompaniesList({
                     onClick={() => {
                       setSearchParams({ [key]: null, page: 1 });
                     }}
-                    className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-primary hover:bg-primary/10 transition-colors"
+                    className="border border-dashed hover:border-muted inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-primary hover:bg-primary/10 transition-colors"
                   >
                     <span className="text-muted-foreground">
                       {LABELS_FILTER[key] || key}:

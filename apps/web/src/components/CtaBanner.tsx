@@ -28,12 +28,12 @@ export default function CtaBanner() {
             </h2>
             <p className="text-white/70 text-sm md:text-base leading-relaxed">
               Get featured placement, your logo on the homepage, and priority
-              visibility to a growing audience of tech professionals.
+              visibility to our audience of tech professionals.
             </p>
           </div>
           <Button
-            size="lg"
-            className="shrink-0 px-3 bg-emerald-500 text-white hover:bg-emerald-600"
+            size="sm"
+            className="shrink-0 px-4 bg-emerald-600 text-white hover:bg-emerald-700"
             asChild
           >
             <a href={`mailto:${PUBLIC_CONTACT_EMAIL}`}>
