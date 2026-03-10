@@ -1,6 +1,6 @@
 import { Categories, Locations } from "@/components/CompanyItem";
 import { CopyUrlButton } from "@/components/CopyUrlButton";
-import { Button } from "@/components/ui/button";
+import { LinkUrlButton } from "@/components/LinkUrlButton";
 import { Container } from "@/components/ui/container";
 import {
   APP_URL,
@@ -132,12 +132,14 @@ export default async function CompanyPage({
               url={company.websiteUrl}
               icon={<Globe size={14} />}
               label="Website"
+              companyName={company.name}
             />
 
             <LinkUrlButton
               url={company.careersUrl}
               icon={<Briefcase size={14} />}
               label="Careers"
+              companyName={company.name}
             />
             <LinkUrlButton
               url={company.githubUrl}
@@ -147,6 +149,7 @@ export default async function CompanyPage({
                 </svg>
               }
               label="GitHub"
+              companyName={company.name}
             />
           </div>
         </Container>
@@ -162,31 +165,3 @@ export default async function CompanyPage({
     </div>
   );
 }
-const LinkUrlButton = ({
-  url,
-  icon,
-  label,
-}: {
-  url?: string;
-  icon: React.ReactNode;
-  label: string;
-}) => {
-  if (!url) {
-    return null;
-  }
-
-  return (
-    <Button
-      variant="secondary"
-      className="h-8 px-2 text-xs hover:bg-secondary/60"
-      asChild
-    >
-      <a href={url} target="_blank" rel="noreferrer noopener">
-        <div className="flex items-center gap-1">
-          {icon}
-          {label}
-        </div>
-      </a>
-    </Button>
-  );
-};
