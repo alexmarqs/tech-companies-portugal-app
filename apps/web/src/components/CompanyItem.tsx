@@ -70,7 +70,7 @@ export default function CompanyItem({
 
         <div className="flex items-center justify-between pt-2 border-t border-border/40">
           <Locations locations={locations || []} />
-          <span className="inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+          <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
             View Profile
             <ArrowRight size={12} />
           </span>
