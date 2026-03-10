@@ -52,6 +52,12 @@ export default async function Footer() {
               >
                 About
               </Link>
+              <Link
+                href="/llms.txt"
+                className="text-sm text-foreground/80 hover:text-primary transition-colors"
+              >
+                LLMs.txt
+              </Link>
             </nav>
           </div>
 
