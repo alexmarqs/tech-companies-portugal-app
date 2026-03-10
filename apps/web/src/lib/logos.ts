@@ -79,7 +79,7 @@ async function fetchLogoFromLogoDev(
   if (!domain) return null;
 
   return (
-    (await fetchLogoViaSearch(domain)) ?? (await fetchLogoDirectly(domain))
+    (await fetchLogoDirectly(domain)) ?? (await fetchLogoViaSearch(domain))
   );
 }
 
