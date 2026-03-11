@@ -25,7 +25,7 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - [Plunk](https://useplunk.com/) - Email service
 - [Turbo](https://turbo.build/) - Monorepo build system
 - [Vercel](https://vercel.com/) - Hosting and CI/CD
-- [PostHog](https://posthog.com/) - Analytics. Coming next, usage of MCP for automatic analytics dashboard
+- [PostHog](https://posthog.com/) - Analytics
 - [Upstash](https://upstash.com/) - Redis for caching, low latency storage
 - [Supabase](https://supabase.com/) - Auth, DB, Storage
 - [React Email](https://react.email/) - Email components
@@ -34,6 +34,7 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - [Arcjet](https://arcjet.com/) - Rate limiting
 - [Inngest](https://inngest.com/) - Event-driven architecture for serverless functions | Used for notifications
 - [Biome](https://biomejs.dev/) / [React Doctor](https://www.react-doctor.com/) - Formatting and linting
+- MCP's used locally: Posthog, Supabase.
 
 ## How to contribute 🤝
 
