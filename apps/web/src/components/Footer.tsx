@@ -47,7 +47,7 @@ export default async function Footer() {
             </h3>
             <nav className="flex flex-col gap-2.5">
               <Link
-                href="/"
+                href="/about"
                 className="text-sm text-foreground/80 hover:text-primary transition-colors"
               >
                 About
@@ -68,7 +68,7 @@ export default async function Footer() {
             </h3>
             <nav className="flex flex-col gap-2.5">
               <Link
-                href="/privacy"
+                href="/policy"
                 className="text-sm text-foreground/80 hover:text-primary transition-colors"
               >
                 Privacy Policy
