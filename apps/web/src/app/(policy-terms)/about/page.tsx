@@ -1,10 +1,21 @@
 import { PUBLIC_CONTACT_EMAIL } from "@/lib/utils";
 import type { Metadata } from "next/types";
 
+const title = "About · Tech Companies Portugal";
+const description =
+  "Learn about Tech Companies Portugal — the open directory of tech companies, startups, and scale-ups in Portugal.";
+
 export const metadata: Metadata = {
-  title: "About · Tech Companies Portugal",
-  description:
-    "Learn about Tech Companies Portugal — the open directory of tech companies, startups, and scale-ups in Portugal.",
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+  },
+  twitter: {
+    title,
+    description,
+  },
 };
 
 export default function AboutPage() {

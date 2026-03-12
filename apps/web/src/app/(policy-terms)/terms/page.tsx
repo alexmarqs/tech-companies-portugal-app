@@ -1,10 +1,21 @@
 import Link from "next/link";
 import type { Metadata } from "next/types";
 
+const title = "Terms of Service · Tech Companies Portugal";
+const description =
+  "Read the Terms of Service for Tech Companies Portugal — the open directory of tech companies, startups, and scale-ups in Portugal.";
+
 export const metadata: Metadata = {
-  title: "Terms of Service · Tech Companies Portugal",
-  description:
-    "Read the Terms of Service for Tech Companies Portugal — the open directory of tech companies, startups, and scale-ups in Portugal.",
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+  },
+  twitter: {
+    title,
+    description,
+  },
 };
 
 const LAST_UPDATED = "March 2026";
