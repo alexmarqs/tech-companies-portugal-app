@@ -83,11 +83,9 @@ export default function WelcomeEmail({
             {/* Main Content */}
             <Section
               style={{
-                background:
-                  "linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 50%, #ecfdf5 100%)",
-                border: "1px solid #a7f3d0",
+                backgroundColor: "#059669",
                 borderRadius: "16px",
-                padding: "24px",
+                padding: "18px",
                 marginBottom: "16px",
               }}
             >
@@ -95,7 +93,7 @@ export default function WelcomeEmail({
                 style={{
                   fontSize: "15px",
                   fontWeight: 600,
-                  color: "#065f46",
+                  color: "#ffffff",
                   lineHeight: "1.5",
                   margin: "0 0 16px 0",
                 }}
@@ -106,7 +104,7 @@ export default function WelcomeEmail({
               <Text
                 style={{
                   fontSize: "14px",
-                  color: "#374151",
+                  color: "#d1fae5",
                   lineHeight: "1.7",
                   margin: "0 0 8px 0",
                   paddingLeft: "8px",
@@ -118,7 +116,7 @@ export default function WelcomeEmail({
               <Text
                 style={{
                   fontSize: "14px",
-                  color: "#374151",
+                  color: "#d1fae5",
                   lineHeight: "1.7",
                   margin: "0 0 8px 0",
                   paddingLeft: "8px",
@@ -130,7 +128,7 @@ export default function WelcomeEmail({
               <Text
                 style={{
                   fontSize: "14px",
-                  color: "#374151",
+                  color: "#d1fae5",
                   lineHeight: "1.7",
                   margin: "0 0 20px 0",
                   paddingLeft: "8px",
@@ -143,8 +141,8 @@ export default function WelcomeEmail({
                 <Button
                   href="https://techcompaniesportugal.fyi"
                   style={{
-                    backgroundColor: "#059669",
-                    color: "#ffffff",
+                    backgroundColor: "#ffffff",
+                    color: "#059669",
                     textDecoration: "none",
                     fontSize: "15px",
                     fontWeight: 600,

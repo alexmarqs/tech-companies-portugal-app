@@ -8,12 +8,13 @@ type LogoProps = {
 
 export function Logo({ width = 80, height = 80 }: LogoProps) {
   return (
-    <Section className="flex flex-row w-full justify-center">
+    <Section style={{ textAlign: "center" }}>
       <Img
         src={`${APP_URL}/assets/images/logo.png`}
         alt="Tech Companies Portugal"
         width={width}
         height={height}
+        style={{ margin: "0 auto" }}
       />
     </Section>
   );

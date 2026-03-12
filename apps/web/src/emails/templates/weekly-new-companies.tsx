@@ -101,26 +101,12 @@ export default function WeeklyNewCompaniesEmail({
             {companyCount > 0 && (
               <Section
                 style={{
-                  background:
-                    "linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 50%, #ecfdf5 100%)",
-                  border: "1px solid #a7f3d0",
+                  backgroundColor: "#059669",
                   borderRadius: "16px",
                   padding: "24px",
                   marginBottom: "16px",
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: "15px",
-                    fontWeight: 600,
-                    color: "#065f46",
-                    lineHeight: "1.5",
-                    margin: "0 0 12px 0",
-                  }}
-                >
-                  New Companies This Week:
-                </Text>
-
                 {firstMaxNewCompaniesNewCompanies.map((newCompany) => (
                   <Link
                     key={newCompany.slug}
@@ -128,19 +114,19 @@ export default function WeeklyNewCompaniesEmail({
                     style={{
                       display: "block",
                       fontSize: "14px",
-                      color: "#374151",
+                      color: "#d1fae5",
                       lineHeight: "2",
                       textDecoration: "none",
                     }}
                   >
-                    <span style={{ marginRight: "8px", color: "#059669" }}>
+                    <span style={{ marginRight: "8px", color: "#ffffff" }}>
                       •
                     </span>
                     <strong
                       style={{
                         fontWeight: 600,
                         textDecoration: "underline",
-                        color: "#059669",
+                        color: "#ffffff",
                       }}
                     >
                       {newCompany.name}
@@ -152,23 +138,23 @@ export default function WeeklyNewCompaniesEmail({
                   <Text
                     style={{
                       fontSize: "13px",
-                      color: "#6b7280",
+                      color: "#d1fae5",
                       lineHeight: "1.6",
                       margin: "8px 0 0 0",
                     }}
                   >
-                    <Link href={APP_URL} style={{ color: "#059669" }}>
+                    <Link href={APP_URL} style={{ color: "#ffffff" }}>
                       (and {remainingCount} more...)
                     </Link>
                   </Text>
                 )}
 
-                <Section className="text-center py-4">
+                <Section className="text-center py-1">
                   <Button
                     href={APP_URL}
                     style={{
-                      backgroundColor: "#059669",
-                      color: "#ffffff",
+                      backgroundColor: "#ffffff",
+                      color: "#059669",
                       textDecoration: "none",
                       fontSize: "15px",
                       fontWeight: 600,
@@ -177,7 +163,7 @@ export default function WeeklyNewCompaniesEmail({
                       display: "inline-block",
                     }}
                   >
-                    Explore All
+                    Explore Companies
                   </Button>
                 </Section>
               </Section>
