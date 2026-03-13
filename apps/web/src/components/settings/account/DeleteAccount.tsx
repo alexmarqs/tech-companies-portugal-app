@@ -11,6 +11,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui/container";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useMutateDeleteUser } from "@/hooks/users";
@@ -44,12 +45,11 @@ export const DeleteAccount = () => {
   const isLoading = deleteUserMutation.isPending || isPendingRedirect;
 
   return (
-    <div className="p-6 space-y-4 border-red-500 border-2 border-solid bg-white">
+    <Container variant="destructive" className="p-6 space-y-4">
       <div className="space-y-2">
-        <h3 className="text-md font-mono">Delete Account</h3>
+        <h3 className="text-md">Delete Account</h3>
         <p className="text-sm text-muted-foreground">
-          Once you delete your account, there is no going back. Please be
-          certain.
+          Permanently deletes your account and all associated data.
         </p>
       </div>
 
@@ -95,6 +95,6 @@ export const DeleteAccount = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </Container>
   );
 };

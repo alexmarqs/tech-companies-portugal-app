@@ -3,7 +3,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SettingsTab, settingsQueryStateKeys } from "@/lib/search-params";
 import type { SettingsTabs } from "@/lib/types";
-import { cn } from "@/lib/utils";
 import { useQueryStates } from "nuqs";
 import { Title } from "../Title";
 import { AccountSettings } from "./account/AccountSettings";
@@ -30,21 +29,16 @@ export const Settings = () => {
       <div className="mb-6">
         <Title title="Settings" description="Manage your account settings." />
       </div>
-
       <Tabs
         value={settingsTab.tab}
         onValueChange={(value) => setSettingsTab({ tab: value as SettingsTab })}
-        className="bold"
       >
-        <TabsList className="bg-transparent flex justify-start gap-4 w-full mb-4 overflow-x-auto scrollbar-hide">
+        <TabsList className="bg-transparent flex justify-start gap-1 w-full mb-4 overflow-x-auto scrollbar-hide rounded-none py-2 h-auto">
           {TABS.map((tab) => (
             <TabsTrigger
               key={tab.id}
               value={tab.id}
-              className={cn(
-                "!bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary font-mono px-0 py-2 flex items-center gap-2",
-                tab.disabled && "opacity-80 pointer-events-none",
-              )}
+              className="relative bg-transparent rounded-none px-4 py-2.5 text-sm font-medium text-muted-foreground shadow-none transition-colors hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none data-[state=active]:after:absolute data-[state=active]:after:bottom-0 data-[state=active]:after:left-0 data-[state=active]:after:right-0 data-[state=active]:after:h-0.5 data-[state=active]:after:bg-primary data-[state=active]:after:rounded-full"
             >
               {tab.title}
             </TabsTrigger>

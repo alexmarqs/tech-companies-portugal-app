@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar";
-import DotPattern from "@/components/ui/dot-pattern";
-import { GeistMono, GeistSans } from "@/lib/fonts";
+import { GeistSans } from "@/lib/fonts";
 import {
   defaultMetadata,
   defaultOpenGraphMetadata,
@@ -81,7 +80,6 @@ export default function RootLayout({ children }: LayoutProps) {
         className={cn(
           "flex min-h-screen flex-col bg-background font-sans antialiased",
           GeistSans.variable,
-          GeistMono.variable,
         )}
       >
         <CustomQueryClientProvider>
@@ -90,11 +88,6 @@ export default function RootLayout({ children }: LayoutProps) {
               <NuqsAdapter>
                 <Navbar />
                 {children}
-                <DotPattern
-                  className={cn(
-                    "[mask-image:radial-gradient(620px_circle_at_center,white,transparent)] fixed inset-0 -z-10",
-                  )}
-                />
               </NuqsAdapter>
             </AnalyticsProvider>
           </SessionProvider>

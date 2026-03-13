@@ -11,7 +11,6 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
-import tailwindConfig from "../../../tailwind.config";
 import { Footer } from "../components/footer";
 import { Logo } from "../components/logo";
 interface WelcomeEmailProps {
@@ -36,127 +35,125 @@ export default function WelcomeEmail({
         />
       </Head>
       <Preview>
-        Welcome to Tech Companies Portugal - Discover your next career
-        opportunity!
+        Welcome to Tech Companies Portugal — discover tech companies hiring in
+        Portugal, all in one place.
       </Preview>
-      <Tailwind config={tailwindConfig}>
-        <Body className="bg-slate-50">
+      <Tailwind>
+        <Body className="bg-gray-50">
           <Container className="flex flex-col max-w-[600px] mx-auto p-4">
             {/* Header Section */}
             <Section
-              className="bg-white border-2 border-slate-200 rounded-none p-4 mb-5"
               style={{
-                border: "2px solid #e2e8f0",
                 backgroundColor: "#ffffff",
-                borderBottom: "5px solid #f1f5f9",
-                borderRight: "5px solid #f1f5f9",
-                padding: "16px",
-                marginBottom: "20px",
+                border: "1px solid #e5e7eb",
+                borderRadius: "16px",
+                padding: "32px 24px",
+                marginBottom: "16px",
               }}
             >
               <Logo />
 
-              <Heading className="text-3xl font-bold text-gray-800 text-center mt-4 mb-4 leading-tight">
-                Welcome to Tech Companies Portugal! 🇵🇹
+              <Heading
+                style={{
+                  fontSize: "28px",
+                  fontWeight: 700,
+                  color: "#111827",
+                  textAlign: "center",
+                  margin: "20px 0 12px 0",
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                Welcome to Tech Companies Portugal!
               </Heading>
 
-              <Text className="text-lg text-gray-600 text-center leading-relaxed">
-                Hi {userFirstname}, thanks for joining the community 🎉
+              <Text
+                style={{
+                  fontSize: "16px",
+                  color: "#6b7280",
+                  textAlign: "center",
+                  lineHeight: "1.6",
+                  margin: "0",
+                }}
+              >
+                Hi {userFirstname}, thanks for joining the community
               </Text>
             </Section>
 
             {/* Main Content */}
             <Section
-              className="bg-orange-100 border-2 border-orange-200 rounded-none p-4 mb-5"
               style={{
-                border: "2px solid #fed7aa",
-                backgroundColor: "#ffedd5",
-                borderBottom: "5px solid #fed7aa",
-                borderRight: "5px solid #fed7aa",
-                padding: "16px",
-                marginBottom: "20px",
+                backgroundColor: "#059669",
+                borderRadius: "16px",
+                padding: "18px",
+                marginBottom: "16px",
               }}
             >
-              <Text className="text-base text-gray-700 leading-relaxed mb-6">
-                🚀 <strong>Ready to start exploring?</strong>
+              <Text
+                style={{
+                  fontSize: "15px",
+                  fontWeight: 600,
+                  color: "#ffffff",
+                  lineHeight: "1.5",
+                  margin: "0 0 16px 0",
+                }}
+              >
+                Ready to start exploring?
               </Text>
 
-              <Text className="text-sm text-gray-600 leading-relaxed mb-3 pl-5">
+              <Text
+                style={{
+                  fontSize: "14px",
+                  color: "#d1fae5",
+                  lineHeight: "1.7",
+                  margin: "0 0 8px 0",
+                  paddingLeft: "8px",
+                }}
+              >
                 • Explore <strong>300+</strong> tech companies across Portugal
               </Text>
 
-              <Text className="text-sm text-gray-600 leading-relaxed mb-3 pl-5">
-                • Filter by location, category and more!
+              <Text
+                style={{
+                  fontSize: "14px",
+                  color: "#d1fae5",
+                  lineHeight: "1.7",
+                  margin: "0 0 8px 0",
+                  paddingLeft: "8px",
+                }}
+              >
+                • Filter by location, category and more
               </Text>
 
-              <Text className="text-sm text-gray-600 leading-relaxed pl-5">
-                • Receive notifications when new companies are added (coming
-                soon)
+              <Text
+                style={{
+                  fontSize: "14px",
+                  color: "#d1fae5",
+                  lineHeight: "1.7",
+                  margin: "0 0 20px 0",
+                  paddingLeft: "8px",
+                }}
+              >
+                • Get weekly notifications when new companies are added
               </Text>
 
-              <Section className="text-center py-4">
+              <Section className="text-center py-2">
                 <Button
                   href="https://techcompaniesportugal.fyi"
-                  className="bg-white text-slate-900 text-base font-semibold no-underline py-3.5 px-7 rounded-none border-2 border-slate-900 inline-block"
                   style={{
                     backgroundColor: "#ffffff",
-                    color: "#0f172a",
+                    color: "#059669",
                     textDecoration: "none",
-                    fontSize: "16px",
-                    fontWeight: "600",
-                    padding: "14px 28px",
-                    border: "2px solid #0f172a",
-                    borderBottom: "5px solid #0f172a",
-                    borderRight: "5px solid #0f172a",
+                    fontSize: "15px",
+                    fontWeight: 600,
+                    padding: "12px 28px",
+                    borderRadius: "10px",
                     display: "inline-block",
                   }}
                 >
-                  Explore Companies Now →
+                  Explore all companies
                 </Button>
               </Section>
-            </Section>
-
-            {/* Features Section */}
-            <Section
-              className="bg-white border-2 border-slate-200 rounded-none p-4 mb-5"
-              style={{
-                border: "2px solid #e2e8f0",
-                backgroundColor: "#ffffff",
-                borderBottom: "5px solid #f1f5f9",
-                borderRight: "5px solid #f1f5f9",
-                padding: "16px",
-                marginBottom: "20px",
-              }}
-            >
-              <Heading className="text-xl font-semibold text-gray-800 mb-5">
-                Open source 💙
-              </Heading>
-
-              <Text className="text-sm text-gray-600 leading-relaxed mb-4">
-                🌐 <strong>Open Source Platform:</strong> Our web application is
-                completely open source and transparent:{" "}
-                <a
-                  href="https://github.com/alexmarqs/tech-companies-portugal-app"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  tech-companies-portugal-app
-                </a>
-              </Text>
-
-              <Text className="text-sm text-gray-600 leading-relaxed mb-4">
-                🤝 <strong>Community Powered Data:</strong> We source our
-                company data from the amazing open source repository maintained
-                by the Portuguese tech community, keeping it always fresh
-                through their contributions:{" "}
-                <a
-                  href="https://github.com/marmelo/tech-companies-in-portugal"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  tech-companies-in-portugal
-                </a>
-              </Text>
             </Section>
 
             <Footer />

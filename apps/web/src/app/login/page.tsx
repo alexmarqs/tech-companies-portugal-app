@@ -1,6 +1,6 @@
 import { GithubLogin } from "@/components/GithubLogin";
 import { GoogleLogin } from "@/components/GoogleLogin";
-import { RetroContainer } from "@/components/ui/retro-container";
+import { Container } from "@/components/ui/container";
 import {
   APP_URL,
   defaultMetadata,
@@ -12,9 +12,9 @@ import type { Metadata } from "next/types";
 import { Suspense } from "react";
 import logo from "../../../public/assets/images/logo.png";
 
-const title = "Login | Tech Companies Portugal";
+const title = "Sign in | Tech Companies Portugal";
 const description =
-  "Sign in to your account and join the Portuguese tech community. Access company profiles, discover career opportunities, and stay updated with the latest tech companies in Portugal.";
+  "Sign in to get weekly updates on new tech companies in Portugal. Access company profiles, discover career opportunities, and manage your preferences.";
 const keywords =
   "login, sign in, Portuguese tech community, tech companies Portugal, careers, account access";
 
@@ -31,13 +31,11 @@ export const metadata: Metadata = {
     title,
     description,
     url: `${APP_URL}/login`,
-    images: [`api/og?title=${title}&description=${description}`],
   },
   twitter: {
     ...defaultTwitterMetadata,
     title,
     description,
-    images: [`api/og?title=${title}&description=${description}`],
   },
 };
 
@@ -45,7 +43,7 @@ export default function LoginPage() {
   return (
     <div className="bg-transparent flex-1 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-4">
-        <RetroContainer className="p-6">
+        <Container variant="static" className="p-6">
           <div className="space-y-4">
             <div className="flex items-center justify-center">
               <Image
@@ -57,8 +55,7 @@ export default function LoginPage() {
             </div>
             <div className="text-center">
               <p className="text-muted-foreground">
-                Join the community and be up to date with the latest tech
-                companies in Portugal.
+                Get weekly updates on new companies and manage your preferences.
               </p>
             </div>
 
@@ -69,10 +66,27 @@ export default function LoginPage() {
               </Suspense>
             </div>
           </div>
-        </RetroContainer>
+        </Container>
         <p className="text-[11px] text-muted-foreground text-center px-4 bg-white">
-          By signing in, you agree to receive news and updates from Tech
-          Companies Portugal. You can unsubscribe at any time.
+          By signing in, you agree with our{" "}
+          <a
+            href="/terms"
+            target="_blank"
+            className="text-primary text-[10px] underline underline-offset-4 hover:opacity-70 transition-opacity"
+            rel="noreferrer"
+          >
+            Terms of Service
+          </a>{" "}
+          and{" "}
+          <a
+            href="/policy"
+            target="_blank"
+            className="text-primary text-[10px] underline underline-offset-4 hover:opacity-70 transition-opacity"
+            rel="noreferrer"
+          >
+            Privacy Policy
+          </a>
+          .
         </p>
       </div>
     </div>

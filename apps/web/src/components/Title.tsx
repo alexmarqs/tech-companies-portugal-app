@@ -7,7 +7,7 @@ type TitleProps = {
 export const Title = ({ title, description, className }: TitleProps) => {
   return (
     <div className={className}>
-      <h1 className={"text-3xl font-bold font-mono"}>{title}</h1>
+      <h1 className={"text-3xl font-bold"}>{title}</h1>
       {description && <p className="text-muted-foreground">{description}</p>}
     </div>
   );

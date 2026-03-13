@@ -15,7 +15,8 @@
     "lint": "turbo lint",
     "check-types": "turbo check-types",
     "test:e2e:web": "turbo test:e2e --filter=@tech-companies-portugal/web",
-    "test": "turbo test --parallel"
+    "test": "turbo test --parallel",
+    "react:doctor": "npx -y react-doctor@latest ."
   },
   "engines": {
     "node": ">=22"

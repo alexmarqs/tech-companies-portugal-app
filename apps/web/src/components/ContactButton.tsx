@@ -44,7 +44,7 @@ export const ContactButton = () => {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="flex items-center gap-2" variant="default">
+          <Button className="flex items-center gap-2" variant="outline">
             <span>Talk to us</span>
             <MessageCircle size={16} />
           </Button>
@@ -53,8 +53,8 @@ export const ContactButton = () => {
           <DialogHeader>
             <DialogTitle>Talk to us</DialogTitle>
             <DialogDescription>
-              Do you have any questions? Do you wanna be a sponsor or
-              advertiser? Feel free to reach out to us.
+              Questions, sponsorship inquiries, or feedback — we'd love to hear
+              from you.
             </DialogDescription>
           </DialogHeader>
           <ContactForm />
@@ -66,7 +66,7 @@ export const ContactButton = () => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button size="sm" className="flex items-center gap-2" variant="default">
+        <Button size="sm" className="flex items-center gap-2" variant="outline">
           <span>Talk to us</span>
           <MessageCircle size={16} />
         </Button>
@@ -76,8 +76,8 @@ export const ContactButton = () => {
           <DrawerHeader>
             <DrawerTitle>Talk to us</DrawerTitle>
             <DrawerDescription>
-              Do you have any questions? Do you wanna be a sponsor or
-              advertiser? Feel free to reach out to us.
+              Questions, sponsorship inquiries, or feedback — we'd love to hear
+              from you.
             </DrawerDescription>
           </DrawerHeader>
           <div className="px-4">

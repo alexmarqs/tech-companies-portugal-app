@@ -1,5 +1,0 @@
-{
-  "extends": "@tech-companies-portugal/typescript/base.json",
-  "include": ["tailwind.config.ts"],
-  "exclude": ["dist", "build", "node_modules"]
-}

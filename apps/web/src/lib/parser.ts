@@ -27,16 +27,21 @@ export const parseCompaniesData = async () => {
 const fetchGithubReadmeHtmlFrom = async (owner: string, repo: string) => {
   const url = `https://api.github.com/repos/${owner}/${repo}/readme`;
 
+  const isDev = process.env.NODE_ENV === "development";
+
   const response = await fetch(url, {
-    headers: {
-      UserAgent: "Tech Companies in Portugal",
-      Accept: "application/vnd.github.html+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
-    cache: "force-cache",
+    ...(isDev && { cache: "force-cache" }),
     next: {
       revalidate: 86400, // 24 hours
       tags: ["companies-data"],
+    },
+    headers: {
+      "User-Agent": "Tech Companies in Portugal",
+      Accept: "application/vnd.github.html+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      ...(process.env.GITHUB_TOKEN && {
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      }),
     },
   });
 

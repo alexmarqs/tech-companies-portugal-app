@@ -14,7 +14,6 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
-import tailwindConfig from "../../../tailwind.config";
 import { Footer } from "../components/footer";
 import { Logo } from "../components/logo";
 
@@ -55,28 +54,44 @@ export default function WeeklyNewCompaniesEmail({
         Weekly Report | {companyCount.toString()} New{" "}
         {companyCount === 1 ? "Company" : "Companies"} Added This Week
       </Preview>
-      <Tailwind config={tailwindConfig}>
-        <Body className="bg-slate-50">
+      <Tailwind>
+        <Body className="bg-gray-50">
           <Container className="mx-auto py-4 max-w-96">
             {/* Header Section */}
             <Section
-              className="bg-white border-2 border-slate-200 rounded-none p-4 mb-5"
               style={{
-                border: "2px solid #e2e8f0",
                 backgroundColor: "#ffffff",
-                borderBottom: "5px solid #f1f5f9",
-                borderRight: "5px solid #f1f5f9",
-                padding: "16px",
-                marginBottom: "20px",
+                border: "1px solid #e5e7eb",
+                borderRadius: "16px",
+                padding: "32px 24px",
+                marginBottom: "16px",
               }}
             >
               <Logo width={50} height={50} />
 
-              <Heading className="text-3xl font-bold text-gray-800 text-center mt-4 mb-4 leading-tight">
-                Weekly Report 📢
+              <Heading
+                style={{
+                  fontSize: "26px",
+                  fontWeight: 700,
+                  color: "#111827",
+                  textAlign: "center",
+                  margin: "20px 0 12px 0",
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                This week in Portuguese tech
               </Heading>
 
-              <Text className="text-lg text-gray-600 text-center leading-relaxed">
+              <Text
+                style={{
+                  fontSize: "16px",
+                  color: "#6b7280",
+                  textAlign: "center",
+                  lineHeight: "1.6",
+                  margin: "0",
+                }}
+              >
                 {companyCount} new{" "}
                 {companyCount === 1 ? "company" : "companies"} added this week
               </Text>
@@ -85,29 +100,34 @@ export default function WeeklyNewCompaniesEmail({
             {/* Main Content */}
             {companyCount > 0 && (
               <Section
-                className="bg-orange-100 border-2 border-orange-200 rounded-none p-4 mb-5"
                 style={{
-                  border: "2px solid #fed7aa",
-                  backgroundColor: "#ffedd5",
-                  borderBottom: "5px solid #fed7aa",
-                  borderRight: "5px solid #fed7aa",
-                  padding: "16px",
-                  marginBottom: "20px",
+                  backgroundColor: "#059669",
+                  borderRadius: "16px",
+                  padding: "24px",
+                  marginBottom: "16px",
                 }}
               >
-                <Text className="text-base text-gray-700 leading-relaxed font-semibold">
-                  🚀 <strong>New Companies This Week:</strong>
-                </Text>
-
-                {firstMaxNewCompaniesNewCompanies.map((newCompany, _index) => (
+                {firstMaxNewCompaniesNewCompanies.map((newCompany) => (
                   <Link
                     key={newCompany.slug}
                     href={`${APP_URL}/company/${newCompany.slug}`}
-                    className="text-sm text-gray-700 leading-relaxed block"
+                    style={{
+                      display: "block",
+                      fontSize: "14px",
+                      color: "#d1fae5",
+                      lineHeight: "2",
+                      textDecoration: "none",
+                    }}
                   >
-                    <span style={{ marginRight: "8px" }}>•</span>
+                    <span style={{ marginRight: "8px", color: "#ffffff" }}>
+                      •
+                    </span>
                     <strong
-                      style={{ fontWeight: "600", textDecoration: "underline" }}
+                      style={{
+                        fontWeight: 600,
+                        textDecoration: "underline",
+                        color: "#ffffff",
+                      }}
                     >
                       {newCompany.name}
                     </strong>
@@ -115,42 +135,46 @@ export default function WeeklyNewCompaniesEmail({
                 ))}
 
                 {remainingCount > 0 && (
-                  <Text className="text-sm text-gray-600 leading-relaxed">
-                    <Link href={APP_URL} className="text-gray-700">
+                  <Text
+                    style={{
+                      fontSize: "13px",
+                      color: "#d1fae5",
+                      lineHeight: "1.6",
+                      margin: "8px 0 0 0",
+                    }}
+                  >
+                    <Link href={APP_URL} style={{ color: "#ffffff" }}>
                       (and {remainingCount} more...)
                     </Link>
                   </Text>
                 )}
 
-                <Section className="text-center py-4">
+                <Section className="text-center py-1">
                   <Button
                     href={APP_URL}
-                    className="bg-white text-slate-900 text-base font-semibold no-underline py-3.5 px-7 rounded-none border-2 border-slate-900 inline-block"
                     style={{
                       backgroundColor: "#ffffff",
-                      color: "#0f172a",
+                      color: "#059669",
                       textDecoration: "none",
-                      fontSize: "16px",
-                      fontWeight: "600",
-                      padding: "14px 28px",
-                      border: "2px solid #0f172a",
-                      borderBottom: "5px solid #0f172a",
-                      borderRight: "5px solid #0f172a",
+                      fontSize: "15px",
+                      fontWeight: 600,
+                      padding: "12px 28px",
+                      borderRadius: "10px",
                       display: "inline-block",
                     }}
                   >
-                    Explore All →
+                    Explore all companies
                   </Button>
                 </Section>
               </Section>
             )}
 
             <Footer>
-              <span className="text-[10px]">
+              <span style={{ fontSize: "10px" }}>
                 Manage your notifications at{" "}
                 <Link
                   href={`${APP_URL}/settings?tab=${SettingsTab.NOTIFICATIONS}`}
-                  className="text-gray-600 underline"
+                  style={{ color: "#059669", textDecoration: "underline" }}
                 >
                   settings
                 </Link>

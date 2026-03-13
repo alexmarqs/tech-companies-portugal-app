@@ -14,8 +14,7 @@ import { useGetUserProfile } from "@/hooks/users";
 import { useSession } from "@/lib/contexts/SessionContext";
 import { createClient } from "@/lib/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { trackEvent } from "@tech-companies-portugal/analytics/client";
-import { Loader2, LogOut, Settings } from "lucide-react";
+import { Loader2, LogIn, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -58,25 +57,18 @@ export function UserMenu() {
   if (!isAuthenticated) {
     return (
       <>
-        <Button variant="secondary" size="sm" asChild>
+        <Button
+          size="sm"
+          className="bg-emerald-500 text-white hover:bg-emerald-600"
+          asChild
+        >
           <Link
-            onClick={() => trackEvent("login_button_clicked")}
             href="/login"
+            data-ph-capture-attribute-event-name="login_button_clicked"
           >
+            <LogIn className="h-4 w-4" />
             Sign in
           </Link>
-        </Button>
-        <Button size="sm" asChild>
-          <a
-            href="https://github.com/alexmarqs/tech-companies-portugal-app"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="!px-[10px]"
-            aria-label="View project on GitHub"
-            onClick={() => trackEvent("github_button_clicked")}
-          >
-            <SocialIcons icon="github" />
-          </a>
         </Button>
       </>
     );
@@ -125,7 +117,7 @@ export function UserMenu() {
             href="/settings"
             prefetch
             className="flex items-center hover:cursor-pointer"
-            onClick={() => trackEvent("settings_button_clicked")}
+            data-ph-capture-attribute-event-name="settings_button_clicked"
           >
             <Settings className="mr-2 h-4 w-4" />
             Settings
@@ -139,7 +131,7 @@ export function UserMenu() {
             rel="noreferrer noopener"
             className="flex items-center hover:cursor-pointer"
             aria-label="View project on GitHub"
-            onClick={() => trackEvent("logged_in_github_button_clicked")}
+            data-ph-capture-attribute-event-name="logged_in_github_button_clicked"
           >
             <SocialIcons icon="github" className="mr-2" />
             GitHub

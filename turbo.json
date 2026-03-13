@@ -21,7 +21,12 @@
         "CONTACT_TO_EMAIL",
         "ARCJET_KEY",
         "INNGEST_SIGNING_KEY",
-        "INNGEST_EVENT_KEY"
+        "INNGEST_EVENT_KEY",
+        "UPSTASH_REDIS_REST_URL",
+        "UPSTASH_REDIS_REST_TOKEN",
+        "LOGOS_SERVER_SECRET_KEY",
+        "LOGOS_PUBLISHABLE_KEY",
+        "GITHUB_TOKEN"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*", "!tests/**"],
       "outputs": [

@@ -1,8 +1,8 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Container } from "@/components/ui/container";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RetroContainer } from "@/components/ui/retro-container";
 import {
   UsersServerKeys,
   useGetUserProfile,
@@ -54,7 +54,7 @@ export const AccountAvatar = () => {
 
     if (file.size > MAX_AVATAR_SIZE) {
       toast.error(
-        `File size must be less than ${MAX_AVATAR_SIZE / 1024 / 1024}MB`,
+        `File is too large. Max size is ${MAX_AVATAR_SIZE / 1024 / 1024}MB.`,
       );
       return;
     }
@@ -74,11 +74,14 @@ export const AccountAvatar = () => {
   };
 
   return (
-    <RetroContainer className="p-6 flex justify-between w-full items-center gap-1 flex-wrap">
+    <Container
+      variant="static"
+      className="p-6 flex justify-between w-full items-center gap-1 flex-wrap"
+    >
       <div className="space-y-2 flex-1">
-        <h3 className="text-md font-mono">Upload Avatar</h3>
+        <h3 className="text-md">Avatar</h3>
         <p className="text-xs text-muted-foreground">
-          Change your avatar. Click on the image to select and upload a new one.
+          PNG, JPEG, or WEBP. Max 2MB.
         </p>
       </div>
 
@@ -86,7 +89,7 @@ export const AccountAvatar = () => {
         htmlFor="avatar-input"
         className="relative cursor-pointer inline-block outline-none rounded-full focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background"
       >
-        <Avatar className="h-20 w-20 flex-shrink-0">
+        <Avatar className="h-20 w-20 shrink-0">
           <AvatarImage
             referrerPolicy="no-referrer"
             className="object-cover"
@@ -129,7 +132,7 @@ export const AccountAvatar = () => {
           disabled={isMutatingUserProfile}
         />
       </Label>
-    </RetroContainer>
+    </Container>
   );
 };
 

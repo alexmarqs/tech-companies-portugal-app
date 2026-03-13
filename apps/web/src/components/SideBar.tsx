@@ -8,9 +8,12 @@ type SideBarProps = {
 
 export function SideBar({ locationOptions, categoryOptions }: SideBarProps) {
   return (
-    <aside className="h-fit shrink-0 flex-col gap-4 lg:sticky lg:top-[60px] lg:flex-col-reverse hidden lg:flex">
+    <aside className="h-fit shrink-0 flex-col gap-5 lg:sticky lg:top-[70px] hidden lg:flex">
+      <SearchSideBar
+        {...{ locationOptions, categoryOptions }}
+        enableKeyboardShortcut
+      />
       <NotificationsSideSection />
-      <SearchSideBar {...{ locationOptions, categoryOptions }} />
     </aside>
   );
 }
