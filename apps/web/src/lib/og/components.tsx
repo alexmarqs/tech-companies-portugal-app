@@ -317,16 +317,6 @@ export function CompanyContent({
           >
             {title}
           </div>
-          <div
-            style={{
-              fontSize: 18,
-              fontFamily: "Inter Medium",
-              color: "#059669",
-              letterSpacing: "-0.01em",
-            }}
-          >
-            Tech Company in Portugal
-          </div>
         </div>
         <div
           style={{
@@ -341,47 +331,6 @@ export function CompanyContent({
           }}
         >
           {truncated}
-        </div>
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            fontSize: 16,
-            fontFamily: "Inter Medium",
-            color: "#a3a3a3",
-          }}
-        >
-          <span style={{ color: "#059669" }}>techcompaniesportugal.fyi</span>
-          <span style={{ color: "#a3a3a3" }}>/</span>
-          <span style={{ color: "#525252" }}>{title}</span>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            padding: "8px 18px",
-            borderRadius: 12,
-            backgroundColor: "white",
-            border: "1px solid rgba(0,0,0,0.06)",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-            fontSize: 15,
-            color: "#059669",
-            fontFamily: "Inter Medium",
-          }}
-        >
-          {"View Profile & Careers"}
         </div>
       </div>
     </div>
@@ -429,21 +378,6 @@ export function PageContent({
         >
           {description}
         </p>
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          fontSize: 16,
-          fontFamily: "Inter Medium",
-          color: "#a3a3a3",
-        }}
-      >
-        <span style={{ color: "#059669" }}>techcompaniesportugal.fyi</span>
-        <span>/</span>
-        <span style={{ color: "#525252" }}>{title}</span>
       </div>
     </div>
   );

@@ -36,3 +36,8 @@ export const matchCompanies = (
 export const isProd = process.env.NODE_ENV === "production";
 
 export const PUBLIC_CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
+
+export const normalizeText = (text: string) => {
+  // this will remove all special characters and spaces
+  return text.replace(/[^a-zA-Z0-9\s]/g, "");
+};

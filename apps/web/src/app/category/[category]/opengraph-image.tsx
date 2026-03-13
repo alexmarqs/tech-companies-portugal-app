@@ -1,5 +1,6 @@
 import { OgLayout, PageContent } from "@/lib/og/components";
 import { OG_CONTENT_TYPE, OG_SIZE, loadOgFonts } from "@/lib/og/utils";
+import { normalizeText } from "@/lib/utils";
 import { ImageResponse } from "next/og";
 
 export const alt = "Tech Companies Portugal - Category";
@@ -14,8 +15,8 @@ export default async function Image({
   const { category: categoryParam } = await params;
   const category = decodeURIComponent(categoryParam);
 
-  const title = `${category} Companies | Tech Companies Portugal`;
-  const description = `Discover tech companies in the ${category} sector. Find job opportunities and connect with ${category} tech companies in Portugal.`;
+  const title = `${category} Companies`;
+  const description = `Discover tech companies in the ${normalizeText(category)} sector. Find job opportunities and connect with tech companies in Portugal.`;
 
   const allText = [
     title,

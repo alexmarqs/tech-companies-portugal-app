@@ -6,7 +6,7 @@ export const alt = "Terms of Service | Tech Companies Portugal";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
-const title = "Terms of Service | Tech Companies Portugal";
+const title = "Terms of Service";
 const description =
   "Read the Terms of Service for Tech Companies Portugal — discover tech companies hiring in Portugal, from startups to global tech companies.";
 

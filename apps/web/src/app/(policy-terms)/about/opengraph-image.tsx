@@ -6,7 +6,7 @@ export const alt = "About | Tech Companies Portugal";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
-const title = "About | Tech Companies Portugal";
+const title = "About";
 const description =
   "Learn about Tech Companies Portugal — discover tech companies hiring in Portugal, from startups to global tech companies.";
 

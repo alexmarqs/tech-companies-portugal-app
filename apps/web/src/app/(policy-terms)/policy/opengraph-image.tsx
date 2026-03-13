@@ -6,7 +6,7 @@ export const alt = "Privacy Policy | Tech Companies Portugal";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
-const title = "Privacy Policy | Tech Companies Portugal";
+const title = "Privacy Policy";
 const description =
   "Read the Privacy Policy for Tech Companies Portugal — discover tech companies hiring in Portugal, from startups to global tech companies.";
 

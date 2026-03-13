@@ -8,6 +8,7 @@ import {
 } from "@/lib/metadata";
 import { getParsedCompaniesData } from "@/lib/parser/companies";
 import type { NextParams } from "@/lib/types";
+import { normalizeText } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -65,7 +66,7 @@ export default async function CategoryPage({
 
   const category = decodeURIComponent(categoryParam);
 
-  const normalizedCategory = category.replace(/[^a-zA-Z0-9\s]/g, "");
+  const normalizedCategory = normalizeText(category);
 
   const { companies } = await getParsedCompaniesData();
 
