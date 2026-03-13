@@ -70,8 +70,25 @@ export default function LoginPage() {
           </div>
         </Container>
         <p className="text-[11px] text-muted-foreground text-center px-4 bg-white">
-          By signing in, you agree to receive news and updates from Tech
-          Companies Portugal. You can unsubscribe at any time.
+          By signing in, you agree with our{" "}
+          <a
+            href="/terms"
+            target="_blank"
+            className="text-primary text-[10px] underline underline-offset-4 hover:opacity-70 transition-opacity"
+            rel="noreferrer"
+          >
+            Terms of Service
+          </a>{" "}
+          and{" "}
+          <a
+            href="/policy"
+            target="_blank"
+            className="text-primary text-[10px] underline underline-offset-4 hover:opacity-70 transition-opacity"
+            rel="noreferrer"
+          >
+            Privacy Policy
+          </a>
+          .
         </p>
       </div>
     </div>

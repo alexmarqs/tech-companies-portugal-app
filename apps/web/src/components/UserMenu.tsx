@@ -66,7 +66,7 @@ export function UserMenu() {
             href="/login"
             data-ph-capture-attribute-event-name="login_button_clicked"
           >
-            <LogIn className="mr-2 h-4 w-4" />
+            <LogIn className="h-4 w-4" />
             Sign in
           </Link>
         </Button>

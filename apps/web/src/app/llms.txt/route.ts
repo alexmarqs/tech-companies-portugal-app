@@ -42,8 +42,11 @@ export async function GET() {
 - Sign up to get access to advanced features such as notifications and personalized settings.
 - Promote or feature your company within the directory.
 
-## Home Directory Page
+## Main Pages
 - [Home Page](${APP_URL}): Browse all companies and use search or filters to find specific profiles.
+- [About Page](${APP_URL}/about): Learn more about the project and the author.
+- [Privacy Policy](${APP_URL}/policy): Privacy policy for TechCompaniesPortugal.
+- [Terms of Service](${APP_URL}/terms): Terms of service for TechCompaniesPortugal.
 
 ## Company Profile Pages
 ${companiesData.map((url) => `- [${url.name}](${url.url}): ${url.description}`).join("\n")}
