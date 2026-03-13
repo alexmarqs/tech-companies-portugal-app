@@ -3,7 +3,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SettingsTab, settingsQueryStateKeys } from "@/lib/search-params";
 import type { SettingsTabs } from "@/lib/types";
-import { cn } from "@/lib/utils";
 import { useQueryStates } from "nuqs";
 import { Title } from "../Title";
 import { AccountSettings } from "./account/AccountSettings";
@@ -39,10 +38,7 @@ export const Settings = () => {
             <TabsTrigger
               key={tab.id}
               value={tab.id}
-              className={cn(
-                "relative bg-transparent rounded-none px-4 py-2.5 text-sm font-medium text-muted-foreground shadow-none transition-colors hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none data-[state=active]:after:absolute data-[state=active]:after:bottom-0 data-[state=active]:after:left-0 data-[state=active]:after:right-0 data-[state=active]:after:h-0.5 data-[state=active]:after:bg-primary data-[state=active]:after:rounded-full",
-                tab.disabled && "opacity-50 pointer-events-none",
-              )}
+              className="relative bg-transparent rounded-none px-4 py-2.5 text-sm font-medium text-muted-foreground shadow-none transition-colors hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none data-[state=active]:after:absolute data-[state=active]:after:bottom-0 data-[state=active]:after:left-0 data-[state=active]:after:right-0 data-[state=active]:after:h-0.5 data-[state=active]:after:bg-primary data-[state=active]:after:rounded-full"
             >
               {tab.title}
             </TabsTrigger>

@@ -73,7 +73,7 @@ async function fetchLogoDirectly(domain: string): Promise<Buffer | null> {
 async function fetchLogoFromLogoDev(
   companyWebsiteUrl: string,
 ): Promise<Buffer | null> {
-  if (!LOGOS_SECRET_KEY) return null;
+  if (!LOGOS_SECRET_KEY && !LOGOS_PUBLISHABLE_KEY) return null;
 
   const domain = extractDomain(companyWebsiteUrl);
   if (!domain) return null;

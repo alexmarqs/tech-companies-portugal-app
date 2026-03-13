@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import {
   ChevronLeft,
   ChevronRight,
@@ -30,25 +29,19 @@ export default function CompaniesListPagination({
     >
       <div className="inline-flex items-center gap-1 rounded-lg border border-border/60 bg-card p-1">
         <Button
-          className={cn(
-            isPreviousDisabled &&
-              "pointer-events-none text-muted-foreground/40",
-            "px-2! h-8",
-          )}
+          className="px-2! h-8"
           variant="ghost"
           size="sm"
+          disabled={isPreviousDisabled}
           onClick={() => setSearchParams({ page: 1 })}
         >
           <ChevronsLeft className="shrink-0" size={16} />
         </Button>
         <Button
-          className={cn(
-            isPreviousDisabled &&
-              "pointer-events-none text-muted-foreground/40",
-            "px-2! h-8",
-          )}
+          className="px-2! h-8"
           variant="ghost"
           size="sm"
+          disabled={isPreviousDisabled}
           onClick={() => setSearchParams({ page: currentPage - 1 })}
         >
           <ChevronLeft className="shrink-0" size={16} />
@@ -61,10 +54,8 @@ export default function CompaniesListPagination({
         <Button
           variant="ghost"
           size="sm"
-          className={cn(
-            isNextDisabled && "pointer-events-none text-muted-foreground/40",
-            "px-2! h-8",
-          )}
+          className="px-2! h-8"
+          disabled={isNextDisabled}
           onClick={() => setSearchParams({ page: currentPage + 1 })}
         >
           <ChevronRight className="shrink-0" size={16} />
@@ -72,10 +63,8 @@ export default function CompaniesListPagination({
         <Button
           variant="ghost"
           size="sm"
-          className={cn(
-            isNextDisabled && "pointer-events-none text-muted-foreground/40",
-            "px-2! h-8",
-          )}
+          className="px-2! h-8"
+          disabled={isNextDisabled}
           onClick={() => setSearchParams({ page: totalPages })}
         >
           <ChevronsRight className="shrink-0" size={16} />
