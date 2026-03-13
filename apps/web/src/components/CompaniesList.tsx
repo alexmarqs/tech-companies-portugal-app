@@ -7,7 +7,7 @@ import { ArrowLeft, X } from "lucide-react";
 import Link from "next/link";
 import { useMemo } from "react";
 import { useSearchQueryParams } from "../hooks/useSearchQueryParams";
-import CompaniesListFooter from "./CompaniesListFooter";
+import CompaniesListPagination from "./CompaniesListPagination";
 import CompanyItem from "./CompanyItem";
 import { EmptyState } from "./EmptyState";
 import { NotificationsSideSection } from "./NotificationsSideSection";
@@ -105,7 +105,7 @@ export default function CompaniesList({
               ))}
             </div>
             <div className="mt-5">
-              <CompaniesListFooter totalPages={totalPages} />
+              <CompaniesListPagination totalPages={totalPages} />
             </div>
           </>
         )}

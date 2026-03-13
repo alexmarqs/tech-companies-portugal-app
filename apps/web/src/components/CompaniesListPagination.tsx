@@ -8,13 +8,13 @@ import {
 import { useSearchQueryParams } from "../hooks/useSearchQueryParams";
 import { Button } from "./ui/button";
 
-type CompaniesListFooterProps = {
+type CompaniesListPaginationProps = {
   totalPages: number;
 };
 
-export default function CompaniesListFooter({
+export default function CompaniesListPagination({
   totalPages,
-}: CompaniesListFooterProps) {
+}: CompaniesListPaginationProps) {
   const {
     setSearchParams,
     searchParams: { page: currentPage },
