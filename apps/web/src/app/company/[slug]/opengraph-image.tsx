@@ -1,4 +1,9 @@
-import { CompanyContent, OgLayout, PageContent } from "@/lib/og/components";
+import {
+  CompanyContent,
+  OgLayout,
+  PageContent,
+  getLogoSrc,
+} from "@/lib/og/components";
 import { OG_CONTENT_TYPE, OG_SIZE, loadOgFonts } from "@/lib/og/utils";
 import { getParsedCompanyBySlug } from "@/lib/parser/companies";
 import { ImageResponse } from "next/og";
@@ -31,10 +36,13 @@ export default async function Image({
     "View Profile & Careers",
   ].join("");
 
-  const fonts = await loadOgFonts(allText);
+  const [fonts, logoSrc] = await Promise.all([
+    loadOgFonts(allText),
+    getLogoSrc(),
+  ]);
 
   return new ImageResponse(
-    <OgLayout>
+    <OgLayout logoSrc={logoSrc}>
       {companyLogo ? (
         <CompanyContent
           title={title}

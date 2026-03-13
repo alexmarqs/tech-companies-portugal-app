@@ -1,4 +1,4 @@
-import { HomepageContent, OgLayout } from "@/lib/og/components";
+import { HomepageContent, OgLayout, getLogoSrc } from "@/lib/og/components";
 import { OG_CONTENT_TYPE, OG_SIZE, loadOgFonts } from "@/lib/og/utils";
 import { ImageResponse } from "next/og";
 
@@ -18,10 +18,13 @@ const ALL_TEXT = [
 ].join("");
 
 export default async function Image() {
-  const fonts = await loadOgFonts(ALL_TEXT);
+  const [fonts, logoSrc] = await Promise.all([
+    loadOgFonts(ALL_TEXT),
+    getLogoSrc(),
+  ]);
 
   return new ImageResponse(
-    <OgLayout>
+    <OgLayout logoSrc={logoSrc}>
       <HomepageContent description={DEFAULT_DESCRIPTION} />
     </OgLayout>,
     { ...size, emoji: "twemoji", fonts },

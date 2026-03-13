@@ -27,7 +27,7 @@ export const getParsedCompaniesData = cache(
       };
     },
     ["companies-with-logos"],
-    { revalidate: 86400, tags: ["companies-data"] },
+    { revalidate: 86400, tags: ["companies-data"] }, // 1 day
   ),
 );
 

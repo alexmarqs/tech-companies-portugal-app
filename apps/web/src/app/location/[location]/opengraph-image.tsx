@@ -1,6 +1,15 @@
-import { OgLayout, PageContent } from "@/lib/og/components";
+import { OgLayout, PageContent, getLogoSrc } from "@/lib/og/components";
 import { OG_CONTENT_TYPE, OG_SIZE, loadOgFonts } from "@/lib/og/utils";
 import { ImageResponse } from "next/og";
+
+// force generation on demand for paths not known at build time
+// this is the default anyway
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  // this is to force generation on demand for paths not known at build time
+  return [];
+}
 
 export const alt = "Tech Companies Portugal - Location";
 export const size = OG_SIZE;
@@ -24,10 +33,13 @@ export default async function Image({
     "techcompaniesportugal.fyi",
   ].join("");
 
-  const fonts = await loadOgFonts(allText);
+  const [fonts, logoSrc] = await Promise.all([
+    loadOgFonts(allText),
+    getLogoSrc(),
+  ]);
 
   return new ImageResponse(
-    <OgLayout>
+    <OgLayout logoSrc={logoSrc}>
       <PageContent title={title} description={description} />
     </OgLayout>,
     { ...size, emoji: "twemoji", fonts },

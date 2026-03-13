@@ -1,12 +1,25 @@
 /* eslint-disable @next/next/no-img-element */
-import { APP_URL } from "@/lib/metadata";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
-const SITE_LOGO = `${APP_URL}/assets/images/logo.png`;
+export async function getLogoSrc() {
+  try {
+    const logoData = await readFile(
+      join(process.cwd(), "public/assets/images/logo.png"),
+      "base64",
+    );
+    return `data:image/png;base64,${logoData}`;
+  } catch {
+    return undefined;
+  }
+}
 
 export function OgLayout({
   children,
+  logoSrc,
 }: {
   children: React.ReactNode;
+  logoSrc?: string;
 }) {
   return (
     <div
@@ -34,7 +47,7 @@ export function OgLayout({
           zIndex: 1,
         }}
       >
-        <TopBar />
+        <TopBar logoSrc={logoSrc} />
         {children}
       </div>
 
@@ -119,7 +132,7 @@ function AccentBar() {
   );
 }
 
-function TopBar({ label }: { label?: string }) {
+function TopBar({ label, logoSrc }: { label?: string; logoSrc?: string }) {
   return (
     <div
       style={{
@@ -130,7 +143,7 @@ function TopBar({ label }: { label?: string }) {
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <img height="44" width="44" src={SITE_LOGO} alt="Logo" />
+        {logoSrc && <img height="44" width="44" src={logoSrc} alt="Logo" />}
         <div
           style={{
             display: "flex",
