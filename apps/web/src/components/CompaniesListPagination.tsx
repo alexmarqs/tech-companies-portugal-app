@@ -32,6 +32,7 @@ export default function CompaniesListPagination({
           className="px-2! h-8"
           variant="ghost"
           size="sm"
+          aria-label="First page"
           disabled={isPreviousDisabled}
           onClick={() => setSearchParams({ page: 1 })}
         >
@@ -41,6 +42,7 @@ export default function CompaniesListPagination({
           className="px-2! h-8"
           variant="ghost"
           size="sm"
+          aria-label="Previous page"
           disabled={isPreviousDisabled}
           onClick={() => setSearchParams({ page: currentPage - 1 })}
         >
@@ -55,6 +57,7 @@ export default function CompaniesListPagination({
           variant="ghost"
           size="sm"
           className="px-2! h-8"
+          aria-label="Next page"
           disabled={isNextDisabled}
           onClick={() => setSearchParams({ page: currentPage + 1 })}
         >
@@ -64,6 +67,7 @@ export default function CompaniesListPagination({
           variant="ghost"
           size="sm"
           className="px-2! h-8"
+          aria-label="Last page"
           disabled={isNextDisabled}
           onClick={() => setSearchParams({ page: totalPages })}
         >
