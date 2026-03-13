@@ -430,12 +430,6 @@ export async function GET(request: Request) {
     const isHomepage = !title && !description;
     const isCompany = !!companyLogo;
 
-    const topLabel = isHomepage
-      ? "techcompaniesportugal.fyi"
-      : isCompany
-        ? "Company Profile"
-        : undefined;
-
     const allText = [
       title || DEFAULT_TITLE,
       description || DEFAULT_DESCRIPTION,
@@ -473,7 +467,7 @@ export async function GET(request: Request) {
             zIndex: 1,
           }}
         >
-          <TopBar label={topLabel} />
+          <TopBar />
 
           {isHomepage ? (
             <HomepageContent description={DEFAULT_DESCRIPTION} />
@@ -495,6 +489,7 @@ export async function GET(request: Request) {
       </div>,
       {
         ...SIZE,
+        emoji: "twemoji",
         fonts: [
           {
             name: "Inter",

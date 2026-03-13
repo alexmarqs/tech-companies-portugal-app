@@ -104,7 +104,7 @@ export default function CompaniesList({
                 <CompanyItem key={company.slug} company={company} />
               ))}
             </div>
-            <div className="mt-6">
+            <div className="mt-5">
               <CompaniesListFooter totalPages={totalPages} />
             </div>
           </>
