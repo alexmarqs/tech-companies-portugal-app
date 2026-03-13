@@ -16,7 +16,7 @@
     "check-types": "turbo check-types",
     "test:e2e:web": "turbo test:e2e --filter=@tech-companies-portugal/web",
     "test": "turbo test --parallel",
-    "doctor": "npx -y react-doctor@latest ."
+    "react:doctor": "npx -y react-doctor@latest ."
   },
   "engines": {
     "node": ">=22"
