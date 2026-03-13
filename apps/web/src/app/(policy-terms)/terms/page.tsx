@@ -1,3 +1,8 @@
+import {
+  APP_URL,
+  defaultOpenGraphMetadata,
+  defaultTwitterMetadata,
+} from "@/lib/metadata";
 import { PUBLIC_CONTACT_EMAIL } from "@/lib/utils";
 import Link from "next/link";
 import type { Metadata } from "next/types";
@@ -10,10 +15,13 @@ export const metadata: Metadata = {
   title,
   description,
   openGraph: {
+    ...defaultOpenGraphMetadata,
     title,
     description,
+    url: `${APP_URL}/terms`,
   },
   twitter: {
+    ...defaultTwitterMetadata,
     title,
     description,
   },
@@ -94,9 +102,8 @@ export default function TermsPage() {
           <div className="flex flex-col gap-3">
             <p>
               Tech Companies Portugal is a free, open directory that aggregates
-              publicly available information about tech companies hiring
-              in Portugal. The Service is provided for
-              informational purposes only.
+              publicly available information about tech companies hiring in
+              Portugal. The Service is provided for informational purposes only.
             </p>
             <p>
               We do not guarantee the completeness, accuracy, or timeliness of

@@ -31,13 +31,11 @@ export const metadata: Metadata = {
     title,
     description,
     url: `${APP_URL}/login`,
-    images: [`api/og?title=${title}&description=${description}`],
   },
   twitter: {
     ...defaultTwitterMetadata,
     title,
     description,
-    images: [`api/og?title=${title}&description=${description}`],
   },
 };
 

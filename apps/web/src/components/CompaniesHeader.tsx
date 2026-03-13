@@ -52,8 +52,8 @@ export default async function CompaniesHeader() {
           </h1>
 
           <p className="text-base sm:text-lg text-muted-foreground max-w-lg leading-relaxed">
-            Discover tech companies hiring in Portugal — from startups to
-            global tech companies — all in one place.
+            Discover tech companies hiring in Portugal — from startups to global
+            tech companies — all in one place.
           </p>
 
           {logos.length > 0 && (

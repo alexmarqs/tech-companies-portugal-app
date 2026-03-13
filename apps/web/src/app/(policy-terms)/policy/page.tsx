@@ -1,3 +1,8 @@
+import {
+  APP_URL,
+  defaultOpenGraphMetadata,
+  defaultTwitterMetadata,
+} from "@/lib/metadata";
 import { PUBLIC_CONTACT_EMAIL } from "@/lib/utils";
 import Link from "next/link";
 import type { Metadata } from "next/types";
@@ -10,10 +15,13 @@ export const metadata: Metadata = {
   title,
   description,
   openGraph: {
+    ...defaultOpenGraphMetadata,
     title,
     description,
+    url: `${APP_URL}/policy`,
   },
   twitter: {
+    ...defaultTwitterMetadata,
     title,
     description,
   },
@@ -75,9 +83,9 @@ export default function PolicyPage() {
           <div className="flex flex-col gap-3">
             <p>
               Tech Companies Portugal ("we", "us", or "our") operates an open
-              directory of tech companies hiring in Portugal.
-              This Privacy Policy explains how we handle information when you
-              visit our website.
+              directory of tech companies hiring in Portugal. This Privacy
+              Policy explains how we handle information when you visit our
+              website.
             </p>
             <p>
               We are committed to being transparent about our data practices. We
@@ -167,9 +175,9 @@ export default function PolicyPage() {
             </p>
             <ul className="list-disc pl-5 flex flex-col gap-1.5">
               <li>
-                <strong className="text-foreground">Analytics cookies</strong>{" "}
-                — set by PostHog to distinguish unique sessions and measure
-                usage patterns
+                <strong className="text-foreground">Analytics cookies</strong> —
+                set by PostHog to distinguish unique sessions and measure usage
+                patterns
               </li>
               <li>
                 <strong className="text-foreground">Preference storage</strong>{" "}
@@ -200,8 +208,8 @@ export default function PolicyPage() {
             </p>
             <ul className="list-disc pl-5 flex flex-col gap-1.5">
               <li>
-                <strong className="text-foreground">Supabase</strong> — used
-                for database and authentication infrastructure
+                <strong className="text-foreground">Supabase</strong> — used for
+                database and authentication infrastructure
               </li>
               <li>
                 <strong className="text-foreground">PostHog</strong> — used for
@@ -209,8 +217,8 @@ export default function PolicyPage() {
               </li>
               <li>
                 <strong className="text-foreground">Vercel</strong> — used to
-                host and serve the application; may process IP addresses as
-                part of request handling
+                host and serve the application; may process IP addresses as part
+                of request handling
               </li>
               <li>
                 <strong className="text-foreground">Plunk</strong> — used to
@@ -338,8 +346,8 @@ export default function PolicyPage() {
       {/* Footer note */}
       <div className="mt-12 pt-8 border-t border-border/60">
         <p className="text-xs text-muted-foreground">
-          This policy was last reviewed in {LAST_UPDATED}. Previous versions
-          are available in the{" "}
+          This policy was last reviewed in {LAST_UPDATED}. Previous versions are
+          available in the{" "}
           <a
             href="https://github.com/alexmarqs/tech-companies-portugal"
             target="_blank"

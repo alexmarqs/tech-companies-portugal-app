@@ -1,3 +1,8 @@
+import {
+  APP_URL,
+  defaultOpenGraphMetadata,
+  defaultTwitterMetadata,
+} from "@/lib/metadata";
 import { PUBLIC_CONTACT_EMAIL } from "@/lib/utils";
 import type { Metadata } from "next/types";
 
@@ -9,10 +14,13 @@ export const metadata: Metadata = {
   title,
   description,
   openGraph: {
+    ...defaultOpenGraphMetadata,
     title,
     description,
+    url: `${APP_URL}/about`,
   },
   twitter: {
+    ...defaultTwitterMetadata,
     title,
     description,
   },
@@ -77,11 +85,10 @@ export default function AboutPage() {
           </h2>
           <div className="flex flex-col gap-3">
             <p>
-              Tech Companies Portugal is a directory of tech companies
-              hiring in Portugal. You can search by name,
-              filter by category or location, and discover companies from Lisbon
-              and Porto all the way to Braga, Coimbra, Aveiro, and everywhere in
-              between.
+              Tech Companies Portugal is a directory of tech companies hiring in
+              Portugal. You can search by name, filter by category or location,
+              and discover companies from Lisbon and Porto all the way to Braga,
+              Coimbra, Aveiro, and everywhere in between.
             </p>
             <p>
               If you create an account (via GitHub or Google), you can also

@@ -1,14 +1,47 @@
 /* eslint-disable @next/next/no-img-element */
 import { APP_URL } from "@/lib/metadata";
-import { ImageResponse } from "next/og";
-import { SIZE, loadGoogleFont } from "./_utils";
-
-export const runtime = "edge";
 
 const SITE_LOGO = `${APP_URL}/assets/images/logo.png`;
-const DEFAULT_TITLE = "Tech Companies in Portugal";
-const DEFAULT_DESCRIPTION =
-  "Discover tech companies hiring in Portugal — from startups to global tech companies — all in one place.";
+
+export function OgLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: "Inter",
+        backgroundColor: "#fafafa",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <AuroraOrbs />
+
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: "100%",
+          padding: "40px 56px",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        <TopBar />
+        {children}
+      </div>
+
+      <AccentBar />
+    </div>
+  );
+}
 
 function AuroraOrbs() {
   return (
@@ -132,7 +165,7 @@ function TopBar({ label }: { label?: string }) {
   );
 }
 
-function HomepageContent({ description }: { description: string }) {
+export function HomepageContent({ description }: { description: string }) {
   return (
     <div
       style={{
@@ -143,7 +176,6 @@ function HomepageContent({ description }: { description: string }) {
         paddingTop: 24,
       }}
     >
-      {/* Hero text */}
       <div
         style={{
           display: "flex",
@@ -222,7 +254,7 @@ function HomepageContent({ description }: { description: string }) {
   );
 }
 
-function CompanyContent({
+export function CompanyContent({
   title,
   description,
   companyLogo,
@@ -240,7 +272,6 @@ function CompanyContent({
         paddingTop: 32,
       }}
     >
-      {/* Center block */}
       <div
         style={{
           display: "flex",
@@ -313,7 +344,6 @@ function CompanyContent({
         </div>
       </div>
 
-      {/* Footer */}
       <div
         style={{
           display: "flex",
@@ -358,7 +388,7 @@ function CompanyContent({
   );
 }
 
-function PageContent({
+export function PageContent({
   title,
   description,
 }: { title: string; description: string }) {
@@ -417,98 +447,4 @@ function PageContent({
       </div>
     </div>
   );
-}
-
-export async function GET(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url);
-
-    const title = searchParams.get("title") || "";
-    const description = searchParams.get("description") || "";
-    const companyLogo = searchParams.get("logo") || "";
-
-    const isHomepage = !title && !description;
-    const isCompany = !!companyLogo;
-
-    const allText = [
-      title || DEFAULT_TITLE,
-      description || DEFAULT_DESCRIPTION,
-      "TechCompaniesPortugal",
-      "techcompaniesportugal.fyi",
-      "Find your next tech company in Portugal",
-      "Tech Company in Portugal",
-      "Company Profile",
-      "View Profile & Careers",
-    ].join("");
-
-    return new ImageResponse(
-      <div
-        style={{
-          height: "100%",
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          fontFamily: "Inter",
-          backgroundColor: "#fafafa",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <AuroraOrbs />
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            height: "100%",
-            padding: "40px 56px",
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          <TopBar />
-
-          {isHomepage ? (
-            <HomepageContent description={DEFAULT_DESCRIPTION} />
-          ) : isCompany ? (
-            <CompanyContent
-              title={title}
-              description={description || DEFAULT_DESCRIPTION}
-              companyLogo={companyLogo}
-            />
-          ) : (
-            <PageContent
-              title={title}
-              description={description || DEFAULT_DESCRIPTION}
-            />
-          )}
-        </div>
-
-        <AccentBar />
-      </div>,
-      {
-        ...SIZE,
-        emoji: "twemoji",
-        fonts: [
-          {
-            name: "Inter",
-            data: await loadGoogleFont("Inter", allText),
-          },
-          {
-            name: "Inter Medium",
-            data: await loadGoogleFont("Inter:wght@500", allText),
-          },
-          {
-            name: "Inter Bold",
-            data: await loadGoogleFont("Inter:wght@700", allText),
-          },
-        ],
-      },
-    );
-  } catch (e) {
-    return new Response("Failed to generate the og image", {
-      status: 500,
-    });
-  }
 }
