@@ -35,8 +35,8 @@ export default function WelcomeEmail({
         />
       </Head>
       <Preview>
-        Welcome to Tech Companies Portugal - Discover your next career
-        opportunity!
+        Welcome to Tech Companies Portugal — discover tech companies hiring in
+        Portugal, all in one place.
       </Preview>
       <Tailwind>
         <Body className="bg-gray-50">
@@ -151,41 +151,9 @@ export default function WelcomeEmail({
                     display: "inline-block",
                   }}
                 >
-                  Explore Companies
+                  Explore all companies
                 </Button>
               </Section>
-            </Section>
-
-            {/* Features Section */}
-            <Section
-              style={{
-                backgroundColor: "#ffffff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "16px",
-                padding: "24px",
-                marginBottom: "16px",
-                textAlign: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: "13px",
-                  color: "#4b5563",
-                  lineHeight: "1.7",
-                  margin: "0 0 12px 0",
-                }}
-              >
-                <strong>Open Source Platform:</strong> Our web application is
-                completely open source and transparent:{" "}
-                <a
-                  href="https://github.com/alexmarqs/tech-companies-portugal-app"
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ color: "#059669", textDecoration: "underline" }}
-                >
-                  tech-companies-portugal-app
-                </a>
-              </Text>
             </Section>
 
             <Footer />

@@ -52,8 +52,8 @@ export default async function CompaniesHeader() {
           </h1>
 
           <p className="text-base sm:text-lg text-muted-foreground max-w-lg leading-relaxed">
-            The directory for tech companies, startups, and scale-ups in
-            Portugal.
+            Discover tech companies hiring in Portugal — from startups to
+            global tech companies — all in one place.
           </p>
 
           {logos.length > 0 && (

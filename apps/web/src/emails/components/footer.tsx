@@ -33,11 +33,12 @@ export function Footer({ children }: FooterProps) {
           fontSize: "12px",
           color: "#6b7280",
           textAlign: "center",
-          margin: "0 0 12px 0",
+          margin: "0 0 4px 0",
           lineHeight: "1.6",
         }}
       >
-        Discover amazing tech companies across Portugal, all in one place.
+        Discover tech companies hiring in Portugal — from startups to global
+        tech companies.
       </Text>
 
       <Row

@@ -8,7 +8,7 @@ export const runtime = "edge";
 const SITE_LOGO = `${APP_URL}/assets/images/logo.png`;
 const DEFAULT_TITLE = "Tech Companies in Portugal";
 const DEFAULT_DESCRIPTION =
-  "Discover tech companies in Portugal - from innovative startups to industry leaders. Browse companies, and connect with the tech ecosystem.";
+  "Discover tech companies hiring in Portugal — from startups to global tech companies — all in one place.";
 
 function AuroraOrbs() {
   return (
@@ -228,9 +228,7 @@ function CompanyContent({
   companyLogo,
 }: { title: string; description: string; companyLogo: string }) {
   const truncated =
-    description.length > 180
-      ? `${description.slice(0, 180)}...`
-      : description;
+    description.length > 180 ? `${description.slice(0, 180)}...` : description;
 
   return (
     <div
@@ -267,12 +265,7 @@ function CompanyContent({
               "0 8px 24px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04)",
           }}
         >
-          <img
-            height="80"
-            width="80"
-            src={companyLogo}
-            alt=""
-          />
+          <img height="80" width="80" src={companyLogo} alt="" />
         </div>
         <div
           style={{

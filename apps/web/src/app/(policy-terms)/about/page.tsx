@@ -1,9 +1,9 @@
 import { PUBLIC_CONTACT_EMAIL } from "@/lib/utils";
 import type { Metadata } from "next/types";
 
-const title = "About · Tech Companies Portugal";
+const title = "About | Tech Companies Portugal";
 const description =
-  "Learn about Tech Companies Portugal — the open directory of tech companies, startups, and scale-ups in Portugal.";
+  "Learn about Tech Companies Portugal — discover tech companies hiring in Portugal, from startups to global tech companies.";
 
 export const metadata: Metadata = {
   title,
@@ -77,8 +77,8 @@ export default function AboutPage() {
           </h2>
           <div className="flex flex-col gap-3">
             <p>
-              Tech Companies Portugal is a directory of tech companies,
-              startups, and scale-ups across Portugal. You can search by name,
+              Tech Companies Portugal is a directory of tech companies
+              hiring in Portugal. You can search by name,
               filter by category or location, and discover companies from Lisbon
               and Porto all the way to Braga, Coimbra, Aveiro, and everywhere in
               between.
@@ -88,20 +88,6 @@ export default function AboutPage() {
               subscribe to a weekly email digest to stay up to date with newly
               listed companies. No spam, no ads — just a simple notification
               when new companies show up.
-            </p>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-base font-bold text-foreground mb-4">
-            Built in the open
-          </h2>
-          <div className="flex flex-col gap-3">
-            <p>
-              The entire project is open source — the web app, the dataset, all
-              of it. The tech stack is something I genuinely enjoy working with,
-              including: Next.js, Tailwind CSS, Shadcn UI, Supabase, PostHog,
-              and a bunch of other cool tools!
             </p>
           </div>
         </section>

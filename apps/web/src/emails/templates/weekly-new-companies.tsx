@@ -163,7 +163,7 @@ export default function WeeklyNewCompaniesEmail({
                       display: "inline-block",
                     }}
                   >
-                    Explore Companies
+                    Explore all companies
                   </Button>
                 </Section>
               </Section>

@@ -35,8 +35,8 @@ export default async function Footer() {
               </span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Helping you discover the best tech companies, startups, and
-              scale-ups in Portugal.
+              Discover tech companies hiring in Portugal — from startups
+              to global tech companies.
             </p>
           </div>
 

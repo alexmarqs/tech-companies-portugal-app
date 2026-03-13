@@ -40,7 +40,7 @@ export async function generateMetadata({
     return;
   }
 
-  const title = `${company.name} | Leading Tech Company in Portugal - Profile & Careers`;
+  const title = `${company.name} | Tech Company in Portugal`;
   const description = company.description;
   const keywords = `${company.name}, Tech Company, Careers, Portugal`;
 

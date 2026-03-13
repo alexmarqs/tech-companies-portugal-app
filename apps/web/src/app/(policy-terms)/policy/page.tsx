@@ -1,9 +1,10 @@
+import { PUBLIC_CONTACT_EMAIL } from "@/lib/utils";
 import Link from "next/link";
 import type { Metadata } from "next/types";
 
-const title = "Privacy Policy · Tech Companies Portugal";
+const title = "Privacy Policy | Tech Companies Portugal";
 const description =
-  "Read the Privacy Policy for Tech Companies Portugal — the open directory of tech companies, startups, and scale-ups in Portugal.";
+  "Read the Privacy Policy for Tech Companies Portugal — discover tech companies hiring in Portugal, from startups to global tech companies.";
 
 export const metadata: Metadata = {
   title,
@@ -74,7 +75,7 @@ export default function PolicyPage() {
           <div className="flex flex-col gap-3">
             <p>
               Tech Companies Portugal ("we", "us", or "our") operates an open
-              directory of tech companies, startups, and scale-ups in Portugal.
+              directory of tech companies hiring in Portugal.
               This Privacy Policy explains how we handle information when you
               visit our website.
             </p>
@@ -306,7 +307,7 @@ export default function PolicyPage() {
             >
               GitHub
             </a>{" "}
-            or on{" "}
+            on{" "}
             <a
               href="https://x.com/alexlmarques"
               target="_blank"
@@ -314,6 +315,13 @@ export default function PolicyPage() {
               className="text-primary underline underline-offset-4 hover:opacity-70 transition-opacity"
             >
               X / Twitter
+            </a>
+            , or email us at{" "}
+            <a
+              href={`mailto:${PUBLIC_CONTACT_EMAIL}`}
+              className="text-primary underline underline-offset-4 hover:opacity-70 transition-opacity"
+            >
+              {PUBLIC_CONTACT_EMAIL}
             </a>
             . You may also review our{" "}
             <Link
