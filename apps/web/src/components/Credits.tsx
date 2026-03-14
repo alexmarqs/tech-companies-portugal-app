@@ -1,4 +1,7 @@
-export const Credits = () => {
+type CreditsProps = {
+  onlyInternal?: boolean;
+};
+export const Credits = ({ onlyInternal = false }: CreditsProps) => {
   return (
     <p className="text-xs text-muted-foreground text-center sm:text-left">
       &copy; {new Date().getFullYear()} TechCompaniesPortugal. Built with{" "}
@@ -12,31 +15,35 @@ export const Credits = () => {
         Alexandre Marques
       </a>{" "}
       for the Portuguese community
-      <span className="mx-1.5 text-border">|</span>
-      <span className="inline-block">
-        Source:{" "}
-        <a
-          href="https://github.com/marmelo/tech-companies-in-portugal"
-          target="_blank"
-          rel="noreferrer noopener"
-          className="underline underline-offset-2 hover:text-primary transition-colors"
-        >
-          marmelo/tech-companies-in-portugal
-        </a>
-      </span>
-      <span className="mx-1.5 text-border">|</span>
-      <span className="inline-block">
-        Logos:{" "}
-        <a
-          href="https://logo.dev"
-          target="_blank"
-          rel="noreferrer noopener"
-          title="Logo API"
-          className="underline underline-offset-2 hover:text-primary transition-colors"
-        >
-          Logo.dev
-        </a>
-      </span>
+      {!onlyInternal && (
+        <>
+          <span className="mx-1.5 text-border">|</span>
+          <span className="inline-block">
+            Source:{" "}
+            <a
+              href="https://github.com/marmelo/tech-companies-in-portugal"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="underline underline-offset-2 hover:text-primary transition-colors"
+            >
+              marmelo/tech-companies-in-portugal
+            </a>
+          </span>
+          <span className="mx-1.5 text-border">|</span>
+          <span className="inline-block">
+            Logos:{" "}
+            <a
+              href="https://logo.dev"
+              target="_blank"
+              rel="noreferrer noopener"
+              title="Logo API"
+              className="underline underline-offset-2 hover:text-primary transition-colors"
+            >
+              Logo.dev
+            </a>
+          </span>
+        </>
+      )}
     </p>
   );
 };

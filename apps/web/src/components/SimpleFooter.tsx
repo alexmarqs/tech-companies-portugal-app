@@ -7,7 +7,7 @@ export default function SimpleFooter() {
       <div className="container mx-auto flex flex-col gap-4 px-4 py-2">
         <div className="w-full flex flex-col md:flex-row md:justify-between items-center flex-wrap gap-4">
           <LogoFooter onlyLogo />
-          <Credits />
+          <Credits onlyInternal />
         </div>
       </div>
     </footer>

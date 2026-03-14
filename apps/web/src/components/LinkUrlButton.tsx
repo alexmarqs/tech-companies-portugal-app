@@ -26,15 +26,14 @@ export const LinkUrlButton = ({
         // biome-ignore lint/a11y/noBlankTarget: intentionally sending referrer for attribution
         target="_blank"
         rel="noopener"
+        className="flex items-center gap-1"
         data-ph-capture-attribute-event-name="company_website_clicked"
         data-ph-capture-attribute-company-name={companyName}
         data-ph-capture-attribute-link-type={label.toLowerCase()}
         data-ph-capture-attribute-url={url}
       >
-        <div className="flex items-center gap-1">
-          {icon}
-          {label}
-        </div>
+        {icon}
+        {label}
       </a>
     </Button>
   );
