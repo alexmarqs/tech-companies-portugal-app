@@ -1,4 +1,5 @@
 import CompaniesList from "@/components/CompaniesList";
+import { CompaniesListSkeleton } from "@/components/CompaniesListSkeleton";
 import {
   APP_URL,
   defaultMetadata,
@@ -8,6 +9,7 @@ import {
 import { getParsedCompaniesData } from "@/lib/parser/companies";
 import type { NextParams } from "@/lib/types";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 export async function generateMetadata({
   params,
@@ -97,7 +99,9 @@ export default async function LocationPage({
         </div>
 
         <div className="flex flex-col w-full gap-4">
-          <CompaniesList allCompanies={filteredCompanies} isDedicatedPage />
+          <Suspense fallback={<CompaniesListSkeleton />}>
+            <CompaniesList allCompanies={filteredCompanies} isDedicatedPage />
+          </Suspense>
         </div>
       </div>
     </section>
