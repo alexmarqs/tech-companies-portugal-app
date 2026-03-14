@@ -1,5 +1,4 @@
 import CompaniesList from "@/components/CompaniesList";
-import { CompaniesListFallback } from "@/components/CompaniesListFallback";
 import {
   APP_URL,
   defaultMetadata,
@@ -103,14 +102,7 @@ export default async function CategoryPage({
         </div>
 
         <div className="flex flex-col w-full gap-4">
-          <Suspense
-            fallback={
-              <CompaniesListFallback
-                companies={filteredCompanies}
-                isDedicatedPage
-              />
-            }
-          >
+          <Suspense>
             <CompaniesList allCompanies={filteredCompanies} isDedicatedPage />
           </Suspense>
         </div>
