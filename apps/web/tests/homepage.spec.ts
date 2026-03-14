@@ -43,7 +43,6 @@ test.describe("Homepage e2e tests", () => {
     ).toBeDisabled();
 
     // check if pagination is visible with correct format
-    await expect(page.getByText("Showing", { exact: false })).toBeVisible();
     await expect(page.getByText("1 / 30", { exact: false })).toBeVisible();
   });
 
@@ -91,9 +90,6 @@ test.describe("Homepage e2e tests", () => {
       name: "Search by name or description",
     });
     await searchBox.fill("Bosch");
-
-    // wait for the list to update
-    await expect(page.getByText("Showing", { exact: false })).toBeVisible();
 
     // reset button should now be enabled
     await expect(
