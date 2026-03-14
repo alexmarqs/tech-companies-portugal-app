@@ -20,6 +20,10 @@ export const LinkUrlButton = ({
       variant="secondary"
       className="h-8 px-2 text-xs hover:bg-secondary/60"
       asChild
+      data-ph-capture-attribute-event-name="company_website_clicked"
+      data-ph-capture-attribute-company-name={companyName}
+      data-ph-capture-attribute-link-type={label.toLowerCase()}
+      data-ph-capture-attribute-url={url}
     >
       <a
         href={url}
@@ -27,10 +31,6 @@ export const LinkUrlButton = ({
         target="_blank"
         rel="noopener"
         className="flex items-center gap-1"
-        data-ph-capture-attribute-event-name="company_website_clicked"
-        data-ph-capture-attribute-company-name={companyName}
-        data-ph-capture-attribute-link-type={label.toLowerCase()}
-        data-ph-capture-attribute-url={url}
       >
         {icon}
         {label}

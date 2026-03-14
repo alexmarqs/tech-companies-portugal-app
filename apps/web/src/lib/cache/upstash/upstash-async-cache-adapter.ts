@@ -7,9 +7,16 @@ type UpstashAsyncCacheAdapterOptions = {
 };
 
 export function createUpstashAsyncCacheAdapter<T>(
-  client: Redis,
+  client: Redis | undefined,
   options: UpstashAsyncCacheAdapterOptions,
 ): AsyncCache<T> {
+  if (!client) {
+    return {
+      get: async () => null,
+      set: async () => {},
+    };
+  }
+
   return {
     get: async (key: string) => {
       return await client.get<T>(`${options.keyPrefix}:${key}`);
