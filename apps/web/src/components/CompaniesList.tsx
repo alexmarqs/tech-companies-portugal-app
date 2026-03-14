@@ -63,7 +63,7 @@ export default function CompaniesList({
           <div className="flex flex-wrap items-center gap-2 text-sm">
             {filteredCompanies.length > 0 && (
               <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
-                Showing {filteredCompanies.length}{" "}
+                {filteredCompanies.length}{" "}
                 {appliedFilters.length > 0 ? "filtered companies" : "companies"}
                 {totalPages > 1 ? ` · Page ${page}/${totalPages}` : ""}
               </span>

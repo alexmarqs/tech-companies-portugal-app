@@ -32,7 +32,7 @@ export function MobileSearchDrawer({
       <Button
         variant="outline"
         size="lg"
-        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 rounded-full shadow-lg gap-2"
+        className="fixed bottom-6 py-4 left-1/2 -translate-x-1/2 z-40 rounded-full shadow-lg gap-2"
         onClick={() => setOpen(true)}
       >
         <SlidersHorizontal className="h-4 w-4" />
