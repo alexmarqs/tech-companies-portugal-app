@@ -57,10 +57,10 @@ export default function AboutPage() {
                 rel="noreferrer"
                 className="text-primary underline underline-offset-4 hover:opacity-70 transition-opacity"
               >
-                Alexandre
+                Alexandre Marques
               </a>
-              , a Software Engineer based in Portugal. At some point I came
-              across the amazing open-source{" "}
+              , a Product / Software Engineer based in Portugal. At some point I
+              came across the amazing open-source{" "}
               <a
                 href="https://github.com/marmelo/tech-companies-in-portugal"
                 target="_blank"
