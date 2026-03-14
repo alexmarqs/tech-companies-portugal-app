@@ -1,5 +1,5 @@
 import CompaniesList from "@/components/CompaniesList";
-import { CompaniesListSkeleton } from "@/components/CompaniesListSkeleton";
+import { CompaniesListFallback } from "@/components/CompaniesListFallback";
 import {
   APP_URL,
   defaultMetadata,
@@ -99,7 +99,14 @@ export default async function LocationPage({
         </div>
 
         <div className="flex flex-col w-full gap-4">
-          <Suspense fallback={<CompaniesListSkeleton />}>
+          <Suspense
+            fallback={
+              <CompaniesListFallback
+                companies={filteredCompanies}
+                isDedicatedPage
+              />
+            }
+          >
             <CompaniesList allCompanies={filteredCompanies} isDedicatedPage />
           </Suspense>
         </div>
