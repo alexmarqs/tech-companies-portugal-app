@@ -44,6 +44,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # ai coding agents
+.claude/settings.json
 .cursor
 CLAUDE.md
 AGENTS.md
