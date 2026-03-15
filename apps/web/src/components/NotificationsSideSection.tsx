@@ -13,7 +13,7 @@ export const NotificationsSideSection = () => {
         <div className="pointer-events-none absolute -bottom-4 -left-4 size-20 rounded-full bg-teal-200/25 blur-xl" />
 
         <div className="relative flex flex-row items-center lg:items-start justify-between lg:flex-col gap-4 flex-wrap">
-          <div className="flex flex-col items-start gap-2 shrink-0">
+          <div className="flex flex-col items-start gap-2 min-w-0">
             {/* Icon badge */}
             <div className="flex items-center gap-1.5 rounded-full bg-emerald-100/80 px-2.5 py-1 text-emerald-700 ring-1 ring-emerald-200/60">
               <Calendar size={12} className=" text-emerald-500" />
