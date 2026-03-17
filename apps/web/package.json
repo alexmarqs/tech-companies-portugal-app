@@ -13,11 +13,7 @@
     "test": "echo 'No tests to run'",
     "test:e2e": "start-server-and-test start http://localhost:3000 'playwright test'",
     "test:e2e:ui": "start-server-and-test start http://localhost:3000 'playwright test --ui'",
-    "db:types": "npx supabase gen types typescript --linked --schema public 2>/dev/null > ./src/lib/supabase/database.types.ts",
-    "db:push": "npx supabase db push",
-    "db:diff": "npx supabase db diff",
-    "db:migration:new": "npx supabase migration new",
-    "db:migration:list": "npx supabase migration list",
+    "db:types": "npx supabase gen types typescript --linked --schema public > ./src/lib/supabase/database.types.ts",
     "email:dev": "email dev --port 3002 --dir src/emails/templates",
     "inngest:dev": "npx inngest-cli@latest dev"
   },
