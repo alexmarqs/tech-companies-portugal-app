@@ -49,5 +49,3 @@ yarn-error.log*
 CLAUDE.md
 AGENTS.md
 .mcp.json
-**/.temp/
-.claude/settings.json
