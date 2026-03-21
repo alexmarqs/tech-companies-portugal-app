@@ -176,7 +176,7 @@ export default async function CompanyPage({
           <div className="mt-6 flex flex-col">
             <RelatedCompaniesCarousel
               relatedCompanies={relatedCompanies}
-              title="Similar Companies in Portugal"
+              title="Related Companies in Portugal"
             />
           </div>
         )}

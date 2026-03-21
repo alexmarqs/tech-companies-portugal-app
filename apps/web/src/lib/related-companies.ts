@@ -4,7 +4,7 @@ function normalizeCategories(categories: string[] | string): string[] {
   return Array.isArray(categories) ? categories : [categories];
 }
 
-const MAX_RELATED_COMPANIES = 5;
+const MAX_RELATED_COMPANIES = 6;
 
 /**
  * Get related companies based on the current company's categories and locations.
