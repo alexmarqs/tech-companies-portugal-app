@@ -14,7 +14,7 @@ const containerVariants = cva(
         "static-featured":
           "border-emerald-200 bg-emerald-50 shadow-xs ring-1 ring-emerald-100",
         secondary: "border-border shadow-xs hover:shadow-md",
-        static: "border-border/60 shadow-xs",
+        static: "border-border/60",
         "static-secondary": "border-border shadow-xs bg-card",
         destructive: "border-destructive hover:bg-destructive/10",
       },

@@ -25,18 +25,20 @@ export const LogoFooter = ({ onlyLogo = false }: LogoFooterProps) => {
           </span>
         )}
       </div>
-      <a
-        href="https://techcompaniesportugal.openstatus.dev"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <img
-          className="h-5"
-          src="https://techcompaniesportugal.openstatus.dev/badge"
-          alt="OpenStatus Badge"
-          loading="lazy"
-        />
-      </a>
+      {!onlyLogo && (
+        <a
+          href="https://techcompaniesportugal.openstatus.dev"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img
+            className="h-5"
+            src="https://techcompaniesportugal.openstatus.dev/badge"
+            alt="OpenStatus Badge"
+            loading="lazy"
+          />
+        </a>
+      )}
     </div>
   );
 };
