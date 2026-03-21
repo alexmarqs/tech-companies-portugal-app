@@ -1,6 +1,6 @@
 import type { Company } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight, BadgeCheck, MapPin } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { Badge } from "./ui/badge";
@@ -20,6 +20,7 @@ export default function CompanyItem({
     categories,
     slug,
     isFeatured,
+    isClaimed,
     logoUrl,
   },
   hideViewProfile = false,
@@ -59,10 +60,27 @@ export default function CompanyItem({
                 name.charAt(0)
               )}
             </div>
-            <div className="flex flex-col">
+            <div className="flex items-center justify-center gap-2">
               <h3 className="line-clamp-1 text-base font-semibold group-hover:text-primary transition-colors">
                 {name}
               </h3>
+              {isClaimed ? (
+                <span
+                  className="inline-flex items-center gap-0.5 rounded-md bg-blue-500/10 px-1.5 py-0.5 text-[10px] font-semibold text-blue-500"
+                  title="Claimed"
+                >
+                  <BadgeCheck size={12} className="fill-blue-500 text-white" />
+                  Claimed
+                </span>
+              ) : (
+                <span
+                  className="inline-flex items-center gap-0.5 rounded-md border border-dashed border-muted-foreground/30 px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground/50 transition-colors hover:border-blue-400 hover:text-blue-500"
+                  title="Claim this company"
+                >
+                  <BadgeCheck size={12} />
+                  Claim
+                </span>
+              )}
             </div>
           </div>
         </div>

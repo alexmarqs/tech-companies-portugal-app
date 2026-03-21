@@ -10,6 +10,7 @@ export type Company = {
   categories: string[] | string;
   locations: string[];
   isFeatured?: boolean;
+  isClaimed?: boolean;
   logoUrl?: string;
 };
 
