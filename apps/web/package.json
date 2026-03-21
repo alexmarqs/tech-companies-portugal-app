@@ -3,7 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "portless techcompaniesportugal next dev",
+    "dev": "next dev",
+    "dev:portless": "portless techcompaniesportugal next dev",
     "build": "next build",
     "start": "next start",
     "lint": "biome check . --write --unsafe",

@@ -86,7 +86,7 @@ export default async function CategoryPage({
   );
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: "Home", url: APP_URL },
-    { name: category, url: `${APP_URL}/category/${category}` },
+    { name: category, url: `${APP_URL}/category/${encodeURIComponent(category)}` },
   ]);
 
   return (

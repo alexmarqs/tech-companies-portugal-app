@@ -83,7 +83,7 @@ export default async function LocationPage({
   );
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: "Home", url: APP_URL },
-    { name: location, url: `${APP_URL}/location/${location}` },
+    { name: location, url: `${APP_URL}/location/${encodeURIComponent(location)}` },
   ]);
 
   return (
