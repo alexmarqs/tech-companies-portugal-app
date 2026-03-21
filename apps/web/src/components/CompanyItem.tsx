@@ -7,9 +7,12 @@ import { Badge } from "./ui/badge";
 
 type CompanyItemProps = {
   company: Company;
+  className?: string;
+  hideViewProfile?: boolean;
 };
 
 export default function CompanyItem({
+  className,
   company: {
     name,
     description,
@@ -19,12 +22,14 @@ export default function CompanyItem({
     isFeatured,
     logoUrl,
   },
+  hideViewProfile = false,
 }: CompanyItemProps) {
   return (
     <Link
       className={cn(
         "group relative flex flex-col rounded-xl border bg-card p-5 transition-all duration-200 hover:shadow-sm",
         isFeatured ? "border-emerald-500" : "border-border/60",
+        className,
       )}
       data-testid="company-item"
       aria-label={`View details for ${name}`}
@@ -70,10 +75,13 @@ export default function CompanyItem({
 
         <div className="flex items-center justify-between pt-2 border-t border-border/40">
           <Locations locations={locations || []} />
-          <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-            View Profile
-            <ArrowRight size={12} />
-          </span>
+
+          {!hideViewProfile && (
+            <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+              View Profile
+              <ArrowRight size={12} />
+            </span>
+          )}
         </div>
       </div>
     </Link>

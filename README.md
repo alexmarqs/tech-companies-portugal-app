@@ -35,6 +35,12 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - [Inngest](https://inngest.com/) - Event-driven architecture for serverless functions | Used for notifications
 - [Biome](https://biomejs.dev/) / [React Doctor](https://www.react-doctor.com/) - Formatting and linting
 - MCP's used locally: Posthog, Supabase and Playwright.
+- [Portless](https://port1355.dev/) - Portless replaces port numbers with stable, named .localhost URLs for local development
+
+## Roadmap 🗺️
+
+- [ ] Move to pure SSG architecture with async background jobs for data computation and revalidation
+- [ ] Vector-based related companies using Supabase pgvector (async job generates embeddings from company data, computes similarity, stores pre-computed results — build time just reads from Supabase)
 
 ## How to contribute 🤝
 
