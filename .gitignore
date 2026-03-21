@@ -46,6 +46,4 @@ yarn-error.log*
 # ai coding agents
 .claude/settings.json
 .cursor
-CLAUDE.md
-AGENTS.md
 .mcp.json

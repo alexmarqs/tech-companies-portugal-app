@@ -1,5 +1,11 @@
 import CompaniesList from "@/components/CompaniesList";
 import { CompaniesListSkeleton } from "@/components/CompaniesListSkeleton";
+import { PageBreadcrumb } from "@/components/PageBreadcrumb";
+import {
+  generateBreadcrumbJsonLd,
+  generateItemListJsonLd,
+  safeJsonLdStringify,
+} from "@/lib/json-ld";
 import {
   APP_URL,
   defaultMetadata,
@@ -71,9 +77,31 @@ export default async function LocationPage({
     company.locations.includes(location),
   );
 
+  const itemListJsonLd = generateItemListJsonLd(
+    filteredCompanies,
+    `Tech Companies in ${location}, Portugal`,
+  );
+  const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+    { name: "Home", url: APP_URL },
+    { name: location, url: `${APP_URL}/location/${encodeURIComponent(location)}` },
+  ]);
+
   return (
     <section className="mx-auto flex w-full max-w-5xl p-3 relative flex-1">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLdStringify([itemListJsonLd, breadcrumbJsonLd]),
+        }}
+      />
       <div className="flex flex-col w-full">
+        <PageBreadcrumb
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Locations" },
+            { label: location },
+          ]}
+        />
         <div className="relative overflow-hidden rounded-xl bg-linear-to-br from-emerald-50/80 via-background to-amber-50/40 border border-border/40 px-6 py-8 sm:px-8 sm:py-10 mb-6">
           <div className="absolute -top-16 -right-16 w-[250px] h-[250px] bg-emerald-300/15 rounded-full blur-[80px]" />
           <div className="absolute -bottom-20 -left-10 w-[200px] h-[200px] bg-red-300/10 rounded-full blur-[80px]" />

@@ -1,7 +1,14 @@
 import { Categories, Locations } from "@/components/CompanyItem";
 import { CopyUrlButton } from "@/components/CopyUrlButton";
 import { LinkUrlButton } from "@/components/LinkUrlButton";
+import { PageBreadcrumb } from "@/components/PageBreadcrumb";
+import { RelatedCompaniesCarousel } from "@/components/RelatedCompaniesCarousel";
 import { Container } from "@/components/ui/container";
+import {
+  generateBreadcrumbJsonLd,
+  generateCompanyJsonLd,
+  safeJsonLdStringify,
+} from "@/lib/json-ld";
 import {
   APP_URL,
   defaultMetadata,
@@ -12,6 +19,7 @@ import {
   getParsedCompaniesData,
   getParsedCompanyBySlug,
 } from "@/lib/parser/companies";
+import { getRelatedCompanies } from "@/lib/related-companies";
 import type { NextParams } from "@/lib/types";
 import { ArrowRight, Briefcase, Globe } from "lucide-react";
 import Link from "next/link";
@@ -75,15 +83,34 @@ export default async function CompanyPage({
 }) {
   const { slug } = await params;
 
-  const company = await getParsedCompanyBySlug(slug);
+  const { companies } = await getParsedCompaniesData();
+
+  const company = companies.find((c) => c.slug === slug);
 
   if (!company) {
     notFound();
   }
 
+  const relatedCompanies = getRelatedCompanies(company, companies);
+
+  const companyJsonLd = generateCompanyJsonLd(company);
+  const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+    { name: "Home", url: APP_URL },
+    { name: company.name, url: `${APP_URL}/company/${slug}` },
+  ]);
+
   return (
-    <div className="container mx-auto flex w-full max-w-3xl flex-1 items-center justify-center px-4 py-8">
+    <div className="container mx-auto flex w-full max-w-4xl flex-1 items-center justify-center px-4 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLdStringify([companyJsonLd, breadcrumbJsonLd]),
+        }}
+      />
       <div className="flex-col gap-2 flex justify-start w-full">
+        <PageBreadcrumb
+          items={[{ label: "Home", href: "/" }, { label: company.name }]}
+        />
         <Container
           variant="static"
           className="flex-1 space-y-6 px-4 sm:px-8 py-8"
@@ -145,11 +172,20 @@ export default async function CompanyPage({
           </div>
         </Container>
 
+        {relatedCompanies.length > 0 && (
+          <div className="mt-6 flex flex-col">
+            <RelatedCompaniesCarousel
+              relatedCompanies={relatedCompanies}
+              title="Similar Companies in Portugal"
+            />
+          </div>
+        )}
+
         <Link
           href="/"
-          className="group flex items-center justify-center gap-2 rounded-lg py-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          className="group flex py-2 items-center justify-center gap-2 rounded-lg text-sm font-medium text-foreground/70 transition-colors hover:text-foreground"
         >
-          Discover more companies
+          Explore all companies
           <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
         </Link>
       </div>
