@@ -4,6 +4,7 @@ import { PageBreadcrumb } from "@/components/PageBreadcrumb";
 import {
   generateBreadcrumbJsonLd,
   generateItemListJsonLd,
+  generateJsonLdGraph,
   safeJsonLdStringify,
 } from "@/lib/json-ld";
 import {
@@ -83,7 +84,10 @@ export default async function LocationPage({
   );
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: "Home", url: APP_URL },
-    { name: location, url: `${APP_URL}/location/${encodeURIComponent(location)}` },
+    {
+      name: location,
+      url: `${APP_URL}/location/${encodeURIComponent(location)}`,
+    },
   ]);
 
   return (
@@ -91,7 +95,9 @@ export default async function LocationPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: safeJsonLdStringify([itemListJsonLd, breadcrumbJsonLd]),
+          __html: safeJsonLdStringify(
+            generateJsonLdGraph(itemListJsonLd, breadcrumbJsonLd),
+          ),
         }}
       />
       <div className="flex flex-col w-full">

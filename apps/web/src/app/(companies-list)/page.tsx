@@ -2,6 +2,7 @@ import CompaniesList from "@/components/CompaniesList";
 import { MobileSearchDrawer } from "@/components/MobileSearchDrawer";
 import { SideBar } from "@/components/SideBar";
 import {
+  generateJsonLdGraph,
   generateOrganizationJsonLd,
   generateWebSiteJsonLd,
   safeJsonLdStringify,
@@ -14,13 +15,14 @@ export default async function CompaniesPage() {
 
   const webSiteJsonLd = generateWebSiteJsonLd();
   const organizationJsonLd = generateOrganizationJsonLd();
+  const jsonLdGraph = generateJsonLdGraph(webSiteJsonLd, organizationJsonLd);
 
   return (
     <section className="relative flex flex-1 flex-col gap-6 lg:flex-row">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: safeJsonLdStringify([webSiteJsonLd, organizationJsonLd]),
+          __html: safeJsonLdStringify(jsonLdGraph),
         }}
       />
       <SideBar

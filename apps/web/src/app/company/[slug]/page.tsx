@@ -7,6 +7,7 @@ import { Container } from "@/components/ui/container";
 import {
   generateBreadcrumbJsonLd,
   generateCompanyJsonLd,
+  generateJsonLdGraph,
   safeJsonLdStringify,
 } from "@/lib/json-ld";
 import {
@@ -104,7 +105,9 @@ export default async function CompanyPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: safeJsonLdStringify([companyJsonLd, breadcrumbJsonLd]),
+          __html: safeJsonLdStringify(
+            generateJsonLdGraph(companyJsonLd, breadcrumbJsonLd),
+          ),
         }}
       />
       <div className="flex-col gap-2 flex justify-start w-full">
