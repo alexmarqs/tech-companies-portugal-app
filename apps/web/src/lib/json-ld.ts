@@ -12,6 +12,21 @@ export function safeJsonLdStringify(jsonLd: unknown): string {
   return JSON.stringify(jsonLd).replace(/</g, "\\u003c");
 }
 
+export function generateJsonLdGraph(
+  ...entities: WithContext<WebSite | Organization | ItemList | BreadcrumbList>[]
+) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": entities.map((entity) => {
+      const { "@context": _, ...rest } = entity as unknown as Record<
+        string,
+        unknown
+      >;
+      return rest;
+    }),
+  };
+}
+
 export function generateWebSiteJsonLd(): WithContext<WebSite> {
   return {
     "@context": "https://schema.org",
