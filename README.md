@@ -37,6 +37,12 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - MCP's used locally: Posthog, Supabase and Playwright.
 - [Portless](https://port1355.dev/) - Portless replaces port numbers with stable, named .localhost URLs for local development
 
+## Development 💻
+
+```bash
+corepack enable pnpm
+pnpm dev
+```
 
 ## How to contribute 🤝
 
