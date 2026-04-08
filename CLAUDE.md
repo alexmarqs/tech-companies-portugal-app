@@ -5,23 +5,32 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ### Development
-- `npm run dev` - Start development server for all apps (Turbo parallel)
-- `npm run dev:web` - Start only the web app (Next.js with Turbopack)
+- `pnpm run dev` - Start development server for all apps (Turbo parallel)
+- `pnpm run dev:web` - Start only the web app (Next.js with Turbopack)
 
 ### Building & Quality
-- `npm run build` - Build all apps and packages
-- `npm run lint` - Run Biome linting (auto-fixes with `--write --unsafe` in web app)
-- `npm run format` - Format code with Biome
-- `npm run check-types` - TypeScript type checking across all workspaces
+- `pnpm run build` - Build all apps and packages
+- `pnpm run lint` - Run Biome linting (auto-fixes with `--write --unsafe` in web app)
+- `pnpm run format` - Format code with Biome
+- `pnpm run check-types` - TypeScript type checking across all workspaces
 
 ### Testing
-- `npm run test` - Run all tests in parallel
-- `npm run test:e2e:web` - Run Playwright E2E tests (builds first, then starts server)
-- From `apps/web`: `npm run test:e2e:ui` - E2E tests with Playwright UI
+- `pnpm run test` - Run all tests in parallel
+- `pnpm run test:e2e:web` - Run Playwright E2E tests (builds first, then starts server)
+- From `apps/web`: `pnpm run test:e2e:ui` - E2E tests with Playwright UI
 
 ### Database & Email
-- From `apps/web`: `npm run db:types` - Generate TypeScript types from Supabase schema
-- From `apps/web`: `npm run email:dev` - React Email dev server on port 3002
+- From `apps/web`: `pnpm run db:types` - Generate TypeScript types from Supabase schema
+- From `apps/web`: `pnpm run email:dev` - React Email dev server on port 3002
+
+### Database Migrations (from `apps/web`)
+- `pnpm exec supabase link --project-ref <ref>` - Link to remote project (one-time setup)
+- `pnpm exec supabase db diff -f <name>` - Generate migration from remote/dashboard changes
+- `pnpm exec supabase migration new <name>` - Create blank migration to write manually
+- `pnpm exec supabase db push` - Push migrations to remote
+- `pnpm run db:types` - Regenerate TypeScript types after schema changes
+- Never edit already-applied migration files — always create a new one
+- Migration files live in `apps/web/supabase/migrations/`
 
 ## Architecture
 
@@ -59,7 +68,7 @@ Turbo monorepo: `apps/*`, `packages/*`, `tooling/*`.
 - **Biome** (not ESLint/Prettier): 2-space indent, 80 char width, double quotes, semicolons, trailing commas
 - `useImportType: "error"` - always use `import type` for type-only imports
 - `noDangerouslySetInnerHtml` is intentionally off (used for JSON-LD structured data)
-- Node.js >=22, npm as package manager
+- Node.js >=22, pnpm as package manager
 - Environment variables in `apps/web/.env.local`
 
 ## Testing Notes
