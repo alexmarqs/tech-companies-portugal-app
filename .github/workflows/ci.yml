@@ -62,7 +62,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 2 # fetch only the latest commit
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
