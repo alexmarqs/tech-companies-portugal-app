@@ -2,7 +2,6 @@
   "name": "tech-companies-portugal",
   "private": true,
   "author": "Alexandre Marques",
-  "workspaces": ["apps/*", "tooling/*", "packages/*"],
   "description": "Monorepo for the Tech Companies in Portugal",
   "scripts": {
     "build": "turbo build",
@@ -16,7 +15,7 @@
     "check-types": "turbo check-types",
     "test:e2e:web": "turbo test:e2e --filter=@tech-companies-portugal/web",
     "test": "turbo test --parallel",
-    "react:doctor": "npx -y react-doctor@latest ."
+    "react:doctor": "pnpm dlx react-doctor@latest ."
   },
   "engines": {
     "node": ">=22"
@@ -25,5 +24,8 @@
     "@biomejs/biome": "1.9.4",
     "turbo": "2.9.5"
   },
-  "packageManager": "npm@10.9.0"
+  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319",
+  "pnpm": {
+    "onlyBuiltDependencies": ["@biomejs/biome", "esbuild", "sharp", "supabase"]
+  }
 }

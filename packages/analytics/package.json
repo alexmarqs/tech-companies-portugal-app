@@ -15,6 +15,7 @@
     "posthog-js": "1.360.2"
   },
   "peerDependencies": {
+    "next": ">=14",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -27,7 +28,11 @@
     }
   },
   "devDependencies": {
-    "@tech-companies-portugal/typescript": "*",
+    "@tech-companies-portugal/typescript": "workspace:*",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "next": "^16",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "typescript": "^5"
