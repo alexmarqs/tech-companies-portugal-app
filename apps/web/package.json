@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@playwright/test": "1.50.0",
-    "@react-email/preview-server": "4.3.2",
+    "@react-email/preview-server": "5.2.10",
     "@tailwindcss/postcss": "^4.2.1",
     "@tech-companies-portugal/typescript": "workspace:*",
     "@types/node": "^20",
@@ -73,7 +73,7 @@
     "@types/react-dom": "19.2.3",
     "dotenv-cli": "10.0.0",
     "postcss": "^8",
-    "react-email": "4.3.2",
+    "react-email": "5.2.10",
     "schema-dts": "^1.1.5",
     "start-server-and-test": "3.0.2",
     "supabase": "^2.78.1",
