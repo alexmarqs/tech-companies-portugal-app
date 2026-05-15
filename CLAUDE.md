@@ -31,6 +31,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `pnpm run db:types` - Regenerate TypeScript types after schema changes
 - Never edit already-applied migration files — always create a new one
 - Migration files live in `apps/web/supabase/migrations/`
+- Any new table in `public` must include explicit `grant` statements for the API roles that need access (typically `authenticated` and `service_role`; avoid granting to `anon` unless the table is intentionally public), plus `alter table … enable row level security` and policies. `supabase db diff` emits the grants automatically; hand-written migrations must include them. Default privileges for `public` are revoked, so a missing grant returns `42501` from supabase-js.
 
 ## Architecture
 
