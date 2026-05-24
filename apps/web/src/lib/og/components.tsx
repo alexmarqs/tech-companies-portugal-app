@@ -143,7 +143,7 @@ function TopBar({ label, logoSrc }: { label?: string; logoSrc?: string }) {
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        {logoSrc && <img height="44" width="44" src={logoSrc} alt="Logo" />}
+        {logoSrc && <img height={44} width={44} src={logoSrc} alt="Logo" />}
         <div
           style={{
             display: "flex",
@@ -309,7 +309,7 @@ export function CompanyContent({
               "0 8px 24px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04)",
           }}
         >
-          <img height="80" width="80" src={companyLogo} alt="" />
+          <img height={80} width={80} src={companyLogo} alt="" />
         </div>
         <div
           style={{
