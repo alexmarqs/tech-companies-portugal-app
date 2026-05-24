@@ -1,6 +1,10 @@
 import "server-only";
 
-import { companyLogosCache } from "./cache/company-logos-cache";
+import {
+  COMPANY_LOGOS_MAP_KEY,
+  type LogoMap,
+  companyLogosCache,
+} from "./cache/company-logos-cache";
 import { createAdminClient } from "./supabase/server";
 import type { Company } from "./types";
 
@@ -9,6 +13,7 @@ const LOGOS_PUBLISHABLE_KEY = process.env.LOGOS_PUBLISHABLE_KEY;
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const BUCKET_NAME = "company-logos";
 const CONCURRENCY = 15;
+const FAILURE_RETRY_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 type LogoDevSearchResult = {
   name: string;
@@ -107,32 +112,10 @@ async function uploadToStorage(
   return `${SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/${filePath}?v=${version}`;
 }
 
-async function getCompanyLogoUrl(company: Company): Promise<string | null> {
-  try {
-    const cached = await companyLogosCache.get(company.slug);
-
-    if (cached && cached !== "none") {
-      return cached;
-    }
-  } catch {
-    // Redis unavailable, continue without cache
-  }
-
+async function fetchAndUploadLogo(company: Company): Promise<string | null> {
   const imageBuffer = await fetchLogoFromLogoDev(company.websiteUrl);
-
   if (!imageBuffer) return null;
-
-  const publicUrl = await uploadToStorage(company.slug, imageBuffer);
-
-  if (!publicUrl) return null;
-
-  try {
-    await companyLogosCache.set(company.slug, publicUrl);
-  } catch {
-    // Redis unavailable
-  }
-
-  return publicUrl;
+  return uploadToStorage(company.slug, imageBuffer);
 }
 
 async function processInBatches<T, R>(
@@ -154,14 +137,47 @@ async function processInBatches<T, R>(
 export async function hydrateCompaniesWithLogos(
   companies: Company[],
 ): Promise<Company[]> {
-  const logoUrls = await processInBatches(
-    companies,
-    getCompanyLogoUrl,
-    CONCURRENCY,
-  );
+  let logoMap: LogoMap = {};
+  try {
+    logoMap = (await companyLogosCache.get(COMPANY_LOGOS_MAP_KEY)) ?? {};
+  } catch {
+    // Redis unavailable, continue without cache
+  }
 
-  return companies.map((company, index) => ({
+  const missingCompanies = companies.filter((company) => {
+    const entry = logoMap[company.slug];
+    if (!entry) return true;
+    if (entry.url) return false;
+    return !entry.failedAt || Date.now() - entry.failedAt > FAILURE_RETRY_MS;
+  });
+
+  if (missingCompanies.length > 0) {
+    // Fetch logos in batches to avoid overwhelming the API
+    const fetchedUrls = await processInBatches(
+      missingCompanies,
+      fetchAndUploadLogo,
+      CONCURRENCY,
+    );
+
+    // Update the logo map with the fetched URLs
+    missingCompanies.forEach((company, index) => {
+      const url = fetchedUrls[index];
+      if (url) {
+        logoMap[company.slug] = { url };
+      } else if (!logoMap[company.slug]?.url) {
+        logoMap[company.slug] = { url: null, failedAt: Date.now() };
+      }
+    });
+
+    try {
+      await companyLogosCache.set(COMPANY_LOGOS_MAP_KEY, logoMap);
+    } catch {
+      // Redis unavailable
+    }
+  }
+
+  return companies.map((company) => ({
     ...company,
-    logoUrl: logoUrls[index] ?? undefined,
+    logoUrl: logoMap[company.slug]?.url ?? undefined,
   }));
 }
