@@ -85,6 +85,7 @@ export function UserMenu() {
         >
           <Avatar className="h-9 w-9">
             <AvatarImage
+              className="object-cover"
               referrerPolicy="no-referrer"
               src={userProfile?.avatar_url ?? undefined}
               alt={
