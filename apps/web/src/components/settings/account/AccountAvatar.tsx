@@ -12,6 +12,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { CameraIcon, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { AvatarEditModal } from "./AvatarEditModal";
 
 const MAX_AVATAR_SIZE = 1024 * 1024 * 2; // 2MB
 const ALLOWED_TYPES = new Set(["image/png", "image/jpeg", "image/webp"]);
@@ -20,10 +21,13 @@ export const AccountAvatar = () => {
   const { data: userProfile } = useGetUserProfile();
   const queryClient = useQueryClient();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { mutate: mutateUserProfile, isPending: isMutatingUserProfile } =
     useUploadUserAvatar({
       onSuccess: () => {
+        setIsModalOpen(false);
         return queryClient.invalidateQueries({
           queryKey: [UsersServerKeys.GET_USER_PROFILE],
         });
@@ -31,15 +35,18 @@ export const AccountAvatar = () => {
     });
 
   useEffect(() => {
-    // on unmount, revoke the blob url
+    // on unmount, revoke the blob urls
     return () => {
       if (previewUrl) {
         revokeBlobUrl(previewUrl);
       }
+      if (selectedImageUrl) {
+        revokeBlobUrl(selectedImageUrl);
+      }
     };
-  }, [previewUrl]);
+  }, [previewUrl, selectedImageUrl]);
 
-  const handleUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     e.target.value = "";
 
@@ -59,10 +66,25 @@ export const AccountAvatar = () => {
       return;
     }
 
+    // Open modal for editing
+    revokeBlobUrl(selectedImageUrl);
+    const imageUrl = URL.createObjectURL(file);
+    setSelectedImageUrl(imageUrl);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveCroppedImage = (croppedBlob: Blob) => {
+    // Convert blob to file
+    const file = new File([croppedBlob], "avatar.jpg", {
+      type: "image/jpeg",
+    });
+
+    // Update preview
     revokeBlobUrl(previewUrl);
-    const newPreviewUrl = URL.createObjectURL(file);
+    const newPreviewUrl = URL.createObjectURL(croppedBlob);
     setPreviewUrl(newPreviewUrl);
 
+    // Upload the cropped image
     mutateUserProfile(
       { file },
       {
@@ -73,66 +95,84 @@ export const AccountAvatar = () => {
     );
   };
 
-  return (
-    <Container
-      variant="static"
-      className="p-6 flex justify-between w-full items-center gap-1 flex-wrap"
-    >
-      <div className="space-y-2 flex-1">
-        <h3 className="text-md">Avatar</h3>
-        <p className="text-xs text-muted-foreground">
-          PNG, JPEG, or WEBP. Max 2MB.
-        </p>
-      </div>
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    revokeBlobUrl(selectedImageUrl);
+    setSelectedImageUrl(null);
+  };
 
-      <Label
-        htmlFor="avatar-input"
-        className="relative cursor-pointer inline-block outline-none rounded-full focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background"
+  return (
+    <>
+      <Container
+        variant="static"
+        className="p-6 flex justify-between w-full items-center gap-1 flex-wrap"
       >
-        <Avatar className="h-20 w-20 shrink-0">
-          <AvatarImage
-            referrerPolicy="no-referrer"
-            className="object-cover"
-            src={previewUrl ?? userProfile?.avatar_url ?? undefined}
-            alt={
-              previewUrl
-                ? "Avatar Preview"
-                : userProfile?.full_name
-                  ? `${userProfile.full_name}'s avatar`
-                  : "Avatar"
-            }
-            onError={() => {
-              if (previewUrl) {
-                revokeBlobUrl(previewUrl);
-                setPreviewUrl(null);
-              }
-            }}
-          />
-          <AvatarFallback className="bg-muted text-muted-foreground font-medium">
-            {userProfile?.full_name?.charAt(0)?.toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
-        <div
-          className="absolute bottom-0 right-0 h-6 w-6 rounded-full border-none flex items-center justify-center shadow-md p-1 bg-white"
-          aria-hidden
-        >
-          <CameraIcon className="h-3 w-3" />
+        <div className="space-y-2 flex-1">
+          <h3 className="text-md">Avatar</h3>
+          <p className="text-xs text-muted-foreground">
+            PNG, JPEG, or WEBP. Max 2MB.
+          </p>
         </div>
-        {isMutatingUserProfile && (
-          <div className="absolute inset-0 bg-gray-400 flex opacity-50 items-center justify-center rounded-full">
-            <Loader2 className="h-3 w-3 animate-spin" />
+
+        <Label
+          htmlFor="avatar-input"
+          className="relative cursor-pointer inline-block outline-none rounded-full focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background"
+        >
+          <Avatar className="h-20 w-20 shrink-0">
+            <AvatarImage
+              referrerPolicy="no-referrer"
+              className="object-cover"
+              src={previewUrl ?? userProfile?.avatar_url ?? undefined}
+              alt={
+                previewUrl
+                  ? "Avatar Preview"
+                  : userProfile?.full_name
+                    ? `${userProfile.full_name}'s avatar`
+                    : "Avatar"
+              }
+              onError={() => {
+                if (previewUrl) {
+                  revokeBlobUrl(previewUrl);
+                  setPreviewUrl(null);
+                }
+              }}
+            />
+            <AvatarFallback className="bg-muted text-muted-foreground font-medium">
+              {userProfile?.full_name?.charAt(0)?.toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <div
+            className="absolute bottom-0 right-0 h-6 w-6 rounded-full border-none flex items-center justify-center shadow-md p-1 bg-white"
+            aria-hidden
+          >
+            <CameraIcon className="h-3 w-3" />
           </div>
-        )}
-        <Input
-          id="avatar-input"
-          type="file"
-          accept="image/png,image/jpeg,image/webp"
-          className="sr-only"
-          onChange={handleUploadAvatar}
-          disabled={isMutatingUserProfile}
+          {isMutatingUserProfile && (
+            <div className="absolute inset-0 bg-gray-400 flex opacity-50 items-center justify-center rounded-full">
+              <Loader2 className="h-3 w-3 animate-spin" />
+            </div>
+          )}
+          <Input
+            id="avatar-input"
+            type="file"
+            accept="image/png,image/jpeg,image/webp"
+            className="sr-only"
+            onChange={handleFileSelect}
+            disabled={isMutatingUserProfile}
+          />
+        </Label>
+      </Container>
+
+      {selectedImageUrl && (
+        <AvatarEditModal
+          open={isModalOpen}
+          imageUrl={selectedImageUrl}
+          onClose={handleCloseModal}
+          onSave={handleSaveCroppedImage}
+          isSaving={isMutatingUserProfile}
         />
-      </Label>
-    </Container>
+      )}
+    </>
   );
 };
 
