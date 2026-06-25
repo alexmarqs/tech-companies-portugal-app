@@ -14,6 +14,7 @@ import { Loader2 } from "lucide-react";
 import { useCallback, useState } from "react";
 import Cropper from "react-easy-crop";
 import type { Area } from "react-easy-crop";
+import "react-easy-crop/react-easy-crop.css";
 
 interface AvatarEditModalProps {
   open: boolean;
@@ -56,7 +57,7 @@ export function AvatarEditModal({
 
   return (
     <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-2xl">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Edit Avatar</DialogTitle>
           <DialogDescription>
@@ -64,7 +65,7 @@ export function AvatarEditModal({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="relative h-96 w-full bg-muted rounded-md overflow-hidden">
+        <div className="relative h-80 w-full bg-muted rounded-md overflow-hidden">
           <Cropper
             image={imageUrl}
             crop={crop}
