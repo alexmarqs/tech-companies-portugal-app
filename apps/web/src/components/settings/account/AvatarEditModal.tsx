@@ -90,7 +90,7 @@ export function AvatarEditModal({
             step={0.1}
             value={[zoom]}
             onValueChange={(value) => setZoom(value[0] ?? 1)}
-            className="w-full"
+            className="w-full cursor-grab active:cursor-grabbing"
             disabled={isSaving}
           />
         </div>
