@@ -26,6 +26,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: `${APP_URL}/login`,
   },
+  robots: {
+    index: false,
+    follow: true,
+  },
   openGraph: {
     ...defaultOpenGraphMetadata,
     title,
