@@ -9,9 +9,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import { Slider } from "@/components/ui/slider";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Loader2 } from "lucide-react";
-import { useCallback, useState } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useState,
+} from "react";
 import Cropper from "react-easy-crop";
 import type { Area } from "react-easy-crop";
 import "react-easy-crop/react-easy-crop.css";
@@ -34,6 +49,7 @@ export function AvatarEditModal({
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const onCropComplete = useCallback(
     (_croppedArea: Area, croppedAreaPixels: Area) => {
@@ -55,55 +71,71 @@ export function AvatarEditModal({
     }
   };
 
-  return (
-    <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Edit Avatar</DialogTitle>
-          <DialogDescription>
-            Adjust the crop and zoom to get the perfect avatar
-          </DialogDescription>
-        </DialogHeader>
+  if (isDesktop) {
+    return (
+      <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit Avatar</DialogTitle>
+            <DialogDescription>
+              Adjust the crop and zoom to get the perfect avatar
+            </DialogDescription>
+          </DialogHeader>
 
-        <div className="relative h-80 w-full bg-muted rounded-md overflow-hidden">
-          <Cropper
-            image={imageUrl}
+          <EditAvatarForm
+            imageUrl={imageUrl}
             crop={crop}
             zoom={zoom}
-            aspect={1}
-            cropShape="round"
-            showGrid={false}
-            onCropChange={setCrop}
+            setCrop={setCrop}
+            setZoom={setZoom}
             onCropComplete={onCropComplete}
-            onZoomChange={setZoom}
+            isSaving={isSaving}
           />
-        </div>
 
-        <div className="space-y-2">
-          <label htmlFor="zoom-slider" className="text-sm font-medium">
-            Zoom
-          </label>
-          <Slider
-            id="zoom-slider"
-            min={1}
-            max={3}
-            step={0.1}
-            value={[zoom]}
-            onValueChange={(value) => setZoom(value[0] ?? 1)}
-            className="w-full cursor-grab active:cursor-grabbing"
-            disabled={isSaving}
-          />
-        </div>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              disabled={isSaving}
+            >
+              Cancel
+            </Button>
+            <Button type="button" onClick={handleSave} disabled={isSaving}>
+              {isSaving ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                "Save"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  }
 
-        <DialogFooter>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onClose}
-            disabled={isSaving}
-          >
-            Cancel
-          </Button>
+  return (
+    <Drawer open={open} onOpenChange={(open) => !open && onClose()}>
+      <DrawerContent className="gap-4 p-6">
+        <DrawerHeader className="p-0">
+          <DrawerTitle>Edit Avatar</DrawerTitle>
+          <DrawerDescription>
+            Adjust the crop and zoom to get the perfect avatar
+          </DrawerDescription>
+        </DrawerHeader>
+        <EditAvatarForm
+          imageUrl={imageUrl}
+          crop={crop}
+          zoom={zoom}
+          setCrop={setCrop}
+          setZoom={setZoom}
+          onCropComplete={onCropComplete}
+          isSaving={isSaving}
+        />
+        <DrawerFooter className="p-0">
           <Button type="button" onClick={handleSave} disabled={isSaving}>
             {isSaving ? (
               <>
@@ -114,9 +146,14 @@ export function AvatarEditModal({
               "Save"
             )}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          <DrawerClose asChild>
+            <Button type="button" variant="outline" disabled={isSaving}>
+              Cancel
+            </Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 }
 
@@ -163,3 +200,65 @@ function createImage(url: string): Promise<HTMLImageElement> {
     image.src = url;
   });
 }
+
+interface EditAvatarFormProps {
+  imageUrl: string;
+  crop: {
+    x: number;
+    y: number;
+  };
+  zoom: number;
+  setCrop: Dispatch<
+    SetStateAction<{
+      x: number;
+      y: number;
+    }>
+  >;
+  setZoom: Dispatch<SetStateAction<number>>;
+  onCropComplete: (croppedArea: Area, croppedAreaPixels: Area) => void;
+  isSaving: boolean;
+}
+
+const EditAvatarForm = ({
+  imageUrl,
+  crop,
+  zoom,
+  setCrop,
+  setZoom,
+  onCropComplete,
+  isSaving,
+}: EditAvatarFormProps) => {
+  return (
+    <>
+      <div className="relative h-80 w-full bg-muted rounded-md overflow-hidden">
+        <Cropper
+          image={imageUrl}
+          crop={crop}
+          zoom={zoom}
+          aspect={1}
+          cropShape="round"
+          showGrid={false}
+          onCropChange={setCrop}
+          onCropComplete={onCropComplete}
+          onZoomChange={setZoom}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <label htmlFor="zoom-slider" className="text-sm font-medium">
+          Zoom
+        </label>
+        <Slider
+          id="zoom-slider"
+          min={1}
+          max={3}
+          step={0.1}
+          value={[zoom]}
+          onValueChange={(value) => setZoom(value[0] ?? 1)}
+          className="w-full cursor-grab active:cursor-grabbing"
+          disabled={isSaving}
+        />
+      </div>
+    </>
+  );
+};

@@ -49,7 +49,7 @@ export default function CompanyItem({
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-linear-to-br from-primary/10 to-primary/5 text-primary font-bold text-sm shrink-0">
               {logoUrl ? (
                 <img
-                  className="rounded-lg object-cover"
+                  className="h-full w-full rounded-lg bg-white object-cover"
                   src={logoUrl}
                   alt={name}
                   width={36}
