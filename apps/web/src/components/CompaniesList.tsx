@@ -13,6 +13,7 @@ import { EmptyState } from "./EmptyState";
 import { NotificationsSideSection } from "./NotificationsSideSection";
 
 const PAGE_SIZE = 12;
+const DIGEST_CELL = "weekly-digest" as const;
 
 type CompaniesListProps = {
   allCompanies: Company[];
@@ -30,9 +31,6 @@ export default function CompaniesList({
     setSearchParams,
   } = useSearchQueryParams();
 
-  const start = (page - 1) * PAGE_SIZE;
-  const end = start + PAGE_SIZE;
-
   const filteredCompanies = useMemo(
     () =>
       isDedicatedPage
@@ -43,8 +41,29 @@ export default function CompaniesList({
     [allCompanies, query, category, location, isDedicatedPage],
   );
 
-  const paginatedCompanies = filteredCompanies.slice(start, end);
+  const start = (page - 1) * PAGE_SIZE;
+  const paginatedCompanies = filteredCompanies.slice(start, start + PAGE_SIZE);
   const totalPages = Math.ceil(filteredCompanies.length / PAGE_SIZE);
+
+  // The weekly-digest promo is a full-width band woven between grid rows on the
+  // first page. It spans every column, so it never steals a company slot or
+  // leaves an orphaned card — page size stays a clean 12 companies per page.
+  const showDigest =
+    !isDedicatedPage && page === 1 && paginatedCompanies.length > 0;
+  const gridItems = paginatedCompanies.map((company) => (
+    <CompanyItem key={company.slug} company={company} />
+  ));
+  if (showDigest) {
+    // show the digest section after 6 companies on the first page
+    gridItems.splice(
+      Math.min(6, gridItems.length),
+      0,
+      <NotificationsSideSection
+        key={DIGEST_CELL}
+        className="md:col-span-2 lg:col-span-3"
+      />,
+    );
+  }
 
   return (
     <>
@@ -61,58 +80,58 @@ export default function CompaniesList({
           )}
 
           <div className="flex flex-wrap items-center gap-2 text-sm">
-            {filteredCompanies.length > 0 && (
-              <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
-                {filteredCompanies.length}{" "}
-                {appliedFilters.length > 0 ? "filtered companies" : "companies"}
-                {totalPages > 1 ? ` · Page ${page}/${totalPages}` : ""}
-              </span>
-            )}
-            {appliedFilters.length > 0 && (
+            {appliedFilters.some(([key]) => key !== "query") && (
               <div className="flex flex-wrap gap-2">
-                {appliedFilters.map(([key, value]) => (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => {
-                      setSearchParams({ [key]: null, page: 1 });
-                    }}
-                    className="border border-dashed hover:border-muted inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-primary hover:bg-primary/10 transition-colors"
-                  >
-                    <span className="text-muted-foreground">
-                      {LABELS_FILTER[key] || key}:
-                    </span>
-                    <span className="max-w-[120px] truncate">{value}</span>
-                    <X className="ml-0.5 h-3 w-3 shrink-0" />
-                  </button>
-                ))}
+                {appliedFilters
+                  .filter(([key]) => key !== "query")
+                  .map(([key, value]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => {
+                        setSearchParams({ [key]: null, page: 1 });
+                      }}
+                      aria-label={`Remove ${LABELS_FILTER[key] || key} filter`}
+                      className="group inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-2.5 py-1 text-xs font-medium shadow-sm transition-colors hover:border-foreground/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                    >
+                      <span className="text-muted-foreground">
+                        {LABELS_FILTER[key] || key}:
+                      </span>
+                      <span className="max-w-[180px] truncate text-foreground">
+                        {value}
+                      </span>
+                      <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors group-hover:bg-foreground/10 group-hover:text-foreground">
+                        <X className="h-3 w-3" />
+                      </span>
+                    </button>
+                  ))}
               </div>
             )}
           </div>
+          {filteredCompanies.length > 0 && (
+            <span className="shrink-0 text-xs text-muted-foreground tabular-nums mr-2">
+              Showing {start + 1}–{start + paginatedCompanies.length} of{" "}
+              {filteredCompanies.length}
+            </span>
+          )}
         </div>
         {!paginatedCompanies.length ? (
-          <div className="flex-1 flex items-center text-muted-foreground justify-center min-h-[300px] border border-border/60 rounded-xl p-4 bg-muted/20">
+          <div className="flex-1 flex flex-col items-center text-muted-foreground justify-center gap-4 min-h-[300px] border border-border/60 rounded-xl p-6 bg-muted/20">
             <EmptyState title="No companies match your filters. Try another search." />
           </div>
         ) : (
           <>
             <div
-              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
               data-testid="companies-list"
             >
-              {paginatedCompanies.map((company) => (
-                <CompanyItem key={company.slug} company={company} />
-              ))}
+              {gridItems}
             </div>
             <div className="mt-5">
               <CompaniesListPagination totalPages={totalPages} />
             </div>
           </>
         )}
-      </div>
-
-      <div className="block lg:hidden space-y-4 mt-6">
-        <NotificationsSideSection />
       </div>
     </>
   );

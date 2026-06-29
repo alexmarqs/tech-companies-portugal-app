@@ -1,51 +1,77 @@
 import { SettingsTab } from "@/lib/search-params";
-import { Bell, Calendar } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Bell, Mail } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 
-export const NotificationsSideSection = () => {
+type NotificationsSideSectionProps = {
+  className?: string;
+  // "full": the feature banner (home grid). "compact": a slim inline CTA for
+  // content pages where a full banner is too heavy.
+  variant?: "full" | "compact";
+};
+
+export const NotificationsSideSection = ({
+  className,
+  variant = "full",
+}: NotificationsSideSectionProps) => {
+  const href = `/settings?tab=${SettingsTab.NOTIFICATIONS}`;
+
+  if (variant === "compact") {
+    return (
+      <Link
+        href={href}
+        prefetch
+        className={cn(
+          "group flex items-center gap-3 rounded-xl border border-emerald-200/70 bg-emerald-50/50 px-4 py-2.5 transition-colors hover:bg-emerald-50",
+          className,
+        )}
+      >
+        <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white">
+          <Bell size={15} />
+        </span>
+        <span className="flex-1 text-sm font-medium text-foreground">
+          New tech companies, straight to your inbox
+        </span>
+        <span className="shrink-0 text-sm font-semibold text-emerald-700 transition-colors group-hover:text-emerald-800">
+          Subscribe →
+        </span>
+      </Link>
+    );
+  }
+
   return (
-    <div className="group relative w-full lg:w-[300px] overflow-hidden rounded-2xl bg-linear-to-br from-emerald-600 via-emerald-500 to-teal-500 p-px">
-      {/* Inner card */}
-      <div className="relative overflow-hidden rounded-[15px] bg-linear-to-br from-emerald-50 via-white to-teal-50/60 p-5">
-        {/* Decorative background elements */}
-        <div className="pointer-events-none absolute -right-6 -top-6 size-24 rounded-full bg-emerald-200/30 blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-4 -left-4 size-20 rounded-full bg-teal-200/25 blur-xl" />
+    <div
+      className={cn(
+        "relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-emerald-200/70 bg-linear-to-r from-emerald-50/70 to-card p-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6",
+        className,
+      )}
+    >
+      <div className="flex items-center gap-4">
+        <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-md shadow-emerald-600/25">
+          <Mail size={22} strokeWidth={2} />
+        </div>
 
-        <div className="relative flex flex-row items-center lg:items-start justify-between lg:flex-col gap-4 flex-wrap">
-          <div className="flex flex-col items-start gap-2 min-w-0">
-            {/* Icon badge */}
-            <div className="flex items-center gap-1.5 rounded-full bg-emerald-100/80 px-2.5 py-1 text-emerald-700 ring-1 ring-emerald-200/60">
-              <Calendar size={12} className=" text-emerald-500" />
-              <span className="text-[11px] font-semibold uppercase tracking-wide">
-                Weekly digest
-              </span>
-            </div>
-
-            <h2 className="text-[15px] font-bold leading-snug text-gray-900">
-              New companies, straight to your inbox
-            </h2>
-            <p className="text-[13px] leading-relaxed text-gray-500">
-              Stay ahead — get a weekly update with the latest companies added.
-            </p>
-          </div>
-          <div className="">
-            <Button
-              size="sm"
-              className="mt-0.5 rounded-lg bg-emerald-600 px-4 text-white shadow-md shadow-emerald-600/20 transition-all hover:bg-emerald-700 hover:shadow-lg hover:shadow-emerald-600/25"
-              asChild
-            >
-              <Link
-                href={`/settings?tab=${SettingsTab.NOTIFICATIONS}`}
-                prefetch
-              >
-                <Bell size={14} className="mr-1.5" />
-                Subscribe Now
-              </Link>
-            </Button>
-          </div>
+        <div className="flex flex-col gap-0.5">
+          <h2 className="text-base font-bold leading-snug text-foreground">
+            New companies, in your inbox
+          </h2>
+          <p className="text-[13px] leading-relaxed text-muted-foreground">
+            Get the latest tech companies added in Portugal — free, no spam.
+          </p>
         </div>
       </div>
+
+      <Button
+        size="sm"
+        className="shrink-0 rounded-lg bg-emerald-600 px-4 text-white shadow-sm transition-colors hover:bg-emerald-700"
+        asChild
+      >
+        <Link href={href} prefetch>
+          <Bell size={14} className="mr-1.5" />
+          Subscribe free
+        </Link>
+      </Button>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { Categories, Locations } from "@/components/CompanyItem";
 import { CopyUrlButton } from "@/components/CopyUrlButton";
 import { LinkUrlButton } from "@/components/LinkUrlButton";
+import { NotificationsSideSection } from "@/components/NotificationsSideSection";
 import { PageBreadcrumb } from "@/components/PageBreadcrumb";
 import { RelatedCompaniesCarousel } from "@/components/RelatedCompaniesCarousel";
 import { Container } from "@/components/ui/container";
@@ -101,7 +102,7 @@ export default async function CompanyPage({
   ]);
 
   return (
-    <div className="container mx-auto flex w-full max-w-4xl flex-1 items-center justify-center px-4 py-8">
+    <div className="container mx-auto flex w-full max-w-7xl flex-1 items-start justify-center px-4 py-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -124,7 +125,7 @@ export default async function CompanyPage({
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-primary/10 to-primary/5 text-primary font-bold text-lg shrink-0">
                   {company.logoUrl ? (
                     <img
-                      className="rounded-lg object-cover"
+                      className="rounded-lg object-cover bg-white"
                       src={company.logoUrl}
                       alt={company.name}
                       width={48}
@@ -175,6 +176,8 @@ export default async function CompanyPage({
           </div>
         </Container>
 
+        <NotificationsSideSection variant="compact" className="mt-6" />
+
         {relatedCompanies.length > 0 && (
           <div className="mt-6 flex flex-col">
             <RelatedCompaniesCarousel
@@ -186,7 +189,7 @@ export default async function CompanyPage({
 
         <Link
           href="/"
-          className="group flex py-2 items-center justify-center gap-2 rounded-lg text-sm font-medium text-foreground/70 transition-colors hover:text-foreground"
+          className="group flex py-2 items-center justify-center gap-2 rounded-lg text-sm font-medium text-emerald-600 transition-colors hover:text-emerald-700"
         >
           Explore all companies
           <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />

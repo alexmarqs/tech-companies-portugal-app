@@ -12,7 +12,7 @@ const CtaBannerBackground = () => {
 };
 export default function CtaBanner() {
   return (
-    <section className="container mx-auto flex w-full max-w-6xl px-4 py-5">
+    <section className="container mx-auto flex w-full max-w-7xl px-4 py-5">
       <div className="flex-1 relative overflow-hidden rounded-2xl bg-linear-to-r from-gray-900 via-gray-800 to-gray-900 px-8 md:px-14 py-10">
         <CtaBannerBackground />
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">

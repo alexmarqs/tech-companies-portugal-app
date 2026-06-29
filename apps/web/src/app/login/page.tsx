@@ -55,7 +55,7 @@ export default function LoginPage() {
             </div>
             <div className="text-center">
               <p className="text-muted-foreground">
-                Get weekly updates on new companies and manage your preferences.
+                Sign in to get the most out of Tech Companies Portugal.
               </p>
             </div>
 

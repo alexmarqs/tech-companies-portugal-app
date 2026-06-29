@@ -14,7 +14,7 @@ import { useGetUserProfile } from "@/hooks/users";
 import { useSession } from "@/lib/contexts/SessionContext";
 import { createClient } from "@/lib/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { Loader2, LogIn, LogOut, Settings } from "lucide-react";
+import { Loader2, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -66,8 +66,7 @@ export function UserMenu() {
             href="/login"
             data-ph-capture-attribute-event-name="login_button_clicked"
           >
-            <LogIn className="h-4 w-4" />
-            Sign in
+            Get started
           </Link>
         </Button>
       </>

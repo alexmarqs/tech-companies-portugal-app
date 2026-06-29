@@ -27,7 +27,7 @@ export default function CompanyItem({
   return (
     <Link
       className={cn(
-        "group relative flex flex-col rounded-xl border bg-card p-5 transition-all duration-200 hover:shadow-sm",
+        "group relative flex flex-col rounded-xl border bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         isFeatured ? "border-emerald-500" : "border-border/60",
         className,
       )}
@@ -49,7 +49,7 @@ export default function CompanyItem({
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-linear-to-br from-primary/10 to-primary/5 text-primary font-bold text-sm shrink-0">
               {logoUrl ? (
                 <img
-                  className="h-full w-full rounded-lg bg-white object-cover"
+                  className="h-full w-full rounded-lg bg-white object-contain p-0.5"
                   src={logoUrl}
                   alt={name}
                   width={36}
@@ -77,9 +77,12 @@ export default function CompanyItem({
           <Locations locations={locations || []} />
 
           {!hideViewProfile && (
-            <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-primary transition-all">
               View Profile
-              <ArrowRight size={12} />
+              <ArrowRight
+                size={12}
+                className="transition-transform group-hover:translate-x-0.5"
+              />
             </span>
           )}
         </div>
