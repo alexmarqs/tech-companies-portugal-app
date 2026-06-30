@@ -28,9 +28,9 @@ test.describe("Homepage e2e tests", () => {
     const companyItems = await page.getByTestId("company-item").all();
     expect(companyItems.length).toBeGreaterThan(1);
 
-    // check if filters are visible and reset button is disabled
+    // check if filters are visible; reset is hidden until a filter is applied
     await expect(
-      page.getByRole("combobox", { name: "Industry" }),
+      page.getByRole("combobox", { name: "Category" }),
     ).toBeVisible();
     await expect(
       page.getByRole("textbox", { name: "Search by name or description" }),
@@ -39,11 +39,14 @@ test.describe("Homepage e2e tests", () => {
       page.getByRole("combobox", { name: "Location" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("button", { name: "Reset filters" }),
-    ).toBeDisabled();
+      page.getByRole("button", { name: "Clear all filters" }),
+    ).toHaveCount(0);
 
-    // check if pagination is visible with correct format
-    await expect(page.getByText("1 / 30", { exact: false })).toBeVisible();
+    // check if pagination is visible and can jump to the last page
+    await expect(page.getByTestId("companies-list-footer")).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Go to page 30" }),
+    ).toBeVisible();
   });
 
   test("Check if footer sections are visible", async ({ page }) => {
@@ -91,10 +94,10 @@ test.describe("Homepage e2e tests", () => {
     });
     await searchBox.fill("Bosch");
 
-    // reset button should now be enabled
+    // clear-all button should now appear once a filter is active
     await expect(
-      page.getByRole("button", { name: "Reset filters" }),
-    ).toBeEnabled();
+      page.getByRole("button", { name: "Clear all filters" }),
+    ).toBeVisible();
 
     // should find Bosch in the results
     await expect(

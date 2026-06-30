@@ -20,7 +20,7 @@ export enum SettingsTab {
 
 export const LABELS_FILTER: Record<string, string> = {
   query: "Search",
-  category: "Industry",
+  category: "Category",
   location: "Location",
 };
 

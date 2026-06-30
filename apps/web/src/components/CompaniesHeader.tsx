@@ -20,8 +20,12 @@ const BackgroundGradients = () => {
 };
 
 export default async function CompaniesHeader() {
-  const { firstCompaniesLogos: logos, totalMoreCompanies } =
-    await getCompaniesOverview();
+  const {
+    firstCompaniesLogos: logos,
+    totalCompanies,
+    totalCategories,
+    totalLocations,
+  } = await getCompaniesOverview();
 
   return (
     <section
@@ -56,23 +60,47 @@ export default async function CompaniesHeader() {
             tech companies — all in one place.
           </p>
 
+          <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 text-sm text-muted-foreground">
+            <span>
+              <span className="font-semibold text-foreground">
+                {totalCompanies}+
+              </span>{" "}
+              companies
+            </span>
+            <span className="text-border" aria-hidden="true">
+              &#8226;
+            </span>
+            <span>
+              <span className="font-semibold text-foreground">
+                {totalCategories}
+              </span>{" "}
+              categories
+            </span>
+            <span className="text-border" aria-hidden="true">
+              &#8226;
+            </span>
+            <span>
+              <span className="font-semibold text-foreground">
+                {totalLocations}
+              </span>{" "}
+              locations
+            </span>
+          </div>
+
           {logos.length > 0 && (
             <div className="flex items-center gap-2 flex-wrap justify-center">
               <div className="flex -space-x-3">
                 {logos.map((logo, i) => (
                   <Avatar
                     key={logo}
-                    className="h-9 w-9 border-2 border-background ring-1 ring-border/40"
+                    className="h-9 w-9 border-2 bg-white border-background ring-1 ring-border/40"
                     style={{ zIndex: logos.length - i }}
                   >
-                    <AvatarImage src={logo} alt="" />
+                    <AvatarImage src={logo} alt="" className="object-cover" />
                     <AvatarFallback className="text-xs bg-muted" />
                   </Avatar>
                 ))}
               </div>
-              <span className="text-sm text-muted-foreground">
-                and {totalMoreCompanies}+ more
-              </span>
             </div>
           )}
         </div>

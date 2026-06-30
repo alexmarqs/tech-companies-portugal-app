@@ -1,6 +1,5 @@
 import CompaniesList from "@/components/CompaniesList";
-import { MobileSearchDrawer } from "@/components/MobileSearchDrawer";
-import { SideBar } from "@/components/SideBar";
+import { FilterBar } from "@/components/FilterBar";
 import {
   generateJsonLdGraph,
   generateOrganizationJsonLd,
@@ -18,24 +17,17 @@ export default async function CompaniesPage() {
   const jsonLdGraph = generateJsonLdGraph(webSiteJsonLd, organizationJsonLd);
 
   return (
-    <section className="relative flex flex-1 flex-col gap-6 lg:flex-row">
+    <section className="relative flex flex-1 flex-col">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: safeJsonLdStringify(jsonLdGraph),
         }}
       />
-      <SideBar
+      <FilterBar
         categoryOptions={availableCategories}
         locationOptions={availableLocations}
       />
-
-      <div className="lg:hidden">
-        <MobileSearchDrawer
-          locationOptions={availableLocations}
-          categoryOptions={availableCategories}
-        />
-      </div>
       <CompaniesList allCompanies={companies} />
     </section>
   );

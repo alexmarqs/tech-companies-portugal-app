@@ -6,10 +6,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { availableCategories, updatedAtISODate } =
     await getParsedCompaniesData();
 
-  const categoriesRoutes = availableCategories.map((category) => ({
-    url: `${APP_URL}/category/${category}`,
+  return availableCategories.map((category) => ({
+    url: `${APP_URL}/category/${encodeURIComponent(category)}`,
     lastModified: updatedAtISODate,
   }));
-
-  return [...categoriesRoutes];
 }

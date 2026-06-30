@@ -44,12 +44,17 @@ export const getParsedCompanyBySlug = async (slug: string) => {
 };
 
 export const getCompaniesOverview = async () => {
-  const { companies } = await getParsedCompaniesData();
+  const { companies, availableCategories, availableLocations } =
+    await getParsedCompaniesData();
   const firstCompaniesLogos = companies
     .slice(0, 5)
     .map((company) => company.logoUrl)
     .filter(Boolean);
-  const totalMoreCompanies = companies.length - firstCompaniesLogos.length;
 
-  return { firstCompaniesLogos, totalMoreCompanies };
+  return {
+    firstCompaniesLogos,
+    totalCompanies: companies.length,
+    totalCategories: availableCategories.length,
+    totalLocations: availableLocations.length,
+  };
 };

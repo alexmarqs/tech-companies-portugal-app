@@ -1,5 +1,6 @@
 import CompaniesList from "@/components/CompaniesList";
 import { CompaniesListSkeleton } from "@/components/CompaniesListSkeleton";
+import { NotificationsSideSection } from "@/components/NotificationsSideSection";
 import { PageBreadcrumb } from "@/components/PageBreadcrumb";
 import {
   generateBreadcrumbJsonLd,
@@ -94,7 +95,7 @@ export default async function CategoryPage({
   ]);
 
   return (
-    <section className="mx-auto flex w-full max-w-5xl p-3 relative flex-1">
+    <section className="mx-auto flex w-full max-w-7xl px-4 py-3 relative flex-1">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -140,6 +141,7 @@ export default async function CategoryPage({
           <Suspense fallback={<CompaniesListSkeleton />}>
             <CompaniesList allCompanies={filteredCompanies} isDedicatedPage />
           </Suspense>
+          <NotificationsSideSection variant="compact" className="mt-2" />
         </div>
       </div>
     </section>
