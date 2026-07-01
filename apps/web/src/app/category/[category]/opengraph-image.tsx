@@ -1,6 +1,6 @@
 import { OgLayout, PageContent, getLogoSrc } from "@/lib/og/components";
 import { OG_CONTENT_TYPE, OG_SIZE, loadOgFonts } from "@/lib/og/utils";
-import { normalizeText } from "@/lib/utils";
+import { decodeCategoryParam, normalizeText } from "@/lib/utils";
 import { ImageResponse } from "next/og";
 
 // force generation on demand for paths not known at build time
@@ -22,7 +22,7 @@ export default async function Image({
   params: Promise<{ category: string }>;
 }) {
   const { category: categoryParam } = await params;
-  const category = decodeURIComponent(categoryParam);
+  const category = decodeCategoryParam(categoryParam);
 
   const title = `${category} Companies`;
   const description = `Discover tech companies in the ${normalizeText(category)} sector. Find job opportunities and connect with tech companies in Portugal.`;

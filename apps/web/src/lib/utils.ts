@@ -41,3 +41,14 @@ export const normalizeText = (text: string) => {
   // this will remove all special characters and spaces
   return text.replace(/[^a-zA-Z0-9\s]/g, "");
 };
+
+// Some emoji get corrupted to "?" / "�" in prerendered route params (a Next
+// 16.3-preview bug that splits a surrogate pair, e.g. "…Broad 💫" → "…Broad ??").
+// Decode and strip those artifacts so display and category matching still work.
+// TODO: temporary workaround — this goes away once categories move to proper
+// SEO slugs (ASCII, no emoji in the URL) instead of the raw category name.
+export const decodeCategoryParam = (categoryParam: string) =>
+  decodeURIComponent(categoryParam)
+    .replace(/[?�]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();

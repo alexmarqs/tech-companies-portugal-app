@@ -16,7 +16,7 @@ import {
 } from "@/lib/metadata";
 import { getParsedCompaniesData } from "@/lib/parser/companies";
 import type { NextParams } from "@/lib/types";
-import { normalizeText } from "@/lib/utils";
+import { decodeCategoryParam, normalizeText } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -27,7 +27,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { category: categoryParam } = await params;
 
-  const category = decodeURIComponent(categoryParam);
+  const category = decodeCategoryParam(categoryParam);
 
   const title = `${category} Companies | Tech Companies Portugal`;
   const description = `Discover tech companies in the ${category} sector. Find job opportunities and connect with ${category} tech companies in Portugal.`;
@@ -72,7 +72,7 @@ export default async function CategoryPage({
 }) {
   const { category: categoryParam } = await params;
 
-  const category = decodeURIComponent(categoryParam);
+  const category = decodeCategoryParam(categoryParam);
 
   const normalizedCategory = normalizeText(category);
 
