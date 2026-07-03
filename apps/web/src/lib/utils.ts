@@ -52,3 +52,16 @@ export const decodeCategoryParam = (categoryParam: string) =>
     .replace(/[?�]/g, "")
     .replace(/\s+/g, " ")
     .trim();
+
+export const revokeBlobUrl = (url?: string | null) => {
+  if (url?.startsWith("blob:")) {
+    URL.revokeObjectURL(url);
+  }
+};
+
+export const MAX_IMAGE_SIZE = 1024 * 1024 * 2; // 2MB
+export const ALLOWED_IMAGE_TYPES = new Set([
+  "image/png",
+  "image/jpeg",
+  "image/webp",
+]);

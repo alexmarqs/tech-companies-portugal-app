@@ -8,11 +8,11 @@ import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
 import { isProd } from "./utils";
 
-if (
-  isProd &&
-  typeof window !== "undefined" &&
-  process.env.NEXT_PUBLIC_POSTHOG_KEY
-) {
+// `isProd` already requires NEXT_PUBLIC_POSTHOG_KEY, so analytics is fully
+// disabled in dev, E2E/CI, and any environment without a key configured.
+const analyticsEnabled = Boolean(isProd);
+
+if (analyticsEnabled && typeof window !== "undefined") {
   posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
     api_host:
       process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com",
@@ -24,6 +24,12 @@ if (
 }
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
+  // Without a PostHog key there is nothing to provide — render the app
+  // directly instead of capturing pageviews into an uninitialized client.
+  if (!analyticsEnabled) {
+    return children;
+  }
+
   return (
     <PHProvider client={posthog}>
       <SuspendedPostHogPageView />

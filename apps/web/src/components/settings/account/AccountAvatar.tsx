@@ -8,14 +8,16 @@ import {
   useGetUserProfile,
   useUploadUserAvatar,
 } from "@/hooks/users";
+import {
+  ALLOWED_IMAGE_TYPES,
+  MAX_IMAGE_SIZE,
+  revokeBlobUrl,
+} from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { CameraIcon, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { AvatarEditModal } from "./AvatarEditModal";
-
-const MAX_AVATAR_SIZE = 1024 * 1024 * 2; // 2MB
-const ALLOWED_TYPES = new Set(["image/png", "image/jpeg", "image/webp"]);
 
 export const AccountAvatar = () => {
   const { data: userProfile } = useGetUserProfile();
@@ -54,14 +56,14 @@ export const AccountAvatar = () => {
       return;
     }
 
-    if (!ALLOWED_TYPES.has(file.type)) {
+    if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
       toast.error("Please select a PNG, JPEG, or WEBP image.");
       return;
     }
 
-    if (file.size > MAX_AVATAR_SIZE) {
+    if (file.size > MAX_IMAGE_SIZE) {
       toast.error(
-        `File is too large. Max size is ${MAX_AVATAR_SIZE / 1024 / 1024}MB.`,
+        `File is too large. Max size is ${MAX_IMAGE_SIZE / 1024 / 1024}MB.`,
       );
       return;
     }
@@ -174,10 +176,4 @@ export const AccountAvatar = () => {
       )}
     </>
   );
-};
-
-const revokeBlobUrl = (url?: string | null) => {
-  if (url?.startsWith("blob:")) {
-    URL.revokeObjectURL(url);
-  }
 };

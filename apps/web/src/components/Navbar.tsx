@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../../public/assets/images/logo.png";
+import { NavAuthLinks } from "./NavAuthLinks";
 import { UserMenu } from "./UserMenu";
 
 export default function Navbar() {
@@ -9,7 +10,7 @@ export default function Navbar() {
       className="bg-card/80 backdrop-blur-xl border-b border-border/40 sticky top-0 z-50 py-2.5"
       data-testid="navbar"
     >
-      <div className="container mx-auto flex h-full items-center justify-between gap-4 px-4">
+      <div className="container mx-auto flex h-full w-full max-w-7xl items-center justify-between gap-4 px-4">
         <Link
           href="/"
           className="flex items-center gap-2 shrink-0"
@@ -35,7 +36,14 @@ export default function Navbar() {
         </Link>
 
         <nav className="flex items-center gap-3" aria-label="Main navigation">
-          {/* <ContactButton /> */}
+          <NavAuthLinks />
+          <Link
+            href="/submit"
+            prefetch
+            className="hidden md:inline-flex text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Submit a company
+          </Link>
           <UserMenu />
         </nav>
       </div>

@@ -68,7 +68,6 @@ export const NotificationsSideSection = ({
         asChild
       >
         <Link href={href} prefetch>
-          <Bell size={14} className="mr-1.5" />
           Subscribe free
         </Link>
       </Button>

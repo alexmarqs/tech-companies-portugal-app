@@ -1,5 +1,5 @@
 import { PUBLIC_CONTACT_EMAIL } from "@/lib/utils";
-import { Mail, Rocket } from "lucide-react";
+import { Rocket } from "lucide-react";
 import { Button } from "./ui/button";
 
 const CtaBannerBackground = () => {
@@ -36,10 +36,7 @@ export default function CtaBanner() {
             className="shrink-0 px-4 bg-emerald-600 text-white hover:bg-emerald-700"
             asChild
           >
-            <a href={`mailto:${PUBLIC_CONTACT_EMAIL}`}>
-              <Mail size={14} className="mr-1.5" />
-              Become a Sponsor
-            </a>
+            <a href={`mailto:${PUBLIC_CONTACT_EMAIL}`}>Become a Sponsor</a>
           </Button>
         </div>
       </div>

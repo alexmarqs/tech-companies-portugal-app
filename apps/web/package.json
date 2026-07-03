@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "next dev",
+    "dev:local": "NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0 SUPABASE_URL=http://127.0.0.1:54321 SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU next dev",
     "dev:portless": "portless techcompaniesportugal next dev",
     "build": "next build",
     "start": "next start",
@@ -13,8 +14,9 @@
     "clean": "git clean -xdf .next .turbo node_modules playwright-report test-results",
     "test": "echo 'No tests to run'",
     "test:e2e": "start-server-and-test start http://localhost:3000 'playwright test'",
+    "test:e2e:local": "sh ./scripts/test-e2e-local.sh",
     "test:e2e:ui": "start-server-and-test start http://localhost:3000 'playwright test --ui'",
-    "db:types": "pnpm dlx supabase gen types typescript --linked --schema public > ./src/lib/supabase/database.types.ts",
+    "db:types": "supabase gen types typescript --linked --schema public > ./src/lib/supabase/database.types.ts",
     "email:dev": "email dev --port 3002 --dir src/emails/templates",
     "inngest:dev": "pnpm dlx inngest-cli@latest dev"
   },

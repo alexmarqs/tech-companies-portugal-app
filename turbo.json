@@ -44,7 +44,12 @@
       "passThroughEnv": ["PLAYWRIGHT_*"]
     },
     "@tech-companies-portugal/web#test:e2e": {
-      "passThroughEnv": ["PLAYWRIGHT_*"],
+      "passThroughEnv": [
+        "PLAYWRIGHT_*",
+        "NEXT_PUBLIC_SUPABASE_*",
+        "SUPABASE_URL",
+        "SUPABASE_SERVICE_ROLE_KEY"
+      ],
       "dependsOn": ["build"]
     },
     "test:watch": {

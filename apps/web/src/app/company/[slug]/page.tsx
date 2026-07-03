@@ -139,7 +139,9 @@ export default async function CompanyPage({
                   {company.name}
                 </h1>
               </div>
-              <CopyUrlButton />
+              <div className="flex items-center gap-2">
+                <CopyUrlButton />
+              </div>
             </div>
             <div className="flex flex-wrap items-center justify-start gap-4">
               <Locations locations={company.locations} />

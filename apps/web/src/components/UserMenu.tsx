@@ -14,7 +14,7 @@ import { useGetUserProfile } from "@/hooks/users";
 import { useSession } from "@/lib/contexts/SessionContext";
 import { createClient } from "@/lib/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { Loader2, LogOut, Settings } from "lucide-react";
+import { Building2, Loader2, LogOut, Mail, Settings } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -62,12 +62,7 @@ export function UserMenu() {
           className="bg-emerald-500 text-white hover:bg-emerald-600"
           asChild
         >
-          <Link
-            href="/login"
-            data-ph-capture-attribute-event-name="login_button_clicked"
-          >
-            Get started
-          </Link>
+          <Link href="/login">Get started</Link>
         </Button>
       </>
     );
@@ -111,13 +106,22 @@ export function UserMenu() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link
+            href="/my-companies"
+            prefetch
+            className="flex items-center hover:cursor-pointer"
+          >
+            <Building2 className="mr-2 h-4 w-4" />
+            My Companies
+          </Link>
+        </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
           <Link
             href="/settings"
             prefetch
             className="flex items-center hover:cursor-pointer"
-            data-ph-capture-attribute-event-name="settings_button_clicked"
           >
             <Settings className="mr-2 h-4 w-4" />
             Settings
@@ -126,12 +130,21 @@ export function UserMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <a
+            href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`}
+            className="flex items-center hover:cursor-pointer"
+            aria-label="Contact us"
+          >
+            <Mail className="mr-2 h-4 w-4" />
+            Contact us
+          </a>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <a
             href="https://github.com/alexmarqs/tech-companies-portugal-app"
             target="_blank"
             rel="noreferrer noopener"
             className="flex items-center hover:cursor-pointer"
             aria-label="View project on GitHub"
-            data-ph-capture-attribute-event-name="logged_in_github_button_clicked"
           >
             <SocialIcons icon="github" className="mr-2" />
             GitHub
