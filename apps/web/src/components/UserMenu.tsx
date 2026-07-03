@@ -13,6 +13,7 @@ import {
 import { useGetUserProfile } from "@/hooks/users";
 import { useSession } from "@/lib/contexts/SessionContext";
 import { createClient } from "@/lib/supabase/client";
+import { PUBLIC_CONTACT_EMAIL } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { Building2, Loader2, LogOut, Mail, Settings } from "lucide-react";
 import Link from "next/link";
@@ -61,6 +62,7 @@ export function UserMenu() {
           size="sm"
           className="bg-emerald-500 text-white hover:bg-emerald-600"
           asChild
+          data-ph-capture-attribute-event-name="login_button_clicked"
         >
           <Link href="/login">Get started</Link>
         </Button>
@@ -122,22 +124,25 @@ export function UserMenu() {
             href="/settings"
             prefetch
             className="flex items-center hover:cursor-pointer"
+            data-ph-capture-attribute-event-name="settings_button_clicked"
           >
             <Settings className="mr-2 h-4 w-4" />
             Settings
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <a
-            href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`}
-            className="flex items-center hover:cursor-pointer"
-            aria-label="Contact us"
-          >
-            <Mail className="mr-2 h-4 w-4" />
-            Contact us
-          </a>
-        </DropdownMenuItem>
+        {PUBLIC_CONTACT_EMAIL && (
+          <DropdownMenuItem asChild>
+            <a
+              href={`mailto:${PUBLIC_CONTACT_EMAIL}`}
+              className="flex items-center hover:cursor-pointer"
+              aria-label="Contact us"
+            >
+              <Mail className="mr-2 h-4 w-4" />
+              Contact us
+            </a>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem asChild>
           <a
             href="https://github.com/alexmarqs/tech-companies-portugal-app"
@@ -145,6 +150,7 @@ export function UserMenu() {
             rel="noreferrer noopener"
             className="flex items-center hover:cursor-pointer"
             aria-label="View project on GitHub"
+            data-ph-capture-attribute-event-name="logged_in_github_button_clicked"
           >
             <SocialIcons icon="github" className="mr-2" />
             GitHub

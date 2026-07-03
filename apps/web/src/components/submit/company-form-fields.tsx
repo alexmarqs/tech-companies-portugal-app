@@ -58,9 +58,13 @@ export const companyFormSchema = z.object({
     .trim()
     .min(1, { message: "Required" })
     .max(80, { message: "Max. 80 characters" }),
-  fileImage: z.file({
-    message: "Upload a valid image",
-  }),
+  // Optional at the base so the edit form (which doesn't touch the logo) can
+  // share the schema; the submit form requires it via submitCompanyFormSchema.
+  fileImage: z
+    .file({
+      message: "Upload a valid image",
+    })
+    .optional(),
   description: z
     .string()
     .trim()
@@ -99,6 +103,19 @@ export const companyFormSchema = z.object({
 
 export type CompanyFormValues = z.infer<typeof companyFormSchema>;
 
+// New submissions must include a logo.
+export const submitCompanyFormSchema = companyFormSchema.superRefine(
+  (values, ctx) => {
+    if (!values.fileImage) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["fileImage"],
+        message: "Upload a valid image",
+      });
+    }
+  },
+);
+
 type CompanyFormFieldsProps = {
   form: UseFormReturn<CompanyFormValues>;
   availableCategories: string[];
@@ -107,6 +124,9 @@ type CompanyFormFieldsProps = {
   // The ownership question only makes sense on first submission — hide it
   // when editing a company the user is already a member of.
   showOwnershipFields?: boolean;
+  // The edit form doesn't manage the logo (edits go through drafts, which
+  // carry no image), so it hides the upload field.
+  showLogoField?: boolean;
 };
 
 export const CompanyFormFields = ({
@@ -115,6 +135,7 @@ export const CompanyFormFields = ({
   availableLocations,
   disabled,
   showOwnershipFields = true,
+  showLogoField = true,
 }: CompanyFormFieldsProps) => {
   const { session } = useSession();
 
@@ -213,91 +234,95 @@ export const CompanyFormFields = ({
         </>
       )}
 
-      <FormField
-        control={form.control}
-        name="fileImage"
-        render={({ field: { name, ref, onBlur, onChange, value } }) => (
-          <FormItem>
-            <FormLabel>Logo</FormLabel>
-            <FormControl>
-              {value ? (
-                <div className="flex items-center gap-4 rounded-lg border border-border p-3">
-                  <ImagePreview file={value} />
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium">{value.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {(value.size / 1024 / 1024).toFixed(2)}MB
-                    </p>
+      {showLogoField && (
+        <FormField
+          control={form.control}
+          name="fileImage"
+          render={({ field: { name, ref, onBlur, onChange, value } }) => (
+            <FormItem>
+              <FormLabel>Logo</FormLabel>
+              <FormControl>
+                {value ? (
+                  <div className="flex items-center gap-4 rounded-lg border border-border p-3">
+                    <ImagePreview file={value} />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium">
+                        {value.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {(value.size / 1024 / 1024).toFixed(2)}MB
+                      </p>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      disabled={disabled}
+                      onClick={() => onChange(undefined)}
+                      aria-label="Remove image"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
                   </div>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    disabled={disabled}
-                    onClick={() => onChange(undefined)}
-                    aria-label="Remove image"
+                ) : (
+                  <label
+                    htmlFor="company-logo-input"
+                    className={cn(
+                      "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border px-3 py-2 text-center transition-colors hover:border-primary/40 hover:bg-muted/40",
+                      disabled && "pointer-events-none opacity-50",
+                    )}
                   >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-              ) : (
-                <label
-                  htmlFor="company-logo-input"
-                  className={cn(
-                    "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border px-3 py-2 text-center transition-colors hover:border-primary/40 hover:bg-muted/40",
-                    disabled && "pointer-events-none opacity-50",
-                  )}
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-                    <ImagePlus className="h-5 w-5 text-muted-foreground" />
-                  </div>
-                  <div className="space-y-0.5">
-                    <p className="text-sm font-medium">Upload an image</p>
-                    <p className="text-xs text-muted-foreground">
-                      PNG, JPEG, or WEBP. Max 2MB.
-                    </p>
-                  </div>
-                  <Input
-                    id="company-logo-input"
-                    type="file"
-                    className="sr-only"
-                    name={name}
-                    ref={ref}
-                    onBlur={onBlur}
-                    disabled={disabled}
-                    accept="image/png,image/jpeg,image/webp"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      e.target.value = "";
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+                      <ImagePlus className="h-5 w-5 text-muted-foreground" />
+                    </div>
+                    <div className="space-y-0.5">
+                      <p className="text-sm font-medium">Upload an image</p>
+                      <p className="text-xs text-muted-foreground">
+                        PNG, JPEG, or WEBP. Max 2MB.
+                      </p>
+                    </div>
+                    <Input
+                      id="company-logo-input"
+                      type="file"
+                      className="sr-only"
+                      name={name}
+                      ref={ref}
+                      onBlur={onBlur}
+                      disabled={disabled}
+                      accept="image/png,image/jpeg,image/webp"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        e.target.value = "";
 
-                      if (!file) {
-                        return;
-                      }
+                        if (!file) {
+                          return;
+                        }
 
-                      if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-                        toast.error(
-                          "Please select a PNG, JPEG, or WEBP image.",
-                        );
-                        return;
-                      }
+                        if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+                          toast.error(
+                            "Please select a PNG, JPEG, or WEBP image.",
+                          );
+                          return;
+                        }
 
-                      if (file.size > MAX_IMAGE_SIZE) {
-                        toast.error(
-                          `File is too large. Max size is ${MAX_IMAGE_SIZE / 1024 / 1024}MB.`,
-                        );
-                        return;
-                      }
+                        if (file.size > MAX_IMAGE_SIZE) {
+                          toast.error(
+                            `File is too large. Max size is ${MAX_IMAGE_SIZE / 1024 / 1024}MB.`,
+                          );
+                          return;
+                        }
 
-                      onChange(file);
-                    }}
-                  />
-                </label>
-              )}
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+                        onChange(file);
+                      }}
+                    />
+                  </label>
+                )}
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
 
       <FormField
         control={form.control}

@@ -11,7 +11,6 @@ import { type UseQueryOptions, useQuery } from "@tanstack/react-query";
 export enum MyCompaniesServerKeys {
   GET_CONNECTED_COMPANIES = "GET_CONNECTED_COMPANIES",
   GET_CONNECTED_COMPANY = "GET_CONNECTED_COMPANY",
-  GET_INVITATION_BY_TOKEN = "GET_INVITATION_BY_TOKEN",
 }
 
 /**

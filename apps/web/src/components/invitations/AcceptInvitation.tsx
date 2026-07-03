@@ -26,7 +26,7 @@ export const AcceptInvitation = ({ token }: AcceptInvitationProps) => {
   const respond = async (accept: boolean) => {
     try {
       setIsResponding(true);
-      await respondToCompanyInvitationAction({ invitationId: token, accept });
+      await respondToCompanyInvitationAction({ token, accept });
       if (accept) {
         toast.success("Invitation accepted — this is coming soon.");
         router.push("/my-companies");

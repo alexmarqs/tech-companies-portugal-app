@@ -34,8 +34,8 @@ type EditCompanyDetailsProps = {
   canPublish?: boolean;
 };
 
-// DefaultValues (deep partial) because the submit-form schema also carries a
-// required logo `fileImage`, which the edit form doesn't touch.
+// DefaultValues (deep partial) because the shared schema also carries the
+// optional logo `fileImage`, which the edit form doesn't touch.
 const toFormValues = (
   company: Company,
   draft: CompanyDraft | null,
@@ -96,8 +96,9 @@ export const EditCompanyDetails = ({
     try {
       setPendingAction("save");
       await saveCompanyDraftAction(toInput(values));
-      toast.success("Draft saved.");
-      form.reset(values);
+      // TODO: restore form.reset(values) once the action persists the draft —
+      // until then the form stays dirty because nothing was actually saved.
+      toast.success("Draft saved — this is coming soon.");
     } catch (error) {
       console.error("Failed to save draft:", error);
       toast.error("Something went wrong. Please try again.");
@@ -111,7 +112,6 @@ export const EditCompanyDetails = ({
       setPendingAction("publish");
       await publishCompanyAction(toInput(values));
       toast.success("Changes published — this is coming soon.");
-      form.reset(values);
     } catch (error) {
       console.error("Failed to publish changes:", error);
       toast.error("Something went wrong. Please try again.");
@@ -142,6 +142,7 @@ export const EditCompanyDetails = ({
               availableLocations={availableLocations}
               disabled={isBusy}
               showOwnershipFields={false}
+              showLogoField={false}
             />
             <div className="flex flex-wrap items-center justify-start gap-3">
               <Button

@@ -37,12 +37,15 @@ export const inviteCompanyMemberAction = async (input: {
 };
 
 export const respondToCompanyInvitationAction = async (input: {
-  invitationId: string;
+  // The invitation token from the email link — the DB RPCs
+  // (accept_company_invitation / decline_company_invitation) are token-keyed
+  // and validate status, expiry, and the invitee's email themselves.
+  token: string;
   accept: boolean;
 }) => {
   const user = await requireUser();
 
-  // TODO: update the invitation status and grant membership on accept.
+  // TODO: call the accept/decline RPC with the token.
   console.log("[respondToCompanyInvitationAction] response received (no-op)", {
     userId: user.sub,
     ...input,

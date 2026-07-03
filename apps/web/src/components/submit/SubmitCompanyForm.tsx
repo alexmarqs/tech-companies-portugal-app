@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import {
   CompanyFormFields,
   type CompanyFormValues,
-  companyFormSchema,
+  submitCompanyFormSchema,
 } from "./company-form-fields";
 
 type SubmitCompanyFormProps = {
@@ -27,7 +27,7 @@ export const SubmitCompanyForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<CompanyFormValues>({
-    resolver: zodResolver(companyFormSchema),
+    resolver: zodResolver(submitCompanyFormSchema),
     defaultValues: {
       ownershipDetails: { isOwner: false, ownershipReason: "" },
       name: "",
@@ -42,10 +42,16 @@ export const SubmitCompanyForm = ({
   });
 
   const onSubmit = form.handleSubmit(async (values) => {
+    // submitCompanyFormSchema guarantees the logo is present; the check just
+    // narrows the type.
+    if (!values.fileImage) {
+      return;
+    }
     try {
       setIsSubmitting(true);
       await submitCompanyAction({
         name: values.name,
+        logoFile: values.fileImage,
         description: values.description,
         websiteUrl: values.websiteUrl,
         careersUrl: values.careersUrl || undefined,

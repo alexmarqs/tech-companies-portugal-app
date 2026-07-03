@@ -346,7 +346,8 @@ begin
 end;
 $function$;
 
--- Decline an invitation from an email link.
+-- Decline an invitation from an email link. Mirrors accept's validation so a
+-- no-op can never look like success to the caller.
 create or replace function public.decline_company_invitation(_token text)
  returns void
  language plpgsql
@@ -354,15 +355,39 @@ create or replace function public.decline_company_invitation(_token text)
  set search_path to 'public'
 as $function$
 declare
+  _invitation public.company_invitations;
   _user_email text := lower(auth.jwt() ->> 'email');
 begin
+  if _user_email is null then
+    raise exception 'Not authenticated';
+  end if;
+
+  select * into _invitation
+  from public.company_invitations
+  where token = _token
+  for update;
+
+  if not found then
+    raise exception 'Invitation not found';
+  end if;
+
+  if _invitation.status <> 'pending' then
+    raise exception 'Invitation is no longer pending';
+  end if;
+
+  if _invitation.expires_at < timezone('utc'::text, now()) then
+    raise exception 'Invitation has expired';
+  end if;
+
+  if lower(_invitation.email) <> _user_email then
+    raise exception 'Invitation was issued for a different email';
+  end if;
+
   update public.company_invitations
     set status = 'declined',
         responded_at = timezone('utc'::text, now()),
         updated_at = timezone('utc'::text, now())
-    where token = _token
-      and status = 'pending'
-      and lower(email) = _user_email;
+    where id = _invitation.id;
 end;
 $function$;
 
@@ -402,7 +427,10 @@ grant update (name, description, website_url, careers_url, github_url, categorie
   on table "public"."companies" to "authenticated";
 grant select, insert, update, delete on table "public"."companies" to "service_role";
 
-grant select, insert, update, delete on table "public"."company_members" to "authenticated";
+-- No insert for authenticated: memberships are only created via the SECURITY
+-- DEFINER paths (accept_company_invitation, handle_company_approved) — see the
+-- company_members policies below.
+grant select, update, delete on table "public"."company_members" to "authenticated";
 grant select, insert, update, delete on table "public"."company_members" to "service_role";
 
 grant select, insert, update, delete on table "public"."company_invitations" to "authenticated";
@@ -478,10 +506,12 @@ create policy "Members can view co-members"
   as permissive for select to authenticated
   using (public.user_company_role(company_id) is not null);
 
-create policy "Owners can add members"
-  on "public"."company_members"
-  as permissive for insert to authenticated
-  with check (public.user_company_role(company_id) = 'owner');
+-- No INSERT policy on purpose: memberships are only created through consented
+-- paths — accept_company_invitation (SECURITY DEFINER, verifies the invitee's
+-- email) and handle_company_approved (approval-time ownership). A direct
+-- insert policy would let an owner attach ANY user to their company without
+-- consent, which via "Members can view co-member profiles" would expose that
+-- user's profile (email, name) to them.
 
 create policy "Owners can update members"
   on "public"."company_members"

@@ -12,12 +12,19 @@ export type CompanyDetailsInput = {
   locations: string[];
 };
 
-export type SubmitCompanyInput = CompanyDetailsInput & {
-  isOwner: boolean;
-  // Why the submitter claims ownership (e.g. LinkedIn profile). Only present
-  // when isOwner is true.
-  ownershipReason?: string;
+export type SubmitCompanyLogo = {
+  // The uploaded logo; persisted to storage when the submission pipeline
+  // lands (companies.logo_url).
+  logoFile: File;
 };
+
+export type SubmitCompanyInput = CompanyDetailsInput &
+  SubmitCompanyLogo & {
+    isOwner: boolean;
+    // Why the submitter claims ownership (e.g. LinkedIn profile). Only present
+    // when isOwner is true.
+    ownershipReason?: string;
+  };
 
 /**
  * UI-only stub. Once the supervised `companies` table + review pipeline exist,
