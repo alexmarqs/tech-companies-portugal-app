@@ -350,10 +350,6 @@ export type Database = {
         Args: { _user_id: string };
         Returns: boolean;
       };
-      has_pending_invitation_to: {
-        Args: { _company_id: string };
-        Returns: boolean;
-      };
       shares_company_with: { Args: { _user_id: string }; Returns: boolean };
       user_company_role: {
         Args: { _company_id: string };

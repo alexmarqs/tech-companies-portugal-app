@@ -30,9 +30,11 @@
 -- - Company members can see each other's basic profile (the members list on
 --   /my-companies); users RLS otherwise only allows viewing your own row.
 -- - The /invitations/[token] accept page loads the invitation with its
---   company and inviter embedded, so invitees can see the inviter's profile
---   and the invited company (even while pending) while the invitation is
---   live: pending, unexpired, and addressed to the signed-in user's email.
+--   inviter embedded, so invitees can see the inviter's profile while the
+--   invitation is live: pending, unexpired, and addressed to the signed-in
+--   user's email. The invited company embed relies on the public "approved"
+--   read policy — invitations only exist for approved companies (ownership,
+--   required to invite, is granted on approval).
 
 -- ---------------------------------------------------------------------------
 -- Enums
@@ -250,25 +252,6 @@ as $function$
   );
 $function$;
 
--- Whether the signed-in user has a live invitation to _company_id. Used by
--- the companies policy so invitees can see the company they were invited to.
-create or replace function public.has_pending_invitation_to(_company_id uuid)
- returns boolean
- language sql
- stable
- security definer
- set search_path to 'public'
-as $function$
-  select exists (
-    select 1
-    from public.company_invitations
-    where company_id = _company_id
-      and status = 'pending'
-      and expires_at >= timezone('utc'::text, now())
-      and lower(email) = lower((select auth.jwt() ->> 'email'))
-  );
-$function$;
-
 -- On approval, make the submitter the first owner — but only if they claimed
 -- ownership at submit time (see the header: unclaimed submissions stay
 -- orphaned and claimable).
@@ -430,10 +413,23 @@ grant select, insert, update, delete on table "public"."companies" to "service_r
 -- No insert for authenticated: memberships are only created via the SECURITY
 -- DEFINER paths (accept_company_invitation, handle_company_approved) — see the
 -- company_members policies below.
-grant select, update, delete on table "public"."company_members" to "authenticated";
+-- Update is column-scoped to `role` (promote/demote) on purpose: a full-table
+-- update grant would let an owner rewrite an existing row's user_id to attach an
+-- ANY user to their company without consent — the same disclosure the missing
+-- insert policy guards against (via "Members can view co-member profiles", it
+-- would expose that user's email/name). Rewriting user_id/company_id now fails
+-- loudly with 42501. updated_at is still bumped by the BEFORE UPDATE trigger
+-- (column privilege isn't checked for trigger-side writes).
+grant select, delete on table "public"."company_members" to "authenticated";
+grant update (role) on table "public"."company_members" to "authenticated";
 grant select, insert, update, delete on table "public"."company_members" to "service_role";
 
-grant select, insert, update, delete on table "public"."company_invitations" to "authenticated";
+-- Update is column-scoped to resend/reset only (expires_at, token, status): an
+-- owner can re-send a pending invitation or revive an expired one, but can
+-- never rewrite email/role/invited_by/company_id. Accept/decline still mutate
+-- the row through the SECURITY DEFINER RPCs (which bypass grants).
+grant select, insert, delete on table "public"."company_invitations" to "authenticated";
+grant update (expires_at, token, status) on table "public"."company_invitations" to "authenticated";
 grant select, insert, update, delete on table "public"."company_invitations" to "service_role";
 
 grant select, insert, update, delete on table "public"."company_drafts" to "authenticated";
@@ -445,7 +441,6 @@ grant execute on function public.user_company_role(uuid) to "anon", "authenticat
 grant execute on function public.shares_company_with(uuid) to "authenticated";
 grant execute on function public.company_is_approved(uuid) to "authenticated";
 grant execute on function public.has_pending_invitation_from(uuid) to "authenticated";
-grant execute on function public.has_pending_invitation_to(uuid) to "authenticated";
 grant execute on function public.accept_company_invitation(text) to "authenticated";
 grant execute on function public.decline_company_invitation(text) to "authenticated";
 
@@ -462,13 +457,6 @@ create policy "Anyone can view approved companies"
     or submitted_by = (select auth.uid())
     or public.user_company_role(id) is not null
   );
-
--- Invitees can see the company they were invited to, even while it is still
--- pending moderation.
-create policy "Invitees can view invited companies"
-  on "public"."companies"
-  as permissive for select to authenticated
-  using (public.has_pending_invitation_to(id));
 
 -- Authenticated users can submit a new company; it always starts pending and
 -- attributed to them.
@@ -548,14 +536,23 @@ create policy "Owners can create invitations"
     and invited_by = (select auth.uid())
   );
 
--- Owners can revoke/update pending invitations. (Invitee accept/decline goes
--- through the SECURITY DEFINER RPCs above.)
+-- Owners can resend/reset an invitation: bump expires_at, rotate token, and
+-- (for an expired one) set status back to 'pending'. The update grant is
+-- column-scoped so only those columns are writable; the `using` clause is
+-- owner-only so expired rows can be targeted, while `with check (status =
+-- 'pending')` forces the result back to pending — an owner can never
+-- self-accept/decline an invitation. Invitee accept/decline still go through
+-- the SECURITY DEFINER RPCs above.
 create policy "Owners can update invitations"
   on "public"."company_invitations"
   as permissive for update to authenticated
   using (public.user_company_role(company_id) = 'owner')
-  with check (public.user_company_role(company_id) = 'owner');
+  with check (
+    public.user_company_role(company_id) = 'owner'
+    and status = 'pending'
+  );
 
+-- Owners can revoke (delete) invitations.
 create policy "Owners can delete invitations"
   on "public"."company_invitations"
   as permissive for delete to authenticated

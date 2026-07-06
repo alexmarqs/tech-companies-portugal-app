@@ -49,8 +49,15 @@ pnpm dev
 `pnpm dev` points the app at the remote Supabase project (`.env.local`). To develop against the local stack instead — e.g. for schema that is not on the remote yet, or to test destructively:
 
 1. `pnpm exec supabase start` (from `apps/web`, requires Docker)
-2. `pnpm run dev:local` — same app, pointed at the local stack (the inlined keys are the public Supabase demo keys, identical for every local install)
-3. Sign in via `http://localhost:3000/api/dev/login?email=you@example.com` — OAuth providers are not configured locally, so this dev-only route creates a confirmed user and sets the session cookies directly. It 404s unless running `next dev` against a local Supabase.
+2. `pnpm exec supabase db reset` — applies all migrations and loads `supabase/seed.sql`, which seeds test companies, users, memberships and an invitation for the ownership flows (accounts and URLs are documented in the seed file header)
+3. `pnpm run dev:local` — same app, pointed at the local stack (the inlined keys are the public Supabase demo keys, identical for every local install)
+4. Sign in via `http://localhost:3000/api/dev/login?email=owner@local.test` — OAuth providers are not configured locally, so this dev-only route creates/reuses a confirmed user and sets the session cookies directly (use any of the seeded emails, e.g. `owner@local.test`, `editor@local.test`). It 404s unless running `next dev` against a local Supabase.
+
+The local stack ships its own web UIs (URLs printed by `supabase start` / `supabase status`):
+
+- **Supabase Studio** — `http://127.0.0.1:54323` — browse and hand-edit table rows (Table Editor) or run SQL. Studio connects as the superuser and bypasses RLS, so it is for setup/inspection, not a substitute for testing what the app sees through the anon/authenticated roles.
+
+Re-run `pnpm exec supabase db reset` any time to wipe local data back to a clean seeded state.
 
 E2E tests also run against the local stack: `pnpm run test:e2e:local` (from `apps/web`, stop any running dev server first — it builds and starts on port 3000). Authenticated specs seed data and sign in via `tests/helpers/supabase.ts` (service-role seeding + session cookie injection, local-only by design). CI does the same: the `web-e2e-tests` job starts a local Supabase in the runner, so migrations are exercised on every PR and no production secrets are needed for E2E.
 
