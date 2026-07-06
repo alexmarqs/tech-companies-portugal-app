@@ -55,7 +55,11 @@ pnpm dev
 
 The local stack ships its own web UIs (URLs printed by `supabase start` / `supabase status`):
 
-- **Supabase Studio** — `http://127.0.0.1:54323` — browse and hand-edit table rows (Table Editor) or run SQL. Studio connects as the superuser and bypasses RLS, so it is for setup/inspection, not a substitute for testing what the app sees through the anon/authenticated roles.
+Useful Supabase CLI commands while developing locally:
+
+`pnpm exec supabase status` — shows the local API, Studio, database connection details and confirms the stack is running.
+`pnpm exec supabase stop` — stops the local Supabase stack (run `pnpm exec supabase start` again to resume with the same data).
+`pnpm exec supabase logs` — tails logs from the local services when debugging startup or runtime issues.
 
 Re-run `pnpm exec supabase db reset` any time to wipe local data back to a clean seeded state.
 
