@@ -1,6 +1,7 @@
 {
   "name": "@tech-companies-portugal/analytics",
   "version": "0.0.0",
+  "sideEffects": false,
   "private": true,
   "scripts": {
     "clean": "git clean -xdf .turbo node_modules",

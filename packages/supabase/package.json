@@ -1,0 +1,28 @@
+{
+  "name": "@tech-companies-portugal/supabase",
+  "version": "0.0.0",
+  "sideEffects": false,
+  "private": true,
+  "scripts": {
+    "clean": "git clean -xdf .turbo node_modules",
+    "lint": "biome check . --write",
+    "format": "biome format --write .",
+    "check-types": "tsc --noEmit"
+  },
+  "exports": {
+    "./client": "./src/client/index.tsx",
+    "./server": "./src/server/index.ts",
+    "./db-types": "./src/types/database.types.ts",
+    "./middleware": "./src/middleware/index.ts",
+    "./db": "./src/db/index.ts"
+  },
+  "devDependencies": {
+    "@tech-companies-portugal/typescript": "workspace:*",
+    "@types/node": "^20",
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@supabase/ssr": "0.6.1",
+    "@supabase/supabase-js": "2.52.0"
+  }
+}
