@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useSession } from "@/lib/contexts/SessionContext";
 import {
   ALLOWED_IMAGE_TYPES,
   MAX_IMAGE_SIZE,
@@ -137,8 +136,6 @@ export const CompanyFormFields = ({
   showOwnershipFields = true,
   showLogoField = true,
 }: CompanyFormFieldsProps) => {
-  const { session } = useSession();
-
   return (
     <>
       <FormField
@@ -197,39 +194,28 @@ export const CompanyFormFields = ({
             )}
           />
           {form.watch("ownershipDetails.isOwner") && (
-            <>
-              <FormField
-                control={form.control}
-                name="ownershipDetails.ownershipReason"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Provide proof of ownership</FormLabel>
-                    <FormDescription>
-                      If ownership is confirmed, this company will be added to
-                      your profile.
-                    </FormDescription>
-                    <FormControl>
-                      <Textarea
-                        disabled={disabled}
-                        placeholder="Please explain why you are the owner of this company, linkedin profile, etc."
-                        {...field}
-                        value={field.value ?? ""}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {session?.user?.email && (
-                <p className="text-xs text-muted-foreground">
-                  This ownership request will be linked to{" "}
-                  <span className="font-medium text-foreground">
-                    {session.user.email}
-                  </span>
-                  .
-                </p>
+            <FormField
+              control={form.control}
+              name="ownershipDetails.ownershipReason"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Provide proof of ownership</FormLabel>
+                  <FormDescription>
+                    If ownership is confirmed, this company will be added to
+                    your profile.
+                  </FormDescription>
+                  <FormControl>
+                    <Textarea
+                      disabled={disabled}
+                      placeholder="Please explain why you are the owner of this company, linkedin profile, etc."
+                      {...field}
+                      value={field.value ?? ""}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )}
-            </>
+            />
           )}
         </>
       )}
