@@ -42,11 +42,15 @@ test.describe("Homepage e2e tests", () => {
       page.getByRole("button", { name: "Clear all filters" }),
     ).toHaveCount(0);
 
-    // check if pagination is visible and can jump to the last page
+    // Last page number tracks the live dataset — don't hardcode it.
     await expect(page.getByTestId("companies-list-footer")).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Go to page 30" }),
-    ).toBeVisible();
+    await expect(page.getByRole("button", { name: "Next page" })).toBeEnabled();
+    const lastPageButton = page
+      .getByRole("button", { name: /^Go to page \d+$/ })
+      .last();
+    await expect(lastPageButton).toBeVisible();
+    await lastPageButton.click();
+    await expect(lastPageButton).toHaveAttribute("aria-current", "page");
   });
 
   test("Check if footer sections are visible", async ({ page }) => {
