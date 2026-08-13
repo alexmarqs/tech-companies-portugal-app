@@ -42,8 +42,7 @@ test.describe("Homepage e2e tests", () => {
       page.getByRole("button", { name: "Clear all filters" }),
     ).toHaveCount(0);
 
-    // Pagination is visible and the last page is reachable. The last page
-    // number tracks the live company dataset, so do not hardcode it.
+    // Last page number tracks the live dataset — don't hardcode it.
     await expect(page.getByTestId("companies-list-footer")).toBeVisible();
     await expect(page.getByRole("button", { name: "Next page" })).toBeEnabled();
     const lastPageButton = page

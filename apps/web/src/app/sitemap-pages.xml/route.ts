@@ -4,14 +4,13 @@ import { SITEMAP_XML_HEADERS, buildUrlsetXml } from "@/lib/sitemaps";
 
 export const dynamic = "force-static";
 
-// A route handler rather than a `sitemap.ts` so these four URLs keep the flat
-// `/sitemap-pages.xml` path instead of needing a `/pages` section.
+// Route handler so the path stays `/sitemap-pages.xml`
+// (`sitemap.ts` would be `/pages/sitemap.xml`).
 export async function GET() {
   const { updatedAtISODate } = await getParsedCompaniesData();
 
   const xml = buildUrlsetXml([
-    // The home page renders the company list, so its freshness tracks the
-    // dataset. The legal pages omit lastmod rather than claim a false date.
+    // Home tracks the dataset; legal pages omit lastmod.
     { loc: APP_URL, lastmod: updatedAtISODate },
     { loc: `${APP_URL}/about` },
     { loc: `${APP_URL}/policy` },

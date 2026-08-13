@@ -26,15 +26,10 @@ test.describe("Sitemaps", () => {
     const lastmods = [...xml.matchAll(/<lastmod>(.*?)<\/lastmod>/g)].map(
       (match) => match[1],
     );
-    // GitHub may omit a parseable last-modified header; lastmod is optional
-    // then, so the index either stamps all four children or none of them.
+    // GitHub may omit last-modified; lastmod is then all-or-nothing.
     expect([0, 4]).toContain(lastmods.length);
 
-    // Regressing to the `date` response header or `new Date()` would stamp the
-    // moment of the fetch, which lands within minutes of this run — the
-    // inaccuracy that makes search engines discount lastmod site-wide. The
-    // upstream README changes every few weeks, so an hour of slack separates
-    // the two cases without failing if it happens to be edited today.
+    // Older than an hour so a `new Date()` / `date` header regression fails.
     const hourInMs = 60 * 60 * 1000;
 
     for (const lastmod of lastmods) {
@@ -71,8 +66,7 @@ test.describe("Sitemaps", () => {
     const blockFor = (path: string) =>
       blocks.find((block) => block.includes(`${path}</loc>`));
 
-    // The home page renders the company list, so it carries the dataset
-    // timestamp. The legal pages genuinely do not change with it.
+    // Legal pages omit lastmod; home tracks the dataset.
     expect(blockFor("/about")).not.toContain("<lastmod>");
     expect(blockFor("/policy")).not.toContain("<lastmod>");
     expect(blockFor("/terms")).not.toContain("<lastmod>");

@@ -10,8 +10,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/*", "/admin/*"],
       },
     ],
-    // Point crawlers at the sitemap index. Child urlsets (static pages,
-    // company, category, location) are listed from `/sitemap.xml`.
     sitemap: `${APP_URL}/sitemap.xml`,
     host: `${APP_URL}`,
   };

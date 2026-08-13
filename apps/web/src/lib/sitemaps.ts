@@ -1,10 +1,6 @@
 import { APP_URL } from "./metadata";
 
-/**
- * Nested urlset sitemaps. The root `/sitemap.xml` is a sitemap index of these.
- * All four are generated from the company dataset, so they all change together
- * when it refreshes and share its timestamp as `<lastmod>`.
- */
+/** Nested urlsets listed from the root `/sitemap.xml` index. */
 export const CHILD_SITEMAP_PATHS = [
   "/sitemap-pages.xml",
   "/company/sitemap.xml",
@@ -16,11 +12,6 @@ export const SITEMAP_XML_HEADERS = {
   "Content-Type": "application/xml; charset=utf-8",
 } as const;
 
-/**
- * `lastmod` is optional throughout: search engines discount the element across
- * a whole site once it proves inaccurate, so anything without a real
- * modification date omits it rather than guessing.
- */
 export type SitemapEntry = {
   loc: string;
   lastmod?: string;

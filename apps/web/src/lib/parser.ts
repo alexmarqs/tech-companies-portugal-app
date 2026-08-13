@@ -53,18 +53,12 @@ const fetchGithubReadmeHtmlFrom = async (owner: string, repo: string) => {
 
   return {
     html,
-    // `last-modified` tracks the README content. The `date` header is just the
-    // moment GitHub served this request, so using it would stamp "changed
-    // today" on every URL on every revalidation — the inaccurate `lastmod`
-    // that makes search engines discount the element across the whole site.
+    // README freshness — not `date`, which is when GitHub served the request.
     lastModified: response.headers.get("last-modified"),
   };
 };
 
-/**
- * Search engines prefer no `lastmod` over a wrong one, so an absent or
- * unparseable date becomes `undefined` rather than "now".
- */
+/** Absent or invalid dates stay undefined; never fall back to now. */
 const toISODate = (value: string | null) => {
   if (!value) return undefined;
 
