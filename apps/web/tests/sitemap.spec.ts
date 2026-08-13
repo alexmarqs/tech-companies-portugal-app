@@ -17,6 +17,31 @@ test.describe("Sitemaps", () => {
     expect(xml).not.toContain("<urlset");
   });
 
+  test("lastmod reflects the source data, not the time it was served", async ({
+    request,
+  }) => {
+    const response = await request.get("/sitemap.xml");
+    const xml = await response.text();
+
+    const lastmods = [...xml.matchAll(/<lastmod>(.*?)<\/lastmod>/g)].map(
+      (match) => match[1],
+    );
+    expect(lastmods).toHaveLength(4);
+
+    // Regressing to the `date` response header or `new Date()` would stamp the
+    // moment of the fetch, which lands within minutes of this run — the
+    // inaccuracy that makes search engines discount lastmod site-wide. The
+    // upstream README changes every few weeks, so an hour of slack separates
+    // the two cases without failing if it happens to be edited today.
+    const hourInMs = 60 * 60 * 1000;
+
+    for (const lastmod of lastmods) {
+      const parsed = Date.parse(lastmod as string);
+      expect(Number.isNaN(parsed)).toBe(false);
+      expect(Date.now() - parsed).toBeGreaterThan(hourInMs);
+    }
+  });
+
   test("company sitemap lists company profile URLs", async ({ request }) => {
     const response = await request.get("/company/sitemap.xml");
     expect(response.ok()).toBeTruthy();
@@ -37,6 +62,23 @@ test.describe("Sitemaps", () => {
     expect(xml).toContain("/about");
     expect(xml).toContain("/policy");
     expect(xml).toContain("/terms");
+
+    const blocks = xml.match(/<url>[\s\S]*?<\/url>/g) ?? [];
+    expect(blocks).toHaveLength(4);
+
+    const blockFor = (path: string) =>
+      blocks.find((block) => block.includes(`${path}</loc>`));
+
+    // The home page renders the company list, so it carries the dataset
+    // timestamp. The legal pages genuinely do not change with it.
+    expect(blockFor("/about")).not.toContain("<lastmod>");
+    expect(blockFor("/policy")).not.toContain("<lastmod>");
+    expect(blockFor("/terms")).not.toContain("<lastmod>");
+
+    const homepage = blocks.find(
+      (block) => !/\/(about|policy|terms)<\/loc>/.test(block),
+    );
+    expect(homepage).toContain("<lastmod>");
   });
 
   test("robots.txt points at the sitemap index", async ({ request }) => {

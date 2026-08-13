@@ -6,7 +6,7 @@ import type { Company } from "./types";
 export const parseCompaniesData = async () => {
   try {
     // fetching the html from the github api
-    const { html: htmlData, date } = await fetchGithubReadmeHtmlFrom(
+    const { html: htmlData, lastModified } = await fetchGithubReadmeHtmlFrom(
       "marmelo",
       "tech-companies-in-portugal",
     );
@@ -16,7 +16,7 @@ export const parseCompaniesData = async () => {
 
     return {
       data,
-      timestamp: date ? new Date(date).toISOString() : new Date().toISOString(),
+      timestamp: toISODate(lastModified),
     };
   } catch (error) {
     console.error("Error parsing companies data", error);
@@ -53,8 +53,24 @@ const fetchGithubReadmeHtmlFrom = async (owner: string, repo: string) => {
 
   return {
     html,
-    date: response.headers.get("date"),
+    // `last-modified` tracks the README content. The `date` header is just the
+    // moment GitHub served this request, so using it would stamp "changed
+    // today" on every URL on every revalidation — the inaccurate `lastmod`
+    // that makes search engines discount the element across the whole site.
+    lastModified: response.headers.get("last-modified"),
   };
+};
+
+/**
+ * Search engines prefer no `lastmod` over a wrong one, so an absent or
+ * unparseable date becomes `undefined` rather than "now".
+ */
+const toISODate = (value: string | null) => {
+  if (!value) return undefined;
+
+  const parsed = new Date(value);
+
+  return Number.isNaN(parsed.getTime()) ? undefined : parsed.toISOString();
 };
 
 const extractCompaniesDataFromHtml = (html: string) => {
