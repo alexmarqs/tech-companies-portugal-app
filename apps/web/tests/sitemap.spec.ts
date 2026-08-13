@@ -26,7 +26,9 @@ test.describe("Sitemaps", () => {
     const lastmods = [...xml.matchAll(/<lastmod>(.*?)<\/lastmod>/g)].map(
       (match) => match[1],
     );
-    expect(lastmods).toHaveLength(4);
+    // GitHub may omit a parseable last-modified header; lastmod is optional
+    // then, so the index either stamps all four children or none of them.
+    expect([0, 4]).toContain(lastmods.length);
 
     // Regressing to the `date` response header or `new Date()` would stamp the
     // moment of the fetch, which lands within minutes of this run — the
