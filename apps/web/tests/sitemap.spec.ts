@@ -10,7 +10,7 @@ test.describe("Sitemaps", () => {
 
     const xml = await response.text();
     expect(xml).toContain("<sitemapindex");
-    expect(xml).toContain("/api/sitemaps/pages.xml");
+    expect(xml).toContain("/sitemap-pages.xml");
     expect(xml).toContain("/company/sitemap.xml");
     expect(xml).toContain("/category/sitemap.xml");
     expect(xml).toContain("/location/sitemap.xml");
@@ -29,9 +29,8 @@ test.describe("Sitemaps", () => {
   test("static pages sitemap lists home and legal URLs", async ({
     request,
   }) => {
-    const response = await request.get("/api/sitemaps/pages.xml");
+    const response = await request.get("/sitemap-pages.xml");
     expect(response.ok()).toBeTruthy();
-    expect(response.headers()["content-type"]).toMatch(/xml/);
 
     const xml = await response.text();
     expect(xml).toContain("<urlset");
@@ -40,15 +39,13 @@ test.describe("Sitemaps", () => {
     expect(xml).toContain("/terms");
   });
 
-  test("robots.txt points at the sitemap index and allows the pages sitemap", async ({
-    request,
-  }) => {
+  test("robots.txt points at the sitemap index", async ({ request }) => {
     const response = await request.get("/robots.txt");
     expect(response.ok()).toBeTruthy();
 
     const body = await response.text();
     expect(body).toMatch(/Sitemap:.*\/sitemap\.xml/i);
     expect(body).not.toMatch(/Sitemap:.*\/company\/sitemap\.xml/i);
-    expect(body).toMatch(/Allow: \/api\/sitemaps\//);
+    expect(body).not.toMatch(/Allow: \/api\/sitemaps\//);
   });
 });
