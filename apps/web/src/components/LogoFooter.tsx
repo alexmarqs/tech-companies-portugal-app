@@ -13,7 +13,7 @@ export const LogoFooter = ({ onlyLogo = false }: LogoFooterProps) => {
           alt="Tech Companies Portugal Logo"
           width={28}
           height={28}
-          className="shrink-0 rounded-lg"
+          className="shrink-0"
         />
         {!onlyLogo && (
           <span className="text-xs font-bold tracking-[-0.03em]">

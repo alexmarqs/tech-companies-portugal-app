@@ -23,7 +23,7 @@ export default async function Footer() {
                 alt="Tech Companies Portugal Logo"
                 width={28}
                 height={28}
-                className="rounded-lg"
+                className="shrink-0"
               />
               <span className="text-sm font-bold tracking-[-0.03em]">
                 Tech Companies <span className="text-primary">Portugal</span>
