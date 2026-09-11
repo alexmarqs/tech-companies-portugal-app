@@ -1,6 +1,7 @@
+import { categoryPageDescription, categoryPageHeading } from "@/lib/categories";
 import { OgLayout, PageContent, getLogoSrc } from "@/lib/og/components";
 import { OG_CONTENT_TYPE, OG_SIZE, loadOgFonts } from "@/lib/og/utils";
-import { decodeCategoryParam, normalizeText } from "@/lib/utils";
+import { decodeCategoryParam } from "@/lib/utils";
 import { ImageResponse } from "next/og";
 
 // force generation on demand for paths not known at build time
@@ -24,8 +25,8 @@ export default async function Image({
   const { category: categoryParam } = await params;
   const category = decodeCategoryParam(categoryParam);
 
-  const title = `${category} Companies`;
-  const description = `Discover tech companies in the ${normalizeText(category)} sector. Find job opportunities and connect with tech companies in Portugal.`;
+  const title = categoryPageHeading(category);
+  const description = categoryPageDescription(category);
 
   const allText = [
     title,

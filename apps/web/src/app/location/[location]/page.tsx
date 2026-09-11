@@ -9,6 +9,11 @@ import {
   generateJsonLdGraph,
 } from "@/lib/json-ld";
 import {
+  isRemoteLocation,
+  locationPageDescription,
+  locationPageTitle,
+} from "@/lib/locations";
+import {
   APP_URL,
   defaultMetadata,
   defaultOpenGraphMetadata,
@@ -28,9 +33,9 @@ export async function generateMetadata({
 
   const location = decodeURIComponent(locationParam);
 
-  const title = `Companies in ${location} | Tech Companies Portugal`;
-  const description = `Explore startups, scaleups, and global tech teams with a presence in ${location}, Portugal.`;
-  const keywords = `tech companies in ${location}, Portugal tech jobs, ${location} software companies, IT employers ${location}`;
+  const title = locationPageTitle(location);
+  const description = locationPageDescription(location);
+  const keywords = `tech companies in ${location}, ${location} software companies, ${location} startups, tech companies portugal`;
 
   const metadata = {
     ...defaultMetadata,
@@ -73,6 +78,8 @@ export default async function LocationPage({
 
   const location = decodeURIComponent(locationParam);
 
+  const isRemote = isRemoteLocation(location);
+
   const { companies } = await getParsedCompaniesData();
 
   const filteredCompanies = companies.filter((company) =>
@@ -81,7 +88,7 @@ export default async function LocationPage({
 
   const itemListJsonLd = generateItemListJsonLd(
     filteredCompanies,
-    `Tech Companies in ${location}, Portugal`,
+    locationPageTitle(location),
   );
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: "Home", url: APP_URL },
@@ -118,12 +125,23 @@ export default async function LocationPage({
             </div>
 
             <h1 className="text-3xl font-bold leading-[1.1] tracking-[-0.035em] sm:text-4xl">
-              {location}
+              {isRemote
+                ? "Remote Tech Companies"
+                : `Tech Companies in ${location}`}
             </h1>
 
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              Explore startups, scaleups, and global tech teams with a presence
-              in <span className="font-bold">{location}</span>.
+              {isRemote ? (
+                <>
+                  Explore startups, scaleups, and global tech teams that work
+                  remotely from <span className="font-bold">Portugal</span>.
+                </>
+              ) : (
+                <>
+                  Explore startups, scaleups, and global tech teams with a
+                  presence in <span className="font-bold">{location}</span>.
+                </>
+              )}
             </p>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { isRemoteLocation, locationPageDescription } from "@/lib/locations";
 import { OgLayout, PageContent, getLogoSrc } from "@/lib/og/components";
 import { OG_CONTENT_TYPE, OG_SIZE, loadOgFonts } from "@/lib/og/utils";
 import { ImageResponse } from "next/og";
@@ -23,8 +24,10 @@ export default async function Image({
   const { location: locationParam } = await params;
   const location = decodeURIComponent(locationParam);
 
-  const title = `Companies in ${location}`;
-  const description = `Explore startups, scaleups, and global tech teams with a presence in ${location}, Portugal.`;
+  const title = isRemoteLocation(location)
+    ? "Remote Tech Companies"
+    : `Tech Companies in ${location}`;
+  const description = locationPageDescription(location);
 
   const allText = [
     title,

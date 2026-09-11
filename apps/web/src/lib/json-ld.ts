@@ -5,7 +5,7 @@ import type {
   WebSite,
   WithContext,
 } from "schema-dts";
-import { APP_URL, DESCRIPTION, TITLE } from "./metadata";
+import { APP_URL, DESCRIPTION, SITE_NAME } from "./metadata";
 import type { Company } from "./types";
 
 export function safeJsonLdStringify(jsonLd: unknown): string {
@@ -31,7 +31,7 @@ export function generateWebSiteJsonLd(): WithContext<WebSite> {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: TITLE,
+    name: SITE_NAME,
     url: APP_URL,
     description: DESCRIPTION,
     potentialAction: {
@@ -47,7 +47,7 @@ export function generateOrganizationJsonLd(): WithContext<Organization> {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Tech Companies Portugal",
+    name: SITE_NAME,
     url: APP_URL,
     description: DESCRIPTION,
     logo: `${APP_URL}/assets/images/logo.svg`,
@@ -85,13 +85,15 @@ export function generateItemListJsonLd(
   companies: Company[],
   listName: string,
 ): WithContext<ItemList> {
+  // Only the first 100 entries are listed, but the count must describe the
+  // whole list or the markup under-reports the page.
   const items = companies.slice(0, 100);
 
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: listName,
-    numberOfItems: items.length,
+    numberOfItems: companies.length,
     itemListElement: items.map((company, index) => ({
       "@type": "ListItem" as const,
       position: index + 1,

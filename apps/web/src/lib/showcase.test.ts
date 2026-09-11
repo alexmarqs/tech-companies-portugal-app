@@ -51,11 +51,11 @@ describe("pickShowcaseCompanies", () => {
     expect(slugs).not.toContain("epilot");
   });
 
-  it("returns at most the requested size, three by default", () => {
+  it("returns at most the requested size, sixteen by default", () => {
     const big = Array.from({ length: 20 }, (_, i) => company(`c${i}`));
 
-    expect(pickShowcaseCompanies(big, 1)).toHaveLength(3);
-    expect(pickShowcaseCompanies(big, 1, 16)).toHaveLength(16);
+    expect(pickShowcaseCompanies(big, 1)).toHaveLength(16);
+    expect(pickShowcaseCompanies(big, 1, 3)).toHaveLength(3);
     expect(pickShowcaseCompanies(big.slice(0, 5), 1, 16)).toHaveLength(5);
   });
 

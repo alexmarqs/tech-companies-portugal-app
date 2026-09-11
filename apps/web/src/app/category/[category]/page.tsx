@@ -4,6 +4,11 @@ import { JsonLdScript } from "@/components/JsonLdScript";
 import { NotificationsSideSection } from "@/components/NotificationsSideSection";
 import { PageBreadcrumb } from "@/components/PageBreadcrumb";
 import {
+  categoryPageDescription,
+  categoryPageHeading,
+  categoryPageTitle,
+} from "@/lib/categories";
+import {
   generateBreadcrumbJsonLd,
   generateItemListJsonLd,
   generateJsonLdGraph,
@@ -29,9 +34,11 @@ export async function generateMetadata({
 
   const category = decodeCategoryParam(categoryParam);
 
-  const title = `${category} Companies | Tech Companies Portugal`;
-  const description = `Discover tech companies in the ${category} sector. Find job opportunities and connect with ${category} tech companies in Portugal.`;
-  const keywords = `${category} tech companies, ${category} software companies, IT employers ${category}, technology sector ${category}`;
+  const categoryName = normalizeText(category);
+
+  const title = categoryPageTitle(category);
+  const description = categoryPageDescription(category);
+  const keywords = `${categoryName} tech companies portugal, ${categoryName} software companies, ${categoryName} startups portugal`;
 
   const metadata = {
     ...defaultMetadata,
@@ -84,12 +91,12 @@ export default async function CategoryPage({
 
   const itemListJsonLd = generateItemListJsonLd(
     filteredCompanies,
-    `${category} Companies in Portugal`,
+    categoryPageTitle(category),
   );
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: "Home", url: APP_URL },
     {
-      name: category,
+      name: normalizedCategory,
       url: `${APP_URL}/category/${encodeURIComponent(category)}`,
     },
   ]);
@@ -104,7 +111,7 @@ export default async function CategoryPage({
           items={[
             { label: "Home", href: "/" },
             { label: "Categories" },
-            { label: category },
+            { label: normalizedCategory },
           ]}
         />
         <div className="relative mb-6 overflow-hidden rounded-3xl border border-primary/15 bg-accent/60 px-6 py-8 sm:px-8 sm:py-10">
@@ -121,7 +128,7 @@ export default async function CategoryPage({
             </div>
 
             <h1 className="text-3xl font-bold leading-[1.1] tracking-[-0.035em] sm:text-4xl">
-              {category}
+              {categoryPageHeading(category)}
             </h1>
 
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">

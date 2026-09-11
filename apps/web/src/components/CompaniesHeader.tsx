@@ -26,7 +26,9 @@ export default async function CompaniesHeader() {
               id="companies-heading"
               className="max-w-3xl text-balance text-[2.5rem] font-semibold leading-[0.98] tracking-[-0.055em] sm:text-[3.25rem] lg:text-[3.55rem]"
             >
-              <span className="block">Discover tech</span>
+              {/* The space is load-bearing: without it the H1's text content
+                  reads "techcompanies" to crawlers and screen readers. */}
+              <span className="block">Discover tech</span>{" "}
               <span className="block">
                 companies in <span className="text-primary">Portugal.</span>
               </span>
