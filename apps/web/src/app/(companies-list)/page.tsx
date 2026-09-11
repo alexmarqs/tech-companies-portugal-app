@@ -2,6 +2,7 @@ import CompaniesList from "@/components/CompaniesList";
 import { FilterBar } from "@/components/FilterBar";
 import { JsonLdScript } from "@/components/JsonLdScript";
 import { NotificationsSideSection } from "@/components/NotificationsSideSection";
+import { TopCitiesBrowse } from "@/components/TopCitiesBrowse";
 import {
   generateJsonLdGraph,
   generateOrganizationJsonLd,
@@ -18,16 +19,16 @@ export default async function CompaniesPage() {
   const jsonLdGraph = generateJsonLdGraph(webSiteJsonLd, organizationJsonLd);
 
   return (
-    <section
-      id="directory"
-      className="relative flex flex-1 scroll-mt-24 flex-col"
-    >
+    <section className="relative flex flex-1 flex-col">
       <JsonLdScript graph={jsonLdGraph} />
-      <FilterBar
-        categoryOptions={availableCategories}
-        locationOptions={availableLocations}
-      />
-      <CompaniesList allCompanies={companies} />
+      <TopCitiesBrowse companies={companies} className="mb-9" />
+      <div id="directory" className="scroll-mt-24">
+        <FilterBar
+          categoryOptions={availableCategories}
+          locationOptions={availableLocations}
+        />
+        <CompaniesList allCompanies={companies} />
+      </div>
       <NotificationsSideSection className="mt-10" />
     </section>
   );

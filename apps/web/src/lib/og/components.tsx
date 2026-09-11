@@ -1,6 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import type { HeadingParts } from "@/lib/types";
+
+const ACCENT = "#df6f55";
 
 export async function getLogoSrc() {
   try {
@@ -268,10 +271,24 @@ export function CompanyContent({
   );
 }
 
+/**
+ * Satori collapses the whitespace between flex items, so the words are joined
+ * with non-breaking spaces to keep the font's own spacing.
+ */
+function AccentTitle({ lead, name, trail }: HeadingParts) {
+  return (
+    <>
+      {lead && <span style={{ display: "flex" }}>{lead}&nbsp;</span>}
+      <span style={{ display: "flex", color: ACCENT }}>{name}</span>
+      {trail && <span style={{ display: "flex" }}>&nbsp;{trail}</span>}
+    </>
+  );
+}
+
 export function PageContent({
   title,
   description,
-}: { title: string; description: string }) {
+}: { title: string | HeadingParts; description: string }) {
   return (
     <div
       style={{
@@ -295,7 +312,7 @@ export function PageContent({
             maxWidth: 900,
           }}
         >
-          {title}
+          {typeof title === "string" ? title : <AccentTitle {...title} />}
         </div>
         <p
           style={{

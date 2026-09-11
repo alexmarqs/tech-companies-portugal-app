@@ -30,6 +30,13 @@ export type PageViewsData = {
 
 export type NextParams<T> = Promise<T>;
 
+/** A heading split around the word that gets the accent colour. */
+export type HeadingParts = {
+  lead: string;
+  name: string;
+  trail: string;
+};
+
 export type SettingsTabs = {
   id: SettingsTab;
   title: string;

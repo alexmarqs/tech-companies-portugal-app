@@ -1,4 +1,7 @@
-import { categoryPageDescription, categoryPageHeading } from "@/lib/categories";
+import {
+  categoryHeadingParts,
+  categoryPageDescription,
+} from "@/lib/categories";
 import { OgLayout, PageContent, getLogoSrc } from "@/lib/og/components";
 import { OG_CONTENT_TYPE, OG_SIZE, loadOgFonts } from "@/lib/og/utils";
 import { decodeCategoryParam } from "@/lib/utils";
@@ -25,11 +28,13 @@ export default async function Image({
   const { category: categoryParam } = await params;
   const category = decodeCategoryParam(categoryParam);
 
-  const title = categoryPageHeading(category);
+  const title = categoryHeadingParts(category);
   const description = categoryPageDescription(category);
 
   const allText = [
-    title,
+    title.lead,
+    title.name,
+    title.trail,
     description,
     "TechCompaniesPortugal",
     "techcompaniesportugal.fyi",

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  categoryHeadingParts,
   categoryPageDescription,
   categoryPageHeading,
   categoryPageTitle,
@@ -37,5 +38,33 @@ describe("category copy", () => {
     expect(description).toContain("FinTech");
     expect(description).not.toContain("💰");
     expect(description.length).toBeLessThanOrEqual(155);
+  });
+});
+
+describe("categoryHeadingParts", () => {
+  it("splits the name from the words around it, so the name can be tinted", () => {
+    expect(categoryHeadingParts("Automotive 🚘")).toEqual({
+      lead: "",
+      name: "Automotive",
+      trail: "Tech Companies",
+    });
+  });
+
+  it("keeps the no-stutter rule when splitting", () => {
+    expect(categoryHeadingParts("FinTech 💰")).toEqual({
+      lead: "",
+      name: "FinTech",
+      trail: "Companies",
+    });
+  });
+
+  it("rejoins into exactly the plain heading", () => {
+    for (const category of ["Automotive 🚘", "FinTech 💰", "E-commerce 🛍️"]) {
+      const { lead, name, trail } = categoryHeadingParts(category);
+
+      expect([lead, name, trail].filter(Boolean).join(" ")).toBe(
+        categoryPageHeading(category),
+      );
+    }
   });
 });

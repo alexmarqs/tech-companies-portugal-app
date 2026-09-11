@@ -1,3 +1,4 @@
+import type { HeadingParts } from "./types";
 import { normalizeText } from "./utils";
 
 // "FinTech Tech Companies" stutters, so categories that already carry the word
@@ -6,6 +7,13 @@ const alreadySaysTech = (name: string) => /tech/i.test(name);
 
 const suffix = (name: string) =>
   alreadySaysTech(name) ? "Companies" : "Tech Companies";
+
+/** Name and surrounding words separately, so the name can be tinted. */
+export const categoryHeadingParts = (category: string): HeadingParts => {
+  const name = normalizeText(category);
+
+  return { lead: "", name, trail: suffix(name) };
+};
 
 export const categoryPageTitle = (category: string) => {
   const name = normalizeText(category);

@@ -1,3 +1,4 @@
+import { AccentHeading } from "@/components/AccentHeading";
 import CompaniesList from "@/components/CompaniesList";
 import { CompaniesListSkeleton } from "@/components/CompaniesListSkeleton";
 import { JsonLdScript } from "@/components/JsonLdScript";
@@ -9,8 +10,9 @@ import {
   generateJsonLdGraph,
 } from "@/lib/json-ld";
 import {
-  isRemoteLocation,
+  locationHeadingParts,
   locationPageDescription,
+  locationPageIntro,
   locationPageTitle,
 } from "@/lib/locations";
 import {
@@ -78,7 +80,7 @@ export default async function LocationPage({
 
   const location = decodeURIComponent(locationParam);
 
-  const isRemote = isRemoteLocation(location);
+  const headingParts = locationHeadingParts(location);
 
   const { companies } = await getParsedCompaniesData();
 
@@ -111,39 +113,20 @@ export default async function LocationPage({
             { label: location },
           ]}
         />
-        <div className="relative mb-6 overflow-hidden rounded-3xl border border-primary/15 bg-accent/60 px-6 py-8 sm:px-8 sm:py-10">
-          <div className="absolute -right-16 -top-16 size-[250px] rounded-full bg-primary/10 blur-[80px]" />
-          <div className="absolute -bottom-20 -left-10 size-[200px] rounded-full bg-orange/10 blur-[80px]" />
-
-          <div className="relative flex flex-col gap-3">
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/15 bg-card/70 px-3 py-1 backdrop-blur-sm">
-              <span className="size-1.5 rounded-full bg-primary" />
-              <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-widest">
-                {filteredCompanies.length}{" "}
-                {filteredCompanies.length === 1 ? "Company" : "Companies"}
-              </span>
-            </div>
-
-            <h1 className="text-3xl font-bold leading-[1.1] tracking-[-0.035em] sm:text-4xl">
-              {isRemote
-                ? "Remote Tech Companies"
-                : `Tech Companies in ${location}`}
-            </h1>
-
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              {isRemote ? (
-                <>
-                  Explore startups, scaleups, and global tech teams that work
-                  remotely from <span className="font-bold">Portugal</span>.
-                </>
-              ) : (
-                <>
-                  Explore startups, scaleups, and global tech teams with a
-                  presence in <span className="font-bold">{location}</span>.
-                </>
-              )}
-            </p>
+        <div className="mb-7 flex flex-col gap-2.5">
+          <div className="flex items-center gap-2">
+            <span className="size-1.5 rounded-full bg-primary" />
+            <span className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
+              {filteredCompanies.length}{" "}
+              {filteredCompanies.length === 1 ? "Company" : "Companies"}
+            </span>
           </div>
+
+          <AccentHeading {...headingParts} />
+
+          <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+            {locationPageIntro(location)}
+          </p>
         </div>
 
         <div className="flex w-full flex-col gap-4">
