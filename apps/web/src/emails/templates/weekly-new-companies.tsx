@@ -7,11 +7,11 @@ import {
   Font,
   Head,
   Heading,
+  Hr,
   Html,
   Link,
   Preview,
   Section,
-  Tailwind,
   Text,
 } from "@react-email/components";
 import { Footer } from "../components/footer";
@@ -24,17 +24,23 @@ interface WeeklyNewCompaniesEmailProps {
   }[];
 }
 
-const MAX_NEW_COMPANIES_TO_SHOW = 20;
+const MAX_NEW_COMPANIES_TO_SHOW = 12;
+
+const PREVIEW_COMPANIES = [
+  { slug: "coverflex", name: "Coverflex" },
+  { slug: "unbabel", name: "Unbabel" },
+  { slug: "remote", name: "Remote" },
+  { slug: "feedzai", name: "Feedzai" },
+];
 
 export default function WeeklyNewCompaniesEmail({
-  newCompanies,
+  newCompanies = PREVIEW_COMPANIES,
 }: WeeklyNewCompaniesEmailProps) {
   const companyCount = newCompanies.length;
-  const firstMaxNewCompaniesNewCompanies = newCompanies.slice(
-    0,
-    MAX_NEW_COMPANIES_TO_SHOW,
-  );
-  const remainingCount = companyCount - MAX_NEW_COMPANIES_TO_SHOW;
+  const visibleCompanies = newCompanies.slice(0, MAX_NEW_COMPANIES_TO_SHOW);
+  const remainingCount = Math.max(companyCount - MAX_NEW_COMPANIES_TO_SHOW, 0);
+  const companyLabel = companyCount === 1 ? "company" : "companies";
+  const previewText = `${companyCount} new ${companyLabel} landed in the Portugal tech directory`;
 
   return (
     <Html>
@@ -50,157 +56,194 @@ export default function WeeklyNewCompaniesEmail({
           fontStyle="normal"
         />
       </Head>
-      <Preview>
-        Weekly Report | {companyCount.toString()} New{" "}
-        {companyCount === 1 ? "Company" : "Companies"} Added This Week
-      </Preview>
-      <Tailwind>
-        <Body className="bg-gray-50">
-          <Container className="mx-auto py-4 max-w-96">
-            {/* Header Section */}
-            <Section
-              style={{
-                backgroundColor: "#ffffff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "16px",
-                padding: "32px 24px",
-                marginBottom: "16px",
-              }}
-            >
-              <Logo width={50} height={50} />
+      <Preview>{previewText}</Preview>
+      <Body
+        style={{
+          backgroundColor: "#f5f0e9",
+          color: "#2d2825",
+          fontFamily: "Geist, Helvetica, Arial, sans-serif",
+          margin: 0,
+          padding: "24px 12px",
+        }}
+      >
+        <Container style={{ margin: "0 auto", maxWidth: "600px" }}>
+          <Section
+            style={{
+              backgroundColor: "#fffdf9",
+              border: "1px solid #e6dbd1",
+              borderRadius: "22px",
+              overflow: "hidden",
+            }}
+          >
+            <Section style={{ backgroundColor: "#3f8051", height: "7px" }} />
 
-              <Heading
-                style={{
-                  fontSize: "26px",
-                  fontWeight: 700,
-                  color: "#111827",
-                  textAlign: "center",
-                  margin: "20px 0 12px 0",
-                  lineHeight: "1.2",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                This week in Portuguese tech
-              </Heading>
+            <Section style={{ padding: "30px 28px 24px" }}>
+              <Logo />
 
               <Text
                 style={{
-                  fontSize: "16px",
-                  color: "#6b7280",
+                  color: "#3f8051",
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  letterSpacing: "1.8px",
+                  margin: "28px 0 10px",
                   textAlign: "center",
-                  lineHeight: "1.6",
-                  margin: "0",
+                  textTransform: "uppercase",
                 }}
               >
-                {companyCount} new{" "}
-                {companyCount === 1 ? "company" : "companies"} added this week
+                Weekly field note · Portugal
+              </Text>
+              <Heading
+                style={{
+                  color: "#2d2825",
+                  fontSize: "32px",
+                  fontWeight: 700,
+                  letterSpacing: "-1.2px",
+                  lineHeight: "36px",
+                  margin: "0 auto 12px",
+                  maxWidth: "460px",
+                  textAlign: "center",
+                }}
+              >
+                {companyCount} new {companyLabel} on the map
+              </Heading>
+              <Text
+                style={{
+                  color: "#766b64",
+                  fontSize: "15px",
+                  lineHeight: "23px",
+                  margin: "0 auto",
+                  maxWidth: "430px",
+                  textAlign: "center",
+                }}
+              >
+                Fresh additions to the directory, ready for you to explore.
               </Text>
             </Section>
 
-            {/* Main Content */}
-            {companyCount > 0 && (
-              <Section
+            <Section
+              style={{
+                backgroundColor: "#fff3ed",
+                borderTop: "1px dashed #debfb1",
+                borderBottom: "1px dashed #debfb1",
+                padding: "8px 28px 22px",
+              }}
+            >
+              <Text
                 style={{
-                  backgroundColor: "#059669",
-                  borderRadius: "16px",
-                  padding: "24px",
-                  marginBottom: "16px",
+                  color: "#9a5a49",
+                  fontSize: "10px",
+                  fontWeight: 700,
+                  letterSpacing: "1.5px",
+                  margin: "14px 0 8px",
+                  textTransform: "uppercase",
                 }}
               >
-                {firstMaxNewCompaniesNewCompanies.map((newCompany) => (
+                New arrivals · Issue {new Date().getFullYear()}
+              </Text>
+
+              {visibleCompanies.map((company, index) => (
+                <Section key={company.slug}>
                   <Link
-                    key={newCompany.slug}
-                    href={`${APP_URL}/company/${newCompany.slug}`}
+                    href={`${APP_URL}/company/${company.slug}`}
                     style={{
+                      color: "#2d2825",
                       display: "block",
-                      fontSize: "14px",
-                      color: "#d1fae5",
-                      lineHeight: "2",
-                      textDecoration: "none",
-                    }}
-                  >
-                    <span style={{ marginRight: "8px", color: "#ffffff" }}>
-                      •
-                    </span>
-                    <strong
-                      style={{
-                        fontWeight: 600,
-                        textDecoration: "underline",
-                        color: "#ffffff",
-                      }}
-                    >
-                      {newCompany.name}
-                    </strong>
-                  </Link>
-                ))}
-
-                {remainingCount > 0 && (
-                  <Text
-                    style={{
-                      fontSize: "13px",
-                      color: "#d1fae5",
-                      lineHeight: "1.6",
-                      margin: "8px 0 0 0",
-                    }}
-                  >
-                    <Link href={APP_URL} style={{ color: "#ffffff" }}>
-                      (and {remainingCount} more...)
-                    </Link>
-                  </Text>
-                )}
-
-                <Section className="text-center py-1">
-                  <Button
-                    href={APP_URL}
-                    style={{
-                      backgroundColor: "#ffffff",
-                      color: "#059669",
-                      textDecoration: "none",
                       fontSize: "15px",
                       fontWeight: 600,
-                      padding: "12px 28px",
-                      borderRadius: "10px",
-                      display: "inline-block",
+                      lineHeight: "22px",
+                      padding: "10px 0",
+                      textDecoration: "none",
                     }}
                   >
-                    Explore all companies
-                  </Button>
+                    <span
+                      style={{
+                        color: "#d85f4a",
+                        display: "inline-block",
+                        fontSize: "11px",
+                        letterSpacing: "0.6px",
+                        width: "30px",
+                      }}
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    {company.name}
+                    <span style={{ color: "#d85f4a", float: "right" }}>↗</span>
+                  </Link>
+                  {index < visibleCompanies.length - 1 && (
+                    <Hr
+                      style={{
+                        borderColor: "#ead8ce",
+                        borderTop: 0,
+                        margin: 0,
+                      }}
+                    />
+                  )}
                 </Section>
-              </Section>
-            )}
+              ))}
 
-            <Footer>
-              <span style={{ fontSize: "10px" }}>
-                Manage your notifications at{" "}
-                <Link
-                  href={`${APP_URL}/settings?tab=${SettingsTab.NOTIFICATIONS}`}
-                  style={{ color: "#059669", textDecoration: "underline" }}
+              {remainingCount > 0 && (
+                <Text
+                  style={{
+                    color: "#766b64",
+                    fontSize: "13px",
+                    lineHeight: "20px",
+                    margin: "14px 0 0",
+                    textAlign: "center",
+                  }}
                 >
-                  settings
-                </Link>
-                .
-              </span>
-            </Footer>
-          </Container>
-        </Body>
-      </Tailwind>
+                  Plus {remainingCount} more waiting in the directory.
+                </Text>
+              )}
+            </Section>
+
+            <Section style={{ padding: "26px 28px 30px", textAlign: "center" }}>
+              <Button
+                href={APP_URL}
+                style={{
+                  backgroundColor: "#d85f4a",
+                  borderRadius: "10px",
+                  color: "#ffffff",
+                  display: "inline-block",
+                  fontSize: "14px",
+                  fontWeight: 700,
+                  padding: "13px 24px",
+                  textDecoration: "none",
+                }}
+              >
+                Explore the directory
+              </Button>
+              <Text
+                style={{
+                  color: "#9a8e86",
+                  fontSize: "11px",
+                  lineHeight: "17px",
+                  margin: "16px 0 0",
+                }}
+              >
+                Curated from the Portuguese tech community.
+              </Text>
+            </Section>
+          </Section>
+
+          <Footer>
+            <span style={{ fontSize: "10px" }}>
+              Manage your weekly digest in your{" "}
+              <Link
+                href={`${APP_URL}/settings?tab=${SettingsTab.NOTIFICATIONS}`}
+                style={{ color: "#3f8051", textDecoration: "underline" }}
+              >
+                notification settings
+              </Link>
+              .
+            </span>
+          </Footer>
+        </Container>
+      </Body>
     </Html>
   );
 }
 
 WeeklyNewCompaniesEmail.PreviewProps = {
-  newCompanies: [
-    {
-      slug: "google",
-      name: "Google",
-    },
-    {
-      slug: "twitter",
-      name: "Twitter",
-    },
-    {
-      slug: "epilot",
-      name: "Epilot",
-    },
-  ],
+  newCompanies: PREVIEW_COMPANIES,
 } as WeeklyNewCompaniesEmailProps;

@@ -13,26 +13,32 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: "/",
     display: "standalone",
     orientation: "portrait-primary", // evaluate change to "any"?
-    background_color: "#ffffff",
-    theme_color: "#ffffff",
+    background_color: "#fcfaf6",
+    theme_color: "#fcfaf6",
     categories: ["business", "technology"],
     icons: [
       {
-        src: "/assets/images/logo.png",
+        src: "/assets/images/logo-192.png",
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/assets/images/logo.png",
-        sizes: "384x384",
+        src: "/assets/images/logo-512.png",
+        sizes: "512x512",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/assets/images/logo.png",
+        src: "/assets/images/logo-maskable-512.png",
         sizes: "512x512",
         type: "image/png",
+        purpose: "maskable",
+      },
+      {
+        src: "/assets/images/logo.svg",
+        sizes: "any",
+        type: "image/svg+xml",
         purpose: "any",
       },
     ],

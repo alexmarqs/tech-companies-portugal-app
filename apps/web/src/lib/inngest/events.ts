@@ -1,7 +1,7 @@
 // ref: https://www.inngest.com/docs/typescript
 
 export type WeeklyNewCompaniesSendEmailWorkerData = {
-  emails: string[];
+  email: string;
   newCompanies: {
     slug: string;
     name: string;

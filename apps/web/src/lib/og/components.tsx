@@ -5,10 +5,10 @@ import { join } from "node:path";
 export async function getLogoSrc() {
   try {
     const logoData = await readFile(
-      join(process.cwd(), "public/assets/images/logo.png"),
+      join(process.cwd(), "public/assets/images/logo.svg"),
       "base64",
     );
-    return `data:image/png;base64,${logoData}`;
+    return `data:image/svg+xml;base64,${logoData}`;
   } catch {
     return undefined;
   }
@@ -28,14 +28,12 @@ export function OgLayout({
         width: "100%",
         display: "flex",
         flexDirection: "column",
-        fontFamily: "Inter",
-        backgroundColor: "#fafafa",
+        fontFamily: "Gabarito",
+        backgroundColor: "#fcfaf6",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      <AuroraOrbs />
-
       <div
         style={{
           display: "flex",
@@ -56,65 +54,6 @@ export function OgLayout({
   );
 }
 
-function AuroraOrbs() {
-  return (
-    <>
-      <div
-        style={{
-          position: "absolute",
-          top: "-120px",
-          left: "-80px",
-          width: "500px",
-          height: "500px",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, rgba(5, 150, 105, 0.06) 40%, transparent 65%)",
-          display: "flex",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: "-140px",
-          right: "-100px",
-          width: "480px",
-          height: "480px",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(20, 184, 166, 0.14) 0%, rgba(20, 184, 166, 0.04) 40%, transparent 65%)",
-          display: "flex",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          top: "100px",
-          right: "150px",
-          width: "350px",
-          height: "350px",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(244, 63, 94, 0.08) 0%, transparent 55%)",
-          display: "flex",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: "40px",
-          left: "250px",
-          width: "300px",
-          height: "300px",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, transparent 55%)",
-          display: "flex",
-        }}
-      />
-    </>
-  );
-}
-
 function AccentBar() {
   return (
     <div
@@ -124,8 +63,7 @@ function AccentBar() {
         left: 0,
         right: 0,
         height: "4px",
-        background:
-          "linear-gradient(to right, #10b981 0%, #14b8a6 40%, #f43f5e 70%, #f59e0b 100%)",
+        background: "#ef795d",
         display: "flex",
       }}
     />
@@ -148,12 +86,13 @@ function TopBar({ label, logoSrc }: { label?: string; logoSrc?: string }) {
           style={{
             display: "flex",
             fontSize: 20,
-            fontFamily: "Inter Bold",
+            fontFamily: "Gabarito Bold",
             color: "#171717",
             letterSpacing: "-0.025em",
           }}
         >
-          TechCompaniesPortugal
+          Tech Companies&nbsp;
+          <span style={{ color: "#df6f55" }}>Portugal</span>
         </div>
       </div>
       {label && (
@@ -163,11 +102,11 @@ function TopBar({ label, logoSrc }: { label?: string; logoSrc?: string }) {
             alignItems: "center",
             padding: "6px 18px",
             borderRadius: "999px",
-            backgroundColor: "rgba(16, 185, 129, 0.08)",
-            border: "1px solid rgba(16, 185, 129, 0.18)",
+            backgroundColor: "#f9e8df",
+            border: "1px solid #f1d1c2",
             fontSize: 15,
-            color: "#059669",
-            fontFamily: "Inter Medium",
+            color: "#c95f47",
+            fontFamily: "Gabarito Medium",
             letterSpacing: "-0.01em",
           }}
         >
@@ -202,7 +141,7 @@ export function HomepageContent({ description }: { description: string }) {
           <div
             style={{
               fontSize: 62,
-              fontFamily: "Inter Bold",
+              fontFamily: "Gabarito Bold",
               letterSpacing: "-0.04em",
               lineHeight: 1.1,
               color: "#171717",
@@ -210,15 +149,12 @@ export function HomepageContent({ description }: { description: string }) {
               flexWrap: "wrap",
             }}
           >
-            Find your next{" "}
-            <span style={{ color: "#059669", marginLeft: 18 }}>
-              tech company
-            </span>
+            Discover Tech Companies
           </div>
           <div
             style={{
               fontSize: 62,
-              fontFamily: "Inter Bold",
+              fontFamily: "Gabarito Bold",
               letterSpacing: "-0.04em",
               lineHeight: 1.1,
               color: "#171717",
@@ -227,25 +163,7 @@ export function HomepageContent({ description }: { description: string }) {
             }}
           >
             in{" "}
-            <span
-              style={{ position: "relative", display: "flex", marginLeft: 16 }}
-            >
-              <span style={{ position: "relative", zIndex: 1 }}>Portugal</span>
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: 4,
-                  left: -4,
-                  right: -4,
-                  height: 16,
-                  background:
-                    "linear-gradient(to right, rgba(110, 231, 183, 0.4), rgba(252, 165, 165, 0.3))",
-                  borderRadius: 3,
-                  transform: "rotate(-0.5deg)",
-                  display: "flex",
-                }}
-              />
-            </span>
+            <span style={{ color: "#df6f55", marginLeft: 16 }}>Portugal</span>
           </div>
         </div>
         <div
@@ -254,7 +172,7 @@ export function HomepageContent({ description }: { description: string }) {
             fontSize: 24,
             color: "#737373",
             lineHeight: 1.6,
-            fontFamily: "Inter",
+            fontFamily: "Gabarito",
             letterSpacing: "-0.01em",
             maxWidth: 680,
             display: "flex",
@@ -322,7 +240,7 @@ export function CompanyContent({
           <div
             style={{
               fontSize: 54,
-              fontFamily: "Inter Bold",
+              fontFamily: "Gabarito Bold",
               letterSpacing: "-0.035em",
               lineHeight: 1.1,
               color: "#171717",
@@ -336,7 +254,7 @@ export function CompanyContent({
             fontSize: 21,
             color: "#737373",
             lineHeight: 1.6,
-            fontFamily: "Inter",
+            fontFamily: "Gabarito",
             letterSpacing: "-0.01em",
             maxWidth: 750,
             textAlign: "center",
@@ -368,7 +286,7 @@ export function PageContent({
         <div
           style={{
             fontSize: 56,
-            fontFamily: "Inter Bold",
+            fontFamily: "Gabarito Bold",
             letterSpacing: "-0.04em",
             lineHeight: 1.1,
             color: "#171717",
@@ -384,7 +302,7 @@ export function PageContent({
             fontSize: 24,
             color: "#737373",
             lineHeight: 1.6,
-            fontFamily: "Inter",
+            fontFamily: "Gabarito",
             letterSpacing: "-0.01em",
             maxWidth: 780,
           }}

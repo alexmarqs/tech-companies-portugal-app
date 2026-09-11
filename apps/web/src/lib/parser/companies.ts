@@ -2,6 +2,7 @@ import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import { hydrateCompaniesWithLogos } from "../logos";
 import { parseCompaniesData } from "../parser";
+import { getShowcaseSeed, pickShowcaseCompanies } from "../showcase";
 
 export const getParsedCompaniesData = cache(
   unstable_cache(
@@ -46,13 +47,9 @@ export const getParsedCompanyBySlug = async (slug: string) => {
 export const getCompaniesOverview = async () => {
   const { companies, availableCategories, availableLocations } =
     await getParsedCompaniesData();
-  const firstCompaniesLogos = companies
-    .slice(0, 5)
-    .map((company) => company.logoUrl)
-    .filter(Boolean);
 
   return {
-    firstCompaniesLogos,
+    showcaseCompanies: pickShowcaseCompanies(companies, getShowcaseSeed()),
     totalCompanies: companies.length,
     totalCategories: availableCategories.length,
     totalLocations: availableLocations.length,

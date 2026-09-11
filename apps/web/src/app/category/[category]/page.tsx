@@ -1,12 +1,12 @@
 import CompaniesList from "@/components/CompaniesList";
 import { CompaniesListSkeleton } from "@/components/CompaniesListSkeleton";
+import { JsonLdScript } from "@/components/JsonLdScript";
 import { NotificationsSideSection } from "@/components/NotificationsSideSection";
 import { PageBreadcrumb } from "@/components/PageBreadcrumb";
 import {
   generateBreadcrumbJsonLd,
   generateItemListJsonLd,
   generateJsonLdGraph,
-  safeJsonLdStringify,
 } from "@/lib/json-ld";
 import {
   APP_URL,
@@ -95,16 +95,11 @@ export default async function CategoryPage({
   ]);
 
   return (
-    <section className="mx-auto flex w-full max-w-7xl px-4 py-3 relative flex-1">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: safeJsonLdStringify(
-            generateJsonLdGraph(itemListJsonLd, breadcrumbJsonLd),
-          ),
-        }}
+    <section className="relative mx-auto flex w-full max-w-6xl flex-1 px-4 py-3">
+      <JsonLdScript
+        graph={generateJsonLdGraph(itemListJsonLd, breadcrumbJsonLd)}
       />
-      <div className="flex flex-col w-full">
+      <div className="flex w-full flex-col">
         <PageBreadcrumb
           items={[
             { label: "Home", href: "/" },
@@ -112,20 +107,20 @@ export default async function CategoryPage({
             { label: category },
           ]}
         />
-        <div className="relative overflow-hidden rounded-xl bg-linear-to-br from-emerald-50/80 via-background to-amber-50/40 border border-border/40 px-6 py-8 sm:px-8 sm:py-10 mb-6">
-          <div className="absolute -top-16 -right-16 w-[250px] h-[250px] bg-emerald-300/15 rounded-full blur-[80px]" />
-          <div className="absolute -bottom-20 -left-10 w-[200px] h-[200px] bg-red-300/10 rounded-full blur-[80px]" />
+        <div className="relative mb-6 overflow-hidden rounded-3xl border border-primary/15 bg-accent/60 px-6 py-8 sm:px-8 sm:py-10">
+          <div className="absolute -right-16 -top-16 size-[250px] rounded-full bg-primary/10 blur-[80px]" />
+          <div className="absolute -bottom-20 -left-10 size-[200px] rounded-full bg-orange/10 blur-[80px]" />
 
-          <div className="relative z-10 flex flex-col gap-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 border border-border/60 backdrop-blur-sm w-fit">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          <div className="relative flex flex-col gap-3">
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/15 bg-card/70 px-3 py-1 backdrop-blur-sm">
+              <span className="size-1.5 rounded-full bg-primary" />
               <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-widest">
                 {filteredCompanies.length}{" "}
                 {filteredCompanies.length === 1 ? "Company" : "Companies"}
               </span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-[1.1]">
+            <h1 className="text-3xl font-bold leading-[1.1] tracking-[-0.035em] sm:text-4xl">
               {category}
             </h1>
 
@@ -137,7 +132,7 @@ export default async function CategoryPage({
           </div>
         </div>
 
-        <div className="flex flex-col w-full gap-4">
+        <div className="flex w-full flex-col gap-4">
           <Suspense fallback={<CompaniesListSkeleton />}>
             <CompaniesList allCompanies={filteredCompanies} isDedicatedPage />
           </Suspense>

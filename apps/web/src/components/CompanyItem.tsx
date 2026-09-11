@@ -27,10 +27,10 @@ export default function CompanyItem({
   return (
     <Link
       className={cn(
-        "group relative flex flex-col rounded-xl border p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        "group relative flex flex-col rounded-2xl border p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-28px_oklch(0.3_0.04_40/0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-5",
         isFeatured
-          ? "border-emerald-500/50 bg-linear-to-b from-emerald-50/70 to-card shadow-sm shadow-emerald-500/10 hover:border-emerald-500 hover:shadow-emerald-500/20"
-          : "border-border/60 bg-card hover:border-primary/30",
+          ? "border-primary/20 bg-accent/65 hover:border-primary/35"
+          : "border-border/70 bg-card hover:border-primary/25",
         className,
       )}
       data-testid="company-item"
@@ -39,55 +39,47 @@ export default function CompanyItem({
     >
       {isFeatured && (
         <div className="absolute -top-2.5 left-4">
-          <span className="inline-flex items-center gap-1 rounded-md bg-emerald-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm shadow-emerald-500/30">
+          <span className="inline-flex items-center gap-1 rounded-full bg-primary px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground shadow-sm">
             Featured
           </span>
         </div>
       )}
 
-      <div className="flex flex-col gap-3 flex-1">
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-linear-to-br from-primary/10 to-primary/5 text-primary font-bold text-sm shrink-0">
-              {logoUrl ? (
-                <img
-                  className="h-full w-full rounded-lg bg-white object-contain p-0.5"
-                  src={logoUrl}
-                  alt={name}
-                  width={36}
-                  height={36}
-                />
-              ) : (
-                name.charAt(0)
-              )}
-            </div>
-            <div className="flex flex-col">
-              <h3 className="line-clamp-1 text-base font-semibold group-hover:text-primary transition-colors">
+      <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+        <div className="flex min-w-0 flex-1 items-start gap-3 sm:items-center">
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-background text-sm font-bold text-primary sm:size-14">
+            {logoUrl ? (
+              <img
+                className="size-full rounded-xl bg-card object-contain p-1"
+                src={logoUrl}
+                alt={name}
+                width={56}
+                height={56}
+              />
+            ) : (
+              name.charAt(0)
+            )}
+          </div>
+          <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+            <div className="flex flex-wrap items-center gap-2">
+              <h3 className="truncate text-base font-semibold tracking-tight transition-colors group-hover:text-primary sm:text-lg">
                 {name}
               </h3>
+              <Categories categories={categories || []} />
             </div>
+            <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+              {description}
+            </p>
+            <Locations locations={locations || []} />
           </div>
         </div>
 
-        <Categories categories={categories || []} />
-
-        <p className="line-clamp-3 text-sm text-muted-foreground leading-relaxed flex-1">
-          {description}
-        </p>
-
-        <div className="flex items-center justify-between pt-2 border-t border-border/40">
-          <Locations locations={locations || []} />
-
-          {!hideViewProfile && (
-            <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-primary transition-all">
-              View Profile
-              <ArrowRight
-                size={12}
-                className="transition-transform group-hover:translate-x-0.5"
-              />
-            </span>
-          )}
-        </div>
+        {!hideViewProfile && (
+          <span className="ml-15 inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-primary transition-all sm:ml-0 sm:self-center">
+            View company
+            <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+          </span>
+        )}
       </div>
     </Link>
   );
@@ -95,8 +87,8 @@ export default function CompanyItem({
 
 export const Locations = ({ locations }: { locations: string[] }) => {
   return (
-    <div className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground leading-none">
-      <MapPin className="shrink-0 text-primary/60" size={13} />
+    <div className="flex flex-wrap items-center gap-1 text-xs leading-none text-muted-foreground">
+      <MapPin className="size-3 shrink-0 text-primary" />
       {locations.map((location, index) => {
         return (
           <React.Fragment key={location}>
@@ -124,7 +116,7 @@ export const Categories = ({
         <Badge
           key={category}
           variant="secondary"
-          className="text-[10px] font-semibold tracking-wider rounded-md"
+          className="rounded-md px-2 py-0.5 text-[10px] font-semibold tracking-wide"
         >
           {category}
         </Badge>

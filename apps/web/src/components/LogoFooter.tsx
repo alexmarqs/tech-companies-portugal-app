@@ -1,5 +1,4 @@
 import Image from "next/image";
-import logo from "../../public/assets/images/logo.png";
 
 type LogoFooterProps = {
   onlyLogo?: boolean;
@@ -7,21 +6,18 @@ type LogoFooterProps = {
 
 export const LogoFooter = ({ onlyLogo = false }: LogoFooterProps) => {
   return (
-    <div className="flex items-center gap-3 flex-wrap justify-center">
+    <div className="flex flex-wrap items-center justify-center gap-3">
       <div className="inline-flex items-center gap-2">
         <Image
-          src={logo}
+          src="/assets/images/logo.svg"
           alt="Tech Companies Portugal Logo"
           width={28}
           height={28}
           className="shrink-0 rounded-lg"
         />
         {!onlyLogo && (
-          <span className="inline-block logo-stroke">
-            <span className="text-xs font-bold tracking-tight">
-              TechCompanies
-            </span>
-            <span className="text-xs font-bold tracking-tight">Portugal</span>
+          <span className="text-xs font-bold tracking-[-0.03em]">
+            Tech Companies <span className="text-primary">Portugal</span>
           </span>
         )}
       </div>

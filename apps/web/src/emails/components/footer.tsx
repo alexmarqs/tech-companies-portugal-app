@@ -9,17 +9,14 @@ export function Footer({ children }: FooterProps) {
   return (
     <Section
       style={{
-        backgroundColor: "#f9fafb",
-        border: "1px solid #e5e7eb",
-        borderRadius: "12px",
-        padding: "20px 16px",
+        padding: "24px 20px 8px",
       }}
     >
       <Text
         style={{
           fontSize: "14px",
           fontWeight: 600,
-          color: "#111827",
+          color: "#2d2825",
           textAlign: "center",
           margin: "0 0 4px 0",
           lineHeight: "1.5",
@@ -31,18 +28,18 @@ export function Footer({ children }: FooterProps) {
       <Text
         style={{
           fontSize: "12px",
-          color: "#6b7280",
+          color: "#766b64",
           textAlign: "center",
           margin: "0 0 4px 0",
           lineHeight: "1.6",
         }}
       >
-        Discover tech companies hiring in Portugal — from startups to global
-        tech companies.
+        A curated map of startups, scaleups, and global tech teams across
+        Portugal.
       </Text>
 
       <Row
-        style={{ textAlign: "center", margin: "0", padding: "8px 0" }}
+        style={{ textAlign: "center", margin: "0", padding: "10px 0 6px" }}
         align="center"
         width="100%"
       >
@@ -61,10 +58,10 @@ export function Footer({ children }: FooterProps) {
               width={20}
               height={20}
               style={{
-                border: "1px solid #e5e7eb",
-                borderRadius: "6px",
+                border: "1px solid #e6dbd1",
+                borderRadius: "8px",
                 padding: "4px",
-                backgroundColor: "#ffffff",
+                backgroundColor: "#fffdf9",
                 display: "inline-block",
               }}
             />
@@ -80,10 +77,10 @@ export function Footer({ children }: FooterProps) {
               width={20}
               height={20}
               style={{
-                border: "1px solid #e5e7eb",
-                borderRadius: "6px",
+                border: "1px solid #e6dbd1",
+                borderRadius: "8px",
                 padding: "4px",
-                backgroundColor: "#ffffff",
+                backgroundColor: "#fffdf9",
                 display: "inline-block",
               }}
             />
@@ -94,7 +91,7 @@ export function Footer({ children }: FooterProps) {
       <Text
         style={{
           fontSize: "11px",
-          color: "#9ca3af",
+          color: "#9a8e86",
           textAlign: "center",
           margin: "8px 0 0 0",
           lineHeight: "1.6",
@@ -110,7 +107,7 @@ export function Footer({ children }: FooterProps) {
             You received this email because you signed up at{" "}
             <Link
               href={APP_URL}
-              style={{ color: "#059669", textDecoration: "underline" }}
+              style={{ color: "#3f8051", textDecoration: "underline" }}
             >
               techcompaniesportugal.fyi
             </Link>

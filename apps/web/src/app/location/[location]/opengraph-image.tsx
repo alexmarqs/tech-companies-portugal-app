@@ -24,7 +24,7 @@ export default async function Image({
   const location = decodeURIComponent(locationParam);
 
   const title = `Companies in ${location}`;
-  const description = `Discover tech companies based in ${location} - Portugal. Find job opportunities and connect with tech companies in ${location} - Portugal.`;
+  const description = `Explore startups, scaleups, and global tech teams with a presence in ${location}, Portugal.`;
 
   const allText = [
     title,

@@ -1,8 +1,9 @@
 "use client";
 
+import { useKeepResultsInView } from "@/hooks/useKeepResultsInView";
 import { LABELS_FILTER } from "@/lib/search-params";
 import type { Company } from "@/lib/types";
-import { matchCompanies } from "@/lib/utils";
+import { cn, matchCompanies } from "@/lib/utils";
 import { ArrowLeft, X } from "lucide-react";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -10,10 +11,8 @@ import { useSearchQueryParams } from "../hooks/useSearchQueryParams";
 import CompaniesListPagination from "./CompaniesListPagination";
 import CompanyItem from "./CompanyItem";
 import { EmptyState } from "./EmptyState";
-import { NotificationsSideSection } from "./NotificationsSideSection";
 
 const PAGE_SIZE = 12;
-const DIGEST_CELL = "weekly-digest" as const;
 
 type CompaniesListProps = {
   allCompanies: Company[];
@@ -24,7 +23,6 @@ export default function CompaniesList({
   allCompanies,
   isDedicatedPage = false,
 }: CompaniesListProps) {
-  //const [view, setView] = useState<"grid" | "list">("grid");
   const {
     searchParams: { query, category, location, page },
     appliedFilters,
@@ -41,40 +39,28 @@ export default function CompaniesList({
     [allCompanies, query, category, location, isDedicatedPage],
   );
 
+  const { listRef } = useKeepResultsInView(filteredCompanies.length);
+
   const start = (page - 1) * PAGE_SIZE;
   const paginatedCompanies = filteredCompanies.slice(start, start + PAGE_SIZE);
   const totalPages = Math.ceil(filteredCompanies.length / PAGE_SIZE);
 
-  // The weekly-digest promo is a full-width band woven between grid rows on the
-  // first page. It spans every column, so it never steals a company slot or
-  // leaves an orphaned card — page size stays a clean 12 companies per page.
-  const showDigest =
-    !isDedicatedPage && page === 1 && paginatedCompanies.length > 0;
-  const gridItems = paginatedCompanies.map((company) => (
-    <CompanyItem key={company.slug} company={company} />
-  ));
-  if (showDigest) {
-    // show the digest section after 6 companies on the first page
-    gridItems.splice(
-      Math.min(6, gridItems.length),
-      0,
-      <NotificationsSideSection
-        key={DIGEST_CELL}
-        className="md:col-span-2 lg:col-span-3"
-      />,
-    );
-  }
-
   return (
     <>
-      <div className="flex-1">
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+      <div
+        ref={listRef}
+        className={cn(
+          "flex-1 scroll-mt-[21rem] md:scroll-mt-24",
+          !isDedicatedPage && "min-h-[60svh]",
+        )}
+      >
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 px-1">
           {isDedicatedPage && (
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
             >
-              <ArrowLeft className="w-3.5 h-3.5" />
+              <ArrowLeft className="size-3.5" />
               View all companies
             </Link>
           )}
@@ -89,10 +75,13 @@ export default function CompaniesList({
                       key={key}
                       type="button"
                       onClick={() => {
-                        setSearchParams({ [key]: null, page: 1 });
+                        setSearchParams(
+                          { [key]: null, page: 1 },
+                          { scroll: true },
+                        );
                       }}
                       aria-label={`Remove ${LABELS_FILTER[key] || key} filter`}
-                      className="group inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-2.5 py-1 text-xs font-medium shadow-sm transition-colors hover:border-foreground/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                      className="group inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-accent px-2.5 py-1 text-xs font-medium text-accent-foreground transition-colors hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
                     >
                       <span className="text-muted-foreground">
                         {LABELS_FILTER[key] || key}:
@@ -100,8 +89,8 @@ export default function CompaniesList({
                       <span className="max-w-[180px] truncate text-foreground">
                         {value}
                       </span>
-                      <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors group-hover:bg-foreground/10 group-hover:text-foreground">
-                        <X className="h-3 w-3" />
+                      <span className="flex size-4 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors group-hover:bg-foreground/10 group-hover:text-foreground">
+                        <X className="size-3" />
                       </span>
                     </button>
                   ))}
@@ -109,25 +98,27 @@ export default function CompaniesList({
             )}
           </div>
           {filteredCompanies.length > 0 && (
-            <span className="shrink-0 text-xs text-muted-foreground tabular-nums mr-2">
+            <span
+              className="mr-2 shrink-0 text-xs font-medium tabular-nums text-muted-foreground"
+              data-testid="results-count"
+            >
               Showing {start + 1}–{start + paginatedCompanies.length} of{" "}
               {filteredCompanies.length}
             </span>
           )}
         </div>
         {!paginatedCompanies.length ? (
-          <div className="flex-1 flex flex-col items-center text-muted-foreground justify-center gap-4 min-h-[300px] border border-border/60 rounded-xl p-6 bg-muted/20">
+          <div className="flex min-h-[300px] flex-1 flex-col items-center justify-center gap-4 rounded-3xl border border-border/70 bg-card p-6 text-muted-foreground">
             <EmptyState title="No companies match your filters. Try another search." />
           </div>
         ) : (
           <>
-            <div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-              data-testid="companies-list"
-            >
-              {gridItems}
+            <div className="flex flex-col gap-3" data-testid="companies-list">
+              {paginatedCompanies.map((company) => (
+                <CompanyItem key={company.slug} company={company} />
+              ))}
             </div>
-            <div className="mt-5">
+            <div className="mt-7">
               <CompaniesListPagination totalPages={totalPages} />
             </div>
           </>

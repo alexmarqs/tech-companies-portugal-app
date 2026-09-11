@@ -1,16 +1,16 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Search, X } from "lucide-react";
+import { MapPin, Search, Shapes, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useSearchQueryParams } from "../hooks/useSearchQueryParams";
 import { Button } from "./ui/button";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "./ui/select";
 
 type FilterBarProps = {
@@ -20,10 +20,10 @@ type FilterBarProps = {
 
 const triggerClass = (active: boolean) =>
   cn(
-    "h-11 min-w-0 rounded-xl border shadow-sm shadow-black/2 outline-none ring-0 ring-offset-0 focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 md:w-[180px] md:shadow-none",
+    "h-12 min-w-0 cursor-pointer rounded-xl border bg-background px-4 shadow-none outline-none ring-0 ring-offset-0 focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 md:rounded-none md:border-y-0 md:border-r-0 md:bg-transparent",
     active
-      ? "border-emerald-500/40 bg-emerald-500/10 font-medium text-emerald-700 data-[state=open]:border-emerald-500 md:border-transparent md:hover:bg-emerald-500/15 md:data-[state=open]:bg-emerald-500/15"
-      : "border-border/60 bg-card data-[state=open]:border-primary/40 data-[state=open]:bg-muted/40 md:border-0 md:bg-transparent md:hover:bg-muted/50 md:focus:bg-muted/50 md:data-[state=open]:bg-muted/60",
+      ? "border-primary/35 bg-accent font-medium text-accent-foreground data-[state=open]:border-primary/50"
+      : "border-border/80 data-[state=open]:border-primary/40 hover:bg-muted/50 md:border-l",
   );
 
 export function FilterBar({
@@ -57,65 +57,58 @@ export function FilterBar({
   }, []);
 
   return (
-    <div className="sticky top-[56px] z-30 mb-5 -mx-4 border-b border-border/40 bg-background/90 px-4 py-3 backdrop-blur-md md:static md:z-auto md:mx-auto md:max-w-4xl md:border-0 md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-none">
-      <form
-        aria-label="Search and filter companies"
-        onSubmit={(e) => e.preventDefault()}
-        className="flex flex-col gap-2 md:flex-row md:items-center md:gap-1 md:rounded-2xl md:border md:border-border/50 md:bg-card/95 md:p-1.5 md:shadow-sm md:shadow-black/5 md:backdrop-blur-sm"
-      >
+    <div className="sticky top-[65px] z-30 -mx-4 mb-7 bg-background/95 px-4 py-3 backdrop-blur-xl md:static md:z-auto md:mx-0 md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-none">
+      <div className="grid gap-2 rounded-2xl border border-border/80 bg-card p-2 shadow-[0_16px_40px_-30px_oklch(0.3_0.04_40/0.4)] md:grid-cols-[minmax(0,1fr)_200px_200px_auto] md:gap-0">
         {/* Keyword search */}
         <div className="relative flex flex-1 items-center">
           <Search
-            className="pointer-events-none absolute left-3.5 z-10 text-muted-foreground/70"
-            size={18}
+            className="pointer-events-none absolute left-4 z-10 size-4.5 text-primary"
             aria-hidden="true"
           />
           <input
             ref={inputRef}
+            type="text"
             id="query"
             name="query"
-            value={searchParams.query || ""}
+            value={searchParams.query}
             onChange={(e) =>
-              setSearchParams(
-                { query: e.target.value, page: 1 },
-                { throttleMs: 250 },
-              )
+              setSearchParams({ query: e.target.value || null, page: 1 })
             }
-            placeholder="Search companies..."
+            placeholder="Search by company, product or keyword..."
             aria-label="Search by name or description"
-            className="h-11 w-full text-ellipsis text-base rounded-xl border border-border/60 bg-card pl-11 pr-10 text-foreground shadow-sm shadow-black/2 placeholder:text-muted-foreground/70 focus:border-primary/40 focus:outline-none md:border-0 md:bg-transparent md:pr-14 md:shadow-none md:focus:border-0"
+            className="h-12 w-full truncate border-0 bg-transparent pl-11 pr-10 text-base text-foreground outline-none placeholder:text-muted-foreground/70 focus-visible:ring-0 md:pr-14"
           />
           {searchParams.query ? (
             <button
               type="button"
               onClick={() => {
-                setSearchParams({ query: "", page: 1 });
+                setSearchParams({ query: null, page: 1 });
                 inputRef.current?.focus();
               }}
               aria-label="Clear search"
-              className="absolute right-2.5 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-muted-foreground/70 transition-colors hover:bg-muted hover:text-foreground"
+              className="absolute right-2.5 top-1/2 flex size-7 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
             >
-              <X size={14} />
+              <X className="size-3.5" />
             </button>
           ) : (
-            <kbd className="pointer-events-none absolute right-3 top-1/2 hidden h-5 w-5 -translate-y-1/2 select-none items-center justify-center rounded-md border border-border/50 bg-muted/40 text-[12px] font-medium text-muted-foreground/60 md:flex">
+            <kbd className="pointer-events-none absolute right-3 top-1/2 hidden size-6 -translate-y-1/2 select-none items-center justify-center rounded-md border border-border/70 bg-muted text-[11px] font-semibold text-muted-foreground md:flex">
               /
             </kbd>
           )}
         </div>
 
-        {/* Divider (desktop) */}
-        <span
-          className="hidden h-7 w-px shrink-0 bg-border/60 md:block"
-          aria-hidden="true"
-        />
-
         {/* Facets */}
-        <div className="grid grid-cols-2 gap-2 md:flex md:items-center md:gap-1">
+        <div className="contents">
           <Select
             value={searchParams.category || "all"}
             onValueChange={(value) =>
-              setSearchParams({ category: value, page: 1 })
+              setSearchParams(
+                {
+                  category: value === "all" ? null : value,
+                  page: 1,
+                },
+                { scroll: true },
+              )
             }
           >
             <SelectTrigger
@@ -125,27 +118,33 @@ export function FilterBar({
                 !!searchParams.category && searchParams.category !== "all",
               )}
             >
-              <SelectValue placeholder="All Categories" />
+              <Shapes className="shrink-0 text-primary" aria-hidden="true" />
+              <span className="min-w-0 flex-1 truncate text-left">
+                {searchParams.category || "All categories"}
+              </span>
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
-              {categoryOptions.map((category) => (
-                <SelectItem key={category} value={category}>
-                  {category}
-                </SelectItem>
-              ))}
+            <SelectContent align="start" sideOffset={6}>
+              <SelectGroup>
+                <SelectItem value="all">All categories</SelectItem>
+                {categoryOptions.map((category) => (
+                  <SelectItem key={category} value={category}>
+                    {category}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
             </SelectContent>
           </Select>
-
-          <span
-            className="hidden h-7 w-px shrink-0 bg-border/60 md:block"
-            aria-hidden="true"
-          />
 
           <Select
             value={searchParams.location || "all"}
             onValueChange={(value) =>
-              setSearchParams({ location: value, page: 1 })
+              setSearchParams(
+                {
+                  location: value === "all" ? null : value,
+                  page: 1,
+                },
+                { scroll: true },
+              )
             }
           >
             <SelectTrigger
@@ -155,15 +154,20 @@ export function FilterBar({
                 !!searchParams.location && searchParams.location !== "all",
               )}
             >
-              <SelectValue placeholder="All Locations" />
+              <MapPin className="shrink-0 text-primary" aria-hidden="true" />
+              <span className="min-w-0 flex-1 truncate text-left">
+                {searchParams.location || "All locations"}
+              </span>
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Locations</SelectItem>
-              {locationOptions.map((location) => (
-                <SelectItem key={location} value={location}>
-                  {location}
-                </SelectItem>
-              ))}
+            <SelectContent align="start" sideOffset={6}>
+              <SelectGroup>
+                <SelectItem value="all">All locations</SelectItem>
+                {locationOptions.map((location) => (
+                  <SelectItem key={location} value={location}>
+                    {location}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
             </SelectContent>
           </Select>
         </div>
@@ -173,15 +177,15 @@ export function FilterBar({
           <Button
             type="button"
             variant="ghost"
-            className="h-8 w-auto shrink-0 gap-0 self-end rounded-lg px-2 text-sm font-medium text-emerald-700 hover:bg-emerald-500/10 hover:text-emerald-700 md:h-11 md:self-auto md:px-3"
-            onClick={() => setSearchParams(null)}
+            className="h-10 w-auto shrink-0 self-end rounded-xl px-3 text-sm font-medium text-primary hover:bg-accent hover:text-accent-foreground md:h-12 md:self-auto"
+            onClick={() => setSearchParams(null, { scroll: true })}
             aria-label="Clear all filters"
           >
-            <X className="mr-1 h-3.5 w-3.5" aria-hidden="true" />
+            <X data-icon="inline-start" aria-hidden="true" />
             Clear all
           </Button>
         )}
-      </form>
+      </div>
     </div>
   );
 }

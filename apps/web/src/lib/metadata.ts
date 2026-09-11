@@ -1,8 +1,8 @@
 import type { Metadata } from "next/types";
 
-export const TITLE = "Tech Companies in Portugal | 300+ Company Directory";
+export const TITLE = "Tech Companies in Portugal | Curated Directory";
 export const DESCRIPTION =
-  "Discover tech companies hiring in Portugal — from startups to global tech companies — all in one place. Filter by location and industry.";
+  "Explore a curated directory of tech companies in Portugal. Compare startups, scaleups, and global employers by location and industry.";
 
 export const APP_URL = process.env.VERCEL_URL
   ? "https://techcompaniesportugal.fyi"
@@ -34,6 +34,14 @@ export const defaultMetadata: Metadata = {
   category: "Technology",
   creator: "Tech Companies Portugal",
   publisher: "Tech Companies Portugal",
+  icons: {
+    icon: [
+      { url: "/icon.png", sizes: "192x192", type: "image/png" },
+      { url: "/assets/images/logo.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export const defaultTwitterMetadata: Metadata["twitter"] = {

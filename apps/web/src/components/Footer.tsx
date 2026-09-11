@@ -1,8 +1,8 @@
 import { getParsedCompaniesData } from "@/lib/parser/companies";
+import { PUBLIC_CONTACT_EMAIL } from "@/lib/utils";
 import { MapPin, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../../public/assets/images/logo.png";
 import { Credits } from "./Credits";
 import { SocialIcons } from "./SocialIcons";
 
@@ -11,32 +11,27 @@ export default async function Footer() {
     await getParsedCompaniesData();
 
   return (
-    <footer className="bg-card border-t border-border/60">
-      <div className="container mx-auto px-4">
+    <footer className="border-t border-border/70 bg-card/65">
+      <div className="container mx-auto max-w-6xl px-4">
         {/* Main footer content */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 py-6">
+        <div className="grid grid-cols-1 gap-10 py-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}
           <div className="md:col-span-1 flex flex-col gap-4">
             <Link href="/" className="flex items-center gap-2">
               <Image
-                src={logo}
+                src="/assets/images/logo.svg"
                 alt="Tech Companies Portugal Logo"
                 width={28}
                 height={28}
                 className="rounded-lg"
               />
-              <span className="inline-block logo-stroke">
-                <span className="text-sm font-bold tracking-tight">
-                  TechCompanies
-                </span>
-                <span className="text-sm font-bold tracking-tight">
-                  Portugal
-                </span>
+              <span className="text-sm font-bold tracking-[-0.03em]">
+                Tech Companies <span className="text-primary">Portugal</span>
               </span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Discover tech companies hiring in Portugal — from startups to
-              global tech companies.
+              A curated directory of startups, scaleups, and global tech
+              employers across Portugal.
             </p>
           </div>
 
@@ -58,6 +53,12 @@ export default async function Footer() {
               >
                 LLMs.txt
               </Link>
+              <a
+                href={`mailto:${PUBLIC_CONTACT_EMAIL}`}
+                className="text-sm text-foreground/80 transition-colors hover:text-primary"
+              >
+                List your company
+              </a>
             </nav>
           </div>
 
@@ -117,10 +118,10 @@ export default async function Footer() {
         </div>
 
         {/* Directory links */}
-        <div className="border-t border-border/60 py-6 grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 border-t border-border/60 py-8 sm:grid-cols-2">
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
-              <MapPin size={14} className="text-primary" />
+              <MapPin className="size-3.5 text-primary" />
               <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                 Companies by Location
               </h3>
@@ -131,7 +132,7 @@ export default async function Footer() {
                   key={location}
                   href={`/location/${encodeURIComponent(location)}`}
                   className={
-                    "text-xs px-3 py-1.5 rounded-full bg-muted/60 text-foreground/70 hover:bg-primary/10 hover:text-primary transition-colors"
+                    "rounded-full border border-border/60 bg-background px-3 py-1.5 text-xs text-foreground/70 transition-colors hover:border-primary/20 hover:bg-accent hover:text-primary"
                   }
                 >
                   {location}
@@ -142,7 +143,7 @@ export default async function Footer() {
 
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
-              <Tag size={14} className="text-primary" />
+              <Tag className="size-3.5 text-primary" />
               <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                 Companies by Category
               </h3>
@@ -152,7 +153,7 @@ export default async function Footer() {
                 <a
                   key={category}
                   href={`/category/${encodeURIComponent(category)}`}
-                  className="text-xs px-3 py-1.5 rounded-full bg-muted/60 text-foreground/70 hover:bg-primary/10 hover:text-primary transition-colors"
+                  className="rounded-full border border-border/60 bg-background px-3 py-1.5 text-xs text-foreground/70 transition-colors hover:border-primary/20 hover:bg-accent hover:text-primary"
                 >
                   {category}
                 </a>
@@ -162,7 +163,7 @@ export default async function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-border/60 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border/60 py-5">
           <Credits />
           <div className="flex justify-center items-center gap-4">
             <a

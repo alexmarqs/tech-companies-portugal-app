@@ -1,5 +1,6 @@
 import { Categories, Locations } from "@/components/CompanyItem";
 import { CopyUrlButton } from "@/components/CopyUrlButton";
+import { JsonLdScript } from "@/components/JsonLdScript";
 import { LinkUrlButton } from "@/components/LinkUrlButton";
 import { NotificationsSideSection } from "@/components/NotificationsSideSection";
 import { PageBreadcrumb } from "@/components/PageBreadcrumb";
@@ -9,7 +10,6 @@ import {
   generateBreadcrumbJsonLd,
   generateCompanyJsonLd,
   generateJsonLdGraph,
-  safeJsonLdStringify,
 } from "@/lib/json-ld";
 import {
   APP_URL,
@@ -103,13 +103,8 @@ export default async function CompanyPage({
 
   return (
     <div className="container mx-auto flex w-full max-w-7xl flex-1 items-start justify-center px-4 py-8">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: safeJsonLdStringify(
-            generateJsonLdGraph(companyJsonLd, breadcrumbJsonLd),
-          ),
-        }}
+      <JsonLdScript
+        graph={generateJsonLdGraph(companyJsonLd, breadcrumbJsonLd)}
       />
       <div className="flex-col gap-2 flex justify-start w-full">
         <PageBreadcrumb
@@ -182,17 +177,17 @@ export default async function CompanyPage({
           <div className="mt-6 flex flex-col">
             <RelatedCompaniesCarousel
               relatedCompanies={relatedCompanies}
-              title="Related Companies in Portugal"
+              title="Related Companies"
             />
           </div>
         )}
 
         <Link
           href="/"
-          className="group flex py-2 items-center justify-center gap-2 rounded-lg text-sm font-medium text-emerald-600 transition-colors hover:text-emerald-700"
+          className="group flex items-center justify-center gap-2 rounded-lg py-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
         >
           Explore all companies
-          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+          <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
         </Link>
       </div>
     </div>

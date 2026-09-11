@@ -16,7 +16,7 @@ test.describe("Homepage e2e tests", () => {
     await expect(header).toBeVisible();
     await expect(
       page.getByRole("heading", {
-        name: "Find your next tech company in Portugal",
+        name: "Discover tech companies in Portugal.",
         level: 1,
       }),
     ).toBeVisible();
@@ -49,23 +49,20 @@ test.describe("Homepage e2e tests", () => {
       .getByRole("button", { name: /^Go to page \d+$/ })
       .last();
     await expect(lastPageButton).toBeVisible();
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await lastPageButton.click();
     await expect(lastPageButton).toHaveAttribute("aria-current", "page");
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   });
 
   test("Check if footer sections are visible", async ({ page }) => {
-    // check if sponsors section is visible
     await expect(
-      page.getByRole("heading", {
-        name: "Want more visibility for your company?",
-      }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: "Become a Sponsor" }),
+      page.getByRole("link", { name: "List your company" }),
     ).toBeVisible();
 
     // check if footer navigation links are visible
-    await expect(page.getByRole("link", { name: "About" })).toBeVisible();
+    const footer = page.getByRole("contentinfo");
+    await expect(footer.getByRole("link", { name: "About" })).toBeVisible();
     await expect(
       page.getByRole("link", { name: "Privacy Policy" }),
     ).toBeVisible();
@@ -96,16 +93,63 @@ test.describe("Homepage e2e tests", () => {
     const searchBox = page.getByRole("textbox", {
       name: "Search by name or description",
     });
-    await searchBox.fill("Bosch");
+    await searchBox.pressSequentially("Bosch", { delay: 40 });
+
+    await expect(searchBox).toHaveValue("Bosch");
+    await expect(page).toHaveURL(/query=Bosch/);
+    await expect(
+      page.getByRole("heading", { name: "Bosch", level: 3 }),
+    ).toBeVisible();
+    await expect(page.getByTestId("company-item")).toHaveCount(1);
 
     // clear-all button should now appear once a filter is active
     await expect(
       page.getByRole("button", { name: "Clear all filters" }),
     ).toBeVisible();
 
-    // should find Bosch in the results
+    await page.getByRole("button", { name: "Clear search" }).click();
+    await expect(searchBox).toHaveValue("");
+    await expect(page).not.toHaveURL(/query=/);
+    await expect(page.getByTestId("company-item")).toHaveCount(12);
+  });
+
+  test("Category and location filters apply immediately", async ({ page }) => {
+    const resultsCount = page.getByTestId("results-count");
+
+    // Unfiltered total tracks the live dataset — read it, don't hardcode it.
+    const unfilteredTotal = ((await resultsCount.textContent()) ?? "").match(
+      /of\s+\d+/,
+    )?.[0];
+    expect(unfilteredTotal).toBeTruthy();
+
+    const category = page.getByRole("combobox", { name: "Category" });
+    await expect(category).toHaveCSS("gap", "12px");
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await category.click();
+    const categoryOption = page.getByRole("option").nth(1);
+    await expect(categoryOption).toHaveCSS("cursor", "pointer");
+    const categoryName = (await categoryOption.textContent())?.trim();
+    expect(categoryName).toBeTruthy();
+    await categoryOption.click();
+    await expect(category).toContainText(categoryName as string);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+    await expect(resultsCount).not.toContainText(unfilteredTotal as string);
     await expect(
-      page.getByRole("heading", { name: "Bosch", level: 3 }),
+      page.getByRole("button", { name: "Clear all filters" }),
     ).toBeVisible();
+
+    await page.getByRole("button", { name: "Clear all filters" }).click();
+    await expect(resultsCount).toContainText(unfilteredTotal as string);
+
+    const location = page.getByRole("combobox", { name: "Location" });
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await location.click();
+    const locationOption = page.getByRole("option").nth(1);
+    const locationName = (await locationOption.textContent())?.trim();
+    expect(locationName).toBeTruthy();
+    await locationOption.click();
+    await expect(location).toContainText(locationName as string);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+    await expect(resultsCount).not.toContainText(unfilteredTotal as string);
   });
 });

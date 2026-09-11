@@ -24,16 +24,16 @@ export async function loadGoogleFont(font: string, text: string) {
 
 export function loadOgFonts(allText: string) {
   return Promise.all([
-    loadGoogleFont("Inter", allText).then((data) => ({
-      name: "Inter",
+    loadGoogleFont("Gabarito", allText).then((data) => ({
+      name: "Gabarito",
       data,
     })),
-    loadGoogleFont("Inter:wght@500", allText).then((data) => ({
-      name: "Inter Medium",
+    loadGoogleFont("Gabarito:wght@500", allText).then((data) => ({
+      name: "Gabarito Medium",
       data,
     })),
-    loadGoogleFont("Inter:wght@700", allText).then((data) => ({
-      name: "Inter Bold",
+    loadGoogleFont("Gabarito:wght@700", allText).then((data) => ({
+      name: "Gabarito Bold",
       data,
     })),
   ]);

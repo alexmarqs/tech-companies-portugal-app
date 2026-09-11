@@ -1,10 +1,11 @@
 import CompaniesList from "@/components/CompaniesList";
 import { FilterBar } from "@/components/FilterBar";
+import { JsonLdScript } from "@/components/JsonLdScript";
+import { NotificationsSideSection } from "@/components/NotificationsSideSection";
 import {
   generateJsonLdGraph,
   generateOrganizationJsonLd,
   generateWebSiteJsonLd,
-  safeJsonLdStringify,
 } from "@/lib/json-ld";
 import { getParsedCompaniesData } from "@/lib/parser/companies";
 
@@ -17,18 +18,17 @@ export default async function CompaniesPage() {
   const jsonLdGraph = generateJsonLdGraph(webSiteJsonLd, organizationJsonLd);
 
   return (
-    <section className="relative flex flex-1 flex-col">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: safeJsonLdStringify(jsonLdGraph),
-        }}
-      />
+    <section
+      id="directory"
+      className="relative flex flex-1 scroll-mt-24 flex-col"
+    >
+      <JsonLdScript graph={jsonLdGraph} />
       <FilterBar
         categoryOptions={availableCategories}
         locationOptions={availableLocations}
       />
       <CompaniesList allCompanies={companies} />
+      <NotificationsSideSection className="mt-10" />
     </section>
   );
 }

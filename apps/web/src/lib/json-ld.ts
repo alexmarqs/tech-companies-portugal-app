@@ -50,7 +50,7 @@ export function generateOrganizationJsonLd(): WithContext<Organization> {
     name: "Tech Companies Portugal",
     url: APP_URL,
     description: DESCRIPTION,
-    logo: `${APP_URL}/assets/images/logo.png`,
+    logo: `${APP_URL}/assets/images/logo.svg`,
   };
 }
 

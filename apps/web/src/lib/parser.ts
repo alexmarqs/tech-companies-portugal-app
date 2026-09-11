@@ -26,27 +26,38 @@ export const parseCompaniesData = async () => {
 
 const fetchGithubReadmeHtmlFrom = async (owner: string, repo: string) => {
   const url = `https://api.github.com/repos/${owner}/${repo}/readme`;
-
   const isDev = process.env.NODE_ENV === "development";
+  const githubToken = process.env.GITHUB_TOKEN;
 
-  const response = await fetch(url, {
-    ...(isDev && { cache: "force-cache" }),
-    next: {
-      revalidate: 86400, // 24 hours
-      tags: ["companies-data"],
-    },
-    headers: {
-      "User-Agent": "Tech Companies in Portugal",
-      Accept: "application/vnd.github.html+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-      ...(process.env.GITHUB_TOKEN && {
-        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-      }),
-    },
-  });
+  const requestReadme = (token?: string) =>
+    fetch(url, {
+      ...(isDev && { cache: "force-cache" }),
+      next: {
+        revalidate: 86400, // 24 hours
+        tags: ["companies-data"],
+      },
+      headers: {
+        "User-Agent": "Tech Companies in Portugal",
+        Accept: "application/vnd.github.html+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+    });
+
+  let response = await requestReadme(githubToken);
+
+  if (response.status === 401 && githubToken) {
+    console.warn(
+      "GITHUB_TOKEN was rejected while fetching the public companies README; retrying without authentication.",
+    );
+
+    response = await requestReadme();
+  }
 
   if (!response.ok) {
-    throw new Error(`GitHub API request failed: ${response.statusText}`);
+    throw new Error(
+      `GitHub API request failed: ${response.status} ${response.statusText}`,
+    );
   }
 
   const html = await response.text();
