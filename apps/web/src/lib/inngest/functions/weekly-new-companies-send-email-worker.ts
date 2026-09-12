@@ -16,26 +16,22 @@ export const weeklyNewCompaniesSendEmailWorker = inngest.createFunction(
   },
   { event: "app/weekly.new.companies.send.email.worker" },
   async ({ event, step }) => {
-    const { emails, newCompanies } = event.data;
+    const { email, newCompanies } = event.data;
 
     if (
-      !emails ||
-      !Array.isArray(emails) ||
-      emails.length === 0 ||
+      !email ||
       !newCompanies ||
       !Array.isArray(newCompanies) ||
       newCompanies.length === 0
     ) {
       return {
-        message: "Skipped: missing emails or no new companies",
-        emailsCount: Array.isArray(emails) ? emails.length : 0,
+        message: "Skipped: missing email or no new companies",
         companiesCount: Array.isArray(newCompanies) ? newCompanies.length : 0,
       };
     }
 
-    console.log(`Processing batch of ${emails.length} emails`);
-
     await step.run("send-email", async () => {
+      const companyLabel = newCompanies.length === 1 ? "company" : "companies";
       const emailHtml = await render(
         WeeklyNewCompaniesEmail({
           newCompanies,
@@ -43,16 +39,15 @@ export const weeklyNewCompaniesSendEmailWorker = inngest.createFunction(
       );
 
       await emailService.sendEmail({
-        to: emails,
+        to: email,
         from: DEFAULT_EMAIL_FROM_NOTIFICATIONS,
-        subject: `Weekly Report | ${newCompanies.length} New ${newCompanies.length === 1 ? "Company" : "Companies"} Added This Week`,
+        subject: `${newCompanies.length} new ${companyLabel} on the Portugal tech map`,
         body: emailHtml,
       });
     });
 
     return {
-      message: "Emails sent successfully",
-      recipientsCount: emails.length,
+      message: "Email sent successfully",
       companiesCount: newCompanies.length,
     };
   },

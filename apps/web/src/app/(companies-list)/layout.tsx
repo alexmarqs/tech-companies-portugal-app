@@ -1,6 +1,5 @@
 import CompaniesHeader from "@/components/CompaniesHeader";
 import { CompaniesListSkeleton } from "@/components/CompaniesListSkeleton";
-import CtaBanner from "@/components/CtaBanner";
 import Footer from "@/components/Footer";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { LayoutProps } from "@/lib/types";
@@ -12,11 +11,10 @@ export default function AppLayout({ children }: LayoutProps) {
       <main className="flex-1 flex-col w-full">
         <CompaniesHeader />
         <Suspense fallback={<AppLoading />}>
-          <div className="container mx-auto flex w-full max-w-7xl px-4 py-2">
+          <div className="container mx-auto flex w-full max-w-6xl px-4 py-2">
             {children}
           </div>
         </Suspense>
-        <CtaBanner />
       </main>
       <Footer />
     </>
@@ -25,7 +23,7 @@ export default function AppLayout({ children }: LayoutProps) {
 
 const AppLoading = () => {
   return (
-    <div className="container mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4 px-4 py-6">
+    <div className="container mx-auto flex w-full max-w-6xl flex-1 flex-col gap-4 px-4 py-6">
       <Skeleton className="h-16 w-full rounded-xl" />
       <CompaniesListSkeleton />
     </div>

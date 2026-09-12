@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import { GeistSans } from "@/lib/fonts";
+import { GabaritoSans } from "@/lib/fonts";
 import {
   defaultMetadata,
   defaultOpenGraphMetadata,
@@ -67,10 +67,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   width: "device-width",
-  userScalable: false,
   initialScale: 1,
-  maximumScale: 1,
-  themeColor: "#ffffff",
+  themeColor: "#fcfaf6",
 };
 
 export default function RootLayout({ children }: LayoutProps) {
@@ -79,7 +77,7 @@ export default function RootLayout({ children }: LayoutProps) {
       <body
         className={cn(
           "flex min-h-screen flex-col bg-background font-sans antialiased",
-          GeistSans.variable,
+          GabaritoSans.variable,
         )}
       >
         <CustomQueryClientProvider>

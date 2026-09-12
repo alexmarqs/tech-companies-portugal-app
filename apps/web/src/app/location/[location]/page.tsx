@@ -1,13 +1,20 @@
+import { AccentHeading } from "@/components/AccentHeading";
 import CompaniesList from "@/components/CompaniesList";
 import { CompaniesListSkeleton } from "@/components/CompaniesListSkeleton";
+import { JsonLdScript } from "@/components/JsonLdScript";
 import { NotificationsSideSection } from "@/components/NotificationsSideSection";
 import { PageBreadcrumb } from "@/components/PageBreadcrumb";
 import {
   generateBreadcrumbJsonLd,
   generateItemListJsonLd,
   generateJsonLdGraph,
-  safeJsonLdStringify,
 } from "@/lib/json-ld";
+import {
+  locationHeadingParts,
+  locationPageDescription,
+  locationPageIntro,
+  locationPageTitle,
+} from "@/lib/locations";
 import {
   APP_URL,
   defaultMetadata,
@@ -28,9 +35,9 @@ export async function generateMetadata({
 
   const location = decodeURIComponent(locationParam);
 
-  const title = `Companies in ${location} | Tech Companies Portugal`;
-  const description = `Discover tech companies based in ${location} - Portugal. Find job opportunities and connect with tech companies in ${location} - Portugal.`;
-  const keywords = `tech companies in ${location}, Portugal tech jobs, ${location} software companies, IT employers ${location}`;
+  const title = locationPageTitle(location);
+  const description = locationPageDescription(location);
+  const keywords = `tech companies in ${location}, ${location} software companies, ${location} startups, tech companies portugal`;
 
   const metadata = {
     ...defaultMetadata,
@@ -73,6 +80,8 @@ export default async function LocationPage({
 
   const location = decodeURIComponent(locationParam);
 
+  const headingParts = locationHeadingParts(location);
+
   const { companies } = await getParsedCompaniesData();
 
   const filteredCompanies = companies.filter((company) =>
@@ -81,7 +90,7 @@ export default async function LocationPage({
 
   const itemListJsonLd = generateItemListJsonLd(
     filteredCompanies,
-    `Tech Companies in ${location}, Portugal`,
+    locationPageTitle(location),
   );
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: "Home", url: APP_URL },
@@ -92,16 +101,11 @@ export default async function LocationPage({
   ]);
 
   return (
-    <section className="mx-auto flex w-full max-w-7xl px-4 py-3 relative flex-1">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: safeJsonLdStringify(
-            generateJsonLdGraph(itemListJsonLd, breadcrumbJsonLd),
-          ),
-        }}
+    <section className="relative mx-auto flex w-full max-w-6xl flex-1 px-4 py-3">
+      <JsonLdScript
+        graph={generateJsonLdGraph(itemListJsonLd, breadcrumbJsonLd)}
       />
-      <div className="flex flex-col w-full">
+      <div className="flex w-full flex-col">
         <PageBreadcrumb
           items={[
             { label: "Home", href: "/" },
@@ -109,31 +113,23 @@ export default async function LocationPage({
             { label: location },
           ]}
         />
-        <div className="relative overflow-hidden rounded-xl bg-linear-to-br from-emerald-50/80 via-background to-amber-50/40 border border-border/40 px-6 py-8 sm:px-8 sm:py-10 mb-6">
-          <div className="absolute -top-16 -right-16 w-[250px] h-[250px] bg-emerald-300/15 rounded-full blur-[80px]" />
-          <div className="absolute -bottom-20 -left-10 w-[200px] h-[200px] bg-red-300/10 rounded-full blur-[80px]" />
-
-          <div className="relative z-10 flex flex-col gap-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 border border-border/60 backdrop-blur-sm w-fit">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-widest">
-                {filteredCompanies.length}{" "}
-                {filteredCompanies.length === 1 ? "Company" : "Companies"}
-              </span>
-            </div>
-
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-[1.1]">
-              {location}
-            </h1>
-
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              Discover tech companies based in{" "}
-              <span className="font-bold">{location}</span> across Portugal.
-            </p>
+        <div className="mb-7 flex flex-col gap-2.5">
+          <div className="flex items-center gap-2">
+            <span className="size-1.5 rounded-full bg-primary" />
+            <span className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
+              {filteredCompanies.length}{" "}
+              {filteredCompanies.length === 1 ? "Company" : "Companies"}
+            </span>
           </div>
+
+          <AccentHeading {...headingParts} />
+
+          <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+            {locationPageIntro(location)}
+          </p>
         </div>
 
-        <div className="flex flex-col w-full gap-4">
+        <div className="flex w-full flex-col gap-4">
           <Suspense fallback={<CompaniesListSkeleton />}>
             <CompaniesList allCompanies={filteredCompanies} isDedicatedPage />
           </Suspense>

@@ -42,22 +42,25 @@ export default function CompaniesListPagination({
   const isPreviousDisabled = currentPage === 1;
   const isNextDisabled = currentPage === totalPages;
   const items = getPageItems(currentPage, totalPages);
+  const goToPage = (page: number) => {
+    void setSearchParams({ page }, { scroll: true });
+  };
 
   return (
     <div
       className="flex items-center justify-center"
       data-testid="companies-list-footer"
     >
-      <div className="inline-flex items-center gap-1 rounded-xl border border-border/60 bg-card p-1 shadow-sm shadow-black/5">
+      <div className="inline-flex items-center gap-1 rounded-2xl border border-border/70 bg-card p-1.5 shadow-sm">
         <Button
-          className="h-8 px-2!"
+          className="size-8 rounded-xl p-0!"
           variant="ghost"
           size="sm"
           aria-label="Previous page"
           disabled={isPreviousDisabled}
-          onClick={() => setSearchParams({ page: currentPage - 1 })}
+          onClick={() => goToPage(currentPage - 1)}
         >
-          <ChevronLeft className="shrink-0" size={16} />
+          <ChevronLeft className="shrink-0" />
         </Button>
 
         {items.map((item, i) =>
@@ -78,11 +81,11 @@ export default function CompaniesListPagination({
               aria-label={`Go to page ${item}`}
               aria-current={item === currentPage ? "page" : undefined}
               className={cn(
-                "h-8 min-w-8 px-2 tabular-nums",
+                "size-8 rounded-xl px-2 tabular-nums",
                 item === currentPage &&
-                  "bg-emerald-600 text-white hover:bg-emerald-600 hover:text-white",
+                  "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground",
               )}
-              onClick={() => setSearchParams({ page: item })}
+              onClick={() => goToPage(item)}
             >
               {item}
             </Button>
@@ -92,12 +95,12 @@ export default function CompaniesListPagination({
         <Button
           variant="ghost"
           size="sm"
-          className="h-8 px-2!"
+          className="size-8 rounded-xl p-0!"
           aria-label="Next page"
           disabled={isNextDisabled}
-          onClick={() => setSearchParams({ page: currentPage + 1 })}
+          onClick={() => goToPage(currentPage + 1)}
         >
-          <ChevronRight className="shrink-0" size={16} />
+          <ChevronRight className="shrink-0" />
         </Button>
       </div>
     </div>

@@ -4,7 +4,7 @@ import type { Company } from "@/lib/types";
 import type { EventPayload } from "../events";
 import { inngest } from "../inngest-client";
 
-const BATCH_SIZE = 50;
+const INNGEST_EVENT_BATCH_SIZE = 50;
 
 export const weeklyNewCompaniesLoadCron = inngest.createFunction(
   {
@@ -106,11 +106,15 @@ export const weeklyNewCompaniesLoadCron = inngest.createFunction(
           throw error;
         }
 
-        return (
+        const emails =
           data
             ?.map((notificationSetting) => notificationSetting.users?.email)
-            .filter(Boolean) ?? []
-        );
+            .filter(
+              (email): email is string =>
+                typeof email === "string" && email.length > 0,
+            ) ?? [];
+
+        return Array.from(new Set(emails));
       },
     );
 
@@ -140,28 +144,30 @@ export const weeklyNewCompaniesLoadCron = inngest.createFunction(
       };
     }
 
+    // One event per recipient. Plunk rejects transactional sends addressed to
+    // more than 5 people at once, a shared `to` array would expose every
+    // subscriber's address to the others, and this way one bad address cannot
+    // fail everyone else's email.
     const events: EventPayload<"app/weekly.new.companies.send.email.worker">[] =
-      [];
-
-    for (
-      let i = 0;
-      i < subscribedUsersNewCompaniesEmails.length;
-      i += BATCH_SIZE
-    ) {
-      const emailBatch = subscribedUsersNewCompaniesEmails.slice(
-        i,
-        i + BATCH_SIZE,
-      );
-      events.push({
+      subscribedUsersNewCompaniesEmails.map((email) => ({
         name: "app/weekly.new.companies.send.email.worker",
         data: {
-          emails: emailBatch,
+          email,
           newCompanies,
         },
-      });
-    }
+      }));
 
-    await step.sendEvent("fan-out-weekly-new-companies-send-email", events);
+    for (
+      let index = 0;
+      index < events.length;
+      index += INNGEST_EVENT_BATCH_SIZE
+    ) {
+      const batchNumber = index / INNGEST_EVENT_BATCH_SIZE + 1;
+      await step.sendEvent(
+        `fan-out-weekly-new-companies-send-email-${batchNumber}`,
+        events.slice(index, index + INNGEST_EVENT_BATCH_SIZE),
+      );
+    }
 
     await step.run("update-companies-snapshot", async () => {
       if (!snapshotData.id) {
@@ -182,7 +188,7 @@ export const weeklyNewCompaniesLoadCron = inngest.createFunction(
     });
 
     return {
-      message: `Weekly new companies cron completed. ${events.length} events sent to reach ${subscribedUsersNewCompaniesEmails.length} subscribed users.`,
+      message: `Weekly new companies cron completed. ${events.length} recipient events sent in ${Math.ceil(events.length / INNGEST_EVENT_BATCH_SIZE)} batches.`,
     };
   },
 );

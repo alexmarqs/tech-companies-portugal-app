@@ -1,8 +1,9 @@
 import type { Metadata } from "next/types";
 
-export const TITLE = "Tech Companies in Portugal | 300+ Company Directory";
+export const SITE_NAME = "Tech Companies Portugal";
+export const TITLE = "Tech Companies in Portugal | 350+ Company Directory";
 export const DESCRIPTION =
-  "Discover tech companies hiring in Portugal — from startups to global tech companies — all in one place. Filter by location and industry.";
+  "Explore a curated directory of tech companies in Portugal. Compare startups, scaleups, and global employers by location and industry.";
 
 export const APP_URL = process.env.VERCEL_URL
   ? "https://techcompaniesportugal.fyi"
@@ -30,10 +31,18 @@ export const defaultMetadata: Metadata = {
   alternates: {
     canonical: APP_URL,
   },
-  authors: [{ name: "Tech Companies Portugal" }],
+  authors: [{ name: SITE_NAME }],
   category: "Technology",
-  creator: "Tech Companies Portugal",
-  publisher: "Tech Companies Portugal",
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  icons: {
+    icon: [
+      { url: "/icon.png", sizes: "192x192", type: "image/png" },
+      { url: "/assets/images/logo.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export const defaultTwitterMetadata: Metadata["twitter"] = {
@@ -47,7 +56,7 @@ export const defaultOpenGraphMetadata: Metadata["openGraph"] = {
   description: DESCRIPTION,
   url: APP_URL,
   type: "website",
-  siteName: TITLE,
+  siteName: SITE_NAME,
 };
 
 export const verificationMetadata: Metadata["verification"] = {

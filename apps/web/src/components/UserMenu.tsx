@@ -50,23 +50,19 @@ export function UserMenu() {
 
   // Show skeleton while session is loading OR profile is loading for authenticated users
   if (sessionLoading || (isAuthenticated && isPending)) {
-    return <Skeleton className="h-9 w-9 rounded-full" />;
+    return <Skeleton className="size-9 rounded-full" />;
   }
 
   // Show login if not authenticated
   if (!isAuthenticated) {
     return (
       <>
-        <Button
-          size="sm"
-          className="bg-emerald-500 text-white hover:bg-emerald-600"
-          asChild
-        >
+        <Button size="sm" className="rounded-full px-4" asChild>
           <Link
             href="/login"
             data-ph-capture-attribute-event-name="login_button_clicked"
           >
-            Get started
+            Log in
           </Link>
         </Button>
       </>
@@ -79,10 +75,10 @@ export function UserMenu() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="relative h-9 w-9 rounded-full"
+          className="relative size-9 rounded-full"
           aria-label="User menu"
         >
-          <Avatar className="h-9 w-9">
+          <Avatar className="size-9">
             <AvatarImage
               className="object-cover"
               referrerPolicy="no-referrer"

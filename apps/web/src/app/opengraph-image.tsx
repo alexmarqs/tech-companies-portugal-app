@@ -7,14 +7,14 @@ export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
 const DEFAULT_DESCRIPTION =
-  "Discover tech companies hiring in Portugal — from startups to global tech companies — all in one place.";
+  "A curated directory of startups, scaleups, and global tech employers across Portugal.";
 
 const ALL_TEXT = [
   "Tech Companies in Portugal",
   DEFAULT_DESCRIPTION,
   "TechCompaniesPortugal",
   "techcompaniesportugal.fyi",
-  "Find your next tech company in Portugal",
+  "Discover Tech Companies in Portugal",
 ].join("");
 
 export default async function Image() {

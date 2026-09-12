@@ -47,3 +47,6 @@ yarn-error.log*
 .claude/settings.json
 .cursor
 .mcp.json
+
+# playwright
+.playwright-mcp/

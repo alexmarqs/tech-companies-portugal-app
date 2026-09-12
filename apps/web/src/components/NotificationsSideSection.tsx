@@ -1,3 +1,6 @@
+"use client";
+
+import { useSession } from "@/lib/contexts/SessionContext";
 import { SettingsTab } from "@/lib/search-params";
 import { cn } from "@/lib/utils";
 import { Bell, Mail } from "lucide-react";
@@ -15,7 +18,11 @@ export const NotificationsSideSection = ({
   className,
   variant = "full",
 }: NotificationsSideSectionProps) => {
-  const href = `/settings?tab=${SettingsTab.NOTIFICATIONS}`;
+  const { isAuthenticated } = useSession();
+
+  const href = isAuthenticated
+    ? `/settings?tab=${SettingsTab.NOTIFICATIONS}`
+    : "/login";
 
   if (variant === "compact") {
     return (
@@ -23,18 +30,20 @@ export const NotificationsSideSection = ({
         href={href}
         prefetch
         className={cn(
-          "group flex items-center gap-3 rounded-xl border border-emerald-200/70 bg-emerald-50/50 px-4 py-2.5 transition-colors hover:bg-emerald-50",
+          "group flex items-center gap-3 rounded-xl border border-primary/15 bg-accent/60 px-4 py-2.5 transition-colors hover:bg-accent",
           className,
         )}
       >
-        <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white">
-          <Bell size={15} />
+        <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+          <Bell className="size-4" />
         </span>
         <span className="flex-1 text-sm font-medium text-foreground">
-          New tech companies, straight to your inbox
+          {isAuthenticated
+            ? "New tech companies, straight to your inbox"
+            : "Join the Portugal tech community"}
         </span>
-        <span className="shrink-0 text-sm font-semibold text-emerald-700 transition-colors group-hover:text-emerald-800">
-          Subscribe →
+        <span className="shrink-0 text-sm font-semibold text-primary transition-colors group-hover:text-primary/80">
+          {isAuthenticated ? "Manage updates →" : "Join free →"}
         </span>
       </Link>
     );
@@ -43,33 +52,33 @@ export const NotificationsSideSection = ({
   return (
     <div
       className={cn(
-        "relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-emerald-200/70 bg-linear-to-r from-emerald-50/70 to-card p-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6",
+        "relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-primary/15 bg-accent/65 p-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6",
         className,
       )}
     >
       <div className="flex items-center gap-4">
-        <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-md shadow-emerald-600/25">
-          <Mail size={22} strokeWidth={2} />
+        <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md shadow-primary/20">
+          <Mail className="size-5" strokeWidth={2} />
         </div>
 
         <div className="flex flex-col gap-0.5">
           <h2 className="text-base font-bold leading-snug text-foreground">
-            New companies, in your inbox
+            {isAuthenticated
+              ? "New companies, in your inbox"
+              : "Your shortcut to Portugal's tech scene"}
           </h2>
           <p className="text-[13px] leading-relaxed text-muted-foreground">
-            Get the latest tech companies added in Portugal — free, no spam.
+            {isAuthenticated
+              ? "Get the latest tech companies added in Portugal, free, no spam."
+              : "Create a free profile for the weekly digest—and be first in line when Jobs launches."}
           </p>
         </div>
       </div>
 
-      <Button
-        size="sm"
-        className="shrink-0 rounded-lg bg-emerald-600 px-4 text-white shadow-sm transition-colors hover:bg-emerald-700"
-        asChild
-      >
+      <Button size="sm" className="shrink-0 rounded-xl px-4 shadow-sm" asChild>
         <Link href={href} prefetch>
-          <Bell size={14} className="mr-1.5" />
-          Subscribe free
+          <Bell data-icon="inline-start" />
+          {isAuthenticated ? "Manage updates" : "Join free"}
         </Link>
       </Button>
     </div>

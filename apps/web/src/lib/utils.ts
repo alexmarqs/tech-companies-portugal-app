@@ -37,18 +37,19 @@ export const isProd = process.env.NODE_ENV === "production";
 
 export const PUBLIC_CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
 
-export const normalizeText = (text: string) => {
-  // this will remove all special characters and spaces
-  return text.replace(/[^a-zA-Z0-9\s]/g, "");
-};
-
-// Some emoji get corrupted to "?" / "�" in prerendered route params (a Next
-// 16.3-preview bug that splits a surrogate pair, e.g. "…Broad 💫" → "…Broad ??").
-// Decode and strip those artifacts so display and category matching still work.
-// TODO: temporary workaround — this goes away once categories move to proper
-// SEO slugs (ASCII, no emoji in the URL) instead of the raw category name.
-export const decodeCategoryParam = (categoryParam: string) =>
-  decodeURIComponent(categoryParam)
-    .replace(/[?�]/g, "")
+// Category names arrive from the source README with a trailing emoji
+// ("Automotive 🚘"). Strip the pictographs wherever the name has to read as
+// prose — titles, headings, meta descriptions — while leaving real punctuation
+// intact, so "E-commerce 🛍️" stays "E-commerce", not "Ecommerce".
+export const normalizeText = (text: string) =>
+  text
+    .replace(/\p{Extended_Pictographic}|\uFE0F|\u200D/gu, "")
     .replace(/\s+/g, " ")
     .trim();
+
+// Category names are the raw README strings, emoji and all, so the route param
+// arrives percent-encoded.
+// TODO: this goes away once categories move to proper SEO slugs (ASCII, no
+// emoji in the URL) instead of the raw category name.
+export const decodeCategoryParam = (categoryParam: string) =>
+  decodeURIComponent(categoryParam).replace(/\s+/g, " ").trim();

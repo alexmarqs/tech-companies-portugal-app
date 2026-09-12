@@ -1,3 +1,4 @@
+import { locationHeadingParts, locationPageDescription } from "@/lib/locations";
 import { OgLayout, PageContent, getLogoSrc } from "@/lib/og/components";
 import { OG_CONTENT_TYPE, OG_SIZE, loadOgFonts } from "@/lib/og/utils";
 import { ImageResponse } from "next/og";
@@ -23,11 +24,13 @@ export default async function Image({
   const { location: locationParam } = await params;
   const location = decodeURIComponent(locationParam);
 
-  const title = `Companies in ${location}`;
-  const description = `Discover tech companies based in ${location} - Portugal. Find job opportunities and connect with tech companies in ${location} - Portugal.`;
+  const title = locationHeadingParts(location);
+  const description = locationPageDescription(location);
 
   const allText = [
-    title,
+    title.lead,
+    title.name,
+    title.trail,
     description,
     "TechCompaniesPortugal",
     "techcompaniesportugal.fyi",

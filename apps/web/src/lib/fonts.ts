@@ -1,3 +1,8 @@
-import { GeistSans } from "geist/font/sans";
+import { Gabarito } from "next/font/google";
 
-export { GeistSans };
+const GabaritoSans = Gabarito({
+  subsets: ["latin"],
+  variable: "--font-gabarito-sans",
+});
+
+export { GabaritoSans };

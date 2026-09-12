@@ -10,7 +10,6 @@ import {
 import Image from "next/image";
 import type { Metadata } from "next/types";
 import { Suspense } from "react";
-import logo from "../../../public/assets/images/logo.png";
 
 const title = "Sign in | Tech Companies Portugal";
 const description =
@@ -45,25 +44,36 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="bg-transparent flex-1 flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-4">
-        <Container variant="static" className="p-6">
-          <div className="space-y-4">
+    <div className="flex flex-1 items-center justify-center bg-transparent p-4 py-16">
+      <div className="flex w-full max-w-md flex-col gap-4">
+        <Container
+          variant="static"
+          className="overflow-hidden border-primary/15 bg-card p-7 shadow-[0_24px_60px_-36px_oklch(0.3_0.04_40/0.45)]"
+        >
+          <div className="flex flex-col gap-5">
             <div className="flex items-center justify-center">
               <Image
-                src={logo}
+                src="/assets/images/logo.svg"
                 alt="Tech Companies Portugal Logo"
-                width={50}
-                height={50}
+                width={56}
+                height={56}
+                className="rounded-2xl shadow-sm"
               />
             </div>
-            <div className="text-center">
-              <p className="text-muted-foreground">
-                Sign in to get the most out of Tech Companies Portugal.
+            <div className="flex flex-col gap-2 text-center">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">
+                Free to join
+              </p>
+              <h1 className="text-2xl font-bold tracking-[-0.035em]">
+                Join Portugal&apos;s tech community
+              </h1>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Get the weekly company digest today—and be first to explore our
+                curated jobs experience when it launches.
               </p>
             </div>
 
-            <div className="space-y-3">
+            <div className="flex flex-col gap-3">
               <Suspense fallback={null}>
                 <GithubLogin />
                 <GoogleLogin />
@@ -71,7 +81,7 @@ export default function LoginPage() {
             </div>
           </div>
         </Container>
-        <p className="text-[11px] text-muted-foreground text-center px-4 bg-white">
+        <p className="bg-background px-4 text-center text-[11px] text-muted-foreground">
           By signing in, you agree with our{" "}
           <a
             href="/terms"

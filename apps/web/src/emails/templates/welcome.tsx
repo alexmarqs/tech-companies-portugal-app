@@ -1,3 +1,4 @@
+import { APP_URL } from "@/lib/metadata";
 import {
   Body,
   Button,
@@ -8,11 +9,11 @@ import {
   Html,
   Preview,
   Section,
-  Tailwind,
   Text,
 } from "@react-email/components";
 import { Footer } from "../components/footer";
 import { Logo } from "../components/logo";
+
 interface WelcomeEmailProps {
   userFirstname?: string;
 }
@@ -35,131 +36,150 @@ export default function WelcomeEmail({
         />
       </Head>
       <Preview>
-        Welcome to Tech Companies Portugal — discover tech companies hiring in
-        Portugal, all in one place.
+        Welcome to Tech Companies Portugal — your map to the Portuguese tech
+        ecosystem.
       </Preview>
-      <Tailwind>
-        <Body className="bg-gray-50">
-          <Container className="flex flex-col max-w-[600px] mx-auto p-4">
-            {/* Header Section */}
-            <Section
-              style={{
-                backgroundColor: "#ffffff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "16px",
-                padding: "32px 24px",
-                marginBottom: "16px",
-              }}
-            >
-              <Logo />
+      <Body
+        style={{
+          backgroundColor: "#f5f0e9",
+          color: "#2d2825",
+          fontFamily: "Geist, Helvetica, Arial, sans-serif",
+          margin: 0,
+          padding: "24px 12px",
+        }}
+      >
+        <Container style={{ margin: "0 auto", maxWidth: "600px" }}>
+          <Section
+            style={{
+              backgroundColor: "#fffdf9",
+              border: "1px solid #e6dbd1",
+              borderRadius: "22px",
+              overflow: "hidden",
+            }}
+          >
+            <Section style={{ backgroundColor: "#3f8051", height: "7px" }} />
 
+            <Section style={{ padding: "30px 28px 24px" }}>
+              <Logo />
+              <Text
+                style={{
+                  color: "#3f8051",
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  letterSpacing: "1.8px",
+                  margin: "28px 0 10px",
+                  textAlign: "center",
+                  textTransform: "uppercase",
+                }}
+              >
+                Your Portugal tech pass
+              </Text>
               <Heading
                 style={{
-                  fontSize: "28px",
+                  color: "#2d2825",
+                  fontSize: "32px",
                   fontWeight: 700,
-                  color: "#111827",
+                  letterSpacing: "-1.2px",
+                  lineHeight: "36px",
+                  margin: "0 auto 12px",
+                  maxWidth: "450px",
                   textAlign: "center",
-                  margin: "20px 0 12px 0",
-                  lineHeight: "1.2",
-                  letterSpacing: "-0.02em",
                 }}
               >
-                Welcome to Tech Companies Portugal!
+                Welcome aboard, {userFirstname}.
               </Heading>
-
               <Text
                 style={{
-                  fontSize: "16px",
-                  color: "#6b7280",
+                  color: "#766b64",
+                  fontSize: "15px",
+                  lineHeight: "23px",
+                  margin: "0 auto",
+                  maxWidth: "430px",
                   textAlign: "center",
-                  lineHeight: "1.6",
-                  margin: "0",
                 }}
               >
-                Hi {userFirstname}, thanks for joining the community
+                You now have a clearer way to discover the companies shaping
+                technology across Portugal.
               </Text>
             </Section>
 
-            {/* Main Content */}
             <Section
               style={{
-                backgroundColor: "#059669",
-                borderRadius: "16px",
-                padding: "18px",
-                marginBottom: "16px",
+                backgroundColor: "#fff3ed",
+                borderTop: "1px dashed #debfb1",
+                borderBottom: "1px dashed #debfb1",
+                padding: "22px 28px",
               }}
             >
               <Text
                 style={{
-                  fontSize: "15px",
-                  fontWeight: 600,
-                  color: "#ffffff",
-                  lineHeight: "1.5",
-                  margin: "0 0 16px 0",
+                  color: "#9a5a49",
+                  fontSize: "10px",
+                  fontWeight: 700,
+                  letterSpacing: "1.5px",
+                  margin: "0 0 13px",
+                  textTransform: "uppercase",
                 }}
               >
-                Ready to start exploring?
+                Start exploring
               </Text>
-
               <Text
                 style={{
+                  color: "#2d2825",
                   fontSize: "14px",
-                  color: "#d1fae5",
-                  lineHeight: "1.7",
-                  margin: "0 0 8px 0",
-                  paddingLeft: "8px",
+                  lineHeight: "24px",
+                  margin: 0,
                 }}
               >
-                • Explore <strong>300+</strong> tech companies across Portugal
+                <span style={{ color: "#3f8051", fontWeight: 700 }}>01</span>
+                <span style={{ paddingLeft: "14px" }}>
+                  Browse curated startups, scaleups, and global teams
+                </span>
+                <br />
+                <span style={{ color: "#d7a83e", fontWeight: 700 }}>02</span>
+                <span style={{ paddingLeft: "14px" }}>
+                  Filter by location and category
+                </span>
+                <br />
+                <span style={{ color: "#d85f4a", fontWeight: 700 }}>03</span>
+                <span style={{ paddingLeft: "14px" }}>
+                  Receive the weekly digest when new companies land
+                </span>
               </Text>
-
-              <Text
-                style={{
-                  fontSize: "14px",
-                  color: "#d1fae5",
-                  lineHeight: "1.7",
-                  margin: "0 0 8px 0",
-                  paddingLeft: "8px",
-                }}
-              >
-                • Filter by location, category and more
-              </Text>
-
-              <Text
-                style={{
-                  fontSize: "14px",
-                  color: "#d1fae5",
-                  lineHeight: "1.7",
-                  margin: "0 0 20px 0",
-                  paddingLeft: "8px",
-                }}
-              >
-                • Get weekly notifications when new companies are added
-              </Text>
-
-              <Section className="text-center py-2">
-                <Button
-                  href="https://techcompaniesportugal.fyi"
-                  style={{
-                    backgroundColor: "#ffffff",
-                    color: "#059669",
-                    textDecoration: "none",
-                    fontSize: "15px",
-                    fontWeight: 600,
-                    padding: "12px 28px",
-                    borderRadius: "10px",
-                    display: "inline-block",
-                  }}
-                >
-                  Explore all companies
-                </Button>
-              </Section>
             </Section>
 
-            <Footer />
-          </Container>
-        </Body>
-      </Tailwind>
+            <Section style={{ padding: "26px 28px 30px", textAlign: "center" }}>
+              <Button
+                href={APP_URL}
+                style={{
+                  backgroundColor: "#d85f4a",
+                  borderRadius: "10px",
+                  color: "#ffffff",
+                  display: "inline-block",
+                  fontSize: "14px",
+                  fontWeight: 700,
+                  padding: "13px 24px",
+                  textDecoration: "none",
+                }}
+              >
+                Explore companies
+              </Button>
+              <Text
+                style={{
+                  color: "#9a8e86",
+                  fontSize: "11px",
+                  lineHeight: "17px",
+                  margin: "16px 0 0",
+                }}
+              >
+                Community-curated. Built for people finding their next move.
+              </Text>
+            </Section>
+          </Section>
+
+          <Footer />
+        </Container>
+      </Body>
     </Html>
   );
 }
