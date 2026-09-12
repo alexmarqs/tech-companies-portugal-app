@@ -42,7 +42,6 @@ Turbo monorepo: `apps/*`, `packages/*`, `tooling/*`.
 - **State**: Nuqs for URL query state, React Query for server state
 - **Auth & Database**: Supabase (client: `src/lib/supabase/client.ts`, server: `src/lib/supabase/server.ts`)
 - **Background Jobs**: Inngest for scheduled tasks (e.g., weekly new companies email cron)
-- **Rate Limiting**: Arcjet for API protection
 - **Caching**: Upstash Redis for logo caching; Next.js `unstable_cache` with 1-day revalidation for company data
 - **Email**: React Email templates in `src/emails/templates/`, sent via Plunk
 - **Animation**: Motion (formerly Framer Motion)

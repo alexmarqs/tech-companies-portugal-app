@@ -58,9 +58,16 @@ export function InstallPWAButton() {
       return;
     }
 
-    await installPrompt.prompt();
-    const { outcome } = await installPrompt.userChoice;
-    if (outcome === "accepted") setInstallPrompt(null);
+    // the event is single-use: a second prompt() call rejects, so drop it now
+    // and let the next click fall through to the manual instructions
+    setInstallPrompt(null);
+
+    try {
+      await installPrompt.prompt();
+      await installPrompt.userChoice;
+    } catch {
+      setShowIosHelp(true);
+    }
   };
 
   return (
@@ -73,7 +80,7 @@ export function InstallPWAButton() {
         onClick={install}
       >
         <Download data-icon="inline-start" aria-hidden="true" />
-        Install
+        Get app
       </Button>
       <Dialog open={showIosHelp} onOpenChange={setShowIosHelp}>
         <DialogContent className="w-[calc(100%-2rem)] rounded-3xl border-primary/15">

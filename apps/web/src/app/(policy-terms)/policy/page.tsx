@@ -226,11 +226,6 @@ export default function PolicyPage() {
                 sign-up and weekly digest for opted-in users)
               </li>
               <li>
-                <strong className="text-foreground">Arcjet</strong> — used for
-                rate limiting and security protection; processes request
-                metadata but does not store personal data
-              </li>
-              <li>
                 <strong className="text-foreground">Upstash Redis</strong> —
                 used for server-side caching; does not store personal data
               </li>

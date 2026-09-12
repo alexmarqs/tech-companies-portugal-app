@@ -20,7 +20,6 @@
     "inngest:dev": "pnpm dlx inngest-cli@latest dev"
   },
   "dependencies": {
-    "@arcjet/next": "1.0.0-beta.13",
     "@hookform/resolvers": "^5.2.2",
     "@plunk/node": "3.0.3",
     "@radix-ui/react-alert-dialog": "^1.1.15",
