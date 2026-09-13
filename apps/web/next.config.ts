@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withWorkflow } from "workflow/next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -18,4 +19,5 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// Enables the "use workflow" / "use step" directives from "workflow" lib
+export default withWorkflow(nextConfig);
