@@ -217,8 +217,10 @@ export default function PolicyPage() {
               </li>
               <li>
                 <strong className="text-foreground">Vercel</strong> — used to
-                host and serve the application; may process IP addresses as part
-                of request handling
+                host and serve the application, and to run background jobs such
+                as sending weekly digests; may process IP addresses as part of
+                request handling, and handles email addresses to dispatch
+                notification emails
               </li>
               <li>
                 <strong className="text-foreground">Plunk</strong> — used to
@@ -228,11 +230,6 @@ export default function PolicyPage() {
               <li>
                 <strong className="text-foreground">Upstash Redis</strong> —
                 used for server-side caching; does not store personal data
-              </li>
-              <li>
-                <strong className="text-foreground">Inngest</strong> — used to
-                process background jobs such as sending weekly digests; handles
-                user IDs and email addresses to dispatch emails
               </li>
               <li>
                 <strong className="text-foreground">Logos.dev</strong> — used to
