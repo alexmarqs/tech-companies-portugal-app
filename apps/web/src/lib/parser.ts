@@ -26,16 +26,13 @@ export const parseCompaniesData = async () => {
 
 const fetchGithubReadmeHtmlFrom = async (owner: string, repo: string) => {
   const url = `https://api.github.com/repos/${owner}/${repo}/readme`;
-  const isDev = process.env.NODE_ENV === "development";
   const githubToken = process.env.GITHUB_TOKEN;
 
+  // Only the `sync-companies` import reads the README now, and it must see
+  // the current version — the site itself reads the `companies` table.
   const requestReadme = (token?: string) =>
     fetch(url, {
-      ...(isDev && { cache: "force-cache" }),
-      next: {
-        revalidate: 86400, // 24 hours
-        tags: ["companies-data"],
-      },
+      cache: "no-store",
       headers: {
         "User-Agent": "Tech Companies in Portugal",
         Accept: "application/vnd.github.html+json",

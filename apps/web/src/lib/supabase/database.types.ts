@@ -14,6 +14,57 @@ export type Database = {
   };
   public: {
     Tables: {
+      companies: {
+        Row: {
+          archived_at: string | null;
+          careers_url: string;
+          categories: string[];
+          created_at: string;
+          description: string;
+          github_url: string;
+          id: string;
+          is_featured: boolean;
+          locations: string[];
+          logo_url: string | null;
+          name: string;
+          slug: string;
+          updated_at: string;
+          website_url: string;
+        };
+        Insert: {
+          archived_at?: string | null;
+          careers_url?: string;
+          categories?: string[];
+          created_at?: string;
+          description?: string;
+          github_url?: string;
+          id?: string;
+          is_featured?: boolean;
+          locations?: string[];
+          logo_url?: string | null;
+          name: string;
+          slug: string;
+          updated_at?: string;
+          website_url?: string;
+        };
+        Update: {
+          archived_at?: string | null;
+          careers_url?: string;
+          categories?: string[];
+          created_at?: string;
+          description?: string;
+          github_url?: string;
+          id?: string;
+          is_featured?: boolean;
+          locations?: string[];
+          logo_url?: string | null;
+          name?: string;
+          slug?: string;
+          updated_at?: string;
+          website_url?: string;
+        };
+        Relationships: [];
+      };
       companies_snapshot: {
         Row: {
           id: string;

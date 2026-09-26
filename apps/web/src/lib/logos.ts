@@ -134,9 +134,9 @@ async function processInBatches<T, R>(
   return results;
 }
 
-export async function hydrateCompaniesWithLogos(
-  companies: Company[],
-): Promise<Company[]> {
+export async function hydrateCompaniesWithLogos<T extends Company>(
+  companies: T[],
+): Promise<T[]> {
   let logoMap: LogoMap = {};
   try {
     logoMap = (await companyLogosCache.get(COMPANY_LOGOS_MAP_KEY)) ?? {};

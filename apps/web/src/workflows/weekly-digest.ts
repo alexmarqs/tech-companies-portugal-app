@@ -9,7 +9,7 @@ import { FatalError, RetryableError, sleep } from "workflow";
 
 /**
  * Vercel Workflow that emails subscribers about companies added to the
- * README since the last snapshot. Replaces the Inngest cron + fan-out worker.
+ * directory since the last snapshot. Replaces the Inngest cron + fan-out worker.
  *
  * Notes:
  * - Uncaught exceptions (new Error) are retried by default (3 retries)
@@ -204,11 +204,11 @@ async function getLatestCompaniesSnapshot(): Promise<CompaniesSnapshot> {
  * render yet.
  *
  * That accessor is cached (`unstable_cache`, tag `companies-data`, 24h), and
- * we deliberately do not revalidate it here: a company added to the README
- * may wait for the cache to turn over before being announced, which is the
- * price of never linking to a page the site cannot render. A stale read is
- * self-correcting — an empty diff returns early without advancing the
- * snapshot, so the next run still sees those companies as new.
+ * we deliberately do not revalidate it here. The daily `sync-companies`
+ * import expires the tag whenever it changes the `companies` table, so a
+ * newly added company is normally visible by the time this runs; if the read
+ * is still stale it is self-correcting — an empty diff returns early without
+ * advancing the snapshot, so the next run still sees those companies as new.
  */
 async function getCurrentCompanies(): Promise<NewCompany[]> {
   "use step";
@@ -223,11 +223,10 @@ async function getCurrentCompanies(): Promise<NewCompany[]> {
   console.log(`[weekly-digest] parsed ${companies.length} companies`);
 
   if (companies.length === 0) {
-    // An empty parse means the README fetch degraded (expired GITHUB_TOKEN,
-    // markup change). Treating it as "every company was removed" would wipe
-    // the snapshot, so refuse to continue.
+    // Treating an empty read as "every company was removed" would wipe the
+    // snapshot, so refuse to continue.
     throw new FatalError(
-      "Parsed zero companies from the README — refusing to diff against an empty list",
+      "Read zero companies — refusing to diff against an empty list",
     );
   }
 

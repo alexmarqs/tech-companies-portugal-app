@@ -1,34 +1,32 @@
 import { unstable_cache } from "next/cache";
 import { cache } from "react";
-import { hydrateCompaniesWithLogos } from "../logos";
-import { parseCompaniesData } from "../parser";
+import { buildCompaniesCatalogue } from "../companies-catalogue";
+import { getListedCompanyRows } from "../db/companies";
 import { getShowcaseSeed, pickShowcaseCompanies } from "../showcase";
 
+export const COMPANIES_DATA_TAG = "companies-data";
+
+/**
+ * The shared company accessor. Reads the `companies` table (kept in sync
+ * with the README by the `sync-companies` workflow) and returns the same
+ * shape the README parser used to, so every reader migrates at once.
+ *
+ * Throws on an empty table rather than caching and rendering an empty
+ * directory for a day.
+ */
 export const getParsedCompaniesData = cache(
   unstable_cache(
     async () => {
-      const { data, timestamp } = await parseCompaniesData();
+      const rows = await getListedCompanyRows();
 
-      // sort data.companies by isFeatured first
-      data.companies.sort((a, b) => {
-        if (a.isFeatured && !b.isFeatured) return -1;
-        if (!a.isFeatured && b.isFeatured) return 1;
-        return 0;
-      });
+      if (rows.length === 0) {
+        throw new Error("No companies found in the database");
+      }
 
-      const companiesWithLogos = await hydrateCompaniesWithLogos(
-        data.companies,
-      );
-
-      return {
-        companies: companiesWithLogos,
-        availableLocations: data.availableLocations,
-        availableCategories: data.availableCategories,
-        updatedAtISODate: timestamp,
-      };
+      return buildCompaniesCatalogue(rows);
     },
-    ["companies-with-logos"],
-    { revalidate: 86400, tags: ["companies-data"] }, // 1 day
+    ["companies-db"],
+    { revalidate: 86400, tags: [COMPANIES_DATA_TAG] }, // 1 day
   ),
 );
 
