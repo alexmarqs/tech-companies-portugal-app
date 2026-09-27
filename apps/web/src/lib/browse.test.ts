@@ -1,6 +1,6 @@
+import type { Company } from "@tech-companies-portugal/core";
 import { describe, expect, it } from "vitest";
 import { cityBrowseItems, cityImageSlug } from "./browse";
-import type { Company } from "./types";
 
 const company = (slug: string, locations: string[]): Company => ({
   slug,

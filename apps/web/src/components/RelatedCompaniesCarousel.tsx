@@ -1,4 +1,4 @@
-import type { Company } from "@/lib/types";
+import type { Company } from "@tech-companies-portugal/core";
 import CompanyItem from "./CompanyItem";
 import {
   Carousel,

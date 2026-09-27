@@ -1,3 +1,4 @@
+import { SettingsTab } from "@tech-companies-portugal/core";
 import {
   createLoader,
   createSearchParamsCache,
@@ -6,17 +7,14 @@ import {
   parseAsStringEnum,
 } from "nuqs/server";
 
+export { SettingsTab };
+
 export const defaultSearchParams = {
   query: "",
   category: "",
   location: "",
   page: 1,
 };
-
-export enum SettingsTab {
-  ACCOUNT = "account",
-  NOTIFICATIONS = "notifications",
-}
 
 export const LABELS_FILTER: Record<string, string> = {
   query: "Search",

@@ -15,7 +15,7 @@ import { Container } from "@/components/ui/container";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useMutateDeleteUser } from "@/hooks/users";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@tech-companies-portugal/supabase/client";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";

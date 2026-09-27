@@ -8,7 +8,7 @@ import {
   generateOrganizationJsonLd,
   generateWebSiteJsonLd,
 } from "@/lib/json-ld";
-import { getParsedCompaniesData } from "@/lib/parser/companies";
+import { getParsedCompaniesData } from "@tech-companies-portugal/core/server";
 
 export default async function CompaniesPage() {
   const { availableCategories, availableLocations, companies } =

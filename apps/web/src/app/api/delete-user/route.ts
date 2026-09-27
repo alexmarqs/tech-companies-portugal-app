@@ -1,4 +1,7 @@
-import { createAdminClient, createClient } from "@/lib/supabase/server";
+import {
+  createAdminClient,
+  createClient,
+} from "@tech-companies-portugal/supabase/server";
 import { NextResponse } from "next/server";
 
 export async function POST() {

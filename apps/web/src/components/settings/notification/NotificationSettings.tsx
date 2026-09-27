@@ -6,8 +6,8 @@ import {
   useGetUserNotificationSettings,
   useUpsertUserNotificationSetting,
 } from "@/hooks/notifications";
-import type { Enums, Tables } from "@/lib/supabase/database.types";
 import { useQueryClient } from "@tanstack/react-query";
+import type { Enums, Tables } from "@tech-companies-portugal/supabase/types";
 import { memo, useCallback } from "react";
 import { useThrottledCallback } from "use-debounce";
 

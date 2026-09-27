@@ -1,0 +1,5 @@
+{
+  "extends": "@tech-companies-portugal/typescript/react-lib.json",
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

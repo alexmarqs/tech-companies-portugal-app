@@ -1,5 +1,5 @@
 import { verifyCronRequest } from "@/lib/cron";
-import { weeklyDigestWorkflow } from "@/workflows/weekly-digest";
+import { weeklyDigestWorkflow } from "@tech-companies-portugal/workflows";
 import { NextResponse } from "next/server";
 import { start } from "workflow/api";
 

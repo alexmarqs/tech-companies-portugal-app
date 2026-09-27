@@ -1,5 +1,8 @@
-import { createClient } from "@/lib/supabase/client";
-import type { Tables, TablesUpdate } from "../supabase/database.types";
+import { createClient } from "@tech-companies-portugal/supabase/client";
+import type {
+  Tables,
+  TablesUpdate,
+} from "@tech-companies-portugal/supabase/types";
 
 export const getUserProfile = async (): Promise<Tables<"users">> => {
   try {

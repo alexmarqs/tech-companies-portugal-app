@@ -1,6 +1,6 @@
 "use client";
 
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@tech-companies-portugal/supabase/client";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 

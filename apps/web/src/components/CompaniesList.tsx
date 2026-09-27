@@ -2,8 +2,8 @@
 
 import { useKeepResultsInView } from "@/hooks/useKeepResultsInView";
 import { LABELS_FILTER } from "@/lib/search-params";
-import type { Company } from "@/lib/types";
 import { cn, matchCompanies } from "@/lib/utils";
+import type { Company } from "@tech-companies-portugal/core";
 import { ArrowLeft, X } from "lucide-react";
 import Link from "next/link";
 import { useMemo } from "react";

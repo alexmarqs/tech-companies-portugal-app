@@ -1,5 +1,5 @@
-import { getParsedCompaniesData } from "@/lib/parser/companies";
 import { PUBLIC_CONTACT_EMAIL } from "@/lib/utils";
+import { getParsedCompaniesData } from "@tech-companies-portugal/core/server";
 import { MapPin, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

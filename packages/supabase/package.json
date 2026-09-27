@@ -1,0 +1,50 @@
+{
+  "name": "@tech-companies-portugal/supabase",
+  "version": "0.0.0",
+  "sideEffects": false,
+  "private": true,
+  "scripts": {
+    "clean": "git clean -xdf .turbo node_modules",
+    "lint": "biome check . --write",
+    "format": "biome format --write .",
+    "check-types": "tsc --noEmit",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset",
+    "db:link": "supabase link --project-ref",
+    "db:diff": "supabase db diff -f",
+    "db:migration:new": "supabase migration new",
+    "db:migration:list": "supabase migration list --linked",
+    "db:push": "supabase db push",
+    "db:types": "supabase gen types typescript --linked --schema public > ./src/types/database.types.ts"
+  },
+  "exports": {
+    "./client": "./src/client/index.ts",
+    "./server": "./src/server/index.ts",
+    "./middleware": "./src/server/middleware.ts",
+    "./types": "./src/types/index.ts"
+  },
+  "peerDependencies": {
+    "next": ">=14",
+    "server-only": "*"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    },
+    "server-only": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@supabase/ssr": "0.6.1",
+    "@supabase/supabase-js": "2.52.0"
+  },
+  "devDependencies": {
+    "@tech-companies-portugal/typescript": "workspace:*",
+    "@types/node": "^22",
+    "server-only": "^0.0.1",
+    "supabase": "^2.78.1",
+    "typescript": "^5"
+  }
+}

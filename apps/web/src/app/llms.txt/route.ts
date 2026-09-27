@@ -1,5 +1,5 @@
 import { APP_URL } from "@/lib/metadata";
-import { getParsedCompaniesData } from "@/lib/parser/companies";
+import { getParsedCompaniesData } from "@tech-companies-portugal/core/server";
 
 export const dynamic = "force-static";
 // by default now the GET routes are dynamic, but we can force them to be static

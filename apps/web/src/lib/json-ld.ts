@@ -1,3 +1,4 @@
+import type { Company } from "@tech-companies-portugal/core";
 import type {
   BreadcrumbList,
   ItemList,
@@ -6,7 +7,6 @@ import type {
   WithContext,
 } from "schema-dts";
 import { APP_URL, DESCRIPTION, SITE_NAME } from "./metadata";
-import type { Company } from "./types";
 
 export function safeJsonLdStringify(jsonLd: unknown): string {
   return JSON.stringify(jsonLd).replace(/</g, "\\u003c");

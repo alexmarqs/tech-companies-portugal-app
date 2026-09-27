@@ -17,12 +17,10 @@ import {
   defaultOpenGraphMetadata,
   defaultTwitterMetadata,
 } from "@/lib/metadata";
-import {
-  getParsedCompaniesData,
-  getParsedCompanyBySlug,
-} from "@/lib/parser/companies";
+import { getParsedCompanyBySlug } from "@/lib/parser/companies";
 import { getRelatedCompanies } from "@/lib/related-companies";
 import type { NextParams } from "@/lib/types";
+import { getParsedCompaniesData } from "@tech-companies-portugal/core/server";
 import { ArrowRight, Briefcase, Globe } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";

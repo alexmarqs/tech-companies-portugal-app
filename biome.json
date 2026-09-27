@@ -16,6 +16,8 @@
       "package-lock.json",
       ".vscode",
       "next-env.d.ts",
+      ".well-known/workflow",
+      "database.types.ts",
       "biome.json"
     ]
   },

@@ -1,13 +1,12 @@
+import { APP_URL } from "@tech-companies-portugal/core";
 import type { Metadata } from "next/types";
+
+export { APP_URL };
 
 export const SITE_NAME = "Tech Companies Portugal";
 export const TITLE = "Tech Companies in Portugal | 350+ Company Directory";
 export const DESCRIPTION =
   "Explore a curated directory of tech companies in Portugal. Compare startups, scaleups, and global employers by location and industry.";
-
-export const APP_URL = process.env.VERCEL_URL
-  ? "https://techcompaniesportugal.fyi"
-  : "http://localhost:3000";
 
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(APP_URL),
