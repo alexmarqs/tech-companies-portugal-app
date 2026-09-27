@@ -17,14 +17,10 @@
   },
   "peerDependencies": {
     "next": ">=14",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "^19.0.0"
   },
   "peerDependenciesMeta": {
     "react": {
-      "optional": true
-    },
-    "react-dom": {
       "optional": true
     }
   },
@@ -32,10 +28,8 @@
     "@tech-companies-portugal/typescript": "workspace:*",
     "@types/node": "^22",
     "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3",
     "next": "16.3.4",
     "react": "19.2.6",
-    "react-dom": "19.2.6",
     "typescript": "^5"
   }
 }

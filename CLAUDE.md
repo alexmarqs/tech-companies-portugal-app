@@ -19,9 +19,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `pnpm run test:e2e:web` - Run Playwright E2E tests (builds first, then starts server)
 - From `apps/web`: `pnpm run test:e2e:ui` - E2E tests with Playwright UI
 
-### Database & Email
-- From `apps/web`: `pnpm run db:types` - Generate TypeScript types from Supabase schema (delegates to `packages/supabase`)
-- From `apps/web`: `pnpm run email:dev` - React Email dev server on port 3002
+### Email
+- From `packages/email` (or `pnpm --filter @tech-companies-portugal/email email:dev` from root): `pnpm run email:dev` - React Email dev server on port 3002
 
 ### Database Migrations (from `packages/supabase`, or `pnpm --filter @tech-companies-portugal/supabase <script>` from root)
 - `pnpm run db:link <ref>` - Link to remote project (one-time setup)
@@ -43,9 +42,9 @@ Turbo monorepo: `apps/*`, `packages/*`, `tooling/*`.
 - **Styling**: Tailwind CSS v4 + Shadcn UI components
 - **State**: Nuqs for URL query state, React Query for server state
 - **Auth & Database**: Supabase via `@tech-companies-portugal/supabase` (`/client`, `/server`, `/middleware`, `/types`)
-- **Background Jobs**: Vercel Workflow SDK (`workflow`) for durable jobs. Workflows live in `packages/workflows/src/workflows/` (exported from `@tech-companies-portugal/workflows`; `withWorkflow()` discovers them there); `apps/web` keeps `workflow` as a direct dependency because `next.config.ts` is wrapped in `withWorkflow()`, which generates routes that import it to enable the `"use workflow"` / `"use step"` directives. Scheduling is Vercel Cron (`apps/web/vercel.json`) hitting a route handler that calls `start()`, authenticated with `CRON_SECRET`. Inspect runs with `pnpm run workflow:web` / `pnpm exec workflow inspect runs`.
+- **Background Jobs**: Vercel Workflow SDK (`workflow`) for durable jobs. Workflows live in `packages/workflows/src/workflows/` (exported from `@tech-companies-portugal/workflows`; `withWorkflow()` discovers them there); `apps/web` keeps `workflow` as a direct dependency because `next.config.ts` is wrapped in `withWorkflow()`, which generates routes that import it to enable the `"use workflow"` / `"use step"` directives. Scheduling is Vercel Cron (`apps/web/vercel.json`) hitting a route handler that calls `start()`, authenticated with `CRON_SECRET`. Inspect runs with `pnpm exec workflow inspect runs` (from `apps/web`); `pnpm run workflow:health` checks the setup.
 - **Caching**: Upstash Redis for logo caching; Next.js `unstable_cache` with 1-day revalidation for company data
-- **Email**: React Email templates in `src/emails/templates/`, sent via Plunk
+- **Email**: `@tech-companies-portugal/email` - React Email templates in `packages/email/src/templates/` (subpath `./templates/*`), sent via Plunk (`emailService`, `render` and defaults from the `.` barrel)
 - **Animation**: Motion (formerly Framer Motion)
 
 ### Data Flow
@@ -62,7 +61,8 @@ Turbo monorepo: `apps/*`, `packages/*`, `tooling/*`.
 
 ### Other Packages
 - `packages/workflows` - Durable workflows (`syncCompaniesWorkflow`, `weeklyDigestWorkflow`). `next` and `workflow` are required peers; the cron routes call `start()` from `workflow/api` directly
-- `packages/core` - Company domain logic and data access shared by the site and workflows. `.` is pure (types, import planning, catalogue); `./server` is server-only (README parser, logos + Upstash cache, companies DB, cached accessor)
+- `packages/core` - Company domain logic and data access shared by the site and workflows. `.` is pure (types, import planning, catalogue, shared constants like `APP_URL` / `SettingsTab`); `./server` is server-only (README parser, logos + Upstash cache, companies DB, cached accessor)
+- `packages/email` - React Email templates + Plunk email service. `react`/`react-dom` are peers (templates + `@react-email/render` need both at runtime)
 - `packages/analytics` - PostHog analytics wrapper
 - `tooling/typescript` - Shared TypeScript config
 - `tooling/tailwind` - Shared Tailwind config
