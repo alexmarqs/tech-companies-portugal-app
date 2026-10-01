@@ -21,13 +21,16 @@ export type Database = {
           categories: string[]
           created_at: string
           description: string
+          facebook_url: string
           github_url: string
           id: string
+          instagram_url: string
           is_featured: boolean
           locations: string[]
           logo_url: string | null
           name: string
           slug: string
+          source: string
           updated_at: string
           website_url: string
         }
@@ -37,13 +40,16 @@ export type Database = {
           categories?: string[]
           created_at?: string
           description?: string
+          facebook_url?: string
           github_url?: string
           id?: string
+          instagram_url?: string
           is_featured?: boolean
           locations?: string[]
           logo_url?: string | null
           name: string
           slug: string
+          source?: string
           updated_at?: string
           website_url?: string
         }
@@ -53,13 +59,16 @@ export type Database = {
           categories?: string[]
           created_at?: string
           description?: string
+          facebook_url?: string
           github_url?: string
           id?: string
+          instagram_url?: string
           is_featured?: boolean
           locations?: string[]
           logo_url?: string | null
           name?: string
           slug?: string
+          source?: string
           updated_at?: string
           website_url?: string
         }
