@@ -1,5 +1,5 @@
 import { load as cheerioLoad } from "cheerio";
-import slugify from "slugify";
+import { toCompanySlug } from "../company-slug";
 import { featuredSlugCompanies } from "../featured";
 import type { Company } from "../types";
 
@@ -109,7 +109,7 @@ const extractCompaniesDataFromHtml = (html: string) => {
           availableLocations.add(location);
         }
 
-        const slug = slugify(name, { lower: true, strict: true });
+        const slug = toCompanySlug(name);
 
         const company: Company = {
           slug: slug,
