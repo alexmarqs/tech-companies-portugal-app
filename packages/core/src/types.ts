@@ -10,3 +10,6 @@ export type Company = {
   isFeatured?: boolean;
   logoUrl?: string;
 };
+
+/** Who owns a company row's content; the README sync only manages `readme`. */
+export type CompanySource = "readme" | "manual" | "app";

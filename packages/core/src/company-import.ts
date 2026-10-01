@@ -2,7 +2,7 @@ import type {
   Tables,
   TablesInsert,
 } from "@tech-companies-portugal/supabase/types";
-import type { Company } from "./types";
+import type { Company, CompanySource } from "./types";
 
 /**
  * Pure planning for the README → `companies` import. No I/O here, so the
@@ -33,6 +33,7 @@ export type ExistingCompany = Pick<
   | "logo_url"
   | "is_featured"
   | "archived_at"
+  | "source"
 >;
 
 export type CompanyUpsert = TablesInsert<"companies"> &
@@ -56,6 +57,8 @@ export type CompanyImportPlan = {
   added: string[];
   changed: { slug: string; fields: string[] }[];
   restored: string[];
+  /** README slugs owned by a `manual` / `app` row, left untouched. */
+  skipped: string[];
   unchanged: number;
 };
 
@@ -151,6 +154,9 @@ const toUniqueList = (values: string[]) =>
 /**
  * Diffs the import against the table.
  *
+ * - Only rows with `source = 'readme'` belong to the import. `manual` and
+ *   `app` rows are never updated or archived, and a README company whose
+ *   slug they own is skipped (reported in `skipped`).
  * - New slugs are inserted; `is_featured` is only seeded on insert, after
  *   that the database owns it.
  * - A missing logo never clears a stored one (logo.dev or Redis may just be
@@ -161,6 +167,8 @@ const toUniqueList = (values: string[]) =>
  * - Refuses an empty import instead of applying it: it is far more likely a
  *   broken fetch or a README markup change.
  */
+const README_SOURCE: CompanySource = "readme";
+
 export const planCompanyImport = ({
   existing,
   incoming,
@@ -176,7 +184,13 @@ export const planCompanyImport = ({
     );
   }
 
-  const existingBySlug = new Map(existing.map((row) => [row.slug, row]));
+  const readmeRows = existing.filter((row) => row.source === README_SOURCE);
+  const ownedElsewhere = new Set(
+    existing
+      .filter((row) => row.source !== README_SOURCE)
+      .map((row) => row.slug),
+  );
+  const existingBySlug = new Map(readmeRows.map((row) => [row.slug, row]));
   const incomingSlugs = new Set(incoming.map((company) => company.slug));
   const keepSlugs = new Set(protectedSlugs);
 
@@ -186,10 +200,16 @@ export const planCompanyImport = ({
     added: [],
     changed: [],
     restored: [],
+    skipped: [],
     unchanged: 0,
   };
 
   for (const company of incoming) {
+    if (ownedElsewhere.has(company.slug)) {
+      plan.skipped.push(company.slug);
+      continue;
+    }
+
     const current = existingBySlug.get(company.slug);
 
     const next: CompanyUpsert = {
@@ -228,7 +248,7 @@ export const planCompanyImport = ({
     plan.upserts.push(next);
   }
 
-  plan.archiveSlugs = existing
+  plan.archiveSlugs = readmeRows
     .filter(
       (row) =>
         row.archived_at === null &&

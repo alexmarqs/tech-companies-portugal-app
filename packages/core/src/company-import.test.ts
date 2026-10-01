@@ -48,6 +48,7 @@ const existingRow = (
   logo_url: null,
   is_featured: false,
   archived_at: null,
+  source: "readme",
   ...overrides,
 });
 
@@ -157,6 +158,68 @@ describe("planCompanyImport", () => {
     });
 
     expect(plan.archiveSlugs).toEqual([]);
+  });
+
+  it("never archives a company the README does not own", () => {
+    const plan = planCompanyImport({
+      existing: [
+        existingRow("stays"),
+        existingRow("realtyboost", { source: "manual" }),
+        existingRow("from-app", { source: "app" }),
+      ],
+      incoming: [imported("stays")],
+    });
+
+    expect(plan.archiveSlugs).toEqual([]);
+  });
+
+  it("skips a README company whose slug is owned by a manual or app row", () => {
+    const plan = planCompanyImport({
+      existing: [
+        existingRow("realtyboost", {
+          source: "manual",
+          description: "Edited by hand",
+        }),
+        existingRow("from-app", { source: "app" }),
+      ],
+      incoming: [
+        imported("realtyboost", { description: "README version" }),
+        imported("from-app"),
+        imported("brand-new"),
+      ],
+    });
+
+    expect(plan.skipped).toEqual(["realtyboost", "from-app"]);
+    expect(plan.upserts.map((row) => row.slug)).toEqual(["brand-new"]);
+    expect(plan.added).toEqual(["brand-new"]);
+    expect(plan.changed).toEqual([]);
+  });
+
+  it("does not restore a manual row that was archived by hand", () => {
+    const plan = planCompanyImport({
+      existing: [
+        existingRow("realtyboost", {
+          source: "manual",
+          archived_at: "2026-10-01T00:00:00+00:00",
+        }),
+      ],
+      incoming: [imported("realtyboost")],
+    });
+
+    expect(plan.restored).toEqual([]);
+    expect(plan.upserts).toEqual([]);
+    expect(plan.skipped).toEqual(["realtyboost"]);
+  });
+
+  it("leaves social links and source out of README upserts", () => {
+    const plan = planCompanyImport({
+      existing: [],
+      incoming: [imported("brand-new")],
+    });
+
+    expect(plan.upserts[0]).not.toHaveProperty("instagram_url");
+    expect(plan.upserts[0]).not.toHaveProperty("facebook_url");
+    expect(plan.upserts[0]).not.toHaveProperty("source");
   });
 
   it("refuses an empty import", () => {

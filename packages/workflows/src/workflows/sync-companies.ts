@@ -28,6 +28,7 @@ export type SyncCompaniesWorkflowResult = {
   added: string[];
   changed: CompanyImportPlan["changed"];
   restored: string[];
+  skipped: string[];
   archived: string[];
   unchanged: number;
   invalid: InvalidCompany[];
@@ -139,13 +140,14 @@ async function applyCompaniesImport(
     added: plan.added,
     changed: plan.changed,
     restored: plan.restored,
+    skipped: plan.skipped,
     archived: plan.archiveSlugs,
     unchanged: plan.unchanged,
     invalid,
   };
 
   console.log(
-    `[sync-companies] added=${plan.added.length} changed=${plan.changed.length} restored=${plan.restored.length} archived=${plan.archiveSlugs.length} unchanged=${plan.unchanged} invalid=${invalid.length}`,
+    `[sync-companies] added=${plan.added.length} changed=${plan.changed.length} restored=${plan.restored.length} archived=${plan.archiveSlugs.length} skipped=${plan.skipped.length} unchanged=${plan.unchanged} invalid=${invalid.length}`,
   );
 
   for (const slug of plan.added) {
@@ -158,6 +160,10 @@ async function applyCompaniesImport(
 
   for (const slug of plan.restored) {
     console.log(`[sync-companies] restored ${slug}`);
+  }
+
+  for (const slug of plan.skipped) {
+    console.log(`[sync-companies] skipped ${slug}: owned by a non-README row`);
   }
 
   for (const slug of plan.archiveSlugs) {

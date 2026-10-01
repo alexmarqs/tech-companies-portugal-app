@@ -48,7 +48,10 @@ export const getListedCompaniesCreatedAfter = async (
   return data;
 };
 
-/** Every company row, archived ones included — the import diffs against all. */
+/**
+ * Every company row, archived and non-README ones included — the import
+ * diffs against all of them and decides which it owns by `source`.
+ */
 export const getAllCompanyRowsForImport = async (): Promise<
   ExistingCompany[]
 > => {
@@ -57,7 +60,7 @@ export const getAllCompanyRowsForImport = async (): Promise<
   const { data, error } = await supabase
     .from("companies")
     .select(
-      "slug, name, description, website_url, careers_url, github_url, categories, locations, logo_url, is_featured, archived_at",
+      "slug, name, description, website_url, careers_url, github_url, categories, locations, logo_url, is_featured, archived_at, source",
     );
 
   if (error) {
