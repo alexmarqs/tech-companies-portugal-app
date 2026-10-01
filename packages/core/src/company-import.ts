@@ -158,22 +158,17 @@ const toUniqueList = (values: string[]) =>
  * - Companies that left the README are archived, never deleted. Slugs in
  *   `protectedSlugs` (rows that failed validation this run) are not archived:
  *   a malformed row is not a removal.
- * - Refuses implausible imports instead of applying them: an empty import, or
- *   one that would archive more than `maxArchiveRatio` of listed companies,
- *   is far more likely a broken fetch or a README markup change.
+ * - Refuses an empty import instead of applying it: it is far more likely a
+ *   broken fetch or a README markup change.
  */
 export const planCompanyImport = ({
   existing,
   incoming,
   protectedSlugs = [],
-  maxArchiveRatio = 0.1,
-  minArchiveLimit = 10,
 }: {
   existing: ExistingCompany[];
   incoming: ImportedCompany[];
   protectedSlugs?: string[];
-  maxArchiveRatio?: number;
-  minArchiveLimit?: number;
 }): CompanyImportPlan => {
   if (incoming.length === 0) {
     throw new CompanyImportGuardError(
@@ -241,18 +236,6 @@ export const planCompanyImport = ({
         !keepSlugs.has(row.slug),
     )
     .map((row) => row.slug);
-
-  const listedCount = existing.filter((row) => row.archived_at === null).length;
-  const archiveLimit = Math.max(
-    minArchiveLimit,
-    Math.floor(listedCount * maxArchiveRatio),
-  );
-
-  if (plan.archiveSlugs.length > archiveLimit) {
-    throw new CompanyImportGuardError(
-      `Import would archive ${plan.archiveSlugs.length} of ${listedCount} listed companies (limit ${archiveLimit}) — refusing to apply it`,
-    );
-  }
 
   return plan;
 };

@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `pnpm run build` - Build all apps and packages
 - `pnpm run lint` - Run Biome linting (auto-fixes with `--write --unsafe` in web app)
 - `pnpm run format` - Format code with Biome
-- `pnpm run check-types` - TypeScript type checking across all workspaces
+- `pnpm run typecheck` - TypeScript type checking across all workspaces
 
 ### Testing
 - `pnpm run test` - Run all tests in parallel

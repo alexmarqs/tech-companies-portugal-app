@@ -164,24 +164,4 @@ describe("planCompanyImport", () => {
       planCompanyImport({ existing: [existingRow("a")], incoming: [] }),
     ).toThrow(CompanyImportGuardError);
   });
-
-  it("refuses an import that would archive too many companies", () => {
-    const existing = Array.from({ length: 200 }, (_, index) =>
-      existingRow(`c${index}`),
-    );
-
-    expect(() =>
-      planCompanyImport({
-        existing,
-        incoming: existing.slice(0, 150).map((row) => imported(row.slug)),
-      }),
-    ).toThrow(/would archive 50 of 200/);
-
-    expect(
-      planCompanyImport({
-        existing,
-        incoming: existing.slice(0, 180).map((row) => imported(row.slug)),
-      }).archiveSlugs,
-    ).toHaveLength(20);
-  });
 });

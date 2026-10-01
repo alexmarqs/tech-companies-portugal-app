@@ -4,6 +4,7 @@ export { getParsedCompaniesData } from "./companies-data";
 export {
   archiveCompanies,
   getAllCompanyRowsForImport,
+  getListedCompaniesCreatedAfter,
   getListedCompanyRows,
   upsertCompanies,
 } from "./db/companies";

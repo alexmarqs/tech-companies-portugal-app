@@ -24,6 +24,30 @@ export const getListedCompanyRows = async (): Promise<CompanyRow[]> => {
   return data;
 };
 
+/**
+ * Listed companies first added after `since`, oldest first. `created_at` is
+ * set once on insert, so archived-then-restored companies are not "new".
+ */
+export const getListedCompaniesCreatedAfter = async (
+  since: string,
+): Promise<{ slug: string; name: string }[]> => {
+  const supabase = await createAdminClient();
+
+  const { data, error } = await supabase
+    .from("companies")
+    .select("slug, name")
+    .is("archived_at", null)
+    .gt("created_at", since)
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error("Error fetching newly added companies", error);
+    throw error;
+  }
+
+  return data;
+};
+
 /** Every company row, archived ones included — the import diffs against all. */
 export const getAllCompanyRowsForImport = async (): Promise<
   ExistingCompany[]
@@ -59,6 +83,18 @@ export const upsertCompanies = async (rows: CompanyUpsert[]) => {
   }
 };
 
+/**
+ * Soft delete: `archived_at` hides a company instead of deleting the row, so
+ * one that comes back to the README is restored with its original `id` and
+ * `created_at` (and is not re-announced by the weekly digest).
+ *
+ * - Admin UI (later): archive first, hard-delete only archived rows. While the
+ *   README sync runs it restores/re-inserts anything still in the README, so
+ *   admin archives would need an `archived_reason` (or the sync turned off).
+ * - Index: none needed at this size (a seq scan is cheaper). At tens of
+ *   thousands of rows, add a partial index on `(created_at) where
+ *   archived_at is null` for the digest query.
+ */
 export const archiveCompanies = async (slugs: string[]) => {
   if (slugs.length === 0) return;
 

@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "biome check . --write --unsafe",
     "format": "biome format --write .",
-    "check-types": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "clean": "git clean -xdf .next .turbo node_modules playwright-report test-results",
     "test": "vitest run",
     "test:watch": "vitest",

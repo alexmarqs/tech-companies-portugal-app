@@ -61,7 +61,6 @@ const fetchGithubReadmeHtmlFrom = async (owner: string, repo: string) => {
 
   return {
     html,
-    // README freshness — not `date`, which is when GitHub served the request.
     lastModified: response.headers.get("last-modified"),
   };
 };

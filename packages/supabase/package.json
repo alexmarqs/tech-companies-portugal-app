@@ -7,7 +7,7 @@
     "clean": "git clean -xdf .turbo node_modules",
     "lint": "biome check . --write",
     "format": "biome format --write .",
-    "check-types": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",

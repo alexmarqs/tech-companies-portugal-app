@@ -1,5 +1,4 @@
-import type { Company } from "@tech-companies-portugal/core";
-import { getParsedCompaniesData } from "@tech-companies-portugal/core/server";
+import { getListedCompaniesCreatedAfter } from "@tech-companies-portugal/core/server";
 import {
   DEFAULT_EMAIL_FROM_NOTIFICATIONS,
   emailService,
@@ -9,79 +8,34 @@ import WeeklyNewCompaniesEmail from "@tech-companies-portugal/email/templates/we
 import { createAdminClient } from "@tech-companies-portugal/supabase/server";
 import { FatalError, RetryableError, sleep } from "workflow";
 
-/**
- * Vercel Workflow that emails subscribers about companies added to the
- * directory since the last snapshot. Replaces the Inngest cron + fan-out worker.
- *
- * Notes:
- * - Uncaught exceptions (new Error) are retried by default (3 retries)
- * - FatalError skips retries
- * - RetryableError for custom retry logic
- * - Running steps in parallel just uses Promise.all
- * - `maxRetries` is a *step* property; setting it on the workflow function
- *   does nothing.
- */
-
 const EMAIL_BATCH_SIZE = 3;
 const EMAIL_BATCH_DELAY = "2s";
+
+/** Matches the weekly cron in `apps/web/vercel.json` (Mondays 09:00). */
+const DIGEST_WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
 
 type NewCompany = {
   slug: string;
   name: string;
 };
 
-type CompaniesSnapshot = {
-  id: string | null;
-  slugs: string[];
-};
-
 export type WeeklyDigestWorkflowResult = {
-  status:
-    | "snapshot-created"
-    | "no-new-companies"
-    | "no-subscribers"
-    | "emails-sent";
+  status: "no-new-companies" | "no-subscribers" | "emails-sent";
   newCompaniesCount: number;
   subscribersCount: number;
   sentCount: number;
   failedCount: number;
-  snapshotAdvanced: boolean;
 };
 
+/**
+ * Workflow that emails subscribers about companies added to the directory
+ * (`companies.created_at`) in the last week.
+ */
 export async function weeklyDigestWorkflow(): Promise<WeeklyDigestWorkflowResult> {
   "use workflow";
 
-  // Independent of each other, so read them in parallel.
-  const [latestCompaniesSnapshot, currentCompanies] = await Promise.all([
-    getLatestCompaniesSnapshot(),
-    getCurrentCompanies(),
-  ]);
-
-  const currentCompaniesSlugs = currentCompanies.map((company) => company.slug);
-
-  // First ever run (or an empty snapshot row): record a baseline and stop, so
-  // we don't mail every company on the list as "new".
-  if (
-    !latestCompaniesSnapshot.id ||
-    latestCompaniesSnapshot.slugs.length === 0
-  ) {
-    await createNewCompaniesSnapshot(currentCompaniesSlugs);
-
-    return {
-      status: "snapshot-created",
-      newCompaniesCount: 0,
-      subscribersCount: 0,
-      sentCount: 0,
-      failedCount: 0,
-      snapshotAdvanced: true,
-    };
-  }
-
-  const previousCompaniesSlugs = new Set(latestCompaniesSnapshot.slugs);
-
-  const newCompanies = currentCompanies.filter(
-    (company) => !previousCompaniesSlugs.has(company.slug),
-  );
+  // Get the new companies
+  const newCompanies = await getNewCompanies();
 
   if (newCompanies.length === 0) {
     return {
@@ -90,30 +44,20 @@ export async function weeklyDigestWorkflow(): Promise<WeeklyDigestWorkflowResult
       subscribersCount: 0,
       sentCount: 0,
       failedCount: 0,
-      snapshotAdvanced: false,
     };
   }
 
+  // Get the subscribed users emails
   const subscribedUsersEmails = await getSubscribedUsersEmails();
 
-  // Nobody to mail, but the diff is real — advance the snapshot so next week
-  // reports only what is new relative to today.
   if (subscribedUsersEmails.length === 0) {
-    await updateCompaniesSnapshot(
-      latestCompaniesSnapshot.id,
-      currentCompaniesSlugs,
-    );
-
-    const result: WeeklyDigestWorkflowResult = {
+    return {
       status: "no-subscribers",
       newCompaniesCount: newCompanies.length,
       subscribersCount: 0,
       sentCount: 0,
       failedCount: 0,
-      snapshotAdvanced: true,
     };
-
-    return result;
   }
 
   let sentCount = 0;
@@ -146,115 +90,39 @@ export async function weeklyDigestWorkflow(): Promise<WeeklyDigestWorkflowResult
     }
   }
 
-  // Only advance the snapshot once at least one subscriber actually received
-  // this week's diff. If every send failed, the snapshot stays put so the next
-  // run retries the same diff instead of silently losing it.
+  // Fail the run loudly so it shows up in `workflow inspect runs`. There is no
+  // retry: next week's window will not include these companies.
   if (sentCount === 0) {
     throw new FatalError(
-      `Weekly digest: all ${failedCount} sends failed for ${newCompanies.length} new companies. Snapshot left at ${latestCompaniesSnapshot.id} so the diff is retried next run.`,
+      `Weekly digest: all ${failedCount} sends failed for ${newCompanies.length} new companies.`,
     );
   }
 
-  await updateCompaniesSnapshot(
-    latestCompaniesSnapshot.id,
-    currentCompaniesSlugs,
-  );
-
-  const result: WeeklyDigestWorkflowResult = {
+  return {
     status: "emails-sent",
     newCompaniesCount: newCompanies.length,
     subscribersCount: subscribedUsersEmails.length,
     sentCount,
     failedCount,
-    snapshotAdvanced: true,
   };
-
-  return result;
-}
-
-async function getLatestCompaniesSnapshot(): Promise<CompaniesSnapshot> {
-  "use step";
-
-  const supabase = await createAdminClient();
-
-  const { data, error } = await supabase
-    .from("companies_snapshot")
-    .select("id, slugs")
-    .order("snapshot_date", { ascending: false }) // most recent snapshot
-    .limit(1); // only one snapshot
-
-  if (error) {
-    console.error("[weekly-digest] failed to read companies snapshot", error);
-    throw error;
-  }
-
-  const snapshot: CompaniesSnapshot = {
-    id: data?.[0]?.id ?? null,
-    slugs: data?.[0]?.slugs ?? [],
-  };
-
-  console.log(
-    `[weekly-digest] latest snapshot id=${snapshot.id ?? "none"} slugs=${snapshot.slugs.length}`,
-  );
-
-  return snapshot;
 }
 
 /**
- * Reads through `getParsedCompaniesData()` — the same accessor the site uses —
- * so the digest can never announce a company that `/company/<slug>` cannot
- * render yet.
- *
- * That accessor is cached (`unstable_cache`, tag `companies-data`, 24h), and
- * we deliberately do not revalidate it here. The daily `sync-companies`
- * import expires the tag whenever it changes the `companies` table, so a
- * newly added company is normally visible by the time this runs; if the read
- * is still stale it is self-correcting — an empty diff returns early without
- * advancing the snapshot, so the next run still sees those companies as new.
+ * Reads the `companies` table directly. The daily `sync-companies` import
+ * expires the site's `companies-data` cache tag whenever it inserts, so a new
+ * company's `/company/<slug>` page is live by the time this runs.
  */
-async function getCurrentCompanies(): Promise<NewCompany[]> {
+async function getNewCompanies(): Promise<NewCompany[]> {
   "use step";
 
-  const { companies: parsedCompanies } = await getParsedCompaniesData();
+  // Computed inside the step so a workflow replay reuses the same window.
+  const since = new Date(Date.now() - DIGEST_WINDOW_MS).toISOString();
 
-  const companies = parsedCompanies.map((company: Company) => ({
-    slug: company.slug,
-    name: company.name,
-  }));
+  const rows = await getListedCompaniesCreatedAfter(since);
 
-  console.log(`[weekly-digest] parsed ${companies.length} companies`);
+  console.log(`[weekly-digest] ${rows.length} companies added since ${since}`);
 
-  if (companies.length === 0) {
-    // Treating an empty read as "every company was removed" would wipe the
-    // snapshot, so refuse to continue.
-    throw new FatalError(
-      "Read zero companies — refusing to diff against an empty list",
-    );
-  }
-
-  return companies;
-}
-
-async function createNewCompaniesSnapshot(
-  companiesSlugs: string[],
-): Promise<void> {
-  "use step";
-
-  const supabase = await createAdminClient();
-
-  const { error } = await supabase.from("companies_snapshot").insert({
-    slugs: companiesSlugs,
-    snapshot_date: new Date().toISOString(),
-  });
-
-  if (error) {
-    console.error("[weekly-digest] failed to create snapshot", error);
-    throw error;
-  }
-
-  console.log(
-    `[weekly-digest] created baseline snapshot with ${companiesSlugs.length} slugs`,
-  );
+  return rows.map((row) => ({ slug: row.slug, name: row.name }));
 }
 
 async function getSubscribedUsersEmails(): Promise<string[]> {
@@ -287,38 +155,6 @@ async function getSubscribedUsersEmails(): Promise<string[]> {
   console.log(`[weekly-digest] ${uniqueEmails.length} subscriber(s) to notify`);
 
   return uniqueEmails;
-}
-
-async function updateCompaniesSnapshot(
-  snapshotId: string | null,
-  currentCompaniesSlugs: string[],
-): Promise<void> {
-  "use step";
-
-  const supabase = await createAdminClient();
-
-  if (!snapshotId) {
-    throw new FatalError(
-      "Latest companies snapshot ID not found, cannot update snapshot",
-    );
-  }
-
-  const { error } = await supabase
-    .from("companies_snapshot")
-    .update({
-      slugs: currentCompaniesSlugs,
-      snapshot_date: new Date().toISOString(),
-    })
-    .eq("id", snapshotId);
-
-  if (error) {
-    console.error("[weekly-digest] failed to update snapshot", error);
-    throw error;
-  }
-
-  console.log(
-    `[weekly-digest] advanced snapshot ${snapshotId} to ${currentCompaniesSlugs.length} slugs`,
-  );
 }
 
 async function sendDigestEmail(

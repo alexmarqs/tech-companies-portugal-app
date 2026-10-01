@@ -35,8 +35,8 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       # https://github.com/vercel/next.js/issues/53959
-      # - name: Check types
-      #   run: pnpm run check-types
+      # - name: Typecheck
+      #   run: pnpm run typecheck
 
       - name: Check linting
         run: pnpm run lint

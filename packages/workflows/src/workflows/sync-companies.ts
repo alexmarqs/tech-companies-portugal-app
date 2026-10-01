@@ -17,16 +17,6 @@ import {
 import { revalidateTag } from "next/cache";
 import { FatalError } from "workflow";
 
-/**
- * Temporary README → `companies` import (jobs plan, phase 1, step 4), until
- * companies are edited in the database directly.
- *
- * Parses the README, validates it, and upserts what changed. Companies that
- * left the README are archived, never deleted, and an implausible import (a
- * failed or empty parse, a mass removal) is refused rather than applied —
- * see `planCompanyImport`.
- */
-
 type ReadmeCompanies = {
   companies: ImportedCompany[];
   invalid: InvalidCompany[];
@@ -50,13 +40,16 @@ export async function syncCompaniesWorkflow(): Promise<SyncCompaniesWorkflowResu
   "use workflow";
 
   // Step 1: Fetch the companies from the README
-  const readme = await fetchGithubReadmeCompanies();
+  const githubRepoCompanies = await fetchGithubReadmeCompanies();
 
   // Step 2: Hydrate the companies with logos
-  const companies = await hydrateLogos(readme.companies);
+  const companies = await hydrateLogos(githubRepoCompanies.companies);
 
   // Step 3: Apply the companies import
-  const result = await applyCompaniesImport(companies, readme.invalid);
+  const result = await applyCompaniesImport(
+    companies,
+    githubRepoCompanies.invalid,
+  );
 
   // Step 4: Revalidate the companies data
   if (result.status === "applied") {
@@ -131,7 +124,10 @@ async function applyCompaniesImport(
     throw error;
   }
 
+  // Upsert the companies
   await upsertCompanies(plan.upserts);
+
+  // Archive the companies, e.g. if they are no longer in the README etc.
   await archiveCompanies(plan.archiveSlugs);
 
   const result: SyncCompaniesWorkflowResult = {
