@@ -1,6 +1,6 @@
+import type { Company } from "@tech-companies-portugal/core";
 import { describe, expect, it } from "vitest";
 import { getShowcaseSeed, pickShowcaseCompanies } from "./showcase";
-import type { Company } from "./types";
 
 const company = (slug: string, overrides: Partial<Company> = {}): Company => ({
   slug,

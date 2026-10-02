@@ -1,5 +1,5 @@
-import type { Company } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import type { Company } from "@tech-companies-portugal/core";
 import { ArrowRight, MapPin } from "lucide-react";
 import Link from "next/link";
 import React from "react";

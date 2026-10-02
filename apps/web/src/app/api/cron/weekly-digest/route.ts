@@ -1,4 +1,5 @@
-import { weeklyDigestWorkflow } from "@/workflows/weekly-digest";
+import { verifyCronRequest } from "@/lib/cron";
+import { weeklyDigestWorkflow } from "@tech-companies-portugal/workflows";
 import { NextResponse } from "next/server";
 import { start } from "workflow/api";
 
@@ -11,18 +12,10 @@ import { start } from "workflow/api";
  * subscribers there are.
  */
 export async function GET(request: Request) {
-  const cronSecret = process.env.CRON_SECRET;
+  const unauthorized = verifyCronRequest(request, "weekly-digest");
 
-  if (!cronSecret) {
-    console.error("[weekly-digest] CRON_SECRET is not set");
-    return NextResponse.json(
-      { error: "Cron is not configured" },
-      { status: 500 },
-    );
-  }
-
-  if (request.headers.get("authorization") !== `Bearer ${cronSecret}`) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (unauthorized) {
+    return unauthorized;
   }
 
   const run = await start(weeklyDigestWorkflow);

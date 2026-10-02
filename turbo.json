@@ -34,7 +34,7 @@
         "storybook-static/**"
       ]
     },
-    "check-types": {
+    "typecheck": {
       "dependsOn": ["^transit"]
     },
     "test": {},

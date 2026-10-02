@@ -2,11 +2,12 @@
   "name": "@tech-companies-portugal/analytics",
   "version": "0.0.0",
   "private": true,
+  "sideEffects": false,
   "scripts": {
     "clean": "git clean -xdf .turbo node_modules",
     "lint": "biome check . --write",
     "format": "biome format --write .",
-    "check-types": "tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "exports": {
     "./client": "./src/client/index.tsx"
@@ -16,25 +17,19 @@
   },
   "peerDependencies": {
     "next": ">=14",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "^19.0.0"
   },
   "peerDependenciesMeta": {
     "react": {
-      "optional": true
-    },
-    "react-dom": {
       "optional": true
     }
   },
   "devDependencies": {
     "@tech-companies-portugal/typescript": "workspace:*",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "next": "^16",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "@types/node": "^22",
+    "@types/react": "19.2.14",
+    "next": "16.3.4",
+    "react": "19.2.6",
     "typescript": "^5"
   }
 }

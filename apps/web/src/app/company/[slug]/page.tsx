@@ -17,13 +17,17 @@ import {
   defaultOpenGraphMetadata,
   defaultTwitterMetadata,
 } from "@/lib/metadata";
-import {
-  getParsedCompaniesData,
-  getParsedCompanyBySlug,
-} from "@/lib/parser/companies";
+import { getParsedCompanyBySlug } from "@/lib/parser/companies";
 import { getRelatedCompanies } from "@/lib/related-companies";
 import type { NextParams } from "@/lib/types";
-import { ArrowRight, Briefcase, Globe } from "lucide-react";
+import { getParsedCompaniesData } from "@tech-companies-portugal/core/server";
+import {
+  ArrowRight,
+  Briefcase,
+  Facebook,
+  Globe,
+  Instagram,
+} from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next/types";
@@ -166,6 +170,18 @@ export default async function CompanyPage({
                 </svg>
               }
               label="GitHub"
+              companyName={company.name}
+            />
+            <LinkUrlButton
+              url={company.instagramUrl}
+              icon={<Instagram size={14} />}
+              label="Instagram"
+              companyName={company.name}
+            />
+            <LinkUrlButton
+              url={company.facebookUrl}
+              icon={<Facebook size={14} />}
+              label="Facebook"
               companyName={company.name}
             />
           </div>

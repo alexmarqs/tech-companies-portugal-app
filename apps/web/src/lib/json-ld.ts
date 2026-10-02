@@ -1,3 +1,4 @@
+import type { Company } from "@tech-companies-portugal/core";
 import type {
   BreadcrumbList,
   ItemList,
@@ -6,7 +7,6 @@ import type {
   WithContext,
 } from "schema-dts";
 import { APP_URL, DESCRIPTION, SITE_NAME } from "./metadata";
-import type { Company } from "./types";
 
 export function safeJsonLdStringify(jsonLd: unknown): string {
   return JSON.stringify(jsonLd).replace(/</g, "\\u003c");
@@ -57,7 +57,12 @@ export function generateOrganizationJsonLd(): WithContext<Organization> {
 export function generateCompanyJsonLd(
   company: Company,
 ): WithContext<Organization> {
-  const sameAs = [company.websiteUrl, company.githubUrl].filter(Boolean);
+  const sameAs = [
+    company.websiteUrl,
+    company.githubUrl,
+    company.instagramUrl,
+    company.facebookUrl,
+  ].filter((url): url is string => Boolean(url));
 
   return {
     "@context": "https://schema.org",

@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useGetUserProfile } from "@/hooks/users";
 import { useSession } from "@/lib/contexts/SessionContext";
-import { createClient } from "@/lib/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
+import { createClient } from "@tech-companies-portugal/supabase/client";
 import { Loader2, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

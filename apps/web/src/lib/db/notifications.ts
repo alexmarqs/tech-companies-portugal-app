@@ -1,5 +1,8 @@
-import { createClient } from "../supabase/client";
-import type { Tables, TablesInsert } from "../supabase/database.types";
+import { createClient } from "@tech-companies-portugal/supabase/client";
+import type {
+  Tables,
+  TablesInsert,
+} from "@tech-companies-portugal/supabase/types";
 
 export const getUserNotificationSettings = async (): Promise<
   Tables<"notification_settings">[]

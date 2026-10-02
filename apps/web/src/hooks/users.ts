@@ -4,13 +4,16 @@ import {
   updateUserProfile,
   uploadUserAvatar,
 } from "@/lib/db/users";
-import type { Tables, TablesUpdate } from "@/lib/supabase/database.types";
 import {
   type UseMutationOptions,
   type UseQueryOptions,
   useMutation,
   useQuery,
 } from "@tanstack/react-query";
+import type {
+  Tables,
+  TablesUpdate,
+} from "@tech-companies-portugal/supabase/types";
 
 export enum UsersServerKeys {
   GET_USER_PROFILE = "GET_USER_PROFILE",

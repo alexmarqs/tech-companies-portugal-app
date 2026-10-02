@@ -1,0 +1,32 @@
+{
+  "name": "@tech-companies-portugal/workflows",
+  "version": "0.0.0",
+  "private": true,
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./workflows/*": "./src/workflows/*.ts"
+  },
+  "scripts": {
+    "clean": "git clean -xdf .turbo node_modules",
+    "lint": "biome check . --write",
+    "format": "biome format --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tech-companies-portugal/core": "workspace:*",
+    "@tech-companies-portugal/supabase": "workspace:*",
+    "@tech-companies-portugal/email": "workspace:*"
+  },
+  "peerDependencies": {
+    "next": ">=16",
+    "workflow": "^4.8.8"
+  },
+  "devDependencies": {
+    "@tech-companies-portugal/typescript": "workspace:*",
+    "@types/node": "^22",
+    "next": "16.3.4",
+    "typescript": "^5",
+    "workflow": "^4.8.8"
+  }
+}

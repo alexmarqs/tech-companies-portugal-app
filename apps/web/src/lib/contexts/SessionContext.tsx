@@ -1,7 +1,7 @@
 "use client";
 
-import { createClient } from "@/lib/supabase/client";
-import type { Session } from "@supabase/supabase-js";
+import { createClient } from "@tech-companies-portugal/supabase/client";
+import type { Session } from "@tech-companies-portugal/supabase/types";
 import {
   type ReactNode,
   createContext,

@@ -4,7 +4,13 @@ import { withWorkflow } from "workflow/next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   allowedDevOrigins: ["127.0.0.1"],
-  transpilePackages: ["@tech-companies-portugal/analytics"],
+  transpilePackages: [
+    "@tech-companies-portugal/analytics",
+    "@tech-companies-portugal/core",
+    "@tech-companies-portugal/email",
+    "@tech-companies-portugal/supabase",
+    "@tech-companies-portugal/workflows",
+  ],
   images: {
     remotePatterns: [
       {

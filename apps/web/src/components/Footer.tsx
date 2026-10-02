@@ -1,5 +1,5 @@
-import { getParsedCompaniesData } from "@/lib/parser/companies";
 import { PUBLIC_CONTACT_EMAIL } from "@/lib/utils";
+import { getParsedCompaniesData } from "@tech-companies-portugal/core/server";
 import { MapPin, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -51,7 +51,7 @@ export default async function Footer() {
                 href="/llms.txt"
                 className="text-sm text-foreground/80 hover:text-primary transition-colors"
               >
-                LLMs.txt
+                llms.txt
               </Link>
               <a
                 href={`mailto:${PUBLIC_CONTACT_EMAIL}`}

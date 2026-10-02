@@ -1,9 +1,9 @@
-import { getParsedCompaniesData } from "@/lib/parser/companies";
 import {
   SITEMAP_XML_HEADERS,
   buildSitemapIndexXml,
   childSitemapEntries,
 } from "@/lib/sitemaps";
+import { getParsedCompaniesData } from "@tech-companies-portugal/core/server";
 
 export const dynamic = "force-static";
 

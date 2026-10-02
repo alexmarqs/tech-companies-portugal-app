@@ -1,7 +1,6 @@
-import WelcomeEmail from "@/emails/templates/welcome";
-import { emailService } from "@/lib/email";
-import { createClient } from "@/lib/supabase/server";
-import { render } from "@react-email/render";
+import { emailService, render } from "@tech-companies-portugal/email";
+import WelcomeEmail from "@tech-companies-portugal/email/templates/welcome";
+import { createClient } from "@tech-companies-portugal/supabase/server";
 import { waitUntil } from "@vercel/functions";
 import { differenceInSeconds } from "date-fns";
 import { NextResponse } from "next/server";

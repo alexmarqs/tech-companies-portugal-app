@@ -1,36 +1,5 @@
-import { unstable_cache } from "next/cache";
-import { cache } from "react";
-import { hydrateCompaniesWithLogos } from "../logos";
-import { parseCompaniesData } from "../parser";
+import { getParsedCompaniesData } from "@tech-companies-portugal/core/server";
 import { getShowcaseSeed, pickShowcaseCompanies } from "../showcase";
-
-export const getParsedCompaniesData = cache(
-  unstable_cache(
-    async () => {
-      const { data, timestamp } = await parseCompaniesData();
-
-      // sort data.companies by isFeatured first
-      data.companies.sort((a, b) => {
-        if (a.isFeatured && !b.isFeatured) return -1;
-        if (!a.isFeatured && b.isFeatured) return 1;
-        return 0;
-      });
-
-      const companiesWithLogos = await hydrateCompaniesWithLogos(
-        data.companies,
-      );
-
-      return {
-        companies: companiesWithLogos,
-        availableLocations: data.availableLocations,
-        availableCategories: data.availableCategories,
-        updatedAtISODate: timestamp,
-      };
-    },
-    ["companies-with-logos"],
-    { revalidate: 86400, tags: ["companies-data"] }, // 1 day
-  ),
-);
 
 export const getParsedCompaniesCategoriesAndLocations = async () => {
   const { availableCategories, availableLocations } =

@@ -1,4 +1,4 @@
-import type { Company } from "./types";
+import type { Company } from "@tech-companies-portugal/core";
 
 function normalizeCategories(categories: string[] | string): string[] {
   return Array.isArray(categories) ? categories : [categories];

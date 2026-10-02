@@ -1,4 +1,4 @@
-import type { Company } from "./types";
+import type { Company } from "@tech-companies-portugal/core";
 
 const CITY_IMAGE_DIR = "/assets/images/cities";
 

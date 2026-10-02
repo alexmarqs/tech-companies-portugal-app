@@ -1,5 +1,5 @@
 import { cityBrowseItems } from "@/lib/browse";
-import type { Company } from "@/lib/types";
+import type { Company } from "@tech-companies-portugal/core";
 import Link from "next/link";
 
 /**
