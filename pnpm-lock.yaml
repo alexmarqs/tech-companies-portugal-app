@@ -68,6 +68,9 @@ importers:
       '@tech-companies-portugal/email':
         specifier: workspace:*
         version: link:../../packages/email
+      '@tech-companies-portugal/supabase':
+        specifier: workspace:*
+        version: link:../../packages/supabase
       '@tech-companies-portugal/workflows':
         specifier: workspace:*
         version: link:../../packages/workflows
@@ -127,7 +130,7 @@ importers:
         version: 1.1.2(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       workflow:
         specifier: ^4.8.8
-        version: 4.8.8(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@12.0.1(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(@opentelemetry/api@1.9.0)(@swc/cli@0.8.1(@swc/core@1.15.3(@swc/helpers@0.5.23))(chokidar@5.0.0))(@swc/core@1.15.3(@swc/helpers@0.5.23))(@swc/helpers@0.5.23)(next@16.3.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(@types/node@22.20.4)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3)(ws@8.18.3)
+        version: 4.8.8(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@12.0.1(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(@opentelemetry/api@1.9.0)(@swc/cli@0.8.1(@swc/core@1.15.3(@swc/helpers@0.5.23))(chokidar@5.0.0))(@swc/core@1.15.3(@swc/helpers@0.5.23))(@swc/helpers@0.5.23)(next@16.3.4(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(@types/node@22.20.4)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3)(ws@8.18.3)
       zod:
         specifier: ^4.3.6
         version: 4.3.6
@@ -138,9 +141,6 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4.2.1
         version: 4.2.1
-      '@tech-companies-portugal/supabase':
-        specifier: workspace:*
-        version: link:../../packages/supabase
       '@tech-companies-portugal/typescript':
         specifier: workspace:*
         version: link:../../tooling/typescript
@@ -340,7 +340,7 @@ importers:
         version: 5.9.3
       workflow:
         specifier: ^4.8.8
-        version: 4.8.8(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@12.0.1(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(@opentelemetry/api@1.9.0)(@swc/cli@0.8.1(@swc/core@1.15.3(@swc/helpers@0.5.23))(chokidar@5.0.0))(@swc/core@1.15.3(@swc/helpers@0.5.23))(@swc/helpers@0.5.23)(next@16.3.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(@types/node@22.20.4)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3)(ws@8.18.3)
+        version: 4.8.8(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@12.0.1(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(@opentelemetry/api@1.9.0)(@swc/cli@0.8.1(@swc/core@1.15.3(@swc/helpers@0.5.23))(chokidar@5.0.0))(@swc/core@1.15.3(@swc/helpers@0.5.23))(@swc/helpers@0.5.23)(next@16.3.4(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(@types/node@22.20.4)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3)(ws@8.18.3)
 
   tooling/typescript: {}
 
@@ -8770,7 +8770,7 @@ snapshots:
       - supports-color
       - ws
 
-  '@workflow/next@4.1.12(@opentelemetry/api@1.9.0)(@swc/helpers@0.5.23)(next@16.3.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(@types/node@22.20.4)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(ws@8.18.3)':
+  '@workflow/next@4.1.12(@opentelemetry/api@1.9.0)(@swc/helpers@0.5.23)(next@16.3.4(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(@types/node@22.20.4)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(ws@8.18.3)':
     dependencies:
       '@swc/core': 1.15.3(@swc/helpers@0.5.23)
       '@workflow/builders': 4.1.13(@opentelemetry/api@1.9.0)(@swc/helpers@0.5.23)(ws@8.18.3)
@@ -11796,14 +11796,14 @@ snapshots:
 
   wordwrap@1.0.0: {}
 
-  workflow@4.8.8(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@12.0.1(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(@opentelemetry/api@1.9.0)(@swc/cli@0.8.1(@swc/core@1.15.3(@swc/helpers@0.5.23))(chokidar@5.0.0))(@swc/core@1.15.3(@swc/helpers@0.5.23))(@swc/helpers@0.5.23)(next@16.3.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(@types/node@22.20.4)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3)(ws@8.18.3):
+  workflow@4.8.8(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@12.0.1(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(@opentelemetry/api@1.9.0)(@swc/cli@0.8.1(@swc/core@1.15.3(@swc/helpers@0.5.23))(chokidar@5.0.0))(@swc/core@1.15.3(@swc/helpers@0.5.23))(@swc/helpers@0.5.23)(next@16.3.4(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(@types/node@22.20.4)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3)(ws@8.18.3):
     dependencies:
       '@workflow/astro': 4.0.23(@opentelemetry/api@1.9.0)(@swc/helpers@0.5.23)(ws@8.18.3)
       '@workflow/cli': 4.3.12(@opentelemetry/api@1.9.0)(@swc/helpers@0.5.23)(ws@8.18.3)
       '@workflow/core': 4.8.8(@opentelemetry/api@1.9.0)(ws@8.18.3)
       '@workflow/errors': 4.2.1
       '@workflow/nest': 4.0.24(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@12.0.1(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(@opentelemetry/api@1.9.0)(@swc/cli@0.8.1(@swc/core@1.15.3(@swc/helpers@0.5.23))(chokidar@5.0.0))(@swc/core@1.15.3(@swc/helpers@0.5.23))(@swc/helpers@0.5.23)(ws@8.18.3)
-      '@workflow/next': 4.1.12(@opentelemetry/api@1.9.0)(@swc/helpers@0.5.23)(next@16.3.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(@types/node@22.20.4)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(ws@8.18.3)
+      '@workflow/next': 4.1.12(@opentelemetry/api@1.9.0)(@swc/helpers@0.5.23)(next@16.3.4(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(@types/node@22.20.4)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(ws@8.18.3)
       '@workflow/nitro': 4.1.14(@opentelemetry/api@1.9.0)(@swc/helpers@0.5.23)(ws@8.18.3)
       '@workflow/nuxt': 4.0.24(@opentelemetry/api@1.9.0)(@swc/helpers@0.5.23)(ws@8.18.3)
       '@workflow/rollup': 4.0.23(@opentelemetry/api@1.9.0)(@swc/helpers@0.5.23)(ws@8.18.3)
