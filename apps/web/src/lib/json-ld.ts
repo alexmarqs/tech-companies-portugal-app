@@ -57,7 +57,12 @@ export function generateOrganizationJsonLd(): WithContext<Organization> {
 export function generateCompanyJsonLd(
   company: Company,
 ): WithContext<Organization> {
-  const sameAs = [company.websiteUrl, company.githubUrl].filter(Boolean);
+  const sameAs = [
+    company.websiteUrl,
+    company.githubUrl,
+    company.instagramUrl,
+    company.facebookUrl,
+  ].filter((url): url is string => Boolean(url));
 
   return {
     "@context": "https://schema.org",

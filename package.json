@@ -7,14 +7,14 @@
     "build": "turbo build",
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo clean",
-    "dev": "turbo dev --parallel",
+    "dev": "turbo dev",
     "dev:web": "turbo dev --filter=@tech-companies-portugal/web",
     "start:web": "turbo start --filter=@tech-companies-portugal/web",
     "format": "biome format --write .",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
     "test:e2e:web": "turbo test:e2e --filter=@tech-companies-portugal/web",
-    "test": "turbo test --parallel",
+    "test": "turbo test",
     "react:doctor": "pnpm dlx react-doctor@latest ."
   },
   "engines": {

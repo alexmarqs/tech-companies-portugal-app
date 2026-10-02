@@ -61,6 +61,18 @@ To preview email templates on port 3002:
 pnpm --filter @tech-companies-portugal/email email:dev
 ```
 
+## Adding a company manually ➕
+
+Most companies come from the [tech-companies-in-portugal](https://github.com/marmelo/tech-companies-in-portugal) README via the daily sync. For a company that isn't listed there (for example, one that asked to be added by email), we use the `create-manual-company` script. For now this is the way to add companies directly, and it also serves as a fallback until companies can be managed in the app - soon available.
+
+```bash
+pnpm --filter @tech-companies-portugal/core script:create-manual-company
+```
+
+Run without flags, it asks for each field. You can also pass the fields as flags (`--name`, `--website`, `--description`, `--category`, `--location`, plus optional `--careers`, `--github`, `--instagram`, `--facebook`); it then asks only for what's missing. See `--help` for all options.
+
+The company is saved with `source = 'manual'`, so the README sync never archives or overwrites it. It writes to the database configured in `apps/web/.env.local` and shows on the site within a day.
+
 ## Database migrations 🗄️
 
 Migrations live in `packages/supabase/supabase/migrations/`. Run the commands below from `packages/supabase`, or from the root with `pnpm --filter @tech-companies-portugal/supabase <script>`.

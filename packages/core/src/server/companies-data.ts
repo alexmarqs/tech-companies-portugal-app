@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { cache } from "react";
-import { buildCompaniesCatalogue } from "../companies-catalogue";
+import { buildCompaniesCatalog } from "../companies-catalog";
 import { COMPANIES_DATA_TAG } from "../constants";
 import { getListedCompanyRows } from "./db/companies";
 
@@ -21,7 +21,7 @@ export const getParsedCompaniesData = cache(
         throw new Error("No companies found in the database");
       }
 
-      return buildCompaniesCatalogue(rows);
+      return buildCompaniesCatalog(rows);
     },
     ["companies-db"],
     { revalidate: 86400, tags: [COMPANIES_DATA_TAG] }, // 1 day

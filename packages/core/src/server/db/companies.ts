@@ -1,10 +1,7 @@
 import "server-only";
 
 import { createAdminClient } from "@tech-companies-portugal/supabase/server";
-import {
-  COMPANY_ROW_COLUMNS,
-  type CompanyRow,
-} from "../../companies-catalogue";
+import { COMPANY_ROW_COLUMNS, type CompanyRow } from "../../companies-catalog";
 import type { CompanyUpsert, ExistingCompany } from "../../company-import";
 
 /** Listed (non-archived) companies; `buildCompaniesCatalogue` orders them. */

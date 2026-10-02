@@ -9,6 +9,8 @@ export type CompanyRow = Pick<
   | "website_url"
   | "careers_url"
   | "github_url"
+  | "instagram_url"
+  | "facebook_url"
   | "categories"
   | "locations"
   | "logo_url"
@@ -17,7 +19,7 @@ export type CompanyRow = Pick<
 >;
 
 export const COMPANY_ROW_COLUMNS =
-  "slug, name, description, website_url, careers_url, github_url, categories, locations, logo_url, is_featured, updated_at";
+  "slug, name, description, website_url, careers_url, github_url, instagram_url, facebook_url, categories, locations, logo_url, is_featured, updated_at";
 
 const compareText = (a: string, b: string) =>
   a.localeCompare(b, "en", { sensitivity: "base" });
@@ -27,7 +29,7 @@ const compareText = (a: string, b: string) =>
  * README directly, so readers are unchanged. Display order is featured
  * first, then by name.
  */
-export const buildCompaniesCatalogue = (rows: CompanyRow[]) => {
+export const buildCompaniesCatalog = (rows: CompanyRow[]) => {
   const sortedRows = [...rows].sort(
     (a, b) =>
       Number(b.is_featured) - Number(a.is_featured) ||
@@ -41,6 +43,8 @@ export const buildCompaniesCatalogue = (rows: CompanyRow[]) => {
     websiteUrl: row.website_url,
     careersUrl: row.careers_url,
     githubUrl: row.github_url,
+    instagramUrl: row.instagram_url,
+    facebookUrl: row.facebook_url,
     categories: row.categories,
     locations: row.locations,
     isFeatured: row.is_featured,

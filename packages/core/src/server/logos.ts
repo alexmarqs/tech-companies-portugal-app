@@ -65,11 +65,15 @@ async function fetchLogoViaSearch(domain: string): Promise<Buffer | null> {
 }
 
 async function fetchLogoDirectly(domain: string): Promise<Buffer | null> {
+  // Without `fallback=404`, logo.dev answers an unknown domain with a
+  // generated letter placeholder: `202` while it fetches the real logo, then
+  // `200` if it finds none. With it, those cases are `404`, so only a real
+  // logo comes back as `200`.
   const imageResponse = await fetch(
-    `https://img.logo.dev/${encodeURIComponent(domain)}?token=${LOGOS_PUBLISHABLE_KEY}&format=png`,
+    `https://img.logo.dev/${encodeURIComponent(domain)}?token=${LOGOS_PUBLISHABLE_KEY}&format=png&fallback=404`,
   );
 
-  if (!imageResponse.ok) return null;
+  if (imageResponse.status !== 200) return null;
 
   const arrayBuffer = await imageResponse.arrayBuffer();
   return Buffer.from(arrayBuffer);

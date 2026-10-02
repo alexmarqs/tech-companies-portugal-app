@@ -51,7 +51,7 @@ export default async function Footer() {
                 href="/llms.txt"
                 className="text-sm text-foreground/80 hover:text-primary transition-colors"
               >
-                LLMs.txt
+                llms.txt
               </Link>
               <a
                 href={`mailto:${PUBLIC_CONTACT_EMAIL}`}

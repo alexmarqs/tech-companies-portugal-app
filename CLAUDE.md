@@ -22,6 +22,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Email
 - From `packages/email` (or `pnpm --filter @tech-companies-portugal/email email:dev` from root): `pnpm run email:dev` - React Email dev server on port 3002
 
+### Companies
+- `pnpm --filter @tech-companies-portugal/core script:create-manual-company [--name … --website … --description … --category … --location …]` - Create a company that is not in the README (`source = 'manual'`, the sync leaves it alone). In a terminal, prompts for missing required fields (everything with no flags); without one, all required flags and `--yes` are needed. `--file <entry.json>`, `--help`. Writes to the database in `apps/web/.env.local`
+
 ### Database Migrations (from `packages/supabase`, or `pnpm --filter @tech-companies-portugal/supabase <script>` from root)
 - `pnpm run db:link <ref>` - Link to remote project (one-time setup)
 - `pnpm run db:start` / `db:stop` / `db:reset` - Local Supabase stack
@@ -49,6 +52,7 @@ Turbo monorepo: `apps/*`, `packages/*`, `tooling/*`.
 
 ### Data Flow
 - Company data is fetched from the GitHub API (`marmelo/tech-companies-in-portugal` README), parsed with Cheerio, and hydrated with logos (`packages/core/src/server/readme-parser.ts`, `logos.ts`); the site reads it back via `getParsedCompaniesData` in `packages/core/src/server/companies-data.ts`
+- `companies.source` marks who owns a row: `readme` (managed by the daily sync), `manual` (created with `create-manual-company`), `app` (reserved for in-app creation). The sync never updates or archives non-`readme` rows
 - Data is cached with `unstable_cache` (tag: `companies-data`, 1-day revalidation)
 - Featured companies defined in `packages/core/src/featured.ts`
 - Search uses URL state management via Nuqs (`src/lib/search-params.ts`)

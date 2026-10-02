@@ -5,6 +5,8 @@ export type Company = {
   websiteUrl: string;
   careersUrl: string;
   githubUrl: string;
+  instagramUrl?: string;
+  facebookUrl?: string;
   categories: string[] | string;
   locations: string[];
   isFeatured?: boolean;
