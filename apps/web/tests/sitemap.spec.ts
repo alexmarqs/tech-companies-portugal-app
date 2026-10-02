@@ -20,23 +20,30 @@ test.describe("Sitemaps", () => {
   test("lastmod reflects the source data, not the time it was served", async ({
     request,
   }) => {
+    const parseLastmods = (xml: string) =>
+      [...xml.matchAll(/<lastmod>(.*?)<\/lastmod>/g)].map((match) =>
+        Date.parse(match[1] as string),
+      );
+
     const response = await request.get("/sitemap.xml");
-    const xml = await response.text();
+    const lastmods = parseLastmods(await response.text());
+    expect(lastmods).toHaveLength(4);
 
-    const lastmods = [...xml.matchAll(/<lastmod>(.*?)<\/lastmod>/g)].map(
-      (match) => match[1],
-    );
-    // GitHub may omit last-modified; lastmod is then all-or-nothing.
-    expect([0, 4]).toContain(lastmods.length);
+    // lastmod is the latest `companies.updated_at`, which can be minutes
+    // old, so assert consistency instead of age.
+    const [indexLastmod] = lastmods;
+    expect(Number.isNaN(indexLastmod)).toBe(false);
+    expect(new Set(lastmods).size).toBe(1);
 
-    // Older than an hour so a `new Date()` / `date` header regression fails.
-    const hourInMs = 60 * 60 * 1000;
+    const servedAt = Date.parse(response.headers().date as string);
+    expect(indexLastmod).toBeLessThanOrEqual(servedAt);
 
-    for (const lastmod of lastmods) {
-      const parsed = Date.parse(lastmod as string);
-      expect(Number.isNaN(parsed)).toBe(false);
-      expect(Date.now() - parsed).toBeGreaterThan(hourInMs);
-    }
+    // Separately generated sitemaps only agree to the millisecond when both
+    // read the dataset; a `new Date()` regression drifts between them.
+    const companySitemap = await request.get("/company/sitemap.xml");
+    const companyLastmods = parseLastmods(await companySitemap.text());
+    expect(companyLastmods.length).toBeGreaterThan(0);
+    expect(new Set([indexLastmod, ...companyLastmods]).size).toBe(1);
   });
 
   test("company sitemap lists company profile URLs", async ({ request }) => {
