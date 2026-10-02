@@ -8,6 +8,15 @@ import { OG_CONTENT_TYPE, OG_SIZE, loadOgFonts } from "@/lib/og/utils";
 import { getParsedCompanyBySlug } from "@/lib/parser/companies";
 import { ImageResponse } from "next/og";
 
+// force generation on demand for paths not known at build time
+// this is the default anyway
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  // this is to force generation on demand for paths not known at build time
+  return [];
+}
+
 export const alt = "Tech Company in Portugal";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
