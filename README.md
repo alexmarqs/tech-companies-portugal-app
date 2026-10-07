@@ -126,3 +126,7 @@ Rules:
 
 No requirements, just open a pull request with your changes.
 If you want to add a new feature, please open an issue first to discuss it.
+
+## License 📄
+
+This project is licensed under the [MIT License](LICENSE).

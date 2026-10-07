@@ -1,6 +1,7 @@
 {
   "name": "tech-companies-portugal",
   "private": true,
+  "license": "MIT",
   "author": "Alexandre Marques",
   "description": "Monorepo for the Tech Companies in Portugal",
   "scripts": {
