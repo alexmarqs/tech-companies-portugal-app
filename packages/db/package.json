@@ -1,5 +1,5 @@
 {
-  "name": "@tech-companies-portugal/supabase",
+  "name": "@tech-companies-portugal/db",
   "version": "0.0.0",
   "sideEffects": false,
   "private": true,
@@ -22,6 +22,7 @@
     "./client": "./src/client/index.ts",
     "./server": "./src/server/index.ts",
     "./middleware": "./src/server/middleware.ts",
+    "./queries": "./src/queries/index.ts",
     "./types": "./src/types/index.ts"
   },
   "peerDependencies": {

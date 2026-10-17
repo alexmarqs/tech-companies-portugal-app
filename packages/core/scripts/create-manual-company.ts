@@ -22,13 +22,18 @@ import {
   spinner,
   text,
 } from "@clack/prompts";
-import { createAdminClient } from "@tech-companies-portugal/supabase/server";
+import {
+  getAllCompanySlugs,
+  getListedCompanyRows,
+  insertCompany,
+} from "@tech-companies-portugal/db/queries";
+import { createAdminClient } from "@tech-companies-portugal/db/server";
+import type { DbClient } from "@tech-companies-portugal/db/types";
 import {
   type ImportedCompany,
   normalizeReadmeCompanies,
 } from "../src/company-import";
 import { toCompanySlug } from "../src/company-slug";
-import { getListedCompanyRows } from "../src/server/db/companies";
 import { hydrateCompaniesWithLogos } from "../src/server/logos";
 import type { CompanySource } from "../src/types";
 
@@ -364,10 +369,11 @@ const uniqueSorted = (values: string[]) =>
  * only when `askOptional` (the run with nothing passed).
  */
 const promptMissing = async (
+  supabase: DbClient,
   given: Partial<ManualCompanyEntry>,
   askOptional: boolean,
 ): Promise<ManualCompanyEntry> => {
-  const rows = await getListedCompanyRows();
+  const rows = await getListedCompanyRows(supabase);
   const categories = uniqueSorted(rows.flatMap((row) => row.categories));
   const locations = uniqueSorted(rows.flatMap((row) => row.locations));
 
@@ -403,20 +409,6 @@ const promptMissing = async (
 
 // ------------------------------------------------------------------- db
 
-/** Every slug in the table, archived and any source included. */
-const getAllCompanySlugs = async (): Promise<Set<string>> => {
-  const supabase = await createAdminClient();
-
-  const { data, error } = await supabase.from("companies").select("slug");
-
-  if (error) {
-    console.error("Error fetching company slugs", error);
-    throw error;
-  }
-
-  return new Set(data.map((row) => row.slug));
-};
-
 const MANUAL_SOURCE: CompanySource = "manual";
 
 /**
@@ -424,36 +416,25 @@ const MANUAL_SOURCE: CompanySource = "manual";
  * sync from archiving or overwriting it. Fails on a duplicate slug
  * (unique constraint) rather than overwriting.
  */
-const insertManualCompany = async (company: PreparedManualCompany) => {
-  const supabase = await createAdminClient();
-
-  const { data, error } = await supabase
-    .from("companies")
-    .insert({
-      slug: company.slug,
-      name: company.name,
-      description: company.description,
-      website_url: company.websiteUrl,
-      careers_url: company.careersUrl,
-      github_url: company.githubUrl,
-      instagram_url: company.instagramUrl,
-      facebook_url: company.facebookUrl,
-      categories: company.categories,
-      locations: company.locations,
-      logo_url: company.logoUrl ?? null,
-      is_featured: false,
-      source: MANUAL_SOURCE,
-    })
-    .select("slug, created_at")
-    .single();
-
-  if (error) {
-    console.error("Error inserting company", error);
-    throw error;
-  }
-
-  return data;
-};
+const insertManualCompany = (
+  supabase: DbClient,
+  company: PreparedManualCompany,
+) =>
+  insertCompany(supabase, {
+    slug: company.slug,
+    name: company.name,
+    description: company.description,
+    website_url: company.websiteUrl,
+    careers_url: company.careersUrl,
+    github_url: company.githubUrl,
+    instagram_url: company.instagramUrl,
+    facebook_url: company.facebookUrl,
+    categories: company.categories,
+    locations: company.locations,
+    logo_url: company.logoUrl ?? null,
+    is_featured: false,
+    source: MANUAL_SOURCE,
+  });
 
 // ---------------------------------------------------------------- main
 
@@ -500,6 +481,7 @@ const main = async () => {
   };
 
   const passedAnything = Object.keys(given).length > 0;
+
   const missingFlags = REQUIRED.filter(({ field }) =>
     isMissing(given[field]),
   ).map(({ flag }) => flag);
@@ -518,6 +500,8 @@ const main = async () => {
 
   intro("Create a manual company");
 
+  const supabase = await createAdminClient();
+
   if (passedAnything && missingFlags.length > 0) {
     log.info(`Asking for what was not passed: ${missingFlags.join(", ")}`);
   }
@@ -526,9 +510,12 @@ const main = async () => {
     missingFlags.length === 0
       ? // Every required field is present (checked above).
         (given as ManualCompanyEntry)
-      : await promptMissing(given, !passedAnything);
+      : await promptMissing(supabase, given, !passedAnything);
 
-  const result = prepareManualCompany(entry, await getAllCompanySlugs());
+  const result = prepareManualCompany(
+    entry,
+    await getAllCompanySlugs(supabase),
+  );
 
   if (!result.ok) {
     log.error(`Not added: ${result.reason}`);
@@ -556,7 +543,7 @@ const main = async () => {
   progress.stop(company.logoUrl ? `Logo: ${company.logoUrl}` : "No logo found");
 
   progress.start("Inserting");
-  const inserted = await insertManualCompany(company);
+  const inserted = await insertManualCompany(supabase, company);
   progress.stop(`Inserted (created_at ${inserted.created_at})`);
 
   outro(

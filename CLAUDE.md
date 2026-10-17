@@ -25,7 +25,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Companies
 - `pnpm --filter @tech-companies-portugal/core script:create-manual-company [--name … --website … --description … --category … --location …]` - Create a company that is not in the README (`source = 'manual'`, the sync leaves it alone). In a terminal, prompts for missing required fields (everything with no flags); without one, all required flags and `--yes` are needed. `--file <entry.json>`, `--help`. Writes to the database in `apps/web/.env.local`
 
-### Database Migrations (from `packages/supabase`, or `pnpm --filter @tech-companies-portugal/supabase <script>` from root)
+### Database Migrations (from `packages/db`, or `pnpm --filter @tech-companies-portugal/db <script>` from root)
 - `pnpm run db:link <ref>` - Link to remote project (one-time setup)
 - `pnpm run db:start` / `db:stop` / `db:reset` - Local Supabase stack
 - `pnpm run db:diff <name>` - Generate migration from remote/dashboard changes
@@ -34,7 +34,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `pnpm run db:push` - Push migrations to remote
 - `pnpm run db:types` - Regenerate `src/types/database.types.ts` after schema changes
 - Never edit already-applied migration files — always create a new one
-- Migration files live in `packages/supabase/supabase/migrations/`
+- Migration files live in `packages/db/supabase/migrations/`
 - Any new table in `public` must include explicit `grant` statements for the API roles that need access (typically `authenticated` and `service_role`; avoid granting to `anon` unless the table is intentionally public), plus `alter table … enable row level security` and policies. `supabase db diff` emits the grants automatically; hand-written migrations must include them. Default privileges for `public` are revoked, so a missing grant returns `42501` from supabase-js.
 
 ## Architecture
@@ -44,7 +44,7 @@ Turbo monorepo: `apps/*`, `packages/*`, `tooling/*`.
 ### Web App (`apps/web`) - Next.js 16 with App Router
 - **Styling**: Tailwind CSS v4 + Shadcn UI components
 - **State**: Nuqs for URL query state, React Query for server state
-- **Auth & Database**: Supabase via `@tech-companies-portugal/supabase` (`/client`, `/server`, `/middleware`, `/types`)
+- **Auth & Database**: Supabase via `@tech-companies-portugal/db` (`/client`, `/server`, `/middleware`, `/types`, `/queries`)
 - **Background Jobs**: Vercel Workflow SDK (`workflow`) for durable jobs. Workflows live in `packages/workflows/src/workflows/` (exported from `@tech-companies-portugal/workflows`; `withWorkflow()` discovers them there); `apps/web` keeps `workflow` as a direct dependency because `next.config.ts` is wrapped in `withWorkflow()`, which generates routes that import it to enable the `"use workflow"` / `"use step"` directives. Scheduling is Vercel Cron (`apps/web/vercel.json`) hitting a route handler that calls `start()`, authenticated with `CRON_SECRET`. Inspect runs with `pnpm exec workflow inspect runs` (from `apps/web`); `pnpm run workflow:health` checks the setup.
 - **Caching**: Upstash Redis for logo caching; Next.js `unstable_cache` with 1-day revalidation for company data
 - **Email**: `@tech-companies-portugal/email` - React Email templates in `packages/email/src/templates/` (subpath `./templates/*`), sent via Plunk (`emailService`, `render` and defaults from the `.` barrel)
@@ -59,13 +59,14 @@ Turbo monorepo: `apps/*`, `packages/*`, `tooling/*`.
 - Dynamic routes: `/category/[category]`, `/location/[location]`, `/company/[slug]`
 
 ### Supabase Integration
-- Database types auto-generated in `packages/supabase/src/types/database.types.ts` (do not edit manually)
-- Middleware for auth in `packages/supabase/src/server/middleware.ts`, used by `apps/web/src/proxy.ts`
+- Database types auto-generated in `packages/db/src/types/database.types.ts` (do not edit manually)
+- Middleware for auth in `packages/db/src/server/middleware.ts`, used by `apps/web/src/proxy.ts`
+- All table reads/writes live in `packages/db/src/queries/` (`@tech-companies-portugal/db/queries`). Each query takes the client as its first argument (`DbClient` from `/types`), so the caller picks the privilege: browser, server or admin. No `server-only` there, because web's client hooks use them too. Don't write inline `.from(...)` queries elsewhere (auth and storage calls are fine)
 - Separate client/server configurations for SSR
 
 ### Other Packages
 - `packages/workflows` - Durable workflows (`syncCompaniesWorkflow`, `weeklyDigestWorkflow`). `next` and `workflow` are required peers; the cron routes call `start()` from `workflow/api` directly
-- `packages/core` - Company domain logic and data access shared by the site and workflows. `.` is pure (types, import planning, catalogue, shared constants like `APP_URL` / `SettingsTab`); `./server` is server-only (README parser, logos + Upstash cache, companies DB, cached accessor)
+- `packages/core` - Company domain logic shared by the site and workflows (its table access goes through `db/queries`). `.` is pure (types, import planning, catalogue, shared constants like `APP_URL` / `SettingsTab`); `./server` is server-only (README parser, logos + Upstash cache, cached accessor)
 - `packages/email` - React Email templates + Plunk email service. `react`/`react-dom` are peers (templates + `@react-email/render` need both at runtime)
 - `packages/analytics` - PostHog analytics wrapper
 - `tooling/typescript` - Shared TypeScript config

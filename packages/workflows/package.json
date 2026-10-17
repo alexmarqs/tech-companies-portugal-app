@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@tech-companies-portugal/core": "workspace:*",
-    "@tech-companies-portugal/supabase": "workspace:*",
+    "@tech-companies-portugal/db": "workspace:*",
     "@tech-companies-portugal/email": "workspace:*"
   },
   "peerDependencies": {

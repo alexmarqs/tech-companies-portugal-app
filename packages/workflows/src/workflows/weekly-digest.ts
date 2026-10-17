@@ -1,11 +1,14 @@
-import { getListedCompaniesCreatedAfter } from "@tech-companies-portugal/core/server";
+import {
+  getListedCompaniesCreatedAfter,
+  getSubscribedUserEmails,
+} from "@tech-companies-portugal/db/queries";
+import { createAdminClient } from "@tech-companies-portugal/db/server";
 import {
   DEFAULT_EMAIL_FROM_NOTIFICATIONS,
   emailService,
   render,
 } from "@tech-companies-portugal/email";
 import WeeklyNewCompaniesEmail from "@tech-companies-portugal/email/templates/weekly-new-companies";
-import { createAdminClient } from "@tech-companies-portugal/supabase/server";
 import { FatalError, RetryableError, sleep } from "workflow";
 
 const EMAIL_BATCH_SIZE = 3;
@@ -118,7 +121,10 @@ async function getNewCompanies(): Promise<NewCompany[]> {
   // Computed inside the step so a workflow replay reuses the same window.
   const since = new Date(Date.now() - DIGEST_WINDOW_MS).toISOString();
 
-  const rows = await getListedCompaniesCreatedAfter(since);
+  const rows = await getListedCompaniesCreatedAfter(
+    await createAdminClient(),
+    since,
+  );
 
   console.log(`[weekly-digest] ${rows.length} companies added since ${since}`);
 
@@ -128,33 +134,14 @@ async function getNewCompanies(): Promise<NewCompany[]> {
 async function getSubscribedUsersEmails(): Promise<string[]> {
   "use step";
 
-  const supabase = await createAdminClient();
+  const emails = await getSubscribedUserEmails(await createAdminClient(), {
+    type: "new_companies",
+    channel: "email",
+  });
 
-  const { data, error } = await supabase
-    .from("notification_settings")
-    .select("users (email)")
-    .eq("type", "new_companies")
-    .eq("channel", "email")
-    .eq("enabled", true);
+  console.log(`[weekly-digest] ${emails.length} subscriber(s) to notify`);
 
-  if (error) {
-    console.error("[weekly-digest] failed to read subscribers", error);
-    throw error;
-  }
-
-  const emails =
-    data
-      ?.map((notificationSetting) => notificationSetting.users?.email)
-      .filter(
-        (email): email is string =>
-          typeof email === "string" && email.length > 0,
-      ) ?? [];
-
-  const uniqueEmails = Array.from(new Set(emails));
-
-  console.log(`[weekly-digest] ${uniqueEmails.length} subscriber(s) to notify`);
-
-  return uniqueEmails;
+  return emails;
 }
 
 async function sendDigestEmail(

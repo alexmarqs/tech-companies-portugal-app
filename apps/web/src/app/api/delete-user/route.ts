@@ -1,7 +1,7 @@
 import {
   createAdminClient,
   createClient,
-} from "@tech-companies-portugal/supabase/server";
+} from "@tech-companies-portugal/db/server";
 import { NextResponse } from "next/server";
 
 export async function POST() {

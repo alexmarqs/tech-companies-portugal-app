@@ -1,17 +1,14 @@
 import {
   getUserNotificationSettings,
   upsertUserNotificationSetting,
-} from "@/lib/db/notifications";
+} from "@/lib/api/notifications";
 import {
   type UseMutationOptions,
   type UseQueryOptions,
   useMutation,
   useQuery,
 } from "@tanstack/react-query";
-import type {
-  Tables,
-  TablesInsert,
-} from "@tech-companies-portugal/supabase/types";
+import type { Tables, TablesInsert } from "@tech-companies-portugal/db/types";
 
 export enum NotificationsServerKeys {
   GET_USER_NOTIFICATION_SETTINGS = "GET_USER_NOTIFICATION_SETTINGS",

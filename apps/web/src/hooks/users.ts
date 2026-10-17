@@ -3,17 +3,14 @@ import {
   getUserProfile,
   updateUserProfile,
   uploadUserAvatar,
-} from "@/lib/db/users";
+} from "@/lib/api/users";
 import {
   type UseMutationOptions,
   type UseQueryOptions,
   useMutation,
   useQuery,
 } from "@tanstack/react-query";
-import type {
-  Tables,
-  TablesUpdate,
-} from "@tech-companies-portugal/supabase/types";
+import type { Tables, TablesUpdate } from "@tech-companies-portugal/db/types";
 
 export enum UsersServerKeys {
   GET_USER_PROFILE = "GET_USER_PROFILE",

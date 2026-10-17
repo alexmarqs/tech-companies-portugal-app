@@ -1,6 +1,6 @@
+import { createClient } from "@tech-companies-portugal/db/server";
 import { emailService, render } from "@tech-companies-portugal/email";
 import WelcomeEmail from "@tech-companies-portugal/email/templates/welcome";
-import { createClient } from "@tech-companies-portugal/supabase/server";
 import { waitUntil } from "@vercel/functions";
 import { differenceInSeconds } from "date-fns";
 import { NextResponse } from "next/server";

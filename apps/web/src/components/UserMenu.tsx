@@ -13,7 +13,7 @@ import {
 import { useGetUserProfile } from "@/hooks/users";
 import { useSession } from "@/lib/contexts/SessionContext";
 import { useQueryClient } from "@tanstack/react-query";
-import { createClient } from "@tech-companies-portugal/supabase/client";
+import { createClient } from "@tech-companies-portugal/db/client";
 import { Loader2, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

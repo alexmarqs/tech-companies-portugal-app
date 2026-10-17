@@ -1,25 +1,7 @@
-import type { Tables } from "@tech-companies-portugal/supabase/types";
+import type { CompanyRow } from "@tech-companies-portugal/db/queries";
 import type { Company } from "./types";
 
-export type CompanyRow = Pick<
-  Tables<"companies">,
-  | "slug"
-  | "name"
-  | "description"
-  | "website_url"
-  | "careers_url"
-  | "github_url"
-  | "instagram_url"
-  | "facebook_url"
-  | "categories"
-  | "locations"
-  | "logo_url"
-  | "is_featured"
-  | "updated_at"
->;
-
-export const COMPANY_ROW_COLUMNS =
-  "slug, name, description, website_url, careers_url, github_url, instagram_url, facebook_url, categories, locations, logo_url, is_featured, updated_at";
+export type { CompanyRow };
 
 const compareText = (a: string, b: string) =>
   a.localeCompare(b, "en", { sensitivity: "base" });
