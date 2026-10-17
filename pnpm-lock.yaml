@@ -65,12 +65,12 @@ importers:
       '@tech-companies-portugal/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@tech-companies-portugal/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@tech-companies-portugal/email':
         specifier: workspace:*
         version: link:../../packages/email
-      '@tech-companies-portugal/supabase':
-        specifier: workspace:*
-        version: link:../../packages/supabase
       '@tech-companies-portugal/workflows':
         specifier: workspace:*
         version: link:../../packages/workflows
@@ -202,9 +202,9 @@ importers:
 
   packages/core:
     dependencies:
-      '@tech-companies-portugal/supabase':
+      '@tech-companies-portugal/db':
         specifier: workspace:*
-        version: link:../supabase
+        version: link:../db
       '@upstash/redis':
         specifier: ^1.36.2
         version: 1.36.2
@@ -246,6 +246,34 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0(@opentelemetry/api@1.9.0)(@types/node@22.20.4)(msw@2.12.10(@types/node@22.20.4)(typescript@5.9.3))(vite@8.3.0(@types/node@22.20.4)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15))
 
+  packages/db:
+    dependencies:
+      '@supabase/ssr':
+        specifier: 0.6.1
+        version: 0.6.1(@supabase/supabase-js@2.52.0)
+      '@supabase/supabase-js':
+        specifier: 2.52.0
+        version: 2.52.0
+      next:
+        specifier: '>=14'
+        version: 16.3.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(@types/node@22.20.4)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+    devDependencies:
+      '@tech-companies-portugal/typescript':
+        specifier: workspace:*
+        version: link:../../tooling/typescript
+      '@types/node':
+        specifier: ^22
+        version: 22.20.4
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
+      supabase:
+        specifier: ^2.78.1
+        version: 2.78.1
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+
   packages/email:
     dependencies:
       '@plunk/node':
@@ -286,45 +314,17 @@ importers:
         specifier: ^5
         version: 5.9.3
 
-  packages/supabase:
-    dependencies:
-      '@supabase/ssr':
-        specifier: 0.6.1
-        version: 0.6.1(@supabase/supabase-js@2.52.0)
-      '@supabase/supabase-js':
-        specifier: 2.52.0
-        version: 2.52.0
-      next:
-        specifier: '>=14'
-        version: 16.3.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(@types/node@22.20.4)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
-    devDependencies:
-      '@tech-companies-portugal/typescript':
-        specifier: workspace:*
-        version: link:../../tooling/typescript
-      '@types/node':
-        specifier: ^22
-        version: 22.20.4
-      server-only:
-        specifier: ^0.0.1
-        version: 0.0.1
-      supabase:
-        specifier: ^2.78.1
-        version: 2.78.1
-      typescript:
-        specifier: ^5
-        version: 5.9.3
-
   packages/workflows:
     dependencies:
       '@tech-companies-portugal/core':
         specifier: workspace:*
         version: link:../core
+      '@tech-companies-portugal/db':
+        specifier: workspace:*
+        version: link:../db
       '@tech-companies-portugal/email':
         specifier: workspace:*
         version: link:../email
-      '@tech-companies-portugal/supabase':
-        specifier: workspace:*
-        version: link:../supabase
     devDependencies:
       '@tech-companies-portugal/typescript':
         specifier: workspace:*
@@ -4922,10 +4922,6 @@ packages:
   minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
 
-  minipass@7.1.2:
-    resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
-    engines: {node: '>=16 || 14 >=14.17'}
-
   minipass@7.1.3:
     resolution: {integrity: sha512-tEBHqDnIoM/1rXME1zgka9g6Q2lcoCkxHLuc7ODJ5BxbP5d4c2Z5cGgtXAku59200Cx7diuHTOYfSBD8n6mm8A==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -7167,7 +7163,7 @@ snapshots:
 
   '@isaacs/fs-minipass@4.0.1':
     dependencies:
-      minipass: 7.1.2
+      minipass: 7.1.3
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
@@ -10456,13 +10452,11 @@ snapshots:
 
   minimist@1.2.8: {}
 
-  minipass@7.1.2: {}
-
   minipass@7.1.3: {}
 
   minizlib@3.1.0:
     dependencies:
-      minipass: 7.1.2
+      minipass: 7.1.3
 
   mitt@3.0.1: {}
 
@@ -11496,7 +11490,7 @@ snapshots:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
-      minipass: 7.1.2
+      minipass: 7.1.3
       minizlib: 3.1.0
       yallist: 5.0.0
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { createClient } from "@tech-companies-portugal/supabase/client";
-import type { Session } from "@tech-companies-portugal/supabase/types";
+import { createClient } from "@tech-companies-portugal/db/client";
+import type { Session } from "@tech-companies-portugal/db/types";
 import {
   type ReactNode,
   createContext,

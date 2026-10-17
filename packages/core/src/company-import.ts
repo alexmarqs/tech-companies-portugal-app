@@ -1,8 +1,10 @@
 import type {
-  Tables,
-  TablesInsert,
-} from "@tech-companies-portugal/supabase/types";
+  CompanyUpsert,
+  ExistingCompany,
+} from "@tech-companies-portugal/db/queries";
 import type { Company, CompanySource } from "./types";
+
+export type { CompanyUpsert, ExistingCompany };
 
 /**
  * Pure planning for the README → `companies` import. No I/O here, so the
@@ -19,37 +21,6 @@ export type InvalidCompany = {
   name: string;
   reason: string;
 };
-
-export type ExistingCompany = Pick<
-  Tables<"companies">,
-  | "slug"
-  | "name"
-  | "description"
-  | "website_url"
-  | "careers_url"
-  | "github_url"
-  | "categories"
-  | "locations"
-  | "logo_url"
-  | "is_featured"
-  | "archived_at"
-  | "source"
->;
-
-export type CompanyUpsert = TablesInsert<"companies"> &
-  Pick<
-    Tables<"companies">,
-    | "name"
-    | "description"
-    | "website_url"
-    | "careers_url"
-    | "github_url"
-    | "categories"
-    | "locations"
-    | "logo_url"
-    | "is_featured"
-    | "archived_at"
-  >;
 
 export type CompanyImportPlan = {
   upserts: CompanyUpsert[];

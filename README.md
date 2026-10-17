@@ -38,8 +38,8 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 Turbo monorepo:
 
 - `apps/web` - the Next.js site
-- `packages/core` - company domain logic: README parser, logos, companies data access
-- `packages/supabase` - Supabase clients, generated database types and migrations
+- `packages/core` - company domain logic: README parser, logos, import planning, cached companies accessor
+- `packages/db` - Supabase clients, generated database types, migrations and typed queries
 - `packages/workflows` - durable background jobs (`sync-companies`, `weekly-digest`)
 - `packages/email` - React Email templates and the Plunk email service
 - `packages/analytics` - PostHog wrapper
@@ -75,7 +75,7 @@ The company is saved with `source = 'manual'`, so the README sync never archives
 
 ## Database migrations 🗄️
 
-Migrations live in `packages/supabase/supabase/migrations/`. Run the commands below from `packages/supabase`, or from the root with `pnpm --filter @tech-companies-portugal/supabase <script>`.
+Migrations live in `packages/db/supabase/migrations/`. Run the commands below from `packages/db`, or from the root with `pnpm --filter @tech-companies-portugal/db <script>`.
 
 1. **Start the local stack.** It applies every migration to a local Postgres:
 
@@ -99,7 +99,7 @@ Migrations live in `packages/supabase/supabase/migrations/`. Run the commands be
 
 3. **Apply it locally and test.** Use `pnpm exec supabase migration up --local` to apply only the new migration. Use `pnpm exec supabase db reset --local` to rebuild the database from scratch; it wipes local data.
 
-4. **Regenerate the TypeScript types.** They are written to `packages/supabase/src/types/database.types.ts`; don't edit that file by hand.
+4. **Regenerate the TypeScript types.** They are written to `packages/db/src/types/database.types.ts`; don't edit that file by hand.
 
    ```bash
    pnpm exec supabase gen types typescript --local --schema public > src/types/database.types.ts

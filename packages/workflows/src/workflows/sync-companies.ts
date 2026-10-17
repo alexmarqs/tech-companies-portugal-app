@@ -8,12 +8,15 @@ import {
   planCompanyImport,
 } from "@tech-companies-portugal/core";
 import {
-  archiveCompanies,
-  getAllCompanyRowsForImport,
   hydrateCompaniesWithLogos,
   parseCompaniesData,
-  upsertCompanies,
 } from "@tech-companies-portugal/core/server";
+import {
+  archiveCompanies,
+  getAllCompanyRowsForImport,
+  upsertCompanies,
+} from "@tech-companies-portugal/db/queries";
+import { createAdminClient } from "@tech-companies-portugal/db/server";
 import { revalidateTag } from "next/cache";
 import { FatalError } from "workflow";
 
@@ -106,7 +109,9 @@ async function applyCompaniesImport(
 ): Promise<SyncCompaniesWorkflowResult> {
   "use step";
 
-  const existing = await getAllCompanyRowsForImport();
+  const supabase = await createAdminClient();
+
+  const existing = await getAllCompanyRowsForImport(supabase);
 
   let plan: CompanyImportPlan;
 
@@ -126,10 +131,10 @@ async function applyCompaniesImport(
   }
 
   // Upsert the companies
-  await upsertCompanies(plan.upserts);
+  await upsertCompanies(supabase, plan.upserts);
 
   // Archive the companies, e.g. if they are no longer in the README etc.
-  await archiveCompanies(plan.archiveSlugs);
+  await archiveCompanies(supabase, plan.archiveSlugs);
 
   const result: SyncCompaniesWorkflowResult = {
     status:

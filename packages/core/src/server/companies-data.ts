@@ -1,8 +1,9 @@
+import { getListedCompanyRows } from "@tech-companies-portugal/db/queries";
+import { createAdminClient } from "@tech-companies-portugal/db/server";
 import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import { buildCompaniesCatalog } from "../companies-catalog";
 import { COMPANIES_DATA_TAG } from "../constants";
-import { getListedCompanyRows } from "./db/companies";
 
 /**
  * The shared company accessor. Reads the `companies` table (kept in sync
@@ -15,7 +16,9 @@ import { getListedCompanyRows } from "./db/companies";
 export const getParsedCompaniesData = cache(
   unstable_cache(
     async () => {
-      const rows = await getListedCompanyRows();
+      const supabase = await createAdminClient();
+
+      const rows = await getListedCompanyRows(supabase);
 
       if (rows.length === 0) {
         throw new Error("No companies found in the database");

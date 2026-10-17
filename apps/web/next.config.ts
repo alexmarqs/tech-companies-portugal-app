@@ -3,12 +3,13 @@ import { withWorkflow } from "workflow/next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  poweredByHeader: false,
   allowedDevOrigins: ["127.0.0.1"],
   transpilePackages: [
     "@tech-companies-portugal/analytics",
     "@tech-companies-portugal/core",
+    "@tech-companies-portugal/db",
     "@tech-companies-portugal/email",
-    "@tech-companies-portugal/supabase",
     "@tech-companies-portugal/workflows",
   ],
   images: {

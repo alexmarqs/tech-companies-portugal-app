@@ -1,6 +1,6 @@
 import "server-only";
 
-import { createAdminClient } from "@tech-companies-portugal/supabase/server";
+import { createAdminClient } from "@tech-companies-portugal/db/server";
 import type { Company } from "../types";
 import {
   COMPANY_LOGOS_MAP_KEY,

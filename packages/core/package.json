@@ -17,7 +17,7 @@
     "script:create-manual-company": "tsx --disable-warning=DEP0040 --conditions=react-server --env-file=../../apps/web/.env.local scripts/create-manual-company.ts"
   },
   "dependencies": {
-    "@tech-companies-portugal/supabase": "workspace:*",
+    "@tech-companies-portugal/db": "workspace:*",
     "@upstash/redis": "^1.36.2",
     "cheerio": "1.0.0-rc.12",
     "slugify": "1.6.6"
