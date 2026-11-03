@@ -31,7 +31,7 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - [LLMs.txt](https://llmstxt.org/) - Support for the proposed standard that acts as a guide for large language models (LLMs)
 - [Vercel Workflow](https://workflow-sdk.dev/) - Durable, resumable background jobs
 - [Biome](https://biomejs.dev/) / [React Doctor](https://www.react-doctor.com/) - Formatting and linting
-- [Portless](https://port1355.dev/) - Portless replaces port numbers with stable, named .localhost URLs for local development
+- [Postman](https://www.postman.com/) - API client for testing the API locally
 
 ## Project structure 🗂️
 

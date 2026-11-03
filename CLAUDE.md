@@ -73,6 +73,7 @@ Turbo monorepo: `apps/*`, `packages/*`, `tooling/*`.
 - Errors: only use cases throw `UseCaseError` or its subclasses (`ValidationError`, `NotFoundError`, `ConflictError`), all in `src/use-cases/errors.ts`. Their `code` (`validation_error`, `not_found`, `unauthorized`, `conflict`) is what clients see; `middleware/errors.ts` maps each code to its HTTP status. Adapters never throw them (their failures become 500s). Routes and middleware return their own error responses with `c.json(errorBody(...), status)` (`src/lib/api-error.ts`)
 - Handlers use the admin client, which bypasses RLS: every query on user-owned rows must take the owner id from the session (or API key), never from the request, and filter on it. Whitelist writable fields in the body schema
 - New internal routes: add them to the resource's sub-app and keep the `.openapi()` / `.route()` calls chained, or `hc` loses their types
+- Postman: `packages/api/postman/tech-companies-portugal-api.postman_collection.json` mirrors `/api/v1`. Any change to a v1 route, query param, auth or error response updates it in the same change (add, edit or remove the request, plus its `Errors` example). It never holds a key: keys live in git-ignored `*.local.postman_environment.json` files
 
 ### Other Packages
 - `packages/security` - API key generation/hashing and timing-safe comparison

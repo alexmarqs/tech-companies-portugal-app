@@ -1,0 +1,142 @@
+{
+  "info": {
+    "name": "Tech Companies Portugal API",
+    "description": "Public API (`/api/v1`). Set `baseUrl` and `apiKey` in an environment (see `localhost.local.postman_environment.json`, git-ignored). Create keys in Settings → API keys. Full reference: `/api-reference`.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{apiKey}}", "type": "string" }]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000/api/v1" },
+    { "key": "apiKey", "value": "" },
+    { "key": "companySlug", "value": "25friday" },
+    { "key": "category", "value": "automotive" },
+    { "key": "location", "value": "lisboa" },
+    { "key": "cursor", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Discovery",
+      "item": [
+        {
+          "name": "OpenAPI spec (public)",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": "{{baseUrl}}/openapi.json"
+          }
+        },
+        {
+          "name": "List categories",
+          "request": { "method": "GET", "url": "{{baseUrl}}/categories" }
+        },
+        {
+          "name": "List locations",
+          "request": { "method": "GET", "url": "{{baseUrl}}/locations" }
+        }
+      ]
+    },
+    {
+      "name": "Companies",
+      "item": [
+        {
+          "name": "List companies",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Saves the cursor for \"Next page\".",
+                  "const meta = pm.response.json().meta || {};",
+                  "pm.collectionVariables.set(\"cursor\", meta.nextCursor || \"\");"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies?limit=10"
+          }
+        },
+        {
+          "name": "Next page",
+          "description": "Run \"List companies\" first: it stores `meta.nextCursor` in `cursor`.",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const meta = pm.response.json().meta || {};",
+                  "pm.collectionVariables.set(\"cursor\", meta.nextCursor || \"\");"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies?limit=10&cursor={{cursor}}"
+          }
+        },
+        {
+          "name": "Filter by category",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies?category={{category}}"
+          }
+        },
+        {
+          "name": "Filter by category and location",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies?category={{category}}&location={{location}}"
+          }
+        },
+        {
+          "name": "Get company",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/{{companySlug}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Errors",
+      "item": [
+        {
+          "name": "401 - missing API key",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": "{{baseUrl}}/categories"
+          }
+        },
+        {
+          "name": "400 - unknown location filter",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies?location=lisbon"
+          }
+        },
+        {
+          "name": "400 - malformed cursor",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies?cursor=not-a-cursor"
+          }
+        },
+        {
+          "name": "404 - unknown company",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/does-not-exist"
+          }
+        }
+      ]
+    }
+  ]
+}
