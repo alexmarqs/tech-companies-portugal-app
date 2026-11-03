@@ -1,3 +1,4 @@
+import type { Context } from "hono";
 import { createMiddleware } from "hono/factory";
 import { errorBody } from "../lib/api-error";
 import type { RateLimitResult } from "../services/ratelimit/types";
@@ -15,6 +16,18 @@ const isProdEnv = process.env.NODE_ENV === "production";
 const getClientIp = (forwardedFor: string | undefined, realIp?: string) =>
   forwardedFor?.split(",")[0]?.trim() || realIp || "unknown";
 
+/** Redis is down (or, in production, not configured): no limiting, no API. */
+const unavailable = (c: Context) => {
+  c.header("Retry-After", "60");
+  return c.json(
+    errorBody({
+      code: "rate_limiter_unavailable",
+      message: "API rate limiting is temporarily unavailable.",
+    }),
+    503,
+  );
+};
+
 export const withRequireApiKey = (apiKeys: ApiKeysUseCases) =>
   createMiddleware(async (c, next) => {
     const token = getBearerToken(c.req.header("Authorization"));
@@ -28,6 +41,8 @@ export const withRequireApiKey = (apiKeys: ApiKeysUseCases) =>
           ),
         )
       : ({ status: "invalid" } as const);
+
+    if (result.status === "unavailable") return unavailable(c);
 
     if (result.status === "throttled") {
       c.header("Retry-After", "60");
@@ -62,27 +77,16 @@ export const withRequireApiKey = (apiKeys: ApiKeysUseCases) =>
     try {
       rateLimit = await apiKeys.limitApiKeyRequestsUseCase(principal);
     } catch (error) {
-      // Outage must not take the API down. The
-      // WAF rule on /api/v1 is the backstop.
-      console.error("API rate limiter unavailable; allowing request", {
+      // Fails closed: an unlimited API would pass the outage on to Supabase.
+      console.error("API rate limiter unavailable; rejecting request", {
         requestId: c.get("requestId"),
         keyId: principal.id,
         error,
       });
-
-      await next();
-      return;
+      return unavailable(c);
     }
 
-    if (!rateLimit && isProdEnv) {
-      return c.json(
-        errorBody({
-          code: "rate_limiter_unavailable",
-          message: "API rate limiting is temporarily unavailable.",
-        }),
-        503,
-      );
-    }
+    if (!rateLimit && isProdEnv) return unavailable(c);
 
     if (rateLimit) {
       c.header("X-RateLimit-Limit", String(rateLimit.limit));

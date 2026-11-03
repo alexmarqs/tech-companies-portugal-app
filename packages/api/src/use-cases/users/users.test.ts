@@ -79,7 +79,8 @@ describe("users use cases", () => {
     });
   });
 
-  it("revokes the API keys before deleting the account", async () => {
+  // Supabase refuses to delete a user who still owns Storage objects.
+  it("removes avatars and revokes the API keys before deleting the account", async () => {
     const { calls, apiKeys, useCases } = setup();
 
     await useCases.deleteAccountUseCase(USER_ID);

@@ -63,17 +63,27 @@ describe("companies use cases", () => {
     });
   });
 
-  it("only loads the filter definitions it validates", async () => {
+  it("skips filter validation when companies match", async () => {
     const { catalog, companies } = setup();
 
-    await companies.listCompaniesUseCase({ limit: 100 });
+    await companies.listCompaniesUseCase({
+      category: "fintech",
+      location: "lisboa",
+      limit: 100,
+    });
 
     expect(catalog.listCategories).not.toHaveBeenCalled();
     expect(catalog.listLocations).not.toHaveBeenCalled();
   });
 
-  it("rejects an unknown filter without listing companies", async () => {
+  it("rejects an unknown filter", async () => {
     const { catalog, companies } = setup();
+    catalog.listCompanies.mockResolvedValue({
+      companies: [],
+      total: 0,
+      hasMore: false,
+      updatedAt: null,
+    });
 
     const error = await companies
       .listCompaniesUseCase({ location: "not-real", limit: 100 })
@@ -83,7 +93,27 @@ describe("companies use cases", () => {
     expect(error.details).toEqual([
       expect.objectContaining({ code: "unknown_value", path: "location" }),
     ]);
-    expect(catalog.listCompanies).not.toHaveBeenCalled();
+    expect(catalog.listCategories).not.toHaveBeenCalled();
+  });
+
+  it("returns an empty page when known filters match nothing", async () => {
+    const { catalog, companies } = setup();
+    catalog.listCompanies.mockResolvedValue({
+      companies: [],
+      total: 0,
+      hasMore: false,
+      updatedAt: null,
+    });
+
+    const result = await companies.listCompaniesUseCase({
+      category: "fintech",
+      location: "lisboa",
+      limit: 100,
+    });
+
+    expect(result.data).toEqual([]);
+    expect(catalog.listCategories).toHaveBeenCalledOnce();
+    expect(catalog.listLocations).toHaveBeenCalledOnce();
   });
 
   it("round-trips the last slug as an opaque cursor", async () => {

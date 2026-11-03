@@ -1,4 +1,4 @@
-import type { Company } from "@tech-companies-portugal/core";
+import { type Company, getCategoryList } from "@tech-companies-portugal/core";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -19,9 +19,7 @@ export const matchCompanies = (
   const matchesCategory =
     !category ||
     category === "all" ||
-    (Array.isArray(company?.categories)
-      ? company.categories.includes(category)
-      : company.categories === category);
+    getCategoryList(company.categories).includes(category);
 
   const matchesLocation =
     !location ||
@@ -34,16 +32,6 @@ export const matchCompanies = (
 };
 
 export const PUBLIC_CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
-
-// Category names arrive from the source README with a trailing emoji
-// ("Automotive 🚘"). Strip the pictographs wherever the name has to read as
-// prose — titles, headings, meta descriptions — while leaving real punctuation
-// intact, so "E-commerce 🛍️" stays "E-commerce", not "Ecommerce".
-export const normalizeText = (text: string) =>
-  text
-    .replace(/\p{Extended_Pictographic}|\uFE0F|\u200D/gu, "")
-    .replace(/\s+/g, " ")
-    .trim();
 
 // Category names are the raw README strings, emoji and all, so the route param
 // arrives percent-encoded.

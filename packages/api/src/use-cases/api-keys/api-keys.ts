@@ -87,12 +87,14 @@ export const createApiKeysUseCases = ({
       }
 
       // Only cache misses reach the database, so cap them per client: random
-      // well-formed tokens would otherwise each cost a query.
+      // well-formed tokens would otherwise each cost a query. Fails closed: in
+      // a Redis outage every request would otherwise reach the database.
       try {
         const lookup = await rateLimitService.limitAuthLookup(clientIp);
         if (lookup && !lookup.success) return { status: "throttled" };
       } catch (error) {
-        console.warn("API key lookup limiter unavailable", error);
+        console.error("API key lookup limiter unavailable", error);
+        return { status: "unavailable" };
       }
 
       const principal = await apiKeysRepository.findActiveByHash(keyHash);

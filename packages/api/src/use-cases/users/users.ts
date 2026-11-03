@@ -42,7 +42,9 @@ export const createUsersUseCases = ({
   },
 
   async deleteAccountUseCase(userId) {
-    // Best effort: a leftover avatar must not block deleting the account.
+    // Before the delete: Supabase refuses to delete a user who still owns
+    // Storage objects. Should a later step fail, the avatar just falls back to
+    // initials. Best effort, so the delete reports any real blocker.
     try {
       await avatarStorage.removeAllForUser(userId);
     } catch (error) {

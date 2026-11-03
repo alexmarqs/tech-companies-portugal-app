@@ -175,24 +175,23 @@ const CreateApiKeyDialogButton = () => {
     });
   };
 
-  // The plaintext is unrecoverable once closed: only the Done button closes.
-  const preventDismiss = (event: Event) => {
-    if (createdApiKey) event.preventDefault();
+  // The plaintext is unrecoverable once closed, and arrives after the request:
+  // while either is the case only the Done button closes (Esc, outside click
+  // and the X all go through onOpenChange).
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!nextOpen && (isPending || createdApiKey)) return;
+    setOpen(nextOpen);
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button size="sm" className="shrink-0">
           <Plus />
           Create key
         </Button>
       </DialogTrigger>
-      <DialogContent
-        onInteractOutside={preventDismiss}
-        onEscapeKeyDown={preventDismiss}
-        onCloseAutoFocus={reset}
-      >
+      <DialogContent onCloseAutoFocus={reset}>
         {createdApiKey ? (
           <>
             <DialogHeader>
@@ -208,9 +207,9 @@ const CreateApiKeyDialogButton = () => {
               </code>
             </div>
             <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline">Done</Button>
-              </DialogClose>
+              <Button variant="outline" onClick={() => setOpen(false)}>
+                Done
+              </Button>
               <Button type="button" onClick={copyApiKey}>
                 {copied ? <Check /> : <Copy />}
                 {copied ? "Copied" : "Copy key"}

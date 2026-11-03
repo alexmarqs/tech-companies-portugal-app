@@ -1,4 +1,4 @@
-import slugify from "slugify";
+import { normalizeText, toFilterSlug } from "@tech-companies-portugal/core";
 
 export interface FilterDefinition {
   companyCount: number;
@@ -6,16 +6,11 @@ export interface FilterDefinition {
   slug: string;
 }
 
-export const toFilterSlug = (value: string) =>
-  slugify(value, { lower: true, strict: true });
-
-export const toFilterName = (value: string) =>
-  value
-    .replace(/\p{Extended_Pictographic}|\uFE0F|\u200D/gu, "")
-    .replace(/\s+/g, " ")
-    .trim();
-
-/** One definition per slug, counting each company once. Slug order. */
+/**
+ * One definition per slug, counting each company once. Slug order. Names that
+ * share a slug ("E-commerce 🛍️" / "E-commerce 🛒", README typos) are merged
+ * under the first name seen, matching how filtering compares slugs.
+ */
 export const buildFilterDefinitions = (
   values: string[][],
 ): FilterDefinition[] => {
@@ -25,20 +20,17 @@ export const buildFilterDefinitions = (
   >();
 
   for (const companyValues of values) {
-    for (const sourceName of new Set(companyValues)) {
+    const slugs = new Map<string, string>();
+    for (const sourceName of companyValues) {
       const slug = toFilterSlug(sourceName);
-      if (!slug) continue;
+      if (slug && !slugs.has(slug)) slugs.set(slug, sourceName);
+    }
 
+    for (const [slug, sourceName] of slugs) {
       const existing = bySlug.get(slug);
-      if (existing && existing.sourceName !== sourceName) {
-        throw new Error(
-          `Filter slug collision: "${existing.sourceName}" and "${sourceName}" both resolve to "${slug}".`,
-        );
-      }
-
       bySlug.set(slug, {
         companyCount: (existing?.companyCount ?? 0) + 1,
-        sourceName,
+        sourceName: existing?.sourceName ?? sourceName,
       });
     }
   }
@@ -46,7 +38,7 @@ export const buildFilterDefinitions = (
   return [...bySlug.entries()]
     .map(([slug, value]) => ({
       slug,
-      name: toFilterName(value.sourceName),
+      name: normalizeText(value.sourceName),
       companyCount: value.companyCount,
     }))
     .sort((a, b) => a.slug.localeCompare(b.slug, "en"));

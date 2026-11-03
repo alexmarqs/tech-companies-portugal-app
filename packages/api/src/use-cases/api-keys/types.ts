@@ -7,7 +7,8 @@ import type { RateLimitResult } from "../../services/ratelimit/types";
 export type AuthenticateResult =
   | { status: "ok"; principal: ApiKeyPrincipal }
   | { status: "invalid" }
-  | { status: "throttled" };
+  | { status: "throttled" }
+  | { status: "unavailable" };
 
 export type CreateApiKeyInput = {
   name: string;

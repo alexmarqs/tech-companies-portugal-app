@@ -1,10 +1,13 @@
-import type { Company } from "@tech-companies-portugal/core";
+import {
+  type Company,
+  getCategoryList,
+  toFilterSlug,
+} from "@tech-companies-portugal/core";
 import { getParsedCompaniesData } from "@tech-companies-portugal/core/server";
-import { buildFilterDefinitions, toFilterSlug } from "../../lib/filters";
+import { buildFilterDefinitions } from "../../lib/filters";
 import type { CatalogService } from "./types";
 
-const categoryNames = (company: Company) =>
-  Array.isArray(company.categories) ? company.categories : [company.categories];
+const categoryNames = (company: Company) => getCategoryList(company.categories);
 
 const hasSlug = (names: string[], slug: string | undefined) =>
   !slug || names.some((name) => toFilterSlug(name) === slug);

@@ -1,17 +1,15 @@
-import type { Company } from "@tech-companies-portugal/core";
 import {
-  type FilterDefinition,
-  toFilterName,
+  type Company,
+  getCategoryList,
+  normalizeText,
   toFilterSlug,
-} from "../../lib/filters";
+} from "@tech-companies-portugal/core";
+import type { FilterDefinition } from "../../lib/filters";
 import type { CatalogService } from "../../services/catalog/types";
 import { NotFoundError, ValidationError } from "../errors";
 import type { CompaniesUseCases } from "./types";
 
 const nullableUrl = (value: string | undefined) => value || null;
-
-const categoryNames = (company: Company) =>
-  Array.isArray(company.categories) ? company.categories : [company.categories];
 
 const toCompany = (company: Company) => ({
   slug: company.slug,
@@ -23,13 +21,13 @@ const toCompany = (company: Company) => ({
   instagramUrl: nullableUrl(company.instagramUrl),
   facebookUrl: nullableUrl(company.facebookUrl),
   logoUrl: nullableUrl(company.logoUrl),
-  categories: categoryNames(company).map((name) => ({
+  categories: getCategoryList(company.categories).map((name) => ({
     slug: toFilterSlug(name),
-    name: toFilterName(name),
+    name: normalizeText(name),
   })),
   locations: company.locations.map((name) => ({
     slug: toFilterSlug(name),
-    name: toFilterName(name),
+    name: normalizeText(name),
   })),
   isFeatured: company.isFeatured ?? false,
 });
@@ -94,15 +92,19 @@ export const createCompaniesUseCases = ({
   async listCompaniesUseCase({ category, location, limit, cursor }) {
     const after = cursor ? decodeCursor(cursor) : undefined;
 
-    await Promise.all([
-      assertKnownFilter("category", category, catalogService.listCategories),
-      assertKnownFilter("location", location, catalogService.listLocations),
-    ]);
-
     const page = await catalogService.listCompanies(
       { category, location },
       { limit, after },
     );
+
+    // A match proves both filters exist (`total` ignores the cursor), so only
+    // an empty result pays for loading the definitions: unknown filter or not.
+    if (page.total === 0) {
+      await Promise.all([
+        assertKnownFilter("category", category, catalogService.listCategories),
+        assertKnownFilter("location", location, catalogService.listLocations),
+      ]);
+    }
     const last = page.companies.at(-1);
 
     return {

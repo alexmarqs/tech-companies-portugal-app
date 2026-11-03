@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import type { Company } from "@tech-companies-portugal/core";
+import { type Company, getCategoryList } from "@tech-companies-portugal/core";
 import { ArrowRight, MapPin } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -108,7 +108,7 @@ export const Categories = ({
 }: {
   categories: string[] | string;
 }) => {
-  const categoriesArray = Array.isArray(categories) ? categories : [categories];
+  const categoriesArray = getCategoryList(categories);
 
   return (
     <div className="flex flex-wrap items-center gap-1">

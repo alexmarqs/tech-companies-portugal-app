@@ -1,41 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildFilterDefinitions, toFilterName, toFilterSlug } from "./filters";
-
-describe("toFilterSlug", () => {
-  it("lowercases and hyphenates words", () => {
-    expect(toFilterSlug("Developer Tools")).toBe("developer-tools");
-  });
-
-  it("transliterates accents", () => {
-    expect(toFilterSlug("São João da Madeira")).toBe("sao-joao-da-madeira");
-    expect(toFilterSlug("Évora")).toBe("evora");
-  });
-
-  it("drops emoji and punctuation", () => {
-    expect(toFilterSlug("FinTech 💳")).toBe("fintech");
-    expect(toFilterSlug("🏢 Cyber-Security!")).toBe("cyber-security");
-  });
-
-  it("returns an empty slug for emoji-only names", () => {
-    expect(toFilterSlug("🏢")).toBe("");
-  });
-});
-
-describe("toFilterName", () => {
-  it("strips emoji, including variation selectors and ZWJ sequences", () => {
-    expect(toFilterName("FinTech 💳")).toBe("FinTech");
-    expect(toFilterName("☁️ Cloud")).toBe("Cloud");
-    expect(toFilterName("👩‍💻 Developer Tools")).toBe("Developer Tools");
-  });
-
-  it("collapses and trims whitespace", () => {
-    expect(toFilterName("  Health \t  Tech  ")).toBe("Health Tech");
-  });
-
-  it("keeps accents", () => {
-    expect(toFilterName("São João da Madeira")).toBe("São João da Madeira");
-  });
-});
+import { buildFilterDefinitions } from "./filters";
 
 describe("buildFilterDefinitions", () => {
   it("counts companies per slug, sorted by slug", () => {
@@ -68,9 +32,9 @@ describe("buildFilterDefinitions", () => {
     expect(buildFilterDefinitions([])).toEqual([]);
   });
 
-  it("throws when different names resolve to the same slug", () => {
-    expect(() => buildFilterDefinitions([["Lisboa"], ["lisboa"]])).toThrow(
-      'Filter slug collision: "Lisboa" and "lisboa" both resolve to "lisboa".',
-    );
+  it("merges names that resolve to the same slug under the first one", () => {
+    expect(
+      buildFilterDefinitions([["Lisboa"], ["lisboa"], ["Lisboa", "LISBOA"]]),
+    ).toEqual([{ slug: "lisboa", name: "Lisboa", companyCount: 3 }]);
   });
 });

@@ -90,15 +90,27 @@ describe("API key auth with Upstash", () => {
     );
   });
 
-  it("fails open when the rate limiter errors", async () => {
+  it("fails closed when the rate limiter errors", async () => {
     fakes.limit["tcp:api-rate-limit"] = async () => {
       throw new Error("Upstash down");
     };
+    vi.spyOn(console, "error").mockImplementation(() => {});
 
     const response = await request(VALID_KEY);
 
-    expect(response.status).toBe(200);
-    expect(response.headers.get("X-RateLimit-Limit")).toBeNull();
+    expect(response.status).toBe(503);
+    expect(response.headers.get("Retry-After")).toBe("60");
+    expect((await response.json()).error.code).toBe("rate_limiter_unavailable");
+  });
+
+  it("fails closed without a database lookup when the lookup limiter errors", async () => {
+    fakes.limit["tcp:api-auth-lookup"] = async () => {
+      throw new Error("Upstash down");
+    };
+    vi.spyOn(console, "error").mockImplementation(() => {});
+
+    expect((await request(VALID_KEY)).status).toBe(503);
+    expect(fakes.getActiveApiKeyByHash).not.toHaveBeenCalled();
   });
 
   it("still rejects unknown keys while the rate limiter errors", async () => {
