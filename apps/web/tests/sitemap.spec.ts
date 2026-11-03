@@ -55,7 +55,7 @@ test.describe("Sitemaps", () => {
     expect(xml).toMatch(/\/company\/[a-z0-9-]+/);
   });
 
-  test("static pages sitemap lists home and legal URLs", async ({
+  test("static pages sitemap lists home, content and legal URLs", async ({
     request,
   }) => {
     const response = await request.get("/sitemap-pages.xml");
@@ -63,23 +63,29 @@ test.describe("Sitemaps", () => {
 
     const xml = await response.text();
     expect(xml).toContain("<urlset");
-    expect(xml).toContain("/about");
-    expect(xml).toContain("/policy");
-    expect(xml).toContain("/terms");
+
+    const staticPaths = [
+      "/about",
+      "/integrations",
+      "/integrations/api",
+      "/policy",
+      "/terms",
+    ];
 
     const blocks = xml.match(/<url>[\s\S]*?<\/url>/g) ?? [];
-    expect(blocks).toHaveLength(4);
+    expect(blocks).toHaveLength(staticPaths.length + 1);
 
     const blockFor = (path: string) =>
       blocks.find((block) => block.includes(`${path}</loc>`));
 
-    // Legal pages omit lastmod; home tracks the dataset.
-    expect(blockFor("/about")).not.toContain("<lastmod>");
-    expect(blockFor("/policy")).not.toContain("<lastmod>");
-    expect(blockFor("/terms")).not.toContain("<lastmod>");
+    // Content and legal pages omit lastmod; home tracks the dataset.
+    for (const path of staticPaths) {
+      expect(blockFor(path)).toBeDefined();
+      expect(blockFor(path)).not.toContain("<lastmod>");
+    }
 
     const homepage = blocks.find(
-      (block) => !/\/(about|policy|terms)<\/loc>/.test(block),
+      (block) => !staticPaths.some((path) => block.includes(`${path}</loc>`)),
     );
     expect(homepage).toContain("<lastmod>");
   });
