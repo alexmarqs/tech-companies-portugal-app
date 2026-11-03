@@ -4,17 +4,6 @@ export type LayoutProps = Readonly<{
   children: React.ReactNode;
 }>;
 
-export type SearchParams = {
-  query?: string;
-  category?: string;
-  location?: string;
-  page?: string;
-};
-export type PageViewsData = {
-  time: number;
-  views: Record<string, number>;
-}[];
-
 export type NextParams<T> = Promise<T>;
 
 /** A heading split around the word that gets the accent colour. */

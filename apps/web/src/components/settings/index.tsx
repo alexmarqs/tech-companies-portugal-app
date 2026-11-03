@@ -6,6 +6,7 @@ import type { SettingsTabs } from "@/lib/types";
 import { useQueryStates } from "nuqs";
 import { Title } from "../Title";
 import { AccountSettings } from "./account/AccountSettings";
+import { ApiKeySettings } from "./api-keys/ApiKeySettings";
 import { NotificationSettings } from "./notification/NotificationSettings";
 
 const TABS: SettingsTabs[] = [
@@ -16,6 +17,10 @@ const TABS: SettingsTabs[] = [
   {
     id: SettingsTab.NOTIFICATIONS,
     title: "Notifications",
+  },
+  {
+    id: SettingsTab.API_KEYS,
+    title: "API keys",
   },
 ];
 
@@ -49,6 +54,9 @@ export const Settings = () => {
         </TabsContent>
         <TabsContent value={SettingsTab.NOTIFICATIONS} className="p-0.5">
           <NotificationSettings />
+        </TabsContent>
+        <TabsContent value={SettingsTab.API_KEYS} className="p-0.5">
+          <ApiKeySettings />
         </TabsContent>
       </Tabs>
     </div>

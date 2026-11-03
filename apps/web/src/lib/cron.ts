@@ -1,3 +1,4 @@
+import { safeCompare } from "@tech-companies-portugal/security";
 import { NextResponse } from "next/server";
 
 /**
@@ -15,7 +16,9 @@ export const verifyCronRequest = (request: Request, jobName: string) => {
     );
   }
 
-  if (request.headers.get("authorization") !== `Bearer ${cronSecret}`) {
+  if (
+    !safeCompare(request.headers.get("authorization"), `Bearer ${cronSecret}`)
+  ) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

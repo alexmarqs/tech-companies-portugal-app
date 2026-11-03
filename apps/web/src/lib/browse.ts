@@ -11,8 +11,7 @@ const CITY_IMAGE_FILES: Record<string, string> = {
   remote: "remote.webp",
 };
 
-// TODO: get this dynamically from PostHog or based on metrics from PostHog
-export const TOP_CITIES = [
+const TOP_CITIES = [
   "Lisboa",
   "Porto",
   "Remote",

@@ -5,7 +5,7 @@ export const OG_SIZE = {
 
 export const OG_CONTENT_TYPE = "image/png";
 
-export async function loadGoogleFont(font: string, text: string) {
+async function loadGoogleFont(font: string, text: string) {
   const url = `https://fonts.googleapis.com/css2?family=${font}&text=${encodeURIComponent(text)}`;
   const css = await (await fetch(url)).text();
   const resource = css.match(

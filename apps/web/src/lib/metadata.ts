@@ -4,7 +4,7 @@ import type { Metadata } from "next/types";
 export { APP_URL };
 
 export const SITE_NAME = "Tech Companies Portugal";
-export const TITLE = "Tech Companies in Portugal | 350+ Company Directory";
+const TITLE = "Tech Companies in Portugal | 350+ Company Directory";
 export const DESCRIPTION =
   "Explore a curated directory of tech companies in Portugal. Compare startups, scaleups, and global employers by location and industry.";
 

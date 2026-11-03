@@ -1,6 +1,6 @@
 import Footer from "@/components/Footer";
 
-export default function PolicyTermsLayout({
+export default function ContentLayout({
   children,
 }: {
   children: React.ReactNode;

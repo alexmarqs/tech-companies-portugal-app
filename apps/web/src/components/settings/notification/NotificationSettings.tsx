@@ -6,8 +6,9 @@ import {
   useGetUserNotificationSettings,
   useUpsertUserNotificationSetting,
 } from "@/hooks/notifications";
+import type { NotificationSetting } from "@/lib/api/notifications";
 import { useQueryClient } from "@tanstack/react-query";
-import type { Enums, Tables } from "@tech-companies-portugal/db/types";
+import type { Enums } from "@tech-companies-portugal/db/types";
 import { memo, useCallback } from "react";
 import { useThrottledCallback } from "use-debounce";
 
@@ -53,7 +54,7 @@ const NotificationSettingItem = memo(
     type,
     channel,
   }: {
-    settings: Tables<"notification_settings">[];
+    settings: NotificationSetting[];
     type: NotificationType;
     channel: NotificationChannel;
   }) => {
@@ -61,90 +62,65 @@ const NotificationSettingItem = memo(
       (setting) => setting.type === type && setting.channel === channel,
     );
 
-    const id =
-      setting?.id && !setting.id.startsWith("temp-") ? setting.id : undefined;
-
-    const user_id = setting?.user_id ?? ""; // fallback to empty string if user id is not set, the user id is already overridden in the onMutate function.
-
     const queryClient = useQueryClient();
+    const queryKey = [NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS];
 
     const { mutate: mutateUpsertUserNotificationSetting } =
       useUpsertUserNotificationSetting({
-        onMutate: async (newData) => {
-          const queryKey = [
-            NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS,
-          ];
-
+        onMutate: async (newSetting) => {
           // Cancel any in-flight queries with the same query key
           await queryClient.cancelQueries({ queryKey });
 
           // Snapshot previous data (or empty array if none)
           const previousData =
-            queryClient.getQueryData<Tables<"notification_settings">[]>(
-              queryKey,
-            ) ?? [];
+            queryClient.getQueryData<NotificationSetting[]>(queryKey) ?? [];
 
-          const existingItem = previousData.find(
-            (item) =>
-              item.user_id === newData.setting.user_id &&
-              item.type === newData.setting.type &&
-              item.channel === newData.setting.channel,
-          );
+          const isSameSetting = (item: NotificationSetting) =>
+            item.type === newSetting.type &&
+            item.channel === newSetting.channel;
 
-          const nextData = existingItem
+          // The API keys rows on (user, type, channel); the temp row is
+          // replaced by the server's on refetch.
+          const nextData = previousData.some(isSameSetting)
             ? previousData.map((item) =>
-                item.id === existingItem.id
-                  ? { ...item, ...newData.setting }
+                isSameSetting(item)
+                  ? { ...item, enabled: newSetting.enabled }
                   : item,
               )
             : [
                 ...previousData,
                 {
-                  ...newData.setting,
+                  ...newSetting,
                   id: `temp-${crypto.randomUUID()}`,
+                  user_id: "",
                   created_at: new Date().toISOString(),
                   updated_at: new Date().toISOString(),
-                  enabled: newData.setting.enabled ?? false,
                 },
               ];
 
-          queryClient.setQueryData<Tables<"notification_settings">[]>(
-            queryKey,
-            nextData,
-          );
+          queryClient.setQueryData<NotificationSetting[]>(queryKey, nextData);
 
           return { previousData };
         },
-        // If the mutation fails,
-        // use the context returned from onMutate to roll back
+        // If the mutation fails, roll back to the snapshot
         onError: (_err, _newData, context) => {
-          queryClient.setQueryData(
-            [NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS],
-            (context as { previousData: Tables<"notification_settings">[] })
-              ?.previousData,
-          );
+          queryClient.setQueryData(queryKey, context?.previousData);
         },
         // If the mutation succeeds or fails, invalidate the query to get the latest data
         onSettled: () => {
-          queryClient.invalidateQueries({
-            queryKey: [NotificationsServerKeys.GET_USER_NOTIFICATION_SETTINGS],
-          });
+          queryClient.invalidateQueries({ queryKey });
         },
       });
 
     const handleCheckedChangeNoThrottled = useCallback(
       (checked: boolean) => {
         mutateUpsertUserNotificationSetting({
-          setting: {
-            id,
-            type,
-            channel,
-            user_id,
-            enabled: checked,
-          },
+          type,
+          channel,
+          enabled: checked,
         });
       },
-      [id, type, channel, user_id, mutateUpsertUserNotificationSetting],
+      [type, channel, mutateUpsertUserNotificationSetting],
     );
 
     const handleCheckedChange = useThrottledCallback(

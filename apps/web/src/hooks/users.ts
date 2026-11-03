@@ -1,4 +1,6 @@
 import {
+  type UpdateUserProfileBody,
+  type UserProfile,
   deleteUser,
   getUserProfile,
   updateUserProfile,
@@ -10,7 +12,6 @@ import {
   useMutation,
   useQuery,
 } from "@tanstack/react-query";
-import type { Tables, TablesUpdate } from "@tech-companies-portugal/db/types";
 
 export enum UsersServerKeys {
   GET_USER_PROFILE = "GET_USER_PROFILE",
@@ -21,11 +22,14 @@ export enum UsersServerKeys {
 }
 
 export const useGetUserProfile = (
-  options?: Omit<UseQueryOptions<Tables<"users">>, "queryKey" | "queryFn">,
+  options?: Omit<UseQueryOptions<UserProfile>, "queryKey" | "queryFn">,
 ) => {
   const resQuery = useQuery({
     queryKey: [UsersServerKeys.GET_USER_PROFILE],
     queryFn: getUserProfile,
+    // The navbar reads this on every page; profile edits invalidate it and
+    // logout clears the cache, so a long staleTime is safe.
+    staleTime: 30 * 60 * 1000,
     ...options,
     meta: {
       errorMessage: "Failed to get user profile",
@@ -39,7 +43,7 @@ export const useMutateUserProfile = (
   options?: UseMutationOptions<
     void,
     Error,
-    { data: TablesUpdate<"users"> },
+    { data: UpdateUserProfileBody },
     unknown
   >,
 ) => {

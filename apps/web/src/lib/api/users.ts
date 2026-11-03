@@ -1,44 +1,42 @@
-import {
-  getUserProfileById,
-  updateUserProfileById,
-} from "@tech-companies-portugal/db/queries";
-import type { Tables, TablesUpdate } from "@tech-companies-portugal/db/types";
+import type {
+  InferRequestType,
+  InferResponseType,
+} from "@tech-companies-portugal/api/internal-client";
+import { uploadAvatarFile } from "@tech-companies-portugal/db/queries";
+import { internalApi, throwApiError } from "./internal-client";
 import { getSessionClient } from "./session";
 
-export const getUserProfile = async (): Promise<Tables<"users">> => {
-  const { supabase, userId } = await getSessionClient();
+const meApiClient = internalApi.me;
 
-  return getUserProfileById(supabase, userId);
+export type UserProfile = InferResponseType<typeof meApiClient.$get, 200>;
+export type UpdateUserProfileBody = InferRequestType<
+  typeof meApiClient.$patch
+>["json"];
+
+export const getUserProfile = async (): Promise<UserProfile> => {
+  const response = await meApiClient.$get();
+  if (response.status !== 200) {
+    return throwApiError(response, "Failed to get user profile");
+  }
+
+  return response.json();
 };
 
 export const updateUserProfile = async ({
   data,
 }: {
-  data: TablesUpdate<"users">;
+  data: UpdateUserProfileBody;
 }): Promise<void> => {
-  const { supabase, userId } = await getSessionClient();
-
-  await updateUserProfileById(supabase, userId, data);
+  const response = await meApiClient.$patch({ json: data });
+  if (response.status !== 204) {
+    return throwApiError(response, "Failed to update user profile");
+  }
 };
 
 export const deleteUser = async (): Promise<void> => {
-  try {
-    // Only signed-in users can delete their account.
-    await getSessionClient();
-
-    const response = await fetch("/api/delete-user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to delete user");
-    }
-  } catch (error) {
-    console.error("Error deleting user", error);
-    throw error;
+  const response = await meApiClient.$delete();
+  if (response.status !== 204) {
+    return throwApiError(response, "Failed to delete user");
   }
 };
 
@@ -48,27 +46,17 @@ export const uploadUserAvatar = async ({
   file: File;
 }): Promise<{ publicUrl: string }> => {
   try {
+    // Files go straight to Storage (its RLS limits users to their own
+    // folder); only the profile write goes through the API.
     const { supabase, userId } = await getSessionClient();
 
-    const fileExt = file.name.split(".").pop();
-    const fileName = `avatar.${fileExt}`;
-    const filePath = `${userId}/${fileName}`;
+    const url = await uploadAvatarFile(supabase, userId, file);
 
-    // Upload new file
-    const { error: uploadError } = await supabase.storage
-      .from("avatars")
-      // not adding cache control because we want to update the avatar immediately
-      .upload(filePath, file, { upsert: true, contentType: file.type });
+    // The path is the same on every upload, so version it: an unchanged
+    // `avatar_url` would keep showing the browser-cached image.
+    const publicUrl = `${url}?v=${Date.now()}`;
 
-    if (uploadError) throw uploadError;
-
-    // Get public URL. The path is the same on every upload, so version it:
-    // an unchanged `avatar_url` would keep showing the browser-cached image.
-    const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
-    const publicUrl = `${data.publicUrl}?v=${Date.now()}`;
-
-    // Update user profile table
-    await updateUserProfileById(supabase, userId, { avatar_url: publicUrl });
+    await updateUserProfile({ data: { avatar_url: publicUrl } });
 
     return { publicUrl };
   } catch (error) {

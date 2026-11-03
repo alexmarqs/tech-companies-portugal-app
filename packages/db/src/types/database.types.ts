@@ -10,10 +10,60 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "12.2.3 (519615d)"
+    PostgrestVersion: "12.2.3"
   }
   public: {
     Tables: {
+      api_keys: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          id: string
+          key_hash: string
+          key_prefix: string
+          last_used_at: string | null
+          name: string
+          permission: Database["public"]["Enums"]["api_key_permission"]
+          rate_limit_per_minute: number
+          revoked_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          key_hash: string
+          key_prefix: string
+          last_used_at?: string | null
+          name: string
+          permission?: Database["public"]["Enums"]["api_key_permission"]
+          rate_limit_per_minute?: number
+          revoked_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          key_hash?: string
+          key_prefix?: string
+          last_used_at?: string | null
+          name?: string
+          permission?: Database["public"]["Enums"]["api_key_permission"]
+          rate_limit_per_minute?: number
+          revoked_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_keys_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       companies: {
         Row: {
           archived_at: string | null
@@ -147,6 +197,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      api_key_permission: "read" | "read_write"
       notification_channel: "email" | "push"
       notification_type: "new_companies"
     }
@@ -276,6 +327,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      api_key_permission: ["read", "read_write"],
       notification_channel: ["email", "push"],
       notification_type: ["new_companies"],
     },

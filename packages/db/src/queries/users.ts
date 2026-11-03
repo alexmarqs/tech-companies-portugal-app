@@ -10,10 +10,7 @@ export const getUserProfileById = async (
     .eq("id", userId)
     .single();
 
-  if (error) {
-    console.error("Error fetching user profile", error);
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 };
@@ -25,8 +22,5 @@ export const updateUserProfileById = async (
 ): Promise<void> => {
   const { error } = await supabase.from("users").update(data).eq("id", userId);
 
-  if (error) {
-    console.error("Error updating user profile", error);
-    throw error;
-  }
+  if (error) throw error;
 };

@@ -45,6 +45,7 @@ export async function GET() {
 ## Main Pages
 - [Home Page](${APP_URL}): Browse all companies and use search or filters to find specific profiles.
 - [About Page](${APP_URL}/about): Learn more about the project and the author.
+- [Integrations](${APP_URL}/integrations): Use the directory in your AI assistant, your code or your terminal.
 - [Privacy Policy](${APP_URL}/policy): Privacy policy for TechCompaniesPortugal.
 - [Terms of Service](${APP_URL}/terms): Terms of service for TechCompaniesPortugal.
 
@@ -58,6 +59,8 @@ ${locationsData.map((url) => `- [${url.name}](${url.url}): ${url.description}`).
 ${categoriesData.map((url) => `- [${url.name}](${url.url}): ${url.description}`).join("\n")}
 
 ## Resources
+- [OpenAPI Specification](${APP_URL}/api/v1/openapi.json): Specification of the REST API, which requires an API key.
+- [API Reference](${APP_URL}/api-reference): Interactive reference for the same API.
 - [Web App GitHub Repository](https://github.com/alexmarqs/tech-companies-portugal-app): The github repository for the web app.
 - [Data GitHub Repository](https://github.com/marmelo/tech-companies-in-portugal): The github repository where the source data comes from.
 

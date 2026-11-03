@@ -38,12 +38,14 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 Turbo monorepo:
 
 - `apps/web` - the Next.js site
+- `packages/api` - Hono API mounted at `/api`: the public `/api/v1` (API keys, OpenAPI spec, reference at `/api-reference`) and the internal `/api/internal` used by the web app (session auth, typed client)
 - `packages/core` - company domain logic: README parser, logos, import planning, cached companies accessor
 - `packages/db` - Supabase clients, generated database types, migrations and typed queries
 - `packages/workflows` - durable background jobs (`sync-companies`, `weekly-digest`)
 - `packages/email` - React Email templates and the Plunk email service
+- `packages/security` - API key generation, hashing and timing-safe comparison
 - `packages/analytics` - PostHog wrapper
-- `tooling/*` - shared TypeScript and Tailwind config
+- `tooling/typescript` - shared TypeScript config
 
 ## Development 💻
 

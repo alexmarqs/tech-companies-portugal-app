@@ -33,8 +33,6 @@ export const matchCompanies = (
   return matchesQuery && matchesCategory && matchesLocation;
 };
 
-export const isProd = process.env.NODE_ENV === "production";
-
 export const PUBLIC_CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
 
 // Category names arrive from the source README with a trailing emoji
