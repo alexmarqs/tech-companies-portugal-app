@@ -51,15 +51,18 @@ export default function ApiPage() {
         </p>
         <div className="flex flex-wrap gap-3">
           <Button asChild>
-            <a href="/api-reference">
+            <a href="/api-reference" target="_blank" rel="noreferrer">
               <BookOpen />
               API reference
             </a>
           </Button>
           <Button asChild variant="outline">
-            <a href="/api/v1/openapi.json">
+            <a
+              href="/api/v1/openapi.json"
+              download="tech-companies-portugal-openapi.json"
+            >
               <FileJson />
-              OpenAPI spec
+              Download OpenAPI spec
             </a>
           </Button>
         </div>
@@ -84,7 +87,9 @@ export default function ApiPage() {
               response field and error is documented in the{" "}
               <a
                 href="/api-reference"
+                target="_blank"
                 className="text-primary underline underline-offset-4 hover:opacity-70 transition-opacity"
+                rel="noreferrer"
               >
                 API reference
               </a>
