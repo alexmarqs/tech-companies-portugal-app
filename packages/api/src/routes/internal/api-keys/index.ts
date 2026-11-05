@@ -3,6 +3,7 @@ import { apiKeysUseCases } from "../../../composition-root";
 import type { SessionEnv } from "../../../middleware/session";
 import { zodValidationHook } from "../../../middleware/zod-validation-hook";
 import { ErrorSchema, jsonContent } from "../../../openapi-schema-helpers";
+import { toApiKeyResponse, toCreatedApiKeyResponse } from "./mappers";
 import {
   ApiKeyParamsSchema,
   ApiKeySchema,
@@ -67,14 +68,14 @@ export const apiKeysApp = new OpenAPIHono<SessionEnv>({
 })
   .openapi(listApiKeysRoute, async (c) => {
     const apiKeys = await apiKeysUseCases.listApiKeysUseCase(c.get("userId"));
-    return c.json(apiKeys, 200);
+    return c.json(apiKeys.map(toApiKeyResponse), 200);
   })
   .openapi(createApiKeyRoute, async (c) => {
     const created = await apiKeysUseCases.createApiKeyUseCase(
       c.get("userId"),
       c.req.valid("json"),
     );
-    return c.json(created, 201);
+    return c.json(toCreatedApiKeyResponse(created), 201);
   })
   .openapi(revokeApiKeyRoute, async (c) => {
     await apiKeysUseCases.revokeApiKeyUseCase(

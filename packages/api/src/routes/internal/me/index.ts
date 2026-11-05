@@ -8,6 +8,10 @@ import {
   jsonContent,
 } from "../../../openapi-schema-helpers";
 import {
+  toNotificationSettingResponse,
+  toUserProfileResponse,
+} from "./mappers";
+import {
   NotificationSettingSchema,
   UpdateUserProfileBodySchema,
   UpsertNotificationSettingBodySchema,
@@ -74,7 +78,7 @@ export const meApp = new OpenAPIHono<SessionEnv>({
 })
   .openapi(getProfileRoute, async (c) => {
     const profile = await usersUseCases.getProfileUseCase(c.get("userId"));
-    return c.json(profile, 200);
+    return c.json(toUserProfileResponse(profile), 200);
   })
   .openapi(updateProfileRoute, async (c) => {
     await usersUseCases.updateProfileUseCase(
@@ -91,12 +95,12 @@ export const meApp = new OpenAPIHono<SessionEnv>({
     const settings = await usersUseCases.listNotificationSettingsUseCase(
       c.get("userId"),
     );
-    return c.json(settings, 200);
+    return c.json(settings.map(toNotificationSettingResponse), 200);
   })
   .openapi(upsertNotificationSettingRoute, async (c) => {
     const setting = await usersUseCases.upsertNotificationSettingUseCase(
       c.get("userId"),
       c.req.valid("json"),
     );
-    return c.json(setting, 200);
+    return c.json(toNotificationSettingResponse(setting), 200);
   });

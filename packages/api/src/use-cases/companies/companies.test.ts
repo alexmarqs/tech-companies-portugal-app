@@ -152,14 +152,12 @@ describe("companies use cases", () => {
     expect(catalog.listCompanies).not.toHaveBeenCalled();
   });
 
-  it("maps empty links to null and names to slug/name pairs", async () => {
+  it("returns the catalog's company", async () => {
     const { companies } = setup();
 
     const alpha = await companies.getCompanyUseCase("alpha");
 
-    expect(alpha.websiteUrl).toBeNull();
-    expect(alpha.isFeatured).toBe(false);
-    expect(alpha.categories).toEqual([{ slug: "fintech", name: "FinTech" }]);
+    expect(alpha).toEqual(company("alpha"));
   });
 
   it("rejects an unknown slug", async () => {

@@ -4,8 +4,8 @@ import { Constants } from "@tech-companies-portugal/db/types";
 export const UserProfileSchema = z.object({
   id: z.uuid(),
   email: z.string(),
-  full_name: z.string().nullable(),
-  avatar_url: z.string().nullable(),
+  full_name: z.string().optional(),
+  avatar_url: z.string().optional(),
   created_at: z.string(),
   updated_at: z.string(),
 });

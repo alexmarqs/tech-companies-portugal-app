@@ -146,7 +146,7 @@ describe("authenticated API", () => {
       "bravo",
       "charlie",
     ]);
-    expect(body.meta).toEqual({
+    expect(body.meta).toStrictEqual({
       total: 3,
       nextCursor: null,
       updatedAt: "2026-10-01T00:00:00.000Z",

@@ -3,6 +3,7 @@ import { companiesUseCases } from "../../../composition-root";
 import { zodValidationHook } from "../../../middleware/zod-validation-hook";
 import { ErrorSchema, jsonContent } from "../../../openapi-schema-helpers";
 import { protectedErrors, validationError } from "../responses";
+import { toCompaniesResponse, toCompanyResponse } from "./mappers";
 import {
   CompaniesQuerySchema,
   CompaniesResponseSchema,
@@ -47,10 +48,10 @@ export const companiesApp = new OpenAPIHono({ defaultHook: zodValidationHook })
     const result = await companiesUseCases.listCompaniesUseCase(
       c.req.valid("query"),
     );
-    return c.json(result, 200);
+    return c.json(toCompaniesResponse(result), 200);
   })
   .openapi(getCompanyRoute, async (c) => {
     const { slug } = c.req.valid("param");
     const company = await companiesUseCases.getCompanyUseCase(slug);
-    return c.json({ data: company }, 200);
+    return c.json(toCompanyResponse(company), 200);
   });

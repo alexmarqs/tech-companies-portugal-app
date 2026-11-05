@@ -7,9 +7,9 @@ export const ApiKeySchema = z.object({
   permission: z.enum(["read", "read_write"]),
   rate_limit_per_minute: z.number().int(),
   created_at: z.string(),
-  last_used_at: z.string().nullable(),
-  expires_at: z.string().nullable(),
-  revoked_at: z.string().nullable(),
+  last_used_at: z.string().optional(),
+  expires_at: z.string().optional(),
+  revoked_at: z.string().optional(),
 });
 
 // No `permission`: keys are read-only for now (see the create use case).

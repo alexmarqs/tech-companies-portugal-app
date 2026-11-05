@@ -1,22 +1,8 @@
+import type { Company } from "@tech-companies-portugal/core";
 import type { FilterDefinition } from "../../lib/filters";
 
-export type CompanyView = {
-  slug: string;
-  name: string;
-  description: string;
-  websiteUrl: string | null;
-  careersUrl: string | null;
-  githubUrl: string | null;
-  instagramUrl: string | null;
-  facebookUrl: string | null;
-  logoUrl: string | null;
-  categories: { slug: string; name: string }[];
-  locations: { slug: string; name: string }[];
-  isFeatured: boolean;
-};
-
 export type CompaniesUseCases = {
-  getCompanyUseCase: (slug: string) => Promise<CompanyView>;
+  getCompanyUseCase: (slug: string) => Promise<Company>;
   /** Throws `ValidationError` for an unknown filter or a malformed cursor. */
   listCompaniesUseCase: (query: {
     category?: string;
@@ -25,7 +11,7 @@ export type CompaniesUseCases = {
     /** Opaque, from a previous page's `meta.nextCursor`. */
     cursor?: string;
   }) => Promise<{
-    data: CompanyView[];
+    data: Company[];
     meta: {
       total: number;
       nextCursor: string | null;

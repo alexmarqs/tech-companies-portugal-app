@@ -1,36 +1,7 @@
-import {
-  type Company,
-  getCategoryList,
-  normalizeText,
-  toFilterSlug,
-} from "@tech-companies-portugal/core";
 import type { FilterDefinition } from "../../lib/filters";
 import type { CatalogService } from "../../services/catalog/types";
 import { NotFoundError, ValidationError } from "../errors";
 import type { CompaniesUseCases } from "./types";
-
-const nullableUrl = (value: string | undefined) => value || null;
-
-const toCompany = (company: Company) => ({
-  slug: company.slug,
-  name: company.name,
-  description: company.description,
-  websiteUrl: nullableUrl(company.websiteUrl),
-  careersUrl: nullableUrl(company.careersUrl),
-  githubUrl: nullableUrl(company.githubUrl),
-  instagramUrl: nullableUrl(company.instagramUrl),
-  facebookUrl: nullableUrl(company.facebookUrl),
-  logoUrl: nullableUrl(company.logoUrl),
-  categories: getCategoryList(company.categories).map((name) => ({
-    slug: toFilterSlug(name),
-    name: normalizeText(name),
-  })),
-  locations: company.locations.map((name) => ({
-    slug: toFilterSlug(name),
-    name: normalizeText(name),
-  })),
-  isFeatured: company.isFeatured ?? false,
-});
 
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -86,7 +57,7 @@ export const createCompaniesUseCases = ({
       throw new NotFoundError("Company not found.");
     }
 
-    return toCompany(company);
+    return company;
   },
 
   async listCompaniesUseCase({ category, location, limit, cursor }) {
@@ -108,7 +79,7 @@ export const createCompaniesUseCases = ({
     const last = page.companies.at(-1);
 
     return {
-      data: page.companies.map(toCompany),
+      data: page.companies,
       meta: {
         total: page.total,
         nextCursor: page.hasMore && last ? encodeCursor(last.slug) : null,

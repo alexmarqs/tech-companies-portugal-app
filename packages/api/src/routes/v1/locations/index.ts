@@ -3,6 +3,7 @@ import { companiesUseCases } from "../../../composition-root";
 import { zodValidationHook } from "../../../middleware/zod-validation-hook";
 import { jsonContent } from "../../../openapi-schema-helpers";
 import { protectedErrors } from "../responses";
+import { toLocationsResponse } from "./mappers";
 import { LocationsResponseSchema } from "./schemas";
 
 const listLocationsRoute = createRoute({
@@ -23,5 +24,5 @@ export const locationsApp = new OpenAPIHono({
   defaultHook: zodValidationHook,
 }).openapi(listLocationsRoute, async (c) => {
   const locations = await companiesUseCases.listLocationsUseCase();
-  return c.json({ data: locations }, 200);
+  return c.json(toLocationsResponse(locations), 200);
 });

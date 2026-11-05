@@ -12,15 +12,13 @@ const CompanySchema = z
     slug: z.string().openapi({ example: "acme" }),
     name: z.string().openapi({ example: "Acme" }),
     description: z.string(),
-    websiteUrl: z.url().nullable(),
-    careersUrl: z.url().nullable(),
-    githubUrl: z.url().nullable(),
-    instagramUrl: z.url().nullable(),
-    facebookUrl: z.url().nullable(),
-    logoUrl: z.url().nullable(),
+    websiteUrl: z.url().optional(),
+    careersUrl: z.url().optional(),
+    githubUrl: z.url().optional(),
+    instagramUrl: z.url().optional(),
+    facebookUrl: z.url().optional(),
     categories: z.array(CategoryReferenceSchema),
     locations: z.array(LocationReferenceSchema),
-    isFeatured: z.boolean(),
   })
   .openapi("Company");
 
@@ -36,7 +34,7 @@ export const CompaniesResponseSchema = z
         description:
           "Pass as `cursor` to get the next page; null on the last page.",
       }),
-      updatedAt: z.iso.datetime().nullable().openapi({
+      updatedAt: z.iso.datetime().optional().openapi({
         description: "When the directory data last changed.",
       }),
     }),
