@@ -1,7 +1,7 @@
 import { APP_URL } from "./metadata";
 
 /** Nested urlsets listed from the root `/sitemap.xml` index. */
-export const CHILD_SITEMAP_PATHS = [
+const CHILD_SITEMAP_PATHS = [
   "/sitemap-pages.xml",
   "/company/sitemap.xml",
   "/category/sitemap.xml",

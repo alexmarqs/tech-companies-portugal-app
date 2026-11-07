@@ -31,19 +31,21 @@ The main goal is to provide a better way to explore tech companies in Portugal.
 - [LLMs.txt](https://llmstxt.org/) - Support for the proposed standard that acts as a guide for large language models (LLMs)
 - [Vercel Workflow](https://workflow-sdk.dev/) - Durable, resumable background jobs
 - [Biome](https://biomejs.dev/) / [React Doctor](https://www.react-doctor.com/) - Formatting and linting
-- [Portless](https://port1355.dev/) - Portless replaces port numbers with stable, named .localhost URLs for local development
+- [Postman](https://www.postman.com/) - API client for testing the API locally
 
 ## Project structure 🗂️
 
 Turbo monorepo:
 
 - `apps/web` - the Next.js site
+- `packages/api` - Hono API mounted at `/api`: the public `/api/v1` (API keys, OpenAPI spec, reference at `/api-reference`) and the internal `/api/internal` used by the web app (session auth, typed client)
 - `packages/core` - company domain logic: README parser, logos, import planning, cached companies accessor
 - `packages/db` - Supabase clients, generated database types, migrations and typed queries
 - `packages/workflows` - durable background jobs (`sync-companies`, `weekly-digest`)
 - `packages/email` - React Email templates and the Plunk email service
+- `packages/security` - API key generation, hashing and timing-safe comparison
 - `packages/analytics` - PostHog wrapper
-- `tooling/*` - shared TypeScript and Tailwind config
+- `tooling/typescript` - shared TypeScript config
 
 ## Development 💻
 

@@ -3,10 +3,11 @@ import { withWorkflow } from "workflow/next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  poweredByHeader: false,
-  allowedDevOrigins: ["127.0.0.1"],
+  poweredByHeader: false, // Disable the X-Powered-By header
+  allowedDevOrigins: ["127.0.0.1"], // Allow requests from localhost
   transpilePackages: [
     "@tech-companies-portugal/analytics",
+    "@tech-companies-portugal/api",
     "@tech-companies-portugal/core",
     "@tech-companies-portugal/db",
     "@tech-companies-portugal/email",

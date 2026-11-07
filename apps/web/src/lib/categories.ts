@@ -1,5 +1,5 @@
+import { normalizeText } from "@tech-companies-portugal/core";
 import type { HeadingParts } from "./types";
-import { normalizeText } from "./utils";
 
 // "FinTech Tech Companies" stutters, so categories that already carry the word
 // drop it from the generated copy.

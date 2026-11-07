@@ -1,5 +1,6 @@
 import "server-only";
 
+import { uploadCompanyLogoFile } from "@tech-companies-portugal/db/queries";
 import { createAdminClient } from "@tech-companies-portugal/db/server";
 import type { Company } from "../types";
 import {
@@ -10,8 +11,6 @@ import {
 
 const LOGOS_SECRET_KEY = process.env.LOGOS_SERVER_SECRET_KEY;
 const LOGOS_PUBLISHABLE_KEY = process.env.LOGOS_PUBLISHABLE_KEY;
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const BUCKET_NAME = "company-logos";
 const CONCURRENCY = 15;
 const FAILURE_RETRY_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
@@ -96,24 +95,18 @@ async function uploadToStorage(
   slug: string,
   imageBuffer: Buffer,
 ): Promise<string | null> {
-  const supabase = await createAdminClient();
-  const filePath = `${slug}.png`;
-
-  const { error } = await supabase.storage
-    .from(BUCKET_NAME)
-    .upload(filePath, imageBuffer, {
-      contentType: "image/png",
-      upsert: true,
-      cacheControl: "31536000, immutable", // 1 year, never revalidate (ok as long as we have a version query param)
-    });
-
-  if (error) {
-    console.error(`Failed to upload logo for ${slug}:`, error.message);
+  try {
+    const url = await uploadCompanyLogoFile(
+      await createAdminClient(),
+      slug,
+      imageBuffer,
+    );
+    // The file is cached for a year, so a new upload needs a new URL.
+    return `${url}?v=${Date.now()}`;
+  } catch (error) {
+    console.error(`Failed to upload logo for ${slug}:`, error);
     return null;
   }
-
-  const version = Date.now();
-  return `${SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/${filePath}?v=${version}`;
 }
 
 async function fetchAndUploadLogo(company: Company): Promise<string | null> {

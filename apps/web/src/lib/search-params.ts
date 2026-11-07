@@ -1,15 +1,9 @@
 import { SettingsTab } from "@tech-companies-portugal/core";
-import {
-  createLoader,
-  createSearchParamsCache,
-  parseAsFloat,
-  parseAsString,
-  parseAsStringEnum,
-} from "nuqs/server";
+import { parseAsFloat, parseAsString, parseAsStringEnum } from "nuqs/server";
 
 export { SettingsTab };
 
-export const defaultSearchParams = {
+const defaultSearchParams = {
   query: "",
   category: "",
   location: "",
@@ -22,7 +16,7 @@ export const LABELS_FILTER: Record<string, string> = {
   location: "Location",
 };
 
-export const defaultSettings = {
+const defaultSettings = {
   tab: SettingsTab.ACCOUNT,
 };
 
@@ -34,23 +28,9 @@ export const searchParamsQueryStateKeys = {
   page: parseAsFloat.withDefault(defaultSearchParams.page),
 };
 
-// for server side
-export const loadSearchParams = createLoader(searchParamsQueryStateKeys);
-
-// For getting server side cached search params in nested components tree
-export const searchParamsCache = createSearchParamsCache(
-  searchParamsQueryStateKeys,
-);
-
 // query state keys for the settings page
 export const settingsQueryStateKeys = {
   tab: parseAsStringEnum<SettingsTab>(Object.values(SettingsTab)).withDefault(
     defaultSettings.tab,
   ),
 };
-
-// for server side
-export const loadSettings = createLoader(settingsQueryStateKeys);
-
-// For getting server side cached settings in nested components tree
-export const settingsCache = createSearchParamsCache(settingsQueryStateKeys);

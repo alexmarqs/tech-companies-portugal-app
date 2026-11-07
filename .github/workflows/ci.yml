@@ -47,7 +47,9 @@ jobs:
   web-e2e-tests:
     name: Web E2E Tests
     timeout-minutes: 15
-    runs-on: ubuntu-latest
+    # Pinned: Playwright 1.51 can't install its browser deps on ubuntu-latest
+    # (26.04). Move back once @playwright/test supports it.
+    runs-on: ubuntu-24.04
     needs: [check-and-test]
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}

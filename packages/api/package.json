@@ -1,0 +1,37 @@
+{
+  "name": "@tech-companies-portugal/api",
+  "version": "0.0.0",
+  "private": true,
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./internal-client": "./src/internal-client.ts"
+  },
+  "scripts": {
+    "clean": "git clean -xdf .turbo node_modules",
+    "lint": "biome check . --write",
+    "format": "biome format --write .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "openapi:export": "tsx --disable-warning=DEP0040 --conditions=react-server scripts/export-openapi.ts"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "^1.6.3",
+    "@scalar/hono-api-reference": "^0.12.13",
+    "@tech-companies-portugal/core": "workspace:*",
+    "@tech-companies-portugal/db": "workspace:*",
+    "@tech-companies-portugal/security": "workspace:*",
+    "@upstash/ratelimit": "^2.2.0",
+    "@upstash/redis": "^1.39.0",
+    "hono": "^4.13.13",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@tech-companies-portugal/typescript": "workspace:*",
+    "@types/node": "^22",
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^5.0.0"
+  }
+}

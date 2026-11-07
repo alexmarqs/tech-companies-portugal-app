@@ -21,7 +21,8 @@ import {
   defaultTwitterMetadata,
 } from "@/lib/metadata";
 import type { NextParams } from "@/lib/types";
-import { decodeCategoryParam, normalizeText } from "@/lib/utils";
+import { decodeCategoryParam } from "@/lib/utils";
+import { normalizeText } from "@tech-companies-portugal/core";
 import { getParsedCompaniesData } from "@tech-companies-portugal/core/server";
 import type { Metadata } from "next";
 import { Suspense } from "react";

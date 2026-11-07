@@ -1,12 +1,6 @@
 import { getParsedCompaniesData } from "@tech-companies-portugal/core/server";
 import { getShowcaseSeed, pickShowcaseCompanies } from "../showcase";
 
-export const getParsedCompaniesCategoriesAndLocations = async () => {
-  const { availableCategories, availableLocations } =
-    await getParsedCompaniesData();
-  return { availableCategories, availableLocations };
-};
-
 export const getParsedCompanyBySlug = async (slug: string) => {
   const { companies } = await getParsedCompaniesData();
 

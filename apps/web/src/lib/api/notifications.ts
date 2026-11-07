@@ -1,24 +1,37 @@
-import {
-  getNotificationSettingsByUserId,
-  upsertNotificationSetting,
-} from "@tech-companies-portugal/db/queries";
-import type { Tables, TablesInsert } from "@tech-companies-portugal/db/types";
-import { getSessionClient } from "./session";
+import type {
+  InferRequestType,
+  InferResponseType,
+} from "@tech-companies-portugal/api/internal-client";
+import { internalApi, throwApiError } from "./internal-client";
+
+const notificationSettingsApiClient = internalApi.me["notification-settings"];
+
+export type NotificationSetting = InferResponseType<
+  typeof notificationSettingsApiClient.$get,
+  200
+>[number];
+export type UpsertNotificationSettingBody = InferRequestType<
+  typeof notificationSettingsApiClient.$put
+>["json"];
 
 export const getUserNotificationSettings = async (): Promise<
-  Tables<"notification_settings">[]
+  NotificationSetting[]
 > => {
-  const { supabase, userId } = await getSessionClient();
+  const response = await notificationSettingsApiClient.$get();
+  if (response.status !== 200) {
+    return throwApiError(response, "Failed to get notification settings");
+  }
 
-  return getNotificationSettingsByUserId(supabase, userId);
+  return response.json();
 };
 
-export const upsertUserNotificationSetting = async ({
-  setting,
-}: {
-  setting: TablesInsert<"notification_settings">;
-}): Promise<void> => {
-  const { supabase, userId } = await getSessionClient();
+export const upsertUserNotificationSetting = async (
+  setting: UpsertNotificationSettingBody,
+): Promise<NotificationSetting> => {
+  const response = await notificationSettingsApiClient.$put({ json: setting });
+  if (response.status !== 200) {
+    return throwApiError(response, "Failed to update notification setting");
+  }
 
-  await upsertNotificationSetting(supabase, { ...setting, user_id: userId });
+  return response.json();
 };

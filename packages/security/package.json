@@ -1,0 +1,24 @@
+{
+  "name": "@tech-companies-portugal/security",
+  "version": "0.0.0",
+  "private": true,
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./api-keys": "./src/api-keys.ts",
+    "./compare": "./src/compare.ts"
+  },
+  "scripts": {
+    "clean": "git clean -xdf .turbo node_modules",
+    "lint": "biome check . --write",
+    "format": "biome format --write .",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@tech-companies-portugal/typescript": "workspace:*",
+    "@types/node": "^22",
+    "typescript": "^5",
+    "vitest": "^5.0.0"
+  }
+}

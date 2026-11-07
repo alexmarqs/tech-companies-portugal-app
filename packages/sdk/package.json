@@ -1,0 +1,29 @@
+{
+  "name": "@tech-companies-portugal/sdk",
+  "version": "0.0.0",
+  "private": true,
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "clean": "git clean -xdf .turbo node_modules",
+    "lint": "biome check . --write",
+    "format": "biome format --write .",
+    "typecheck": "tsc --noEmit",
+    "openapi:types": "openapi-typescript ../api/openapi.json --output src/generated/schema.ts && biome format --write src/generated",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "generate": "pnpm --filter @tech-companies-portugal/api openapi:export && pnpm openapi:types"
+  },
+  "devDependencies": {
+    "@tech-companies-portugal/typescript": "workspace:*",
+    "@types/node": "^22",
+    "openapi-typescript": "^7.13.0",
+    "typescript": "^5",
+    "vitest": "^5.0.0"
+  },
+  "dependencies": {
+    "openapi-fetch": "^0.17.0"
+  }
+}

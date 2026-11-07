@@ -33,62 +33,7 @@ export default async function Footer() {
               A curated directory of startups, scaleups, and global tech
               employers across Portugal.
             </p>
-          </div>
-
-          {/* Platform links */}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-              Platform
-            </h3>
-            <nav className="flex flex-col gap-2.5">
-              <Link
-                href="/about"
-                className="text-sm text-foreground/80 hover:text-primary transition-colors"
-              >
-                About
-              </Link>
-              <Link
-                href="/llms.txt"
-                className="text-sm text-foreground/80 hover:text-primary transition-colors"
-              >
-                llms.txt
-              </Link>
-              <a
-                href={`mailto:${PUBLIC_CONTACT_EMAIL}`}
-                className="text-sm text-foreground/80 transition-colors hover:text-primary"
-              >
-                List your company
-              </a>
-            </nav>
-          </div>
-
-          {/* Resources links */}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-              Resources
-            </h3>
-            <nav className="flex flex-col gap-2.5">
-              <Link
-                href="/policy"
-                className="text-sm text-foreground/80 hover:text-primary transition-colors"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                href="/terms"
-                className="text-sm text-foreground/80 hover:text-primary transition-colors"
-              >
-                Terms of Service
-              </Link>
-            </nav>
-          </div>
-
-          {/* Social links */}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-              Social
-            </h3>
-            <nav className="flex items-center gap-3">
+            <nav className="flex items-center gap-3" aria-label="Social">
               <a
                 href="https://github.com/alexmarqs"
                 target="_blank"
@@ -113,6 +58,75 @@ export default async function Footer() {
               >
                 <SocialIcons icon="linkedin" className="size-5" />
               </a>
+            </nav>
+          </div>
+
+          {/* Platform links */}
+          <div className="flex flex-col gap-4">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Platform
+            </h3>
+            <nav className="flex flex-col gap-2.5">
+              <Link
+                href="/about"
+                className="text-sm text-foreground/80 hover:text-primary transition-colors"
+              >
+                About
+              </Link>
+              <a
+                href={`mailto:${PUBLIC_CONTACT_EMAIL}`}
+                className="text-sm text-foreground/80 transition-colors hover:text-primary"
+              >
+                List your company
+              </a>
+            </nav>
+          </div>
+
+          {/* Developers links */}
+          <div className="flex flex-col gap-4">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Developers
+            </h3>
+            <nav className="flex flex-col gap-2.5">
+              <Link
+                href="/integrations"
+                className="text-sm text-foreground/80 hover:text-primary transition-colors"
+              >
+                Integrations
+              </Link>
+              <Link
+                href="/integrations/api"
+                className="text-sm text-foreground/80 hover:text-primary transition-colors"
+              >
+                REST API
+              </Link>
+              <a
+                href="/llms.txt"
+                className="text-sm text-foreground/80 hover:text-primary transition-colors"
+              >
+                llms.txt
+              </a>
+            </nav>
+          </div>
+
+          {/* Resources links */}
+          <div className="flex flex-col gap-4">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Resources
+            </h3>
+            <nav className="flex flex-col gap-2.5">
+              <Link
+                href="/policy"
+                className="text-sm text-foreground/80 hover:text-primary transition-colors"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms"
+                className="text-sm text-foreground/80 hover:text-primary transition-colors"
+              >
+                Terms of Service
+              </Link>
             </nav>
           </div>
         </div>

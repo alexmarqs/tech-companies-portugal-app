@@ -65,10 +65,7 @@ export const getListedCompanyRows = async (
     .select(COMPANY_ROW_COLUMNS)
     .is("archived_at", null);
 
-  if (error) {
-    console.error("Error fetching companies", error);
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 };
@@ -88,10 +85,7 @@ export const getListedCompaniesCreatedAfter = async (
     .gt("created_at", since)
     .order("created_at", { ascending: true });
 
-  if (error) {
-    console.error("Error fetching newly added companies", error);
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 };
@@ -107,10 +101,7 @@ export const getAllCompanyRowsForImport = async (
     .from("companies")
     .select(EXISTING_COMPANY_COLUMNS);
 
-  if (error) {
-    console.error("Error fetching companies for import", error);
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 };
@@ -121,10 +112,7 @@ export const getAllCompanySlugs = async (
 ): Promise<Set<string>> => {
   const { data, error } = await supabase.from("companies").select("slug");
 
-  if (error) {
-    console.error("Error fetching company slugs", error);
-    throw error;
-  }
+  if (error) throw error;
 
   return new Set(data.map((row) => row.slug));
 };
@@ -140,10 +128,7 @@ export const insertCompany = async (
     .select("slug, created_at")
     .single();
 
-  if (error) {
-    console.error("Error inserting company", error);
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 };
@@ -158,10 +143,7 @@ export const upsertCompanies = async (
     .from("companies")
     .upsert(rows, { onConflict: "slug" });
 
-  if (error) {
-    console.error("Error upserting companies", error);
-    throw error;
-  }
+  if (error) throw error;
 };
 
 /**
@@ -185,8 +167,5 @@ export const archiveCompanies = async (supabase: DbClient, slugs: string[]) => {
     .in("slug", slugs)
     .is("archived_at", null);
 
-  if (error) {
-    console.error("Error archiving companies", error);
-    throw error;
-  }
+  if (error) throw error;
 };

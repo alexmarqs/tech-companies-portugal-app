@@ -1,8 +1,4 @@
-import type { Company } from "@tech-companies-portugal/core";
-
-function normalizeCategories(categories: string[] | string): string[] {
-  return Array.isArray(categories) ? categories : [categories];
-}
+import { type Company, getCategoryList } from "@tech-companies-portugal/core";
 
 const MAX_RELATED_COMPANIES = 6;
 
@@ -15,7 +11,7 @@ export function getRelatedCompanies(
   allCompanies: Company[],
   limit = MAX_RELATED_COMPANIES,
 ): Company[] {
-  const currentCategories = normalizeCategories(currentCompany.categories);
+  const currentCategories = getCategoryList(currentCompany.categories);
   const currentLocations = new Set(currentCompany.locations);
   const currentCategorySet = new Set(currentCategories);
 
@@ -28,7 +24,7 @@ export function getRelatedCompanies(
         if (currentLocations.has(loc)) score += 2;
       }
 
-      const companyCategories = normalizeCategories(company.categories);
+      const companyCategories = getCategoryList(company.categories);
       for (const cat of companyCategories) {
         if (currentCategorySet.has(cat)) score += 3;
       }

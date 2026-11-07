@@ -1,4 +1,6 @@
 import {
+  type NotificationSetting,
+  type UpsertNotificationSettingBody,
   getUserNotificationSettings,
   upsertUserNotificationSetting,
 } from "@/lib/api/notifications";
@@ -8,7 +10,6 @@ import {
   useMutation,
   useQuery,
 } from "@tanstack/react-query";
-import type { Tables, TablesInsert } from "@tech-companies-portugal/db/types";
 
 export enum NotificationsServerKeys {
   GET_USER_NOTIFICATION_SETTINGS = "GET_USER_NOTIFICATION_SETTINGS",
@@ -17,7 +18,7 @@ export enum NotificationsServerKeys {
 
 export const useGetUserNotificationSettings = (
   options?: Omit<
-    UseQueryOptions<Tables<"notification_settings">[]>,
+    UseQueryOptions<NotificationSetting[]>,
     "queryKey" | "queryFn"
   >,
 ) => {
@@ -36,9 +37,10 @@ export const useGetUserNotificationSettings = (
 export const useUpsertUserNotificationSetting = (
   options?: Omit<
     UseMutationOptions<
-      void,
+      NotificationSetting,
       Error,
-      { setting: TablesInsert<"notification_settings"> }
+      UpsertNotificationSettingBody,
+      { previousData: NotificationSetting[] }
     >,
     "mutationFn"
   >,

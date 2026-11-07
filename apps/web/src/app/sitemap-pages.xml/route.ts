@@ -13,6 +13,8 @@ export async function GET() {
     // Home tracks the dataset; legal pages omit lastmod.
     { loc: APP_URL, lastmod: updatedAtISODate },
     { loc: `${APP_URL}/about` },
+    { loc: `${APP_URL}/integrations` },
+    { loc: `${APP_URL}/integrations/api` },
     { loc: `${APP_URL}/policy` },
     { loc: `${APP_URL}/terms` },
   ]);

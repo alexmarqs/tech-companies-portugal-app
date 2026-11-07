@@ -9,26 +9,28 @@ export const getNotificationSettingsByUserId = async (
     .select("*")
     .eq("user_id", userId);
 
-  if (error) {
-    console.error("Error fetching user notification settings", error);
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 };
 
+/** Upserts on (user_id, channel, type), so callers never pass a row id. */
 export const upsertNotificationSetting = async (
   supabase: DbClient,
-  setting: TablesInsert<"notification_settings">,
-): Promise<void> => {
-  const { error } = await supabase
+  setting: Pick<
+    TablesInsert<"notification_settings">,
+    "user_id" | "type" | "channel" | "enabled"
+  >,
+): Promise<Tables<"notification_settings">> => {
+  const { data, error } = await supabase
     .from("notification_settings")
-    .upsert(setting);
+    .upsert(setting, { onConflict: "user_id,channel,type" })
+    .select("*")
+    .single();
 
-  if (error) {
-    console.error("Error upserting notification setting", error);
-    throw error;
-  }
+  if (error) throw error;
+
+  return data;
 };
 
 /** Unique, non-empty emails of users with this notification enabled. */
@@ -49,10 +51,7 @@ export const getSubscribedUserEmails = async (
     .eq("channel", channel)
     .eq("enabled", true);
 
-  if (error) {
-    console.error("Error fetching subscribed users", error);
-    throw error;
-  }
+  if (error) throw error;
 
   const emails = data
     .map((notificationSetting) => notificationSetting.users?.email)

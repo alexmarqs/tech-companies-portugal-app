@@ -2,6 +2,7 @@ import type {
   CompanyUpsert,
   ExistingCompany,
 } from "@tech-companies-portugal/db/queries";
+import { getCategoryList } from "./company-names";
 import type { Company, CompanySource } from "./types";
 
 export type { CompanyUpsert, ExistingCompany };
@@ -57,11 +58,7 @@ export const normalizeReadmeCompanies = (companies: Company[]) => {
       websiteUrl: company.websiteUrl.trim(),
       careersUrl: company.careersUrl.trim(),
       githubUrl: company.githubUrl.trim(),
-      categories: toUniqueList(
-        Array.isArray(company.categories)
-          ? company.categories
-          : [company.categories],
-      ),
+      categories: toUniqueList(getCategoryList(company.categories)),
       locations: toUniqueList(company.locations),
     };
 

@@ -18,6 +18,7 @@
       "next-env.d.ts",
       ".well-known/workflow",
       "database.types.ts",
+      "openapi.json",
       "biome.json"
     ]
   },

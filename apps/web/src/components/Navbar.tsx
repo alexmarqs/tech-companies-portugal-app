@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { InstallPWAButton } from "./InstallPWAButton";
+import { NavLink } from "./NavLink";
 import { UserMenu } from "./UserMenu";
 
 export default function Navbar() {
@@ -33,18 +34,13 @@ export default function Navbar() {
           className="flex items-center gap-1 sm:gap-2"
           aria-label="Main navigation"
         >
-          <Link
-            href="/#directory"
-            className="hidden rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground sm:inline-flex"
-          >
-            Companies
-          </Link>
-          <Link
-            href="/about"
-            className="hidden rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground sm:inline-flex"
-          >
+          <NavLink href="/#directory">Companies</NavLink>
+          <NavLink href="/integrations" activePrefix="/integrations">
+            Integrations
+          </NavLink>
+          <NavLink href="/about" activePrefix="/about">
             About
-          </Link>
+          </NavLink>
 
           <InstallPWAButton />
           <UserMenu />
