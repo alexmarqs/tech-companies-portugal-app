@@ -85,16 +85,15 @@ export default function AboutPage() {
           </h2>
           <div className="flex flex-col gap-3">
             <p>
-              Tech Companies Portugal is a directory of tech companies hiring in
-              Portugal. You can search by name, filter by category or location,
-              and discover companies from Lisbon and Porto all the way to Braga,
-              Coimbra, Aveiro, and everywhere in between.
+              Tech Companies Portugal is a directory of tech companies in
+              Portugal, from early-stage startups to global companies with
+              teams here. Search by name, or browse by category and location to
+              find who&apos;s building what, and where.
             </p>
             <p>
-              If you create an account (via GitHub or Google), you can also
-              subscribe to a weekly email digest to stay up to date with newly
-              listed companies. No spam, no ads — just a simple notification
-              when new companies show up.
+              It&apos;s a side project that keeps evolving: new features and
+              improvements land as it grows. If you have an idea for what it
+              should do next, I&apos;d love to hear it.
             </p>
           </div>
         </section>
