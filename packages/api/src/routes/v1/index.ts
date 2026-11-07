@@ -1,6 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { cors } from "hono/cors";
-import { etag } from "hono/etag";
+import { RETAINED_304_HEADERS, etag } from "hono/etag";
 import { secureHeaders } from "hono/secure-headers";
 import { apiKeysUseCases } from "../../composition-root";
 import { API_TITLE, API_VERSION } from "../../config";
@@ -10,7 +10,8 @@ import { categoriesApp } from "./categories";
 import { companiesApp } from "./companies";
 import { locationsApp } from "./locations";
 
-const openApiConfig = {
+/** Document metadata; `servers` is added per request, or by `openapi:export`. */
+export const v1OpenApiConfig = {
   openapi: "3.1.0" as const,
   info: {
     title: API_TITLE,
@@ -67,15 +68,30 @@ v1App.use(
 // !!!!! Registered before the API key middleware so the spec stays public: Hono runs
 // handlers in registration order and this one ends the request !!!!!
 v1App.doc31("/openapi.json", (c) => ({
-  ...openApiConfig,
+  ...v1OpenApiConfig,
   servers: [{ url: `${new URL(c.req.url).origin}/api/v1` }],
 }));
 
 // Authentication and customer-specific quotas run before route handlers.
 v1App.use("*", withRequireApiKey(apiKeysUseCases));
 
-// Clients that re-check send If-None-Match and get an empty 304 back.
-v1App.use("*", etag());
+// Clients that re-check send If-None-Match and get an empty 304 back. etag()
+// strips a 304 down to `retainedHeaders`: keep CORS (or browsers on other
+// origins reject it), the quota it still uses, and the request id.
+v1App.use(
+  "*",
+  etag({
+    retainedHeaders: [
+      ...RETAINED_304_HEADERS,
+      "access-control-allow-origin",
+      "access-control-expose-headers",
+      "x-ratelimit-limit",
+      "x-ratelimit-remaining",
+      "x-ratelimit-reset",
+      "x-request-id",
+    ],
+  }),
+);
 
 // One router per resource, like routes/internal.
 v1App.route("/companies", companiesApp);

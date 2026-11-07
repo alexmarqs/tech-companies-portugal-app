@@ -14,7 +14,8 @@
     { "key": "companySlug", "value": "25friday" },
     { "key": "category", "value": "automotive" },
     { "key": "location", "value": "lisboa" },
-    { "key": "cursor", "value": "" }
+    { "key": "cursor", "value": "" },
+    { "key": "companyEtag", "value": "" }
   ],
   "item": [
     {
@@ -97,8 +98,28 @@
         },
         {
           "name": "Get company",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"companyEtag\", pm.response.headers.get(\"ETag\") || \"\");"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
+            "url": "{{baseUrl}}/companies/{{companySlug}}"
+          }
+        },
+        {
+          "name": "Get company if changed (304)",
+          "description": "Run \"Get company\" first: it stores the `ETag` in `companyEtag`. While the company is unchanged this returns an empty 304, with CORS, rate limit and request id headers kept.",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "If-None-Match", "value": "{{companyEtag}}" }],
             "url": "{{baseUrl}}/companies/{{companySlug}}"
           }
         }

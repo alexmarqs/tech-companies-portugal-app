@@ -200,6 +200,24 @@ describe("authenticated API", () => {
     expect(second.status).toBe(304);
   });
 
+  it("keeps CORS and request id headers on a 304", async () => {
+    const origin = { Origin: "https://other.example" };
+    const first = await apiRequest("/api/v1/companies", { headers: origin });
+
+    const second = await apiRequest("/api/v1/companies", {
+      headers: { ...origin, "If-None-Match": first.headers.get("etag") ?? "" },
+    });
+
+    expect(second.status).toBe(304);
+    // Without these, browsers on other origins reject the 304.
+    expect(second.headers.get("access-control-allow-origin")).toBe("*");
+    expect(second.headers.get("access-control-expose-headers")).toContain(
+      "ETag",
+    );
+    expect(second.headers.get("x-request-id")).toEqual(expect.any(String));
+    expect(second.headers.get("etag")).toBe(first.headers.get("etag"));
+  });
+
   it("uses exact discovered slugs for structured filters", async () => {
     const response = await apiRequest(
       "/api/v1/companies?category=fintech&location=porto",

@@ -2,7 +2,7 @@ import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 import { companiesUseCases } from "../../../composition-root";
 import { zodValidationHook } from "../../../middleware/zod-validation-hook";
 import { jsonContent } from "../../../openapi-schema-helpers";
-import { protectedErrors } from "../responses";
+import { notModified, protectedErrors, withETag } from "../responses";
 import { toLocationsResponse } from "./mappers";
 import { LocationsResponseSchema } from "./schemas";
 
@@ -14,7 +14,8 @@ const listLocationsRoute = createRoute({
   description: "Lists every supported location slug and its company count.",
   tags: ["Locations"],
   responses: {
-    200: jsonContent(LocationsResponseSchema, "Available locations"),
+    200: withETag(jsonContent(LocationsResponseSchema, "Available locations")),
+    304: notModified,
     ...protectedErrors,
   },
 });

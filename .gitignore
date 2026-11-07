@@ -56,3 +56,6 @@ docs/*
 
 # Postman environments hold API keys
 *.local.postman_environment.json
+
+# OpenAPI spec, rebuilt by the sdk generate script (only its types are committed)
+packages/api/openapi.json

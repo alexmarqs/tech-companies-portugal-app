@@ -13,7 +13,8 @@
     "format": "biome format --write .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "openapi:export": "tsx --disable-warning=DEP0040 --conditions=react-server scripts/export-openapi.ts"
   },
   "dependencies": {
     "@hono/zod-openapi": "^1.6.3",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@tech-companies-portugal/typescript": "workspace:*",
     "@types/node": "^22",
+    "tsx": "^4.23.15",
     "typescript": "^5",
     "vitest": "^5.0.0"
   }

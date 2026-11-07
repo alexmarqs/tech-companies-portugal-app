@@ -2,7 +2,12 @@ import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 import { companiesUseCases } from "../../../composition-root";
 import { zodValidationHook } from "../../../middleware/zod-validation-hook";
 import { ErrorSchema, jsonContent } from "../../../openapi-schema-helpers";
-import { protectedErrors, validationError } from "../responses";
+import {
+  notModified,
+  protectedErrors,
+  validationError,
+  withETag,
+} from "../responses";
 import { toCompaniesResponse, toCompanyResponse } from "./mappers";
 import {
   CompaniesQuerySchema,
@@ -21,8 +26,9 @@ const listCompaniesRoute = createRoute({
   tags: ["Companies"],
   request: { query: CompaniesQuerySchema },
   responses: {
-    200: jsonContent(CompaniesResponseSchema, "A page of companies"),
+    200: withETag(jsonContent(CompaniesResponseSchema, "A page of companies")),
     400: validationError,
+    304: notModified,
     ...protectedErrors,
   },
 });
@@ -35,9 +41,10 @@ const getCompanyRoute = createRoute({
   tags: ["Companies"],
   request: { params: CompanyParamsSchema },
   responses: {
-    200: jsonContent(CompanyResponseSchema, "Company details"),
+    200: withETag(jsonContent(CompanyResponseSchema, "Company details")),
     400: validationError,
     404: jsonContent(ErrorSchema, "Company not found"),
+    304: notModified,
     ...protectedErrors,
   },
 });
